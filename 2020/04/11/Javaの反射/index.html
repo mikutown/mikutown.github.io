@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#C4BBE1"><meta name="author" content="Leafii"><meta name="copyright" content="Leafii"><meta name="generator" content="Hexo 5.3.0"><meta name="theme" content="hexo-theme-yun"><title>Javaの反射 | LeafiiのBlog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.22/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_ed8vp4atwoj.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", () => {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+});
+</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/themes/prism.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="shortcut icon" type="image/svg+xml" href="/blog/leafii.ico"><link rel="mask-icon" href="/blog/leafii.ico" color="#C4BBE1"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/blog/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/blog/js/utils.js" as="script"><link rel="preload" href="/blog/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/blog/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/blog/css/hexo-theme-yun.css"><link rel="alternate" href="/blog/atom.xml" title="LeafiiのBlog" type="application/atom+xml"><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"mikutown.gitee.io","root":"/blog/","title":["Leafii","の","博","客"],"version":"1.3.0","mode":"auto","copycode":true,"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/blog/search.xml"},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="/blog/css/font-awesome.min.css"><script src="/blog/js/jquery.min.js"></script><script src="/blog/live2d-widget/autoload.js"></script><meta name="description" content="Javaの反射反射第一章 反射的理解1.1 正射我们在编写代码时，当需要使用到某一个类的时候，必定先会去了解这是一个什么类，是用来做什么的，有怎么样的功能。之后我们才对这个类进行实例化，之后再使用这个类的实例化对象进行操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javaの反射">
+<meta property="og:url" content="https://mikutown.gitee.io/blog/2020/04/11/Java%E3%81%AE%E5%8F%8D%E5%B0%84/index.html">
+<meta property="og:site_name" content="LeafiiのBlog">
+<meta property="og:description" content="Javaの反射反射第一章 反射的理解1.1 正射我们在编写代码时，当需要使用到某一个类的时候，必定先会去了解这是一个什么类，是用来做什么的，有怎么样的功能。之后我们才对这个类进行实例化，之后再使用这个类的实例化对象进行操作。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-10T17:38:13.000Z">
+<meta property="article:modified_time" content="2021-01-02T19:23:36.000Z">
+<meta property="article:author" content="Leafii">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary"><script src="/blog/js/ui/mode.js"></script></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/blog/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/blog/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/blog/about/" title="Leafii"><img width="96" loading="lazy" src="/blog/cat.jpg" alt="Leafii"></a><div class="site-author-name"><a href="/blog/about/">Leafii</a></div><a class="site-name" href="/blog/about/site.html">LeafiiのBlog</a><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/blog/" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/blog/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">47</span></a></div><div class="site-state-item"><a href="/blog/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">0</span></a></div><div class="site-state-item"><a href="/blog/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="主题文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/mikutown" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:yeyunsen@outlook.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=299583310" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/blog/links/" title="友情链接" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-genderless-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java%E3%81%AE%E5%8F%8D%E5%B0%84"><span class="toc-number">1.</span> <span class="toc-text">Javaの反射</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84"><span class="toc-number">1.1.</span> <span class="toc-text">反射</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%8F%8D%E5%B0%84%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">1.1.1.</span> <span class="toc-text">第一章 反射的理解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E6%AD%A3%E5%B0%84"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">1.1 正射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%8F%8D%E5%B0%84"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">1.2 反射</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.2.</span> <span class="toc-text">注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%B3%A8%E8%A7%A3%E6%A6%82%E8%BF%B0"><span class="toc-number">1.2.1.</span> <span class="toc-text">第一章  注解概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%AE%9A%E4%B9%89"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">1.1 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E4%BD%9C%E7%94%A8%E5%88%86%E7%B1%BB"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">1.2 作用分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">1.3 常见注解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.2.2.</span> <span class="toc-text">第二章 自定义注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">2.1 注解的属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">2.2 使用自定义注解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%B3%A8%E8%A7%A3%E4%B9%8B%E5%85%83%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.2.3.</span> <span class="toc-text">第三章 注解之元注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E5%85%83%E6%B3%A8%E8%A7%A3%E4%B9%8B-Target"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">3.1 元注解之@Target</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E5%85%83%E6%B3%A8%E8%A7%A3%E4%B9%8B-Retention"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">3.2 元注解之@Retention</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-%E5%85%83%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">3.3 元注解使用示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%B3%A8%E8%A7%A3%E8%A7%A3%E6%9E%90"><span class="toc-number">1.2.4.</span> <span class="toc-text">第四章 注解解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-%E4%B8%8E%E6%B3%A8%E8%A7%A3%E8%A7%A3%E6%9E%90%E7%9B%B8%E5%85%B3%E7%9A%84%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">4.1 与注解解析相关的接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-%E8%8E%B7%E5%8F%96%E6%B3%A8%E8%A7%A3%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">4.2 获取注解数据的原理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E4%BD%BF%E7%94%A8%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E6%B3%A8%E8%A7%A3%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-number">1.2.5.</span> <span class="toc-text">第五章 使用反射获取注解的数据</span></a></li></ol></li></ol></li></ol></div></div></div><div class="tag-cloud"><div class="tag-cloud-tags"><a href="/blog/tags/Git/" style="font-size: 12px; color: #999">Git</a> <a href="/blog/tags/Go/" style="font-size: 18px; color: #a7a4b1">Go</a> <a href="/blog/tags/Hexo/" style="font-size: 12px; color: #999">Hexo</a> <a href="/blog/tags/Java/" style="font-size: 30px; color: #c4bbe1">Java</a> <a href="/blog/tags/Linux/" style="font-size: 15px; color: #a09fa5">Linux</a> <a href="/blog/tags/MarkDown/" style="font-size: 12px; color: #999">MarkDown</a> <a href="/blog/tags/Maven/" style="font-size: 12px; color: #999">Maven</a> <a href="/blog/tags/MySQL/" style="font-size: 12px; color: #999">MySQL</a> <a href="/blog/tags/Mybatis/" style="font-size: 27px; color: #bdb5d5">Mybatis</a> <a href="/blog/tags/Spring/" style="font-size: 24px; color: #b6b0c9">Spring</a> <a href="/blog/tags/nodejs/" style="font-size: 12px; color: #999">nodejs</a> <a href="/blog/tags/%E7%AE%97%E6%B3%95/" style="font-size: 21px; color: #afaabd">算法</a></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://mikutown.gitee.io/blog/blog/2020/04/11/Java%E3%81%AE%E5%8F%8D%E5%B0%84/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Leafii"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="LeafiiのBlog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Javaの反射</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2020-04-11 01:38:13" itemprop="dateCreated datePublished" datetime="2020-04-11T01:38:13+08:00">2020-04-11</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2021-01-03 03:23:36" itemprop="dateModified" datetime="2021-01-03T03:23:36+08:00">2021-01-03</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">4.5k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">18m</span></span></span><div class="post-classify"><span class="post-tag"><a class="tag" href="/blog/tags/Java/" style="--text-color:#4fc08d"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">Java</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#C4BBE1;"><h1 id="Javaの反射"><a href="#Javaの反射" class="headerlink" title="Javaの反射"></a>Javaの反射</h1><h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><h3 id="第一章-反射的理解"><a href="#第一章-反射的理解" class="headerlink" title="第一章 反射的理解"></a>第一章 反射的理解</h3><h4 id="1-1-正射"><a href="#1-1-正射" class="headerlink" title="1.1 正射"></a>1.1 正射</h4><p>我们在编写代码时，当需要使用到某一个类的时候，必定先会去了解这是一个什么类，是用来做什么的，有怎么样的功能。之后我们才对这个类进行实例化，之后再使用这个类的实例化对象进行操作。</p>
+<a id="more"></a>
+
+<p>Person person = new Person();<br>person.sleep(“8:00”);</p>
+<h4 id="1-2-反射"><a href="#1-2-反射" class="headerlink" title="1.2 反射"></a>1.2 反射</h4><p>反射则是在代码一开始编写时不知道要初始化的类是什么。因此，自然也无法使用new关键字来创建对象了。而当我们之后得到我们要初始化的类的名称及路径时，我们就可以使用JDK提供的反射API进行反射调用。<br>Class clazz = Class.forName(“com.Person”);<br>Method method = clazz.getMethod(“sleep”, String.class);<br>Constructor constructor = clazz.getConstructor();<br>Object object = constructor.newInstance();<br>method.invoke(object, “8:00”);<br>以上两段代码，其结果都是一样的，但是其实现的过程却有很大的差别：</p>
+<ul>
+<li>第一段代码在未运行前就已经确定了要运行的类（Person）；</li>
+<li>第二段代码则是在整个程序运行时从某些地方（例：配置文件）获取到相应的字符串值才能知道要运行的类（”com.Person”）。<br>第二章 反射常用类和常用函数<br>2.1 获取Class对象<br>在反射中，要获取一个类或调用一个类的方法，首先必须要获取到该类的对象，在Java API中，获取Class类对象三种方法：<br>①：Class.forName(“类的路径名”)；<br>Class clazz = Class.forName(“com.test.domain.Person”);<br>②：利用已有类对象的getClass()方法；<br>Person person = new Person();<br>Class clazz = person.getClass();<br>③：对于在编译前就已经知道的类，可以使用.class属性；<br>Class clazz = Person.class;<br>同一个字节码文件(*.class)在一次程序运行过程中，只会被加载一次，不论通过哪一种方式获取的 Class对象都是同一个。<br>2.2  Constructor类<br>Constructor是构造方法类，类中的每一个构造方法都是Constructor的对象，通过Constructor对象可以实例化对 象。</li>
+<li>Constructor getConstructor(Class… parameterTypes) 根据参数类型获取构造方法对象，只能获得public修饰的构造方法。</li>
+<li>Constructor getDeclaredConstructor(Class… parameterTypes) 根据参数类型获取构造方法对象，包括private修饰的构造方法。</li>
+<li>Constructor[] getConstructors() 获取所有的public修饰的构造方法</li>
+<li>Constructor[] getDeclaredConstructors() 获取所有构造方法，包括privat修饰的<br>2.3 通过反射创建类对象<br>①：通过class对象的newInstance()方法<br>Class clazz = Class.forName(“com.Person”);<br>Person person = (Person)clazz.newInstance();<br>②：通过Constructor对象的newInstance()方法；<br>Class clazz = Class.forName(“com.Person”);<br>Constructor con = clazz.getConstructor();<br>Person person = (Person)con.newInstance();<br>2.4  Method类<br>Method是方法类，类中的每一个方法都是Method的对象，通过Method对象可以调用方法。<br>Class类中与Method相关方法：</li>
+<li>Method getMethod(“方法名”, 方法的参数类型… 类型) 根据方法名和参数类型获得一个方法对象，只能是获取public修饰的</li>
+<li>Method getDeclaredMethod(“方法名”, 方法的参数类型… 类型) 根据方法名和参数类型获得一个方法对象，包括private修饰的</li>
+<li>Method[] getMethods() 获取所有的public修饰的成员方法，包括父类中。</li>
+<li>Method[] getDeclaredMethods() 获取当前类中所有的方法，包含私有的，不包括父类中。<br>Method类中常用方法：</li>
+<li>Object invoke(Object obj, Object… args) 根据参数args调用对象obj的该成员方法 如果obj=null，则表示该方法是静态方法</li>
+<li>void setAccessible(boolean flag) 暴力反射，设置为可以直接调用私有修饰的成员方法<br>2.5 通过反射操作成员变量<br>①：获取所有成员getFields()&amp;getDeclaredFields();<br>使用getFields()方法可以获取Class类的成员变量，但是无法获取私有属性。<br>使用getDeclaredFields()方法可以获取Class类的所有成员变量。<br>Class clazz = Class.forName(“com.Person”);<br>Field[] fields = clazz.getFields();<br>for (Field field : fields) {<br>System.out.print(field.getName());<br>}<br>②：获取单个成员getField(String name)&amp;getDeclared(String name)<br>③：修改成员变量的值set(Object obj, Object value)<br>Class clazz = Class.forName(“com.test.domain.Person”);<br>Person person = (Person)clazz.newInstance();<br>Field field = clazz.getField(“name”);<br>field.set(person, “张三”);<br>④：当属性为private时，这是我们无法直接使用set()方法修改它的值，此时应该使用setAccessible()方法取得访问权限：<br>Class clazz = Class.forName(“com.Person”);<br>Person person = (Person)clazz.newInstance();<br>Field field = clazz.getDeclaredField(“name”);<br>field.setAccessible(true);<br>field.set(person, “张三”);<br>第三章 反射案例<br>需求：写一段程序，在不能改变该类的任何代码的前提下，可以帮我们创建任意类的对象，并且执行其中任意方法。<br>步骤：</li>
+<li>将需要创建的对象的全类名和需要执行的方法定义在配置文件中</li>
+<li>在程序中加载读取配置文件</li>
+<li>使用反射技术来加载类文件进内存</li>
+<li>创建对象</li>
+<li>执行方法<br>1.pro.properties<br>className=com.Student<br>methodName=sleep<br>2.Student.java<br>public class Student {<br>  public void sleep(){     <pre><code>   System.out.println(&quot;sleep...&quot;);</code></pre>
+ }<br>}<br>3.Test.java<br>public class Test {<br>  public static void main(String[] args) {<pre><code>   //1.加载配置文件       
+  //1.1创建Properties对象
+  Properties pro = new Properties();
+  //1.2加载配置文件，转换为一个集合
+  //1.2.1获取class目录下的配置文件
+  ClassLoader classLoader = Test.class.getClassLoader();
+  InputStream is = classLoader.getResourceAsStream(&quot;pro.properties&quot;);
+  pro.load(is);
+  //2.获取配置文件中定义的数据
+  String className = pro.getProperty(&quot;className&quot;);
+  String methodName = pro.getProperty(&quot;methodName&quot;);
+  //3.加载该类进内存
+  Class cls = Class.forName(className);
+  //4.创建对象
+  Object obj = cls.newInstance();
+ //5.获取方法对象
+ Method method = cls.getMethod(methodName);
+ //6.执行方法      
+   method.invoke(obj);
+  &#125;</code></pre>
+  }<br>}</li>
+</ul>
+<h2 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h2><h3 id="第一章-注解概述"><a href="#第一章-注解概述" class="headerlink" title="第一章  注解概述"></a>第一章  注解概述</h3><h4 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h4><p>注解（Annotation），也叫元数据。一种代码级别的说明。它是JDK1.5及以后版本引入的一个特性，与类、接口、枚举是在同一个层次。它可以声明在包、类、字段、方法、局部变量、方法参数等的前面，用来对这些元素进行说明，注释。</p>
+<h4 id="1-2-作用分类"><a href="#1-2-作用分类" class="headerlink" title="1.2 作用分类"></a>1.2 作用分类</h4><ul>
+<li>编写文档：通过代码里标识的注解生成文档【例如，生成文档doc文档】</li>
+<li>代码分析：通过代码里标识的注解对代码进行分析【例如，注解的反射】</li>
+<li>编译检查：通过代码里标识的注解让编译器能够实现基本的编译检查【例如，Override】</li>
+</ul>
+<h4 id="1-3-常见注解"><a href="#1-3-常见注解" class="headerlink" title="1.3 常见注解"></a>1.3 常见注解</h4><ul>
+<li><p>@author：用来标识作者名。</p>
+</li>
+<li><p>@version：用于标识对象的版本号，适用范围：文件、类、方法。</p>
+</li>
+<li><p>@Override ：用来修饰方法声明，告诉编译器该方法是重写父类中的方法，如果父类不存在该方法，则编译失败。</p>
+</li>
+</ul>
+<h3 id="第二章-自定义注解"><a href="#第二章-自定义注解" class="headerlink" title="第二章 自定义注解"></a>第二章 自定义注解</h3><p>  定义格式：<br>  元注解<br>  public @interface 注解名称{<br>    属性列表;<br>  }<br>  注解本质上就是一个接口，该接口默认继承Annotation接口。</p>
+<h4 id="2-1-注解的属性"><a href="#2-1-注解的属性" class="headerlink" title="2.1 注解的属性"></a>2.1 注解的属性</h4><ul>
+<li><ol>
+<li>属性的作用<br>可以让用户在使用注解时传递参数，让注解的功能更加强大。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>属性的格式<br>格式1：数据类型 属性名();<br>格式2：数据类型 属性名() default 默认值;</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>属性定义示例<br>public @interface Student {<br>String name(); // 姓名<br>int age() default 18; // 年龄<br>String gender() default “男”; // 性别<br>}<br>// 该注解就有了三个属性：name，age，gender</li>
+</ol>
+</li>
+</ul>
+<ol start="4">
+<li>属性适用的数据类型</li>
+</ol>
+<ul>
+<li><p>八种基本数据类型（int,float,boolean,byte,double,char,long,short)</p>
+</li>
+<li><p>String类型，Class类型，枚举类型，注解类型</p>
+</li>
+<li><p>以上所有类型的一维数组</p>
+</li>
+</ul>
+<h4 id="2-2-使用自定义注解"><a href="#2-2-使用自定义注解" class="headerlink" title="2.2 使用自定义注解"></a>2.2 使用自定义注解</h4><p>  定义注解：Book</p>
+<ul>
+<li><p>包含属性：String value() 书名</p>
+</li>
+<li><p>包含属性：double price() 价格，默认值为 100</p>
+</li>
+<li><p>包含属性：String[] authors() 多位作者<br>代码实现：<br>public @interface Book {<br>// 书名<br>String value();<br>// 价格<br>double price() default 100;<br>// 多位作者<br>String[] authors();<br>}<br>使用注解：<br>public class BookShelf {<br>@Book(value = “西游记”,price = 998,authors = {“吴承恩”,”白求恩”})<br>public void showBook(){<br>}<br>}<br>如果属性有默认值，则使用注解的时候，这个属性可以不用赋值。<br>如果属性没有默认值，那么在使用注解时一定要给属性赋值。</p>
+</li>
+</ul>
+<h3 id="第三章-注解之元注解"><a href="#第三章-注解之元注解" class="headerlink" title="第三章 注解之元注解"></a>第三章 注解之元注解</h3><p>  默认情况下，注解可以用在任何地方，比如类，成员方法，构造方法，成员变量等地方。如果要限制注解的使用位置怎么办？那就要学习一个新的知识点：元注解。</p>
+<ul>
+<li><p>@Target</p>
+</li>
+<li><p>@Retention</p>
+</li>
+</ul>
+<h4 id="3-1-元注解之-Target"><a href="#3-1-元注解之-Target" class="headerlink" title="3.1 元注解之@Target"></a>3.1 元注解之@Target</h4><p>  作用：指明此注解用在哪个位置，如果不写默认是任何地方都可以使用。<br>  可选的参数值在枚举类ElemenetType中包括：</p>
+<ul>
+<li><p>TYPE： 用在类,接口上</p>
+</li>
+<li><p>FIELD：用在成员变量上</p>
+</li>
+<li><p>METHOD： 用在方法上</p>
+</li>
+<li><p>PARAMETER：用在参数上</p>
+</li>
+<li><p>CONSTRUCTOR：用在构造方法上</p>
+</li>
+<li><p>LOCAL_VARIABLE：用在局部变量上</p>
+</li>
+</ul>
+<h4 id="3-2-元注解之-Retention"><a href="#3-2-元注解之-Retention" class="headerlink" title="3.2 元注解之@Retention"></a>3.2 元注解之@Retention</h4><p>  作用：定义该注解的生命周期(有效范围)。<br>  可选的参数值在枚举类型RetentionPolicy中包括:</p>
+<ul>
+<li><p>SOURCE：注解只存在于Java源代码中，编译生成的字节码文件中就不存在了。</p>
+</li>
+<li><p>CLASS：注解存在于Java源代码、编译以后的字节码文件中，运行的时候内存中没有，默认值。</p>
+</li>
+<li><p>RUNTIME：注解存在于Java源代码中、编译以后的字节码文件中、运行时内存中，程序可以通过反射获取该注解。</p>
+</li>
+</ul>
+<h4 id="3-3-元注解使用示例"><a href="#3-3-元注解使用示例" class="headerlink" title="3.3 元注解使用示例"></a>3.3 元注解使用示例</h4><p>@Target({ElementType.METHOD,ElementType.TYPE})<br>@interface Stu{<br>String name();<br>}<br>// 类<br>@Stu(name=”jack”)<br>public class AnnotationDemo02 {<br>// 成员变量<br>@Stu(name = “lily”) // 编译失败<br>private String gender;<br>// 成员方法<br>@Stu(name=”rose”)<br>public void test(){<br>}<br>// 构造方法<br>@Stu(name=”lucy”) // 编译失败<br>public AnnotationDemo02(){}<br>}</p>
+<h3 id="第四章-注解解析"><a href="#第四章-注解解析" class="headerlink" title="第四章 注解解析"></a>第四章 注解解析</h3><p>通过java技术获取注解数据的过程叫做注解解析。</p>
+<h4 id="4-1-与注解解析相关的接口"><a href="#4-1-与注解解析相关的接口" class="headerlink" title="4.1 与注解解析相关的接口"></a>4.1 与注解解析相关的接口</h4><ul>
+<li>Anontation：所有注解类型的公共接口，类似所有类的父类是Object。</li>
+<li>AnnotatedElement：定义了与注解解析相关的方法，常用方法以下四个<ul>
+<li>boolean isAnnotationPresent(Class annotationClass); 判断当前对象是否有指定的注解，有则返回true，否则 返回false。</li>
+<li>T getAnnotation(Class<T> annotationClass); 获得当前对象上指定的注解对象。</li>
+<li>Annotation[] getAnnotations(); 获得当前对象及其从父类上继承的所有的注解对象。</li>
+<li>Annotation[] getDeclaredAnnotations();获得当前对象上所有的注解对象，不包括父类的。</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-2-获取注解数据的原理"><a href="#4-2-获取注解数据的原理" class="headerlink" title="4.2 获取注解数据的原理"></a>4.2 获取注解数据的原理</h4><p>注解作用在哪个成员上，就可以通过反射获取该成员的对象，通过该成员对象获取该成员的注解。<br>如注解作用在方法上，就通过方法(Method)对象得到它的注解：<br>// 得到方法对象<br> Method method = clazz.getDeclaredMethod(“方法名”);<br>// 根据注解名得到方法上的注解对象<br>Book book = method.getAnnotation(Book.class);<br>如注解作用在类上，就通过Class对象得到它的注解：<br>// 获得Class对象<br>Class c = 类名.class;<br>// 根据注解的Class获得使用在类上的注解对象<br>Book book = c.getAnnotation(Book.class);</p>
+<h3 id="第五章-使用反射获取注解的数据"><a href="#第五章-使用反射获取注解的数据" class="headerlink" title="第五章 使用反射获取注解的数据"></a>第五章 使用反射获取注解的数据</h3><p>需求说明</p>
+<ol>
+<li>定义注解Book，要求如下：</li>
+</ol>
+<ul>
+<li>包含属性：String value() 书名</li>
+<li>包含属性：double price() 价格，默认值为 100</li>
+<li>包含属性：String[] authors() 多位作者</li>
+<li>限制注解使用的位置：类和成员方法上</li>
+<li>指定注解的有效范围：RUNTIME</li>
+</ul>
+<ol start="2">
+<li><p>定义BookStore类，在类和成员方法上使用Book注解</p>
+</li>
+<li><p>定义TestAnnotation测试类获取Book注解上的数据<br>代码实现<br>注解Book<br>@Target({ElementType.METHOD,ElementType.TYPE})<br>@Retention(RetentionPolicy.RUNTIME)<br>public @interface Book {</p>
+<pre><code> // 书名
+ String value();
+ // 价格
+ double price() default 100;
+ // 作者
+ String[] authors();</code></pre>
+<p> }<br>BookStore类<br>@Book(value = “红楼梦”,authors = “曹雪芹”,price = 998)<br> public class BookStore {</p>
+<p> @Book(value = “西游记”,authors = “吴承恩”)<br> public void buyBook(){<br> }<br> }<br>TestAnnotation类<br>public class TestAnnotation {<br>public static void main(String[] args) throws Exception{<br>System.out.println(“———获取类上注解的数据———-“);<br>test01();<br>System.out.println(“———获取成员方法上注解的数据———-“);<br>test02();<br>}<br>/**</p>
+</li>
+</ol>
+<ul>
+<li><p>获取BookStore类上使用的Book注解数据<br>*/<br>public static void test01(){<br>// 获得BookStore类对应的Class对象<br>Class c = BookStore.class;<br>// 判断BookStore类是否使用了Book注解<br>if(c.isAnnotationPresent(Book.class)) {<br>// 根据注解Class对象获取注解对象<br>Book book = (Book) c.getAnnotation(Book.class);<br>// 输出book注解属性值<br>System.out.println(“书名：” + book.value());<br>System.out.println(“价格：” + book.price());<br>System.out.println(“作者：” + Arrays.toString(book.authors()));<br>}<br>}<br>/**</p>
+</li>
+<li><p>获取BookStore类成员方法buyBook使用的Book注解数据<br>*/<br>public static void test02() throws Exception{<br>// 获得BookStore类对应的Class对象<br>Class c = BookStore.class;<br>// 获得成员方法buyBook对应的Method对象<br>Method m = c.getMethod(“buyBook”);<br>// 判断成员方法buyBook上是否使用了Book注解<br>if(m.isAnnotationPresent(Book.class)) {<br>// 根据注解Class对象获取注解对象<br>Book book = (Book) m.getAnnotation(Book.class);<br>// 输出book注解属性值<br>System.out.println(“书名：” + book.value());<br>System.out.println(“价格：” + book.price());<br>System.out.println(“作者：” + Arrays.toString(book.authors()));<br>}<br>}<br>}<br>作业<br>1.定义Person类，私有成员变量有name,age,公开成员变量有sex，成员方法包括gette和setter，构造方法有无参和全参，用反射去创建一个Person对象，用2种方式。<br>2.在第一题中加入方法show，打印一串字符串，利用反射执行该方法。<br>4.在第一题基础之上，利用反射设置name为“张三”,sex为“男”。<br>Person.java<br>public class Person {<br>  private String name;<br>  private int age;<br>  private String sex;</p>
+<p>  @Override<br>  public String toString() {</p>
+<pre><code>  return &quot;Person&#123;&quot; +
+          &quot;name=&#39;&quot; + name + &#39;\&#39;&#39; +
+          &quot;, age=&quot; + age +
+          &quot;, sex=&#39;&quot; + sex + &#39;\&#39;&#39; +
+          &#39;&#125;&#39;;</code></pre>
+<p>  }</p>
+<p>  public void gogogo(){</p>
+<pre><code>  System.out.println(&quot;通过读取配置文件得到的gogogo方法在运行！&quot;);</code></pre>
+<p>  }</p>
+<p>  public String getName() {</p>
+<pre><code>  return name;</code></pre>
+<p>  }</p>
+<p>  public void setName(String name) {</p>
+<pre><code>  this.name = name;</code></pre>
+<p>  }</p>
+<p>  public int getAge() {</p>
+<pre><code>  return age;</code></pre>
+<p>  }</p>
+<p>  public void setAge(int age) {</p>
+<pre><code>  this.age = age;</code></pre>
+<p>  }</p>
+<p>  public String getSex() {</p>
+<pre><code>  return sex;</code></pre>
+<p>  }</p>
+<p>  public void setSex(String sex) {</p>
+<pre><code>  this.sex = sex;</code></pre>
+<p>  }</p>
+<p>  public Person() {<br>  }</p>
+<p>  public Person(String name, int age, String sex) {</p>
+<pre><code>  this.name = name;
+  this.age = age;
+  this.sex = sex;</code></pre>
+<p>  }<br>  public void show(){</p>
+<pre><code>  System.out.println(&quot;这是一个无参的show方法&quot;);</code></pre>
+<p>  }<br>}<br>public class Demo1 {<br>  public static void main(String[] args) throws Exception{</p>
+<pre><code>  //1.定义Person类，私有成员变量有name,age,公开成员变量有sex，成员方法包括gette和setter，
+  // 构造方法有无参和全参，用反射去创建一个Person对象，用2种方式。
+  //第一种
+  Class clazz = Class.forName(&quot;com.hmwk124.Person&quot;);
+  Person p = (Person)clazz.newInstance();
+  //第二种
+  Class clazz1 = Class.forName(&quot;com.hmwk124.Person&quot;);
+  Constructor constructor = clazz.getConstructor();
+  Person p1 = (Person)constructor.newInstance();
+  //2.在第一题中加入方法show，打印一串字符串，利用反射执行该方法。
+  Method show = clazz1.getMethod(&quot;show&quot;);
+  show.invoke(p1);
+  //4.在第一题基础之上，利用反射设置name为“张三”,sex为“男”。
+  Field name = clazz1.getDeclaredField(&quot;name&quot;);
+  Field sex = clazz1.getDeclaredField(&quot;sex&quot;);
+  name.setAccessible(true);
+  name.set(p1,&quot;张三&quot;);
+  sex.setAccessible(true);
+  sex.set(p1,&quot;男&quot;);
+  Method toString = clazz1.getMethod(&quot;toString&quot;);
+  System.out.println(toString.invoke(p1));</code></pre>
+<p>  }<br>}<br>3.编写一个类A，增加一个实例方法showString,用于打印一条字符串，再编写一个测试类TestA ，在测试类中，用键盘输入一个字符串，该字符串就是类A的全名，使用反射机制创建该类的对象，并调用该对象中的方法showString。<br>//3.编写一个类A，增加一个实例方法showString,用<br>// 于打印一条字符串，再编写一个测试类TestA ，在测试类中，<br>// 用键盘输入一个字符串，该字符串就是类A的全名，使用反射机制创<br>// 建该类的对象，并调用该对象中的方法showString。<br>public class A {<br>  public void showString(){</p>
+<pre><code>  System.out.println(&quot;这是A类的showString方法！&quot;);</code></pre>
+<p>  }<br>}<br>public class TestA {<br>  //3.编写一个类A，增加一个实例方法showString,用<br>  // 于打印一条字符串，再编写一个测试类TestA ，在测试类中，<br>  // 用键盘输入一个字符串，该字符串就是类A的全名，使用反射机制创<br>  // 建该类的对象，并调用该对象中的方法showString。<br>  public static void main(String[] args) {</p>
+<pre><code>  String s;
+  Scanner sc = new Scanner(System.in);
+  System.out.print(&quot;请输入完整的类名：&quot;);
+  s = sc.nextLine();
+  Class clazz = null;
+  try &#123;
+      clazz = Class.forName(s);
+      Constructor constructor = clazz.getConstructor();
+      A a = (A) constructor.newInstance();
+      a.showString();
+  &#125; catch (ClassNotFoundException e) &#123;
+      System.out.println(&quot;找不到该类！&quot;);
+  &#125; catch (NoSuchMethodException e) &#123;
+      e.printStackTrace();
+  &#125; catch (InstantiationException e) &#123;
+      e.printStackTrace();
+  &#125; catch (IllegalAccessException e) &#123;
+      e.printStackTrace();
+  &#125; catch (InvocationTargetException e) &#123;
+      e.printStackTrace();
+  &#125;</code></pre>
+<p>  }<br>}<br>5.在第一题基础上，写一个Properties格式的配置文件，配置类的完整名称和所要执行的方法，写一个程序，读取这个Properties配置文件，获得类的完整名称并加载这个类，并执行读取的方法。<br>public class Demo5 {<br>  //在第一题基础上，写一个Properties格式的配置文件，配置类的完整名<br>  // 称和所要执行的方法，写一个程序，读取这个Properties配置文件，获<br>  // 得类的完整名称并加载这个类，并执行读取的方法。<br>  public static void main(String[] args) throws Exception {</p>
+<pre><code>  Properties pro = new Properties();
+  ClassLoader cll = Demo5.class.getClassLoader();
+  InputStream is = cll.getResourceAsStream(&quot;com/hmwk124/pro.properties&quot;);
+  pro.load(is);
+  String className = pro.getProperty(&quot;className&quot;);
+  String methodName = pro.getProperty(&quot;methodName&quot;);
+  Class clazz = Class.forName(className);
+  Object o = clazz.newInstance();
+  Method method = clazz.getMethod(methodName);
+  method.invoke(o);</code></pre>
+<p>  }<br>}<br>配置文件：<br>className=com.hmwk124.Person<br>methodName=gogogo<br>1.自定义注解Hello，包含属性value，name，age（默认值100），设置只能作用于方法和成员变量，生命周期为RUNTIME,创建普通类Person，类中定义成员变量name，方法show（），分别在之上加入注解，利用反射解析注解。<br>Hello.java<br>@Target({ElementType.METHOD,ElementType.FIELD})<br>@Retention(RetentionPolicy.RUNTIME)<br>public @interface Hello {<br>  String value();<br>  String name();<br>  int age() default 100;<br>}<br>Person.java<br>public class Person {<br>  @Hello(value = “10”,name=”李四”,age = 20)<br>  private String name;<br>  @Hello(value = “100”,name = “张三”,age = 18)<br>  public void show(){<br>  }<br>}<br>Demo6.java<br>public class Demo6 {<br>  public static void main(String[] args) throws Exception {</p>
+<pre><code>  System.out.println(&quot;获取成员变量上注解的数据&quot;);
+  test01();
+  System.out.println(&quot;获取方法上注解的数据&quot;);
+  test02();</code></pre>
+<p>  }<br>  //获取Person类的成员变量上使用的Hello注解数据<br>  public static void test01() throws NoSuchFieldException {</p>
+<pre><code>  Class clazz = Person.class;
+  Field field = (Field) clazz.getDeclaredField(&quot;name&quot;);
+  System.out.println(field.isAnnotationPresent(Hello.class));
+  if(field.isAnnotationPresent(Hello.class))&#123;
+      Hello hello = (Hello)field.getAnnotation(Hello.class);
+      //输出Hello注解属性值
+      System.out.println(&quot;value:&quot; + hello.value());
+      System.out.println(&quot;name:&quot; + hello.name());
+      System.out.println(&quot;age:&quot; + hello.age());
+  &#125;</code></pre>
+<p>  }<br>  //获取方法show上对象的Method对象<br>  public static void test02() throws Exception{</p>
+<pre><code>  Class clazz1 = Person.class;
+  Method show = clazz1.getMethod(&quot;show&quot;);
+  //判断是否使用注解
+  if(show.isAnnotationPresent(Hello.class))&#123;
+      Hello hello = (Hello)show.getAnnotation(Hello.class);
+      //输出注解属性值
+      System.out.println(&quot;value:&quot; + hello.value());
+      System.out.println(&quot;name:&quot; + hello.name());
+      System.out.println(&quot;age:&quot; + hello.age());
+  &#125;</code></pre>
+<p>  }<br>}</p>
+</li>
+</ul>
+</div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>Leafii</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://mikutown.gitee.io/blog/2020/04/11/Java%E3%81%AE%E5%8F%8D%E5%B0%84/" title="Javaの反射">https://mikutown.gitee.io/blog/2020/04/11/Java%E3%81%AE%E5%8F%8D%E5%B0%84/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/blog/2020/04/11/%E8%AE%B0%E5%BD%95Java%E3%81%AE%E4%B8%80%E6%AC%A1%E8%80%83%E8%AF%95/" rel="prev" title="记录Javaの一次考试"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">记录Javaの一次考试</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/blog/2020/04/11/Java%E3%81%AE%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="next" title="Javaの网络编程"><span class="post-nav-text">Javaの网络编程</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>感谢你的评论！</span><br></div><div id="valine-container"></div><script src="https://cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script><script>function initValine() {
+  const valineConfig = {"enable":true,"appId":"fasMRJRMUg1x2MHPljy8weGi-gzGzoHsz","appKey":"wDk1eqgoXJ0eaCoCF00Baith","placeholder":"Just go go","avatar":null,"pageSize":10,"visitor":false,"highlight":true,"recordIP":false,"enableQQ":true,"el":"#valine-container","lang":"zh-cn"}
+  valineConfig.path = window.location.pathname
+  new Valine(valineConfig)
+}
+setTimeout(initValine, 800)</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2021 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> Leafii</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.3.0</span></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#C4BBE1" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="/blog/js/search/local-search.js" defer></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div id="local-search-result"></div></div></div><script defer src="/blog/js/utils.js"></script><script defer src="/blog/js/hexo-theme-yun.js"></script></body></html>

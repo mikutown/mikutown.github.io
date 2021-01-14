@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#C4BBE1"><meta name="author" content="Leafii"><meta name="copyright" content="Leafii"><meta name="generator" content="Hexo 5.3.0"><meta name="theme" content="hexo-theme-yun"><title>配置Hexo博客并部署到Gitee | LeafiiのBlog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.22/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_ed8vp4atwoj.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", () => {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+});
+</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/themes/prism.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="shortcut icon" type="image/svg+xml" href="/blog/leafii.ico"><link rel="mask-icon" href="/blog/leafii.ico" color="#C4BBE1"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/blog/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/blog/js/utils.js" as="script"><link rel="preload" href="/blog/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/blog/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/blog/css/hexo-theme-yun.css"><link rel="alternate" href="/blog/atom.xml" title="LeafiiのBlog" type="application/atom+xml"><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"mikutown.gitee.io","root":"/blog/","title":["Leafii","の","博","客"],"version":"1.3.0","mode":"auto","copycode":true,"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/blog/search.xml"},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="/blog/css/font-awesome.min.css"><script src="/blog/js/jquery.min.js"></script><script src="/blog/live2d-widget/autoload.js"></script><meta name="description" content="部署hexo静态博客到gitee中本文章假定你已经使用了nvm安装了nodejs12.14.0，并且已经配置了git以及gitee上的ssh密钥">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置Hexo博客并部署到Gitee">
+<meta property="og:url" content="https://mikutown.gitee.io/blog/2020/03/30/%E9%85%8D%E7%BD%AEHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0Gitee/index.html">
+<meta property="og:site_name" content="LeafiiのBlog">
+<meta property="og:description" content="部署hexo静态博客到gitee中本文章假定你已经使用了nvm安装了nodejs12.14.0，并且已经配置了git以及gitee上的ssh密钥">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20210101203031.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20210101203120.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20210101222707.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20210101230729.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20210101231044.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20210101231347.png">
+<meta property="article:published_time" content="2020-03-30T15:22:51.000Z">
+<meta property="article:modified_time" content="2021-01-02T18:58:30.000Z">
+<meta property="article:author" content="Leafii">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/mikutown/pic/raw/master/img/20210101203031.png"><script src="/blog/js/ui/mode.js"></script></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/blog/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/blog/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/blog/about/" title="Leafii"><img width="96" loading="lazy" src="/blog/cat.jpg" alt="Leafii"></a><div class="site-author-name"><a href="/blog/about/">Leafii</a></div><a class="site-name" href="/blog/about/site.html">LeafiiのBlog</a><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/blog/" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/blog/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">47</span></a></div><div class="site-state-item"><a href="/blog/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">0</span></a></div><div class="site-state-item"><a href="/blog/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="主题文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/mikutown" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:yeyunsen@outlook.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=299583310" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/blog/links/" title="友情链接" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-genderless-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2hexo%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E5%88%B0gitee%E4%B8%AD"><span class="toc-number">1.</span> <span class="toc-text">部署hexo静态博客到gitee中</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85Hexo"><span class="toc-number">1.1.</span> <span class="toc-text">1.安装Hexo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%9D%E5%A7%8B%E5%8C%96Hexo"><span class="toc-number">1.2.</span> <span class="toc-text">2.初始化Hexo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%90%AF%E5%8A%A8Hexo"><span class="toc-number">1.3.</span> <span class="toc-text">3.启动Hexo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2%E5%88%B0%E7%A0%81%E4%BA%91%EF%BC%88Gitee%EF%BC%89%E4%B8%8A"><span class="toc-number">1.4.</span> <span class="toc-text">4.部署Hexo博客到码云（Gitee）上</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-%E6%B3%A8%E5%86%8C%E7%A0%81%E4%BA%91%EF%BC%8C%E5%88%9B%E5%BB%BA%E4%BB%93%E5%BA%93"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1 注册码云，创建仓库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-%E7%94%9F%E6%88%90-%E6%B7%BB%E5%8A%A0SSH%E5%85%AC%E9%92%A5"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2 生成&#x2F;添加SSH公钥</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-%E9%85%8D%E7%BD%AE%E8%BF%9E%E6%8E%A5Gitee"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.3 配置连接Gitee</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2"><span class="toc-number">1.4.4.</span> <span class="toc-text">4.4 部署Hexo博客</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Gitee-Pages%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.5.</span> <span class="toc-text">5.Gitee Pages设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%8D%9A%E5%AE%A2%E7%9A%84%E7%BE%8E%E5%8C%96"><span class="toc-number">1.6.</span> <span class="toc-text">6.博客的美化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%9A%E5%AE%A2%E5%9F%9F%E5%90%8D"><span class="toc-number">1.7.</span> <span class="toc-text">7.自定义博客域名</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-%E8%B4%AD%E4%B9%B0%E5%9F%9F%E5%90%8D"><span class="toc-number">1.7.1.</span> <span class="toc-text">7.1 购买域名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90"><span class="toc-number">1.7.2.</span> <span class="toc-text">7.2 域名解析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#7-2-1-Github%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="toc-number">1.7.2.1.</span> <span class="toc-text">7.2.1 Github相关配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-2-2-%E6%96%B0%E5%BB%BAGithub%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.7.2.2.</span> <span class="toc-text">7.2.2 新建Github项目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-2-3-%E5%9C%A8%E6%9C%AC%E5%9C%B0%E6%96%B0%E5%BB%BAindex-html"><span class="toc-number">1.7.2.3.</span> <span class="toc-text">7.2.3 在本地新建index.html</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-2-4-%E5%B0%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84github%E4%BB%93%E5%BA%93%E4%BA%86"><span class="toc-number">1.7.2.4.</span> <span class="toc-text">7.2.4 将文件上传到自己的github仓库了</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-2-5-%E5%B0%86Github%E4%BB%93%E5%BA%93%E4%B8%8E%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%85%B3%E8%81%94"><span class="toc-number">1.7.2.5.</span> <span class="toc-text">7.2.5 将Github仓库与本地仓库关联</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#7-2-6-%E6%89%A7%E8%A1%8Cpull%E4%B8%8Epush%E6%93%8D%E4%BD%9C"><span class="toc-number">1.7.2.5.1.</span> <span class="toc-text">7.2.6 执行pull与push操作</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-2-7-%E5%9C%A8Github%E4%BB%93%E5%BA%93%E4%B8%AD%E6%96%B0%E5%BB%BACNAME%E6%96%87%E4%BB%B6"><span class="toc-number">1.7.2.6.</span> <span class="toc-text">7.2.7 在Github仓库中新建CNAME文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-2-8-%E8%BF%9B%E5%85%A5%E5%9F%9F%E5%90%8D%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%BF%9B%E8%A1%8C%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.7.2.7.</span> <span class="toc-text">7.2.8 进入域名控制台进行域名解析设置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-2-9-%E8%A7%A3%E6%9E%90%E8%AE%BE%E7%BD%AE%E5%90%8E%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.7.2.8.</span> <span class="toc-text">7.2.9 解析设置后的操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-2-10-%E5%A4%A7%E5%8A%9F%E5%91%8A%E6%88%90"><span class="toc-number">1.7.2.9.</span> <span class="toc-text">7.2.10 大功告成</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number">1.8.</span> <span class="toc-text">引用</span></a></li></ol></li></ol></div></div></div><div class="tag-cloud"><div class="tag-cloud-tags"><a href="/blog/tags/Git/" style="font-size: 12px; color: #999">Git</a> <a href="/blog/tags/Go/" style="font-size: 18px; color: #a7a4b1">Go</a> <a href="/blog/tags/Hexo/" style="font-size: 12px; color: #999">Hexo</a> <a href="/blog/tags/Java/" style="font-size: 30px; color: #c4bbe1">Java</a> <a href="/blog/tags/Linux/" style="font-size: 15px; color: #a09fa5">Linux</a> <a href="/blog/tags/MarkDown/" style="font-size: 12px; color: #999">MarkDown</a> <a href="/blog/tags/Maven/" style="font-size: 12px; color: #999">Maven</a> <a href="/blog/tags/MySQL/" style="font-size: 12px; color: #999">MySQL</a> <a href="/blog/tags/Mybatis/" style="font-size: 27px; color: #bdb5d5">Mybatis</a> <a href="/blog/tags/Spring/" style="font-size: 24px; color: #b6b0c9">Spring</a> <a href="/blog/tags/nodejs/" style="font-size: 12px; color: #999">nodejs</a> <a href="/blog/tags/%E7%AE%97%E6%B3%95/" style="font-size: 21px; color: #afaabd">算法</a></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://mikutown.gitee.io/blog/blog/2020/03/30/%E9%85%8D%E7%BD%AEHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0Gitee/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Leafii"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="LeafiiのBlog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">配置Hexo博客并部署到Gitee</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2020-03-30 23:22:51" itemprop="dateCreated datePublished" datetime="2020-03-30T23:22:51+08:00">2020-03-30</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2021-01-03 02:58:30" itemprop="dateModified" datetime="2021-01-03T02:58:30+08:00">2021-01-03</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">2.4k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">9m</span></span></span><div class="post-classify"><span class="post-tag"><a class="tag" href="/blog/tags/Hexo/" style="--text-color:#0E83CD"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">Hexo</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#C4BBE1;"><h2 id="部署hexo静态博客到gitee中"><a href="#部署hexo静态博客到gitee中" class="headerlink" title="部署hexo静态博客到gitee中"></a>部署hexo静态博客到gitee中</h2><p><strong>本文章假定你已经使用了nvm安装了nodejs12.14.0，并且已经配置了git以及gitee上的ssh密钥</strong></p>
+<hr>
+<a id="more"></a>
+
+<h3 id="1-安装Hexo"><a href="#1-安装Hexo" class="headerlink" title="1.安装Hexo"></a>1.安装Hexo</h3><p>在gitbash或者cmd中输入命令：</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> -g hexo   <span class="token comment"># 通过npm安装hexo</span>
+<span class="token comment"># -g 指定全局安装，可以使用hexo命令</span></code></pre>
+<h3 id="2-初始化Hexo"><a href="#2-初始化Hexo" class="headerlink" title="2.初始化Hexo"></a>2.初始化Hexo</h3><p>进入合适的目录（你要存放你hexo博客文件的地方）</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">hexo init blog  <span class="token comment"># 初始化创建，会再桌面创建blog文件夹</span>
+<span class="token builtin class-name">cd</span> blog    <span class="token comment"># 进入blog目录</span>
+<span class="token function">npm</span> <span class="token function">install</span>   <span class="token comment"># 进一步安装hexo所需文件</span></code></pre>
+<p>初始化后的文件目录及其功能如下：</p>
+<pre class="language-none"><code class="language-none">.
+├── .deploy       #需要部署的文件
+├── node_modules  #Hexo插件
+├── public        #生成的静态网页文件
+├── scaffolds     #模板
+├── source        #博客正文和其他源文件等都应该放在这里
+|   ├── _drafts   #草稿
+|   └── _posts    #文章
+├── themes        #主题
+├── _config.yml   #全局配置文件
+└── package.json</code></pre>
+
+
+<h3 id="3-启动Hexo"><a href="#3-启动Hexo" class="headerlink" title="3.启动Hexo"></a>3.启动Hexo</h3><pre class="language-bash" data-language="bash"><code class="language-bash">hexo clean   <span class="token comment"># 清除所有记录 /hexo c</span>
+hexo generate  <span class="token comment"># 生成静态网页 /hexo g</span>
+hexo server    <span class="token comment"># 启动服务 /hexo s</span></code></pre>
+<p>成功启动后应该是有如下界面：</p>
+<pre class="language-none"><code class="language-none">WARN  &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+WARN  &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; ATTENTION! &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+WARN  &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+WARN   NexT repository is moving here: https:&#x2F;&#x2F;github.com&#x2F;theme-next
+WARN  &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+WARN   It&#39;s rebase to v6.0.0 and future maintenance will resume there
+WARN  &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+INFO  Hexo is running at http:&#x2F;&#x2F;localhost:4000 . Press Ctrl+C to stop.
+</code></pre>
+<p>此时访问<a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a> 即可在本地访问你的博客了</p>
+<p>如果想要在任何可以上网的设备上访问你的博客，那么你就需要将你的本地Hexo博客部署到Gitee了。</p>
+<h3 id="4-部署Hexo博客到码云（Gitee）上"><a href="#4-部署Hexo博客到码云（Gitee）上" class="headerlink" title="4.部署Hexo博客到码云（Gitee）上"></a>4.部署Hexo博客到码云（Gitee）上</h3><p>码云（gitee）：<strong><a target="_blank" rel="noopener" href="https://gitee.com/">https://gitee.com/</a></strong></p>
+<h4 id="4-1-注册码云，创建仓库"><a href="#4-1-注册码云，创建仓库" class="headerlink" title="4.1 注册码云，创建仓库"></a>4.1 注册码云，创建仓库</h4><p>输入仓库名称，其他的保持默认即可。</p>
+<h4 id="4-2-生成-添加SSH公钥"><a href="#4-2-生成-添加SSH公钥" class="headerlink" title="4.2 生成/添加SSH公钥"></a>4.2 生成/添加SSH公钥</h4><p>请查看<a href="https://mikutown.gitee.io/blog/2020/12/31/%E9%85%8D%E7%BD%AEgit%E4%B8%8Egitee%E8%BF%9E%E6%8E%A5/#more">我之前的博客</a></p>
+<h4 id="4-3-配置连接Gitee"><a href="#4-3-配置连接Gitee" class="headerlink" title="4.3 配置连接Gitee"></a>4.3 配置连接Gitee</h4><p>复制我们新创建的仓库的项目地址</p>
+<p>复制URL到hexo的配置文件_config.yml中相应的位置</p>
+<pre class="language-yml" data-language="yml"><code class="language-yml">deploy:
+  type: git                        # type为git
+  repo: git@gitee.com:XXXXXX&#x2F;blog.git  # 仓库的 URL
+  branch: master</code></pre>
+<p><strong>注意冒号后面一定要有空格</strong></p>
+<h4 id="4-4-部署Hexo博客"><a href="#4-4-部署Hexo博客" class="headerlink" title="4.4 部署Hexo博客"></a>4.4 部署Hexo博客</h4><p>安装自动部署发布工具hexo-deployer-git，不然部署会报错</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git --save</code></pre>
+<p>在博客根目录新建deployer.sh文件，输入代码（也就是新建了一个bash脚本文件）</p>
+<pre class="language-none"><code class="language-none">hexo clean
+hexo g 
+hexo d</code></pre>
+<p>输入之后保存退出，在bash中部署博客就只需要执行以下命令一键部署博客</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">sh</span> deployer.sh	</code></pre>
+<p>这个时候在pages里启动博客，可能会无法显示css样式，这个时候你就需要修改你的_config.yml文件了</p>
+<pre class="language-yml" data-language="yml"><code class="language-yml"># URL
+## If your site is put in a subdirectory, set url as &#39;http:&#x2F;&#x2F;yoursite.com&#x2F;child&#39; and root as &#39;&#x2F;child&#x2F;&#39;
+url: https:&#x2F;&#x2F;mikutown.gitee.io&#x2F;blog
+# 在url后面写你的博客地址
+root: &#x2F;blog
+permalink: :year&#x2F;:month&#x2F;:day&#x2F;:title&#x2F;
+permalink_defaults:</code></pre>
+
+
+<h3 id="5-Gitee-Pages设置"><a href="#5-Gitee-Pages设置" class="headerlink" title="5.Gitee Pages设置"></a>5.Gitee Pages设置</h3><p>在项目的服务中选择Pages选项，直接使用默认配置，点击启动即可。如下图所示</p>
+<p><img src="https://gitee.com/mikutown/pic/raw/master/img/20210101203031.png" alt="如何进入Pages服务" loading="lazy"></p>
+<p>点击启动后：</p>
+<p><img src="https://gitee.com/mikutown/pic/raw/master/img/20210101203120.png" alt="Pages服务页面" loading="lazy"></p>
+<p><strong>博客发布成功之后，可以访问博客地址：xxxxxx，就可通过他提供的博客地址进行访问，预览在线博客啦！！</strong></p>
+<p>如果博客的样式不对，则需要在_config.yml中配置下博客地址和路径：</p>
+<pre class="language-none"><code class="language-none">url: “码云提供给您的博客地址”
+root: &#x2F;</code></pre>
+<p>再执行命令 <code>sh deployer.sh</code> 就可以啦，之后就是美化我们的博客了。</p>
+<h3 id="6-博客的美化"><a href="#6-博客的美化" class="headerlink" title="6.博客的美化"></a>6.博客的美化</h3><p><a target="_blank" rel="noopener" href="https://hexo.io/themes/">Hexo博客主题列表</a></p>
+<p>下载自己喜欢的主题，可以去 github 下载压缩包然后<strong>放到博客项目根目录下的 themes 中</strong>。</p>
+<p>然后配置 <strong>_config.yml</strong></p>
+<pre class="language-none"><code class="language-none">theme: “您的主题文件夹完整名称”  
+# 这里需要注意:后面要有一个空格，名称要和theme下的主题目录名称相同。</code></pre>
+<p>修改完成，本地运行 <code>hexo s</code> 测试成功即可上传部署到 Gitee 然后点击更新即可。</p>
+<h3 id="7-自定义博客域名"><a href="#7-自定义博客域名" class="headerlink" title="7.自定义博客域名"></a>7.自定义博客域名</h3><p>Gitee的Pages服务为每个人的博客都定义了一个地址，在Pages页面有链接，比如我的链接就是<a href="https://mikutown.gitee.io/blog">https://mikutown.gitee.io/blog</a> ，但是有的人拥有自己的域名，希望通过自己的域名访问到自己的博客，怎么办呢？就需要你去配置自定义博客域名了。</p>
+<h4 id="7-1-购买域名"><a href="#7-1-购买域名" class="headerlink" title="7.1 购买域名"></a>7.1 购买域名</h4><p>不做过多解释，自己去买就可以了。</p>
+<h4 id="7-2-域名解析"><a href="#7-2-域名解析" class="headerlink" title="7.2 域名解析"></a>7.2 域名解析</h4><p>因为gitee pages pro功能下线了，无法直接通过年支付99元的方式进行自定义的域名解析，因此在这里我们将自己的域名解析到GitHub，再利用页面跳转实现输入自己的域名进入自己的gitee博客。</p>
+<h5 id="7-2-1-Github相关配置"><a href="#7-2-1-Github相关配置" class="headerlink" title="7.2.1 Github相关配置"></a>7.2.1 Github相关配置</h5><ul>
+<li>注册自己的github账号</li>
+<li>将自己的电脑中的ssh密钥添加到GitHub账号里，并且测试连接ok</li>
+<li><strong>以下操作中你的GitHub用户名均用username代替</strong></li>
+</ul>
+<h5 id="7-2-2-新建Github项目"><a href="#7-2-2-新建Github项目" class="headerlink" title="7.2.2 新建Github项目"></a>7.2.2 新建Github项目</h5><p>新建一个仓库，仓库名称：username.github.io,其他保持默认设置，如图所示：</p>
+<p><img src="https://gitee.com/mikutown/pic/raw/master/img/20210101222707.png" alt="image-20210101222707265" loading="lazy"></p>
+<h5 id="7-2-3-在本地新建index-html"><a href="#7-2-3-在本地新建index-html" class="headerlink" title="7.2.3 在本地新建index.html"></a>7.2.3 在本地新建index.html</h5><p>新建的index.html文件放在文件夹名为username.github.io的文件夹中，index.html的内容为</p>
+<pre class="language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+    window<span class="token punctuation">.</span>location<span class="token punctuation">.</span>href<span class="token operator">=</span><span class="token string">"你的Gitee静态博客地址"</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!--顾名思义 这是跳转到你的Gitee静态博客地址的script--></span></code></pre>
+<h5 id="7-2-4-将文件上传到自己的github仓库了"><a href="#7-2-4-将文件上传到自己的github仓库了" class="headerlink" title="7.2.4 将文件上传到自己的github仓库了"></a>7.2.4 将文件上传到自己的github仓库了</h5><p>在你的username.github.io文件夹中打开git bash，然后输入如下命令：</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> init
+<span class="token comment"># 初始化GitHub本地仓库</span>
+<span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+<span class="token comment"># 将本地文件夹中的所有文件加到仓库中</span>
+<span class="token function">git</span> commit -m <span class="token string">"注释语句"</span>
+<span class="token comment"># 此处的注释语句就是对刚才的add操作的注释，此处使用commit命令将刚才add的文件commit到仓库，注释语句啥也能写，就是不能留空 不可以留空知道了吗知道了吗知道了吗知道了吗知道了吗</span></code></pre>
+<h5 id="7-2-5-将Github仓库与本地仓库关联"><a href="#7-2-5-将Github仓库与本地仓库关联" class="headerlink" title="7.2.5 将Github仓库与本地仓库关联"></a>7.2.5 将Github仓库与本地仓库关联</h5><p>复制GitHub的仓库地址，如图：</p>
+<p><img src="https://gitee.com/mikutown/pic/raw/master/img/20210101230729.png" alt="image-20210101230729018" loading="lazy"></p>
+<p>在username.github.io文件夹中启动的gitbash中输入代码</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> remote <span class="token function">add</span> origin https://github.com/username/username.github.io
+<span class="token comment"># 后面的https链接地址换成你自己的仓库url地址，也就是上面红框中标出来的地址</span></code></pre>
+<h6 id="7-2-6-执行pull与push操作"><a href="#7-2-6-执行pull与push操作" class="headerlink" title="7.2.6 执行pull与push操作"></a>7.2.6 执行pull与push操作</h6><p>执行以下命令</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> pull origin master
+<span class="token function">git</span> push -u origin master</code></pre>
+<p>执行完后，如果没有异常，等待执行完就上传成功了，中间可能会让你输入Username和Password，你只要输入github的账号和密码就行了。<br><strong>精髓来了：</strong><br><strong>需要注意的是push和pull类似于栈出栈压栈</strong>，而且它必须是一出一压，不能出出压压，为什么要说这个能，就是在多人共享代码的时候，有多个人同时使用或是有人使用了pull忘记了push了，以后的人再用pull就会出错，解决方案是，如果下一步应该是push了，你就敲出来git push，反之则是git pull。<br>好了，你们这些都做完了后，可以回到浏览器刷新看看是不是已经传上去了，那么最麻烦的一步就ok了，git命令的水还很深，我这一个晚上学得都是皮毛嘻嘻。</p>
+<h5 id="7-2-7-在Github仓库中新建CNAME文件"><a href="#7-2-7-在Github仓库中新建CNAME文件" class="headerlink" title="7.2.7 在Github仓库中新建CNAME文件"></a>7.2.7 在Github仓库中新建CNAME文件</h5><p>在仓库中新建一个CNAME文件，如图所示<img src="https://gitee.com/mikutown/pic/raw/master/img/20210101231044.png" alt="image-20210101231044461" loading="lazy"></p>
+<p>文件名为CNAME，文件内容为你购买的域名，你自己的买的域名如果是leafii.top那就输入leafii.top，个人意见是不要加那些http和/这些东西。完成这一步后，你的仓库应该有两个文件了。</p>
+<h5 id="7-2-8-进入域名控制台进行域名解析设置"><a href="#7-2-8-进入域名控制台进行域名解析设置" class="headerlink" title="7.2.8 进入域名控制台进行域名解析设置"></a>7.2.8 进入域名控制台进行域名解析设置</h5><p>我的域名是在阿里云购买，因此以下截图来自阿里云域名控制台，在域名控制台中将@和www的域名的解析类型修改为CNAME，然后将解析地址解析为你的Github仓库名，即username.github.io，如图所示：</p>
+<p><img src="https://gitee.com/mikutown/pic/raw/master/img/20210101231347.png" alt="image-20210101231347159" loading="lazy"></p>
+<h5 id="7-2-9-解析设置后的操作"><a href="#7-2-9-解析设置后的操作" class="headerlink" title="7.2.9 解析设置后的操作"></a>7.2.9 解析设置后的操作</h5><p>如果解析设置完毕，等待几分钟再进行是否设置成功的尝试。</p>
+<h5 id="7-2-10-大功告成"><a href="#7-2-10-大功告成" class="headerlink" title="7.2.10 大功告成"></a>7.2.10 大功告成</h5><p>如果你们github上传错了，也可以删除的，这里就不讲了，给你们一个链接<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/q420225777/article/details/80697077">https://blog.csdn.net/q420225777/article/details/80697077</a></p>
+<hr>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yizhixue-hx/p/12638361.html">Hexo + Gitee搭建个人博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43419816/article/details/106246960">利用Github实现页面跳转</a></p>
+</div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>Leafii</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://mikutown.gitee.io/blog/2020/03/30/%E9%85%8D%E7%BD%AEHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0Gitee/" title="配置Hexo博客并部署到Gitee">https://mikutown.gitee.io/blog/2020/03/30/%E9%85%8D%E7%BD%AEHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0Gitee/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/blog/2020/03/30/%E4%BD%BF%E7%94%A8nvm%E8%BF%9B%E8%A1%8CNodejs%E5%AE%89%E8%A3%85/" rel="prev" title="使用nvm进行Nodejs安装"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">使用nvm进行Nodejs安装</span></a></div><div class="post-nav-item"></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>感谢你的评论！</span><br></div><div id="valine-container"></div><script src="https://cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script><script>function initValine() {
+  const valineConfig = {"enable":true,"appId":"fasMRJRMUg1x2MHPljy8weGi-gzGzoHsz","appKey":"wDk1eqgoXJ0eaCoCF00Baith","placeholder":"Just go go","avatar":null,"pageSize":10,"visitor":false,"highlight":true,"recordIP":false,"enableQQ":true,"el":"#valine-container","lang":"zh-cn"}
+  valineConfig.path = window.location.pathname
+  new Valine(valineConfig)
+}
+setTimeout(initValine, 800)</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2021 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> Leafii</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.3.0</span></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#C4BBE1" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="/blog/js/search/local-search.js" defer></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div id="local-search-result"></div></div></div><script defer src="/blog/js/utils.js"></script><script defer src="/blog/js/hexo-theme-yun.js"></script></body></html>
