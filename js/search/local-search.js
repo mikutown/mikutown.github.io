@@ -57,6 +57,9 @@ const localSearch = (path, searchId, contentId) => {
               .toLowerCase();
             // absolute path
             let data_url = CONFIG.root + data.url;
+            ////////////////////////////
+            console.log(data_url)
+            ////////////////////////////
             let index_title = -1;
             let index_content = -1;
             let first_occur = -1;
