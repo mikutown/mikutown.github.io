@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#C4BBE1"><meta name="author" content="Leafii"><meta name="copyright" content="Leafii"><meta name="generator" content="Hexo 5.3.0"><meta name="theme" content="hexo-theme-yun"><title>Go语言の数组与切片 | LeafiiのBlog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.22/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_ed8vp4atwoj.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", () => {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+});
+</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/themes/prism.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="shortcut icon" type="image/svg+xml" href="/blog/leafii.ico"><link rel="mask-icon" href="/blog/leafii.ico" color="#C4BBE1"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/blog/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/blog/js/utils.js" as="script"><link rel="preload" href="/blog/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/blog/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/blog/css/hexo-theme-yun.css"><link rel="alternate" href="/blog/atom.xml" title="LeafiiのBlog" type="application/atom+xml"><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"mikutown.gitee.io","root":"/blog/","title":["Leafii","の","博","客"],"version":"1.3.0","mode":"auto","copycode":true,"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/blog/search.xml"},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="/blog/css/font-awesome.min.css"><script src="/blog/js/jquery.min.js"></script><script src="/blog/live2d-widget/autoload.js"></script><meta name="description" content="Go语言の数组与切片为什么需要数组 问题 一个养鸡场有 6 只鸡，它们的体重分别是 3kg,5kg,1kg,3.4kg,2kg,50kg 。请问这六只鸡的总体重是多少?平均体重是多少? 请你编一个程序。&#x3D;》数组  使用传统方法来解决 package main  import ( 	&quot;fmt&quot; )  func main()&amp;#123; 	hen1 :&#x3D; 3.0 	hen2 :&#x3D; 5.0 	hen3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go语言の数组与切片">
+<meta property="og:url" content="https://mikutown.gitee.io/blog/2021/01/25/Go%E8%AF%AD%E8%A8%80%E3%81%AE%E6%95%B0%E7%BB%84%E4%B8%8E%E5%88%87%E7%89%87/index.html">
+<meta property="og:site_name" content="LeafiiのBlog">
+<meta property="og:description" content="Go语言の数组与切片为什么需要数组 问题 一个养鸡场有 6 只鸡，它们的体重分别是 3kg,5kg,1kg,3.4kg,2kg,50kg 。请问这六只鸡的总体重是多少?平均体重是多少? 请你编一个程序。&#x3D;》数组  使用传统方法来解决 package main  import ( 	&quot;fmt&quot; )  func main()&amp;#123; 	hen1 :&#x3D; 3.0 	hen2 :&#x3D; 5.0 	hen3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/image-20210125141838794.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/image-20210125194444746.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/image-20210125194631546.png">
+<meta property="article:published_time" content="2021-01-25T05:34:21.000Z">
+<meta property="article:modified_time" content="2021-01-25T11:47:38.062Z">
+<meta property="article:author" content="Leafii">
+<meta property="article:tag" content="Go">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/mikutown/pic/raw/master/img/image-20210125141838794.png"><script src="/blog/js/ui/mode.js"></script></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/blog/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/blog/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/blog/about/" title="Leafii"><img width="96" loading="lazy" src="/blog/cat.jpg" alt="Leafii"></a><div class="site-author-name"><a href="/blog/about/">Leafii</a></div><a class="site-name" href="/blog/about/site.html">LeafiiのBlog</a><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/blog/" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/blog/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">68</span></a></div><div class="site-state-item"><a href="/blog/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">0</span></a></div><div class="site-state-item"><a href="/blog/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="主题文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/mikutown" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:yeyunsen@outlook.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=299583310" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/blog/links/" title="友情链接" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-genderless-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Go%E8%AF%AD%E8%A8%80%E3%81%AE%E6%95%B0%E7%BB%84%E4%B8%8E%E5%88%87%E7%89%87"><span class="toc-number">1.</span> <span class="toc-text">Go语言の数组与切片</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%95%B0%E7%BB%84"><span class="toc-number">1.1.</span> <span class="toc-text">为什么需要数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.2.</span> <span class="toc-text">数组介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><span class="toc-number">1.3.</span> <span class="toc-text">数组的快速入门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%AE%9A%E4%B9%89%E5%92%8C%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number">1.4.</span> <span class="toc-text">数组定义和内存布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.5.</span> <span class="toc-text">数组的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E9%81%8D%E5%8E%86"><span class="toc-number">1.6.</span> <span class="toc-text">数组的遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F1-%E5%B8%B8%E8%A7%84%E9%81%8D%E5%8E%86"><span class="toc-number">1.6.1.</span> <span class="toc-text">方式1-常规遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F2-for-range%E7%BB%93%E6%9E%84%E9%81%8D%E5%8E%86"><span class="toc-number">1.6.2.</span> <span class="toc-text">方式2-for-range结构遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%E5%92%8C%E7%BB%86%E8%8A%82"><span class="toc-number">1.7.</span> <span class="toc-text">数组使用的注意事项和细节</span></a></li></ol></li></ol></div></div></div><div class="tag-cloud"><div class="tag-cloud-tags"><a href="/blog/tags/Git/" style="font-size: 12px; color: #999">Git</a> <a href="/blog/tags/Go/" style="font-size: 21px; color: #afaabd">Go</a> <a href="/blog/tags/Hexo/" style="font-size: 12px; color: #999">Hexo</a> <a href="/blog/tags/Java/" style="font-size: 27px; color: #bdb5d5">Java</a> <a href="/blog/tags/Linux/" style="font-size: 15px; color: #a09fa5">Linux</a> <a href="/blog/tags/MarkDown/" style="font-size: 12px; color: #999">MarkDown</a> <a href="/blog/tags/Maven/" style="font-size: 12px; color: #999">Maven</a> <a href="/blog/tags/MySQL/" style="font-size: 12px; color: #999">MySQL</a> <a href="/blog/tags/Mybatis/" style="font-size: 24px; color: #b6b0c9">Mybatis</a> <a href="/blog/tags/Spring/" style="font-size: 18px; color: #a7a4b1">Spring</a> <a href="/blog/tags/nodejs/" style="font-size: 12px; color: #999">nodejs</a> <a href="/blog/tags/%E7%AE%97%E6%B3%95/" style="font-size: 30px; color: #c4bbe1">算法</a></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://mikutown.gitee.io/blog/blog/2021/01/25/Go%E8%AF%AD%E8%A8%80%E3%81%AE%E6%95%B0%E7%BB%84%E4%B8%8E%E5%88%87%E7%89%87/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Leafii"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="LeafiiのBlog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Go语言の数组与切片</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2021-01-25 13:34:21" itemprop="dateCreated datePublished" datetime="2021-01-25T13:34:21+08:00">2021-01-25</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">1.8k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">7m</span></span></span><div class="post-classify"><span class="post-tag"><a class="tag" href="/blog/tags/Go/" style="--text-color:#5298d1"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">Go</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#C4BBE1;"><h1 id="Go语言の数组与切片"><a href="#Go语言の数组与切片" class="headerlink" title="Go语言の数组与切片"></a>Go语言の数组与切片</h1><h2 id="为什么需要数组"><a href="#为什么需要数组" class="headerlink" title="为什么需要数组"></a>为什么需要数组</h2><ul>
+<li><p>问题</p>
+<p>一个养鸡场有 6 只鸡，它们的体重分别是 3kg,5kg,1kg,3.4kg,2kg,50kg 。请问这六只鸡的总体重是多少?平均体重是多少? 请你编一个程序。=》数组</p>
+</li>
+<li><p>使用传统方法来解决</p>
+<pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"fmt"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	hen1 <span class="token operator">:=</span> <span class="token number">3.0</span>
+	hen2 <span class="token operator">:=</span> <span class="token number">5.0</span>
+	hen3 <span class="token operator">:=</span> <span class="token number">1.0</span>
+	hen4 <span class="token operator">:=</span> <span class="token number">3.4</span>
+	hen5 <span class="token operator">:=</span> <span class="token number">2.0</span>
+	hen6 <span class="token operator">:=</span> <span class="token number">50.0</span>
+	totalWeight <span class="token operator">:=</span> hen1 <span class="token operator">+</span> hen2 <span class="token operator">+</span> hen3 <span class="token operator">+</span> hen4 <span class="token operator">+</span> hen5 <span class="token operator">+</span> hen6
+	avgWeight <span class="token operator">:=</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"%.2f"</span><span class="token punctuation">,</span> totalWeight <span class="token operator">/</span> <span class="token number">6</span><span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"totalWeight = %v,avgWeight = %v \n"</span><span class="token punctuation">,</span> totalWeight<span class="token punctuation">,</span> avgWeight<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<pre class="language-none"><code class="language-none">totalWeight &#x3D; 64.4,avgWeight &#x3D; 10.73 </code></pre>
+<p><strong>说明：</strong></p>
+<ol>
+<li>使用传统方法不利于数据的管理和维护</li>
+<li>传统的方法不够灵活，因此我们需要引出新的数据类型：数组</li>
+</ol>
+</li>
+</ul>
+<h2 id="数组介绍"><a href="#数组介绍" class="headerlink" title="数组介绍"></a>数组介绍</h2><p>​    数组可以存放多个同一类型数据。数组也是一种数据类型，在 Go 中，数组是值类型。</p>
+<h2 id="数组的快速入门"><a href="#数组的快速入门" class="headerlink" title="数组的快速入门"></a>数组的快速入门</h2><p>我们使用数组的方法来解决养鸡场的问题</p>
+<pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"fmt"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	<span class="token keyword">var</span> hens <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token builtin">float64</span>
+	hens<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">3.0</span>
+	hens<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">5.0</span>
+	hens<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1.0</span>
+	hens<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">3.4</span>
+	hens<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">2.0</span>
+	hens<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">50.0</span>
+	hens<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">150.0</span>
+	totalWeight <span class="token operator">:=</span> <span class="token number">0.0</span>
+	<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token function">len</span><span class="token punctuation">(</span>hens<span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+		totalWeight <span class="token operator">+=</span> hens<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+	<span class="token punctuation">&#125;</span>
+	avgWeight <span class="token operator">:=</span> fmt<span class="token punctuation">.</span><span class="token function">Sprintf</span><span class="token punctuation">(</span><span class="token string">"%.2f"</span><span class="token punctuation">,</span> totalWeight <span class="token operator">/</span> <span class="token function">float64</span><span class="token punctuation">(</span><span class="token function">len</span><span class="token punctuation">(</span>hens<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"totalWeight = %v,avgWeight = %v \n"</span><span class="token punctuation">,</span> totalWeight<span class="token punctuation">,</span> avgWeight<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<pre class="language-none"><code class="language-none">totalWeight &#x3D; 214.4,avgWeight &#x3D; 30.63 </code></pre>
+<p>​    <strong>说明：</strong></p>
+<pre><code>1. 使用数组来解决问题，程序的可维护性增加
+2. 方法代码更加清晰，也容易扩展</code></pre>
+<h2 id="数组定义和内存布局"><a href="#数组定义和内存布局" class="headerlink" title="数组定义和内存布局"></a>数组定义和内存布局</h2><ul>
+<li><p>定义</p>
+<pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> 数组名 <span class="token punctuation">[</span>数组大小<span class="token punctuation">]</span>数据类型
+<span class="token keyword">var</span> a <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token builtin">int</span>
+<span class="token comment">//赋初值</span>
+a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span>
+a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">30</span> <span class="token comment">//......</span></code></pre></li>
+<li><p>数组在内存布局（重要）</p>
+<p><img src="https://gitee.com/mikutown/pic/raw/master/img/image-20210125141838794.png" alt="image-20210125141838794" loading="lazy"></p>
+<ul>
+<li>对上图的总结：</li>
+</ul>
+<ol>
+<li>数组的地址可以通过数组名来获取 <code>&amp;intArr</code></li>
+<li>数组的第一个元素的地址，就是数组的首地址</li>
+<li>数组的各个元素的地址间隔是依据数组的类型决定，比如 <code>int64-&gt;8 int32-&gt;4...</code></li>
+</ol>
+<pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"fmt"</span>
+<span class="token punctuation">)</span>
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	<span class="token keyword">var</span> intArr <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token builtin">int</span> <span class="token comment">// int占8个字节</span>
+	<span class="token comment">//当我们定义完数组后，其实数组的各个元素有默认值 0</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>intArr<span class="token punctuation">)</span>
+	intArr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">10</span>
+	intArr<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">20</span>
+	intArr<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">30</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>intArr<span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"intArr的地址=%p intArr[0]的地址=%p intArr[1]的地址=%p intArr[2]的地址=%p \n"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>intArr<span class="token punctuation">,</span> <span class="token operator">&amp;</span>intArr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>intArr<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>intArr<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<pre class="language-none"><code class="language-none"> ~&#x2F;go&#x2F;src&#x2F;go_code&#x2F;chapter07&#x2F;demo02&#x2F;main  go run .&#x2F;main.go
+[0 0 0]
+[10 20 30]
+intArr的地址&#x3D;0xc0000b8000 intArr[0]的地址&#x3D;0xc0000b8000 intArr[1]的地址&#x3D;0xc0000b8008 intArr[2]的地址&#x3D;0xc0000b8010 </code></pre>
+<h2 id="数组的使用"><a href="#数组的使用" class="headerlink" title="数组的使用"></a>数组的使用</h2><ul>
+<li>访问数组元素</li>
+</ul>
+<p><strong>数组名[下标]</strong> 比如：你要使用a数组的第三个元素 a[2]</p>
+<ul>
+<li>快速入门案例</li>
+</ul>
+<p>从终端循环输入5个成绩，保存到float64数组，并输出。</p>
+<pre class="language-go" data-language="go"><code class="language-go">  <span class="token keyword">var</span> score <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token builtin">float64</span>
+  <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span>i <span class="token operator">&lt;</span> <span class="token function">len</span><span class="token punctuation">(</span>score<span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"请输入第%d个元素的值\n"</span><span class="token punctuation">,</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Scanln</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>score<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token comment">//变量数组打印</span>
+  <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token function">len</span><span class="token punctuation">(</span>score<span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"score[%d]=%v"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> score<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<pre class="language-none"><code class="language-none"> ~&#x2F;go&#x2F;src&#x2F;go_code&#x2F;chapter07&#x2F;demo02&#x2F;main  go run .&#x2F;main.go
+请输入第1个元素的值
+5
+请输入第2个元素的值
+4
+请输入第3个元素的值
+3
+请输入第4个元素的值
+2
+请输入第5个元素的值
+1
+score[0]&#x3D;5      score[1]&#x3D;4      score[2]&#x3D;3      score[3]&#x3D;2      score[4]&#x3D;1 </code></pre>
+
+<ul>
+<li>四种初始化数组的方式</li>
+</ul>
+<pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	<span class="token comment">//四种初始化数组的方式</span>
+	<span class="token keyword">var</span> numArr01 <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token builtin">int</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">&#125;</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"numArr01="</span><span class="token punctuation">,</span> numArr01<span class="token punctuation">)</span>
+
+	<span class="token keyword">var</span> numArr02 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">&#123;</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">&#125;</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"numArr02="</span><span class="token punctuation">,</span> numArr02<span class="token punctuation">)</span>
+
+	<span class="token comment">//这里的[...]是规定的写法</span>
+	<span class="token keyword">var</span> numArr03 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">&#123;</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">&#125;</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"numArr03="</span><span class="token punctuation">,</span> numArr03<span class="token punctuation">)</span>
+
+	<span class="token keyword">var</span> numArr04 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">800</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">:</span><span class="token number">900</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">:</span><span class="token number">999</span><span class="token punctuation">&#125;</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"numArr04="</span><span class="token punctuation">,</span> numArr04<span class="token punctuation">)</span>
+
+	<span class="token comment">//类型推导	</span>
+	strArr05 <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">:</span> <span class="token string">"tom"</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">:</span><span class="token string">"jack"</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">:</span><span class="token string">"rose"</span><span class="token punctuation">&#125;</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"strArr05="</span><span class="token punctuation">,</span>strArr05<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<pre class="language-none"><code class="language-none"> ~&#x2F;go&#x2F;src&#x2F;go_code&#x2F;chapter07&#x2F;demo02&#x2F;main  go run .&#x2F;main.go
+numArr01&#x3D; [1 2 3]
+numArr02&#x3D; [5 6 7]
+numArr03&#x3D; [8 9 10]
+numArr04&#x3D; [900 800 999]
+strArr05&#x3D; [ tom jack rose]</code></pre>
+
+<h2 id="数组的遍历"><a href="#数组的遍历" class="headerlink" title="数组的遍历"></a>数组的遍历</h2><h3 id="方式1-常规遍历"><a href="#方式1-常规遍历" class="headerlink" title="方式1-常规遍历"></a>方式1-常规遍历</h3><p>看上面的，不再赘述</p>
+<h3 id="方式2-for-range结构遍历"><a href="#方式2-for-range结构遍历" class="headerlink" title="方式2-for-range结构遍历"></a>方式2-for-range结构遍历</h3><p>这是Go语言的独有的结构，可以用来遍历访问数组的元素。</p>
+<ul>
+<li>for-range的基本语法</li>
+</ul>
+<pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">for</span> index<span class="token punctuation">,</span> value <span class="token operator">:=</span> <span class="token keyword">range</span> array01 <span class="token punctuation">&#123;</span>
+<span class="token operator">...</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>说明</p>
+<ol>
+<li>第一个返回值index是数组的下标</li>
+<li>第二个value是在该下标位置的值</li>
+<li>他们都是仅在for循环内部可见的局部变量</li>
+<li>遍历数组元素的时候，如果不想使用下标index，可以直接把下标index标为下划线_</li>
+<li>index和value的名称不是固定的，即程序员可以自行指定，一般命名为index和value</li>
+</ol>
+<ul>
+<li>for-range的案例</li>
+</ul>
+<pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	<span class="token comment">//演示for-range遍历数组</span>
+	heroes <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">&#123;</span><span class="token string">"宋江"</span><span class="token punctuation">,</span> <span class="token string">"吴用"</span><span class="token punctuation">,</span> <span class="token string">"卢俊义"</span><span class="token punctuation">&#125;</span>
+
+	<span class="token keyword">for</span> i<span class="token punctuation">,</span> v <span class="token operator">:=</span> <span class="token keyword">range</span> heroes <span class="token punctuation">&#123;</span>
+		fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"i=%v v=%v"</span><span class="token punctuation">,</span>i<span class="token punctuation">,</span> v<span class="token punctuation">)</span>
+		fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"heroes[%d]=%v\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> heroes<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> v <span class="token operator">:=</span> <span class="token keyword">range</span> heroes <span class="token punctuation">&#123;</span>
+		fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"元素的值=%v\n"</span><span class="token punctuation">,</span> v<span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<pre class="language-none"><code class="language-none"> ~&#x2F;go&#x2F;src&#x2F;go_code&#x2F;chapter07&#x2F;demo02&#x2F;main  go run .&#x2F;main.go
+i&#x3D;0 v&#x3D;宋江heroes[0]&#x3D;宋江
+i&#x3D;1 v&#x3D;吴用heroes[1]&#x3D;吴用
+i&#x3D;2 v&#x3D;卢俊义heroes[2]&#x3D;卢俊义
+元素的值&#x3D;宋江
+元素的值&#x3D;吴用
+元素的值&#x3D;卢俊义</code></pre>
+
+<h2 id="数组使用的注意事项和细节"><a href="#数组使用的注意事项和细节" class="headerlink" title="数组使用的注意事项和细节"></a>数组使用的注意事项和细节</h2><ol>
+<li>数组是多个相同类型数据的组合，一个数组一旦声明/定义了，其长度是固定的，不能动态变化</li>
+</ol>
+<pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	<span class="token comment">//数组是多个相同类型数据的组合，一个数组一旦声明/定义了，其长度是固定的，不能动态变化。</span>
+	<span class="token keyword">var</span> arr01 <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token builtin">int</span>
+	arr01<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span>
+	arr01<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">30</span>
+	<span class="token comment">//会报错</span>
+	arr01<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1.1</span> <span class="token comment">//数组类型和初始化的值的类型不匹配哦</span>
+	<span class="token comment">//其长度是固定的，不能动态变化，否则报越界</span>
+	arr01<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">890</span> <span class="token comment">//数组不能动态增长</span>
+	
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>arr01<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<ol start="2">
+<li><p><code>var arr []int</code>这时arr就是一个slice切片，切片后面专门讲解。</p>
+</li>
+<li><p>数组中的元素可以是任何数据类型，包括值类型和引用类型，但是不能混用。</p>
+</li>
+<li><p>数组创建后，如果没有赋值，有默认值（零值）</p>
+<pre class="language-none"><code class="language-none">数组类型数组： 默认值为 0
+字符串数组： 默认值为 &quot;&quot;
+bool数组： 默认值为false</code></pre>
+
+</li>
+</ol>
+<pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> arr01 <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token builtin">float32</span>
+<span class="token keyword">var</span> arr02 <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token builtin">string</span>
+<span class="token keyword">var</span> arr03 <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token builtin">bool</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"arr01=%v arr02=%v arr03=%v\n"</span><span class="token punctuation">,</span> arr01<span class="token punctuation">,</span> arr02<span class="token punctuation">,</span> arr03<span class="token punctuation">)</span></code></pre>
+
+<ol start="5">
+<li>使用数组的步骤<ol>
+<li>生命数组并开辟空间</li>
+<li>给数组各个元素赋值（默认零值）</li>
+<li>使用数组</li>
+</ol>
+</li>
+<li>数组的下标是从0开始的</li>
+</ol>
+<pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> arr04 <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token builtin">string</span> <span class="token comment">// 0-2</span>
+<span class="token keyword">var</span> index <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">3</span>
+arr04<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"tom"</span> <span class="token comment">//arr04[3]越界奥</span></code></pre>
+
+<ol start="7">
+<li>数组下标必须在指定范围内使用，否则报panic：数组越界，比如<code>var arr [5]int</code> 则有效下标为0-4</li>
+<li>Go的数组属值类型，在默认情况下是值传递，因此会进行值拷贝。数组见不会相互影响</li>
+</ol>
+<p><img src="https://gitee.com/mikutown/pic/raw/master/img/image-20210125194444746.png" alt="image-20210125194444746" loading="lazy"></p>
+<ol start="9">
+<li>如想在其它函数中，去修改原来的数组，可以使用引用传递（指针方式）</li>
+</ol>
+<p><img src="https://gitee.com/mikutown/pic/raw/master/img/image-20210125194631546.png" alt="image-20210125194631546" loading="lazy"></p>
+<ol start="10">
+<li>长度是数组类型的一部分，在传递函数参数时 需要考虑数组的长度，看下面的案例：</li>
+</ol>
+</li>
+</ul>
+</div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>Leafii</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://mikutown.gitee.io/blog/2021/01/25/Go%E8%AF%AD%E8%A8%80%E3%81%AE%E6%95%B0%E7%BB%84%E4%B8%8E%E5%88%87%E7%89%87/" title="Go语言の数组与切片">https://mikutown.gitee.io/blog/2021/01/25/Go%E8%AF%AD%E8%A8%80%E3%81%AE%E6%95%B0%E7%BB%84%E4%B8%8E%E5%88%87%E7%89%87/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/blog/2021/01/25/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0-22-Java%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-(1.2.4-1.2.5)/" rel="next" title="算法练习-22-Java中的字符串源码分析(1.2.4-1.2.5)"><span class="post-nav-text">算法练习-22-Java中的字符串源码分析(1.2.4-1.2.5)</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>感谢你的评论！</span><br></div><div id="valine-container"></div><script src="https://cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script><script>function initValine() {
+  const valineConfig = {"enable":true,"appId":"fasMRJRMUg1x2MHPljy8weGi-gzGzoHsz","appKey":"wDk1eqgoXJ0eaCoCF00Baith","placeholder":"Just go go","avatar":null,"pageSize":10,"visitor":false,"highlight":true,"recordIP":false,"enableQQ":true,"el":"#valine-container","lang":"zh-cn"}
+  valineConfig.path = window.location.pathname
+  new Valine(valineConfig)
+}
+setTimeout(initValine, 800)</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2021 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> Leafii</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.3.0</span></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#C4BBE1" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="/blog/js/search/local-search.js" defer></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div id="local-search-result"></div></div></div><script defer src="/blog/js/utils.js"></script><script defer src="/blog/js/hexo-theme-yun.js"></script></body></html>
