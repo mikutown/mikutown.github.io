@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://mikutown.gitee.io/blog/2021/02/06/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0-32-%E5%AE%9A%E5%AE%B9%E6%A0%88%E7%9A%84%E5%AE%9E%E7%8E%B0-(1.3.1-1.3.2)/</loc>
+    
+    <lastmod>2021-02-05</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://mikutown.gitee.io/blog/2021/02/04/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0-31-%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E6%96%B9%E5%B7%AE%E6%A0%87%E5%87%86%E5%B7%AE-(1.2.18-1.2.19)/</loc>
     
     <lastmod>2021-02-04</lastmod>
@@ -585,7 +592,7 @@
 
   <url>
     <loc>https://mikutown.gitee.io/blog</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -593,84 +600,84 @@
   
   <url>
     <loc>https://mikutown.gitee.io/blog/tags/Linux/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://mikutown.gitee.io/blog/tags/MySQL/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://mikutown.gitee.io/blog/tags/Git/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://mikutown.gitee.io/blog/tags/Go/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://mikutown.gitee.io/blog/tags/Java/</loc>
-    <lastmod>2021-02-04</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://mikutown.gitee.io/blog/tags/Maven/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://mikutown.gitee.io/blog/tags/MarkDown/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://mikutown.gitee.io/blog/tags/Maven/</loc>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://mikutown.gitee.io/blog/tags/Mybatis/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://mikutown.gitee.io/blog/tags/Spring/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://mikutown.gitee.io/blog/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://mikutown.gitee.io/blog/tags/nodejs/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://mikutown.gitee.io/blog/tags/Hexo/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
