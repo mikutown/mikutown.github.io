@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#C4BBE1"><meta name="author" content="Leafii"><meta name="copyright" content="Leafii"><meta name="generator" content="Hexo 5.3.0"><meta name="theme" content="hexo-theme-yun"><title>CentOS7安装MySQL5.7 | LeafiiのBlog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.22/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_ed8vp4atwoj.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", () => {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+});
+</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/themes/prism.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="shortcut icon" type="image/svg+xml" href="/blog/leafii.ico"><link rel="mask-icon" href="/blog/leafii.ico" color="#C4BBE1"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/blog/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/blog/js/utils.js" as="script"><link rel="preload" href="/blog/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/blog/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/blog/css/hexo-theme-yun.css"><link rel="alternate" href="/blog/atom.xml" title="LeafiiのBlog" type="application/atom+xml"><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"mikutown.gitee.io","root":"/blog/","title":["Leafii","の","博","客"],"version":"1.3.0","mode":"auto","copycode":true,"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/blog/search.xml"},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="/blog/css/font-awesome.min.css"><script src="/blog/js/jquery.min.js"></script><script src="/blog/live2d-widget/autoload.js"></script><meta name="description" content="CentOs7安装MySQL5.75.7相较于5.6来说，坑很多 因此写教程记录一下，以后用得上 1.通过ssh连接服务器2.安装Mysql 运行以下命令更新YUM源。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS7安装MySQL5.7">
+<meta property="og:url" content="https://mikutown.gitee.io/blog/2020/04/21/CentOs7%E5%AE%89%E8%A3%85MySQL5.7/index.html">
+<meta property="og:site_name" content="LeafiiのBlog">
+<meta property="og:description" content="CentOs7安装MySQL5.75.7相较于5.6来说，坑很多 因此写教程记录一下，以后用得上 1.通过ssh连接服务器2.安装Mysql 运行以下命令更新YUM源。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-21T13:57:41.000Z">
+<meta property="article:modified_time" content="2021-01-02T20:00:24.000Z">
+<meta property="article:author" content="Leafii">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary"><script src="/blog/js/ui/mode.js"></script></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/blog/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/blog/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/blog/about/" title="Leafii"><img width="96" loading="lazy" src="/blog/cat.jpg" alt="Leafii"></a><div class="site-author-name"><a href="/blog/about/">Leafii</a></div><a class="site-name" href="/blog/about/site.html">LeafiiのBlog</a><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/blog/" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/blog/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">13</span></a></div><div class="site-state-item"><a href="/blog/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">0</span></a></div><div class="site-state-item"><a href="/blog/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="主题文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/mikutown" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:yeyunsen@outlook.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=299583310" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/blog/links/" title="友情链接" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-genderless-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CentOs7%E5%AE%89%E8%A3%85MySQL5-7"><span class="toc-number">1.</span> <span class="toc-text">CentOs7安装MySQL5.7</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">1.通过ssh连接服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85Mysql"><span class="toc-number">1.2.</span> <span class="toc-text">2.安装Mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AEMySQL"><span class="toc-number">1.3.</span> <span class="toc-text">3.配置MySQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%85%8D%E7%BD%AEMySQL%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-number">1.4.</span> <span class="toc-text">4.配置MySQL的安全性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEMySQL%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.5.</span> <span class="toc-text">5.远程访问MySQL数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%AF%86%E7%A0%81%E4%BF%AE%E6%94%B9%E6%96%B9%E5%BC%8F"><span class="toc-number">1.6.</span> <span class="toc-text">简单密码修改方式</span></a></li></ol></li></ol></div></div></div><div class="tag-cloud"><div class="tag-cloud-tags"><a href="/blog/tags/Git/" style="font-size: 12px; color: #999">Git</a> <a href="/blog/tags/Hexo/" style="font-size: 12px; color: #999">Hexo</a> <a href="/blog/tags/Java/" style="font-size: 12px; color: #999">Java</a> <a href="/blog/tags/Linux/" style="font-size: 30px; color: #c4bbe1">Linux</a> <a href="/blog/tags/MarkDown/" style="font-size: 12px; color: #999">MarkDown</a> <a href="/blog/tags/Maven/" style="font-size: 12px; color: #999">Maven</a> <a href="/blog/tags/MySQL/" style="font-size: 12px; color: #999">MySQL</a> <a href="/blog/tags/javaWeb/" style="font-size: 12px; color: #999">javaWeb</a> <a href="/blog/tags/leetcode-%E7%AE%97%E6%B3%95/" style="font-size: 30px; color: #c4bbe1">leetcode 算法</a> <a href="/blog/tags/nodejs/" style="font-size: 12px; color: #999">nodejs</a> <a href="/blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 12px; color: #999">正则表达式</a> <a href="/blog/tags/%E7%AE%97%E6%B3%95/" style="font-size: 12px; color: #999">算法</a></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://mikutown.gitee.io/blog/blog/2020/04/21/CentOs7%E5%AE%89%E8%A3%85MySQL5.7/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Leafii"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="LeafiiのBlog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">CentOS7安装MySQL5.7</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2020-04-21 21:57:41" itemprop="dateCreated datePublished" datetime="2020-04-21T21:57:41+08:00">2020-04-21</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2021-01-03 04:00:24" itemprop="dateModified" datetime="2021-01-03T04:00:24+08:00">2021-01-03</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">902</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">4m</span></span></span><div class="post-classify"><span class="post-tag"><a class="tag" href="/blog/tags/Linux/" style="--text-color:#0066B8"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">Linux</span></a><a class="tag" href="/blog/tags/MySQL/" style="--text-color:#3776ab"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">MySQL</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#C4BBE1;"><h1 id="CentOs7安装MySQL5-7"><a href="#CentOs7安装MySQL5-7" class="headerlink" title="CentOs7安装MySQL5.7"></a>CentOs7安装MySQL5.7</h1><p>5.7相较于5.6来说，坑很多 因此写教程记录一下，以后用得上</p>
+<h2 id="1-通过ssh连接服务器"><a href="#1-通过ssh连接服务器" class="headerlink" title="1.通过ssh连接服务器"></a>1.通过ssh连接服务器</h2><h2 id="2-安装Mysql"><a href="#2-安装Mysql" class="headerlink" title="2.安装Mysql"></a>2.安装Mysql</h2><ol>
+<li><p>运行以下命令更新YUM源。</p>
+<a id="more"></a>
+
+</li>
+</ol>
+<pre class="language-none"><code class="language-none">rpm -Uvh  http:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;mysql57-community-release-el7-9.noarch.rpm</code></pre>
+<ol start="2">
+<li>运行以下命令安装MySQL。(镜像可能会稍微有点久，多等一会)</li>
+</ol>
+<pre class="language-none"><code class="language-none">yum -y install mysql-community-server</code></pre>
+<ol start="3">
+<li>运行以下命令查看MySQL版本号。</li>
+</ol>
+<pre class="language-none"><code class="language-none">mysql -v</code></pre>
+<p>返回结果如下，表示MySQL安装成功。<br><code>mysql  Ver 14.14 Distrib 5.7.28, for Linux (x86_64) using  EditLine wrapper</code></p>
+<h2 id="3-配置MySQL"><a href="#3-配置MySQL" class="headerlink" title="3.配置MySQL"></a>3.配置MySQL</h2><ol>
+<li>运行以下命令启动MySQL服务。</li>
+</ol>
+<pre class="language-none"><code class="language-none">systemctl start mysqld</code></pre>
+<ol start="2">
+<li>运行以下命令设置MySQL服务开机自启动。</li>
+</ol>
+<pre class="language-none"><code class="language-none">systemctl enable mysqld</code></pre>
+<ol start="3">
+<li>运行以下命令查看/var/log/mysqld.log文件，获取并记录root用户的初始密码。(下一步重置root用户密码时，会使用该初始密码)</li>
+</ol>
+<pre class="language-none"><code class="language-none">grep &#39;temporary password&#39; &#x2F;var&#x2F;log&#x2F;mysqld.log
+2019-11-13T09:22:30.998148Z 1 [Note] A temporary password is generated for root@localhost: c(dwuSJQP0pq</code></pre>
+<ol start="4">
+<li>运行下列命令对MySQL进行安全性配置。</li>
+</ol>
+<pre class="language-none"><code class="language-none">mysql_secure_installation</code></pre>
+<h2 id="4-配置MySQL的安全性"><a href="#4-配置MySQL的安全性" class="headerlink" title="4.配置MySQL的安全性"></a>4.配置MySQL的安全性</h2><ol>
+<li>重置root用户的密码。</li>
+</ol>
+<pre class="language-none"><code class="language-none">Enter password for user root: #输入上一步获取的root用户初始密码
+The &#39;validate_password&#39; plugin is installed on the server.
+The subsequent steps will run with the existing configuration of the plugin.
+Using existing password for root.
+Estimated strength of the password: 100 
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : Y #是否更改root用户密码，输入Y
+New password: #输入新密码，长度为8至30个字符，必须同时包含大小写英文字母、数字和特殊符号。特殊符号可以是()&#96; ~!@#$%^&amp;*-+&#x3D;|&#123;&#125;[]:;‘&lt;&gt;,.?&#x2F;
+Re-enter new password: #再次输入新密码
+Estimated strength of the password: 100 
+Do you wish to continue with the password provided?(Press y|Y for Yes, any other key for No) : Y</code></pre>
+<ol start="2">
+<li>输入Y删除匿名用户账号。</li>
+</ol>
+<pre class="language-none"><code class="language-none">By default, a MySQL installation has an anonymous user, allowing anyone to log into MySQL without having to have a user account created for them. This is intended only for testing, and to make the installation go a bit smoother. You should remove them before moving into a production environment.
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : Y  #是否删除匿名用户，输入Y
+Success.</code></pre>
+<ol start="3">
+<li>输入Y禁止root账号远程登录。</li>
+</ol>
+<pre class="language-none"><code class="language-none">Disallow root login remotely? (Press y|Y for Yes, any other key for No) : Y #禁止root远程登录，输入Y
+Success.</code></pre>
+<ol start="4">
+<li>输入Y删除test库以及对test库的访问权限。</li>
+</ol>
+<pre class="language-none"><code class="language-none">Remove test database and access to it? (Press y|Y for Yes, any other key for No) : Y #是否删除test库和对它的访问权限，输入Y
+- Dropping test database...
+Success.</code></pre>
+<ol start="5">
+<li>输入Y重新加载授权表。</li>
+</ol>
+<pre class="language-none"><code class="language-none">Reload privilege tables now? (Press y|Y for Yes, any other key for No) : Y #是否重新加载授权表，输入Y
+Success.
+All done!</code></pre>
+<h2 id="5-远程访问MySQL数据库"><a href="#5-远程访问MySQL数据库" class="headerlink" title="5.远程访问MySQL数据库"></a>5.远程访问MySQL数据库</h2><ol>
+<li>通过以下命令登录mysql</li>
+</ol>
+<pre class="language-none"><code class="language-none">mysql -uroot -p</code></pre>
+<ol start="2">
+<li>依次运行以下命令创建远程登录MySQL的账号。示例账号为root、密码为root。</li>
+</ol>
+<pre class="language-none"><code class="language-none">mysql&gt; grant all on *.* to &#39;root&#39;@&#39;%&#39;IDENTIFIED BY &#39;root&#39;; #使用root替换dms，可设置为允许root账号远程登录。
+mysql&gt; flush privileges;</code></pre>
+<h2 id="简单密码修改方式"><a href="#简单密码修改方式" class="headerlink" title="简单密码修改方式"></a>简单密码修改方式</h2><ol>
+<li>通过以下命令登录mysql</li>
+</ol>
+<pre class="language-none"><code class="language-none">mysql -uroot -p</code></pre>
+<ol start="2">
+<li>通过以下命令修改mysql默认的密码安全性</li>
+</ol>
+<pre class="language-sql" data-language="sql"><code class="language-sql">mysql<span class="token operator">></span> <span class="token keyword">set</span> <span class="token keyword">global</span> validate_password_policy<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+Query OK<span class="token punctuation">,</span> <span class="token number">0</span> <span class="token keyword">rows</span> affected <span class="token punctuation">(</span><span class="token number">0.05</span> sec<span class="token punctuation">)</span>
+ 
+mysql<span class="token operator">></span> 
+mysql<span class="token operator">></span> 
+mysql<span class="token operator">></span> <span class="token keyword">set</span> <span class="token keyword">global</span> validate_password_mixed_case_count<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+Query OK<span class="token punctuation">,</span> <span class="token number">0</span> <span class="token keyword">rows</span> affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+ 
+mysql<span class="token operator">></span> <span class="token keyword">set</span> <span class="token keyword">global</span> validate_password_number_count<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span>
+Query OK<span class="token punctuation">,</span> <span class="token number">0</span> <span class="token keyword">rows</span> affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+ 
+mysql<span class="token operator">></span> <span class="token keyword">set</span> <span class="token keyword">global</span> validate_password_special_char_count<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+Query OK<span class="token punctuation">,</span> <span class="token number">0</span> <span class="token keyword">rows</span> affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+ 
+mysql<span class="token operator">></span> <span class="token keyword">set</span> <span class="token keyword">global</span> validate_password_length<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span>
+Query OK<span class="token punctuation">,</span> <span class="token number">0</span> <span class="token keyword">rows</span> affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+ 
+mysql<span class="token operator">></span> <span class="token keyword">SHOW</span> VARIABLES <span class="token operator">LIKE</span> <span class="token string">'validate_password%'</span><span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">--------------------------------------+-------+</span>
+<span class="token operator">|</span> Variable_name                        <span class="token operator">|</span> <span class="token keyword">Value</span> <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">--------------------------------------+-------+</span>
+<span class="token operator">|</span> validate_password_dictionary_file    <span class="token operator">|</span>       <span class="token operator">|</span>
+<span class="token operator">|</span> validate_password_length             <span class="token operator">|</span> <span class="token number">3</span>     <span class="token operator">|</span>
+<span class="token operator">|</span> validate_password_mixed_case_count   <span class="token operator">|</span> <span class="token number">0</span>     <span class="token operator">|</span>
+<span class="token operator">|</span> validate_password_number_count       <span class="token operator">|</span> <span class="token number">3</span>     <span class="token operator">|</span>
+<span class="token operator">|</span> validate_password_policy             <span class="token operator">|</span> LOW   <span class="token operator">|</span>
+<span class="token operator">|</span> validate_password_special_char_count <span class="token operator">|</span> <span class="token number">0</span>     <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">--------------------------------------+-------+</span></code></pre>
+<ol start="3">
+<li>修改简单密码：</li>
+</ol>
+<pre class="language-sql" data-language="sql"><code class="language-sql">mysql<span class="token operator">></span> <span class="token keyword">SET</span> PASSWORD <span class="token keyword">FOR</span> <span class="token string">'root'</span><span class="token variable">@'localhost'</span> <span class="token operator">=</span> PASSWORD<span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Query OK<span class="token punctuation">,</span> <span class="token number">0</span> <span class="token keyword">rows</span> affected<span class="token punctuation">,</span> <span class="token number">1</span> warning <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span></code></pre></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>Leafii</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://mikutown.gitee.io/blog/2020/04/21/CentOs7%E5%AE%89%E8%A3%85MySQL5.7/" title="CentOS7安装MySQL5.7">https://mikutown.gitee.io/blog/2020/04/21/CentOs7%E5%AE%89%E8%A3%85MySQL5.7/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/blog/2021/01/07/%E5%85%B3%E4%BA%8Ejava%E5%91%BD%E4%BB%A4%E6%8A%A5%E9%94%99-%E6%89%BE%E4%B8%8D%E5%88%B0%E6%88%96%E6%97%A0%E6%B3%95%E5%8A%A0%E8%BD%BD%E4%B8%BB%E7%B1%BB%E8%BF%99%E4%BB%B6%E4%BA%8B/" rel="prev" title="关于java命令报错 找不到或无法加载主类这件事"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">关于java命令报错 找不到或无法加载主类这件事</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/blog/2020/04/21/macos%E6%97%A0%E6%B3%95%E9%80%9A%E8%BF%87ssh%E8%BF%9E%E6%8E%A5Linux%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="next" title="macOS无法通过SSH链接到Linux服务器"><span class="post-nav-text">macOS无法通过SSH链接到Linux服务器</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>感谢你的评论！</span><br></div><div id="valine-container"></div><script src="https://cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script><script>function initValine() {
+  const valineConfig = {"enable":true,"appId":"fasMRJRMUg1x2MHPljy8weGi-gzGzoHsz","appKey":"wDk1eqgoXJ0eaCoCF00Baith","placeholder":"Just go go","avatar":null,"pageSize":10,"visitor":false,"highlight":true,"recordIP":false,"enableQQ":true,"el":"#valine-container","lang":"zh-cn"}
+  valineConfig.path = window.location.pathname
+  new Valine(valineConfig)
+}
+setTimeout(initValine, 800)</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2021 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> Leafii</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.3.0</span></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#C4BBE1" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="/blog/js/search/local-search.js" defer></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div id="local-search-result"></div></div></div><script defer src="/blog/js/utils.js"></script><script defer src="/blog/js/hexo-theme-yun.js"></script></body></html>
