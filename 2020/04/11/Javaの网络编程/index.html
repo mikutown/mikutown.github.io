@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#C4BBE1"><meta name="author" content="Leafii"><meta name="copyright" content="Leafii"><meta name="generator" content="Hexo 5.3.0"><meta name="theme" content="hexo-theme-yun"><title>Javaの网络编程 | LeafiiのBlog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.22/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_ed8vp4atwoj.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", () => {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+});
+</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/themes/prism.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="shortcut icon" type="image/svg+xml" href="/blog/leafii.ico"><link rel="mask-icon" href="/blog/leafii.ico" color="#C4BBE1"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/blog/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/blog/js/utils.js" as="script"><link rel="preload" href="/blog/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/blog/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/blog/css/hexo-theme-yun.css"><link rel="alternate" href="/blog/atom.xml" title="LeafiiのBlog" type="application/atom+xml"><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"mikutown.gitee.io","root":"/blog/","title":["Leafii","の","博","客"],"version":"1.3.0","mode":"auto","copycode":true,"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"local_search":{"path":"/blog/search.xml"},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="/blog/css/font-awesome.min.css"><script src="/blog/js/jquery.min.js"></script><script src="/blog/live2d-widget/autoload.js"></script><meta name="description" content="Javaの网络编程网络编程概述1.1      网络协议       通过计算机网络可以使多台计算机实现连接，位于同一个网络中的计算机在进行连接和通信时需要遵守一定的规则，这就好比在道路中行驶的汽车一定要遵守交通规则一样。在计算机网络中，这些连接和通信的规则被称为网络通信协议，它对数据的传输格式、传输速率、传输步骤等做了统一规定，通信双方必须同时遵守才能完成数据交换。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javaの网络编程">
+<meta property="og:url" content="https://mikutown.gitee.io/blog/2020/04/11/Java%E3%81%AE%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="LeafiiのBlog">
+<meta property="og:description" content="Javaの网络编程网络编程概述1.1      网络协议       通过计算机网络可以使多台计算机实现连接，位于同一个网络中的计算机在进行连接和通信时需要遵守一定的规则，这就好比在道路中行驶的汽车一定要遵守交通规则一样。在计算机网络中，这些连接和通信的规则被称为网络通信协议，它对数据的传输格式、传输速率、传输步骤等做了统一规定，通信双方必须同时遵守才能完成数据交换。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013004.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013023.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013039.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013100.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013116.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013136.png">
+<meta property="og:image" content="https://www.leafii.top/upload/2019/11/image-3e8ac860d4a942f88fa97e4da58a4a7e.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013151.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013209.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013306.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013248.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013326.png">
+<meta property="og:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013349.png">
+<meta property="article:published_time" content="2020-04-10T17:35:55.000Z">
+<meta property="article:modified_time" content="2021-01-02T19:15:52.000Z">
+<meta property="article:author" content="Leafii">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/mikutown/pic/raw/master/img/20200411013004.png"><script src="/blog/js/ui/mode.js"></script></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/blog/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/blog/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/blog/about/" title="Leafii"><img width="96" loading="lazy" src="/blog/cat.jpg" alt="Leafii"></a><div class="site-author-name"><a href="/blog/about/">Leafii</a></div><a class="site-name" href="/blog/about/site.html">LeafiiのBlog</a><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/blog/" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/blog/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">44</span></a></div><div class="site-state-item"><a href="/blog/categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">0</span></a></div><div class="site-state-item"><a href="/blog/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">15</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="主题文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/mikutown" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:yeyunsen@outlook.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=299583310" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/blog/links/" title="友情链接" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-genderless-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java%E3%81%AE%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">Javaの网络编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E6%A6%82%E8%BF%B0"><span class="toc-number">1.0.1.</span> <span class="toc-text">网络编程概述</span></a></li></ol></li></ol></li></ol></div></div></div><div class="tag-cloud"><div class="tag-cloud-tags"><a href="/blog/tags/Git/" style="font-size: 12px; color: #999">Git</a> <a href="/blog/tags/Hexo/" style="font-size: 12px; color: #999">Hexo</a> <a href="/blog/tags/Java/" style="font-size: 30px; color: #c4bbe1">Java</a> <a href="/blog/tags/Linux/" style="font-size: 16.5px; color: #a4a2ab">Linux</a> <a href="/blog/tags/MarkDown/" style="font-size: 12px; color: #999">MarkDown</a> <a href="/blog/tags/Maven/" style="font-size: 12px; color: #999">Maven</a> <a href="/blog/tags/MySQL/" style="font-size: 12px; color: #999">MySQL</a> <a href="/blog/tags/Mybatis/" style="font-size: 25.5px; color: #b9b3cf">Mybatis</a> <a href="/blog/tags/Spring/" style="font-size: 21px; color: #afaabd">Spring</a> <a href="/blog/tags/javaWeb/" style="font-size: 12px; color: #999">javaWeb</a> <a href="/blog/tags/leetcode-%E7%AE%97%E6%B3%95/" style="font-size: 16.5px; color: #a4a2ab">leetcode 算法</a> <a href="/blog/tags/nasm/" style="font-size: 12px; color: #999">nasm</a> <a href="/blog/tags/nodejs/" style="font-size: 12px; color: #999">nodejs</a> <a href="/blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 12px; color: #999">正则表达式</a> <a href="/blog/tags/%E7%AE%97%E6%B3%95/" style="font-size: 12px; color: #999">算法</a></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://mikutown.gitee.io/blog/blog/2020/04/11/Java%E3%81%AE%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Leafii"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="LeafiiのBlog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Javaの网络编程</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2020-04-11 01:35:55" itemprop="dateCreated datePublished" datetime="2020-04-11T01:35:55+08:00">2020-04-11</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2021-01-03 03:15:52" itemprop="dateModified" datetime="2021-01-03T03:15:52+08:00">2021-01-03</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">4.9k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">19m</span></span></span><div class="post-classify"><span class="post-tag"><a class="tag" href="/blog/tags/Java/" style="--text-color:#4fc08d"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">Java</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#C4BBE1;"><h1 id="Javaの网络编程"><a href="#Javaの网络编程" class="headerlink" title="Javaの网络编程"></a>Javaの网络编程</h1><h3 id="网络编程概述"><a href="#网络编程概述" class="headerlink" title="网络编程概述"></a>网络编程概述</h3><p>1.1      网络协议<br>       通过计算机网络可以使多台计算机实现连接，位于同一个网络中的计算机在进行连接和通信时需要遵守一定的规则，这就好比在道路中行驶的汽车一定要遵守交通规则一样。在计算机网络中，这些连接和通信的规则被称为网络通信协议，它对数据的传输格式、传输速率、传输步骤等做了统一规定，通信双方必须同时遵守才能完成数据交换。</p>
+<a id="more"></a>
+
+<p>​      网络通信协议有很多种，目前应用最广泛的是TCP&#x2F;IP协议(Transmission Control Protocal&#x2F;Internet Protoal传输控制协议&#x2F;英特网互联协议)，它是一个包括TCP协议和IP协议，UDP（User Datagram Protocol）协议和其它一些协议的协议组，在学习具体协议之前首先了解一下TCP&#x2F;IP协议组的层次结构。<br>​       在进行数据传输时，要求发送的数据与收到的数据完全一样，这时，就需要在原有的数据上添加很多信息，以保证数据在传输过程中数据格式完全一致。TCP&#x2F;IP协议的层次结构比较简单，共分为四层，如图所示。<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013004.png" loading="lazy"><br> 上图中，TCP&#x2F;IP协议中的四层分别是应用层、传输层、网络层和链路层，每层分别负责不同的通信功能，接下来针对这四层进行详细地讲解。<br>链路层：链路层是用于定义物理传输通道，通常是对某些网络连接设备的驱动协议，例如针对光纤、网线提供的驱动。<br>网络层：网络层是整个TCP&#x2F;IP协议的核心，它主要用于将传输的数据进行分组，将分组数据发送到目标计算机或者网络。<br>传输层：主要使网络程序进行通信，在进行网络通信时，可以采用TCP协议，也可以采用UDP协议。<br>应用层：主要负责应用程序的协议，例如HTTP协议、FTP协议等。<br>1.2      IP地址和端口号<br>​       要想使网络中的计算机能够进行通信，必须为每台计算机指定一个标识号，通过这个标识号来指定接受数据的计算机或者发送数据的计算机。<br>​       在TCP&#x2F;IP协议中，这个标识号就是IP地址，它可以唯一标识一台计算机，目前，IP地址广泛使用的版本是IPv4，它是由4个字节大小的二进制数来表示，如：00001010000000000000000000000001。由于二进制形式表示的IP地址非常不便记忆和处理，因此通常会将IP地址写成十进制的形式，每个字节用一个十进制数字(0-255)表示，数字间用符号“.”分开，如 “192.168.1.100”。<br>​       随着计算机网络规模的不断扩大，对IP地址的需求也越来越多，IPV4这种用4个字节表示的IP地址面临枯竭，因此IPv6 便应运而生了，IPv6使用16个字节表示IP地址，它所拥有的地址容量约是IPv4的8×1028倍，达到2128个（算上全零的），这样就解决了网络地址资源数量不够的问题。<br>​      通过IP地址可以连接到指定计算机，但如果想访问目标计算机中的某个应用程序，还需要指定端口号。在计算机中，不同的应用程序是通过端口号区分的。端口号是用两个字节（16位的二进制数）表示的，它的取值范围是0<del>65535，其中，0</del>1023之间的端口号用于一些知名的网络服务和应用，用户的普通应用程序需要使用1024以上的端口号，从而避免端口号被另外一个应用或服务所占用。<br>​      接下来通过一个图例来描述IP地址和端口号的作用，如下图所示:<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013023.png" loading="lazy"><br>从上图中可以清楚地看到，位于网络中一台计算机可以通过IP地址去访问另一台计算机，并通过端口号访问目标计算机中的某个应用程序。<br>1.3      InetAddress<br>​      了解了IP地址的作用，我们看学习下JDK中提供了一个InetAdderss类，该类用于封装一个IP地址，并提供了一系列与IP地址相关的方法，下表中列出了InetAddress类的一些常用方法。<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013039.png" loading="lazy"></p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>net<span class="token punctuation">.</span></span><span class="token class-name">InetAddress</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>net<span class="token punctuation">.</span></span><span class="token class-name">UnknownHostException</span><span class="token punctuation">;</span>
+ 
+<span class="token comment">/*
+ * InetAddress:此类表示互联网协议 (IP) 地址。
+ *
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">InetAddressDemo</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">UnknownHostException</span>   <span class="token punctuation">&#123;</span>
+        <span class="token comment">//static InetAddress getByName(String host)</span>
+         <span class="token comment">//InetAddress address = InetAddress.getByName("itheima");</span>
+        <span class="token class-name">InetAddress</span> address <span class="token operator">=</span> <span class="token class-name">InetAddress</span><span class="token punctuation">.</span><span class="token function">getByName</span><span class="token punctuation">(</span><span class="token string">"192.168.1.107"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//ip地址是唯一的</span>
+     
+        <span class="token comment">//System.out.println(address);//itheima/192.168.1.107 ipconfig</span>
+         
+        <span class="token class-name">String</span> hostAddress <span class="token operator">=</span> address<span class="token punctuation">.</span><span class="token function">getHostAddress</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//192.168.1.107 返回IP地址</span>
+        <span class="token class-name">String</span> hostName <span class="token operator">=</span> address<span class="token punctuation">.</span><span class="token function">getHostName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//itheima   返回主机名</span>
+         
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>hostAddress<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>hostName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+ 
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>第2章 UDP协议<br>      UDP是无连接通信协议，即在数据传输时，数据的发送端和接收端不建立逻辑连接。简单来说，当一台计算机向另外一台计算机发送数据时，发送端不会确认接收端是否存在，就会发出数据，同样接收端在收到数据时，也不会向发送端反馈是否收到数据。由于使用UDP协议消耗资源小，通信效率高，所以通常都会用于音频、视频和普通数据的传输例如视频会议都使用UDP协议，因为这种情况即使偶尔丢失一两个数据包，也不会对接收结果产生太大影响。但是在使用UDP协议传送数据时，由于UDP的面向无连接性，不能保证数据的完整性，因此在传输重要数据时不建议使用UDP协议。<br>2.1      DatagramPacket<br>       前面介绍了UDP是一种面向无连接的协议，因此，在通信时发送端和接收端不用建立连接。UDP通信的过程就像是货运公司在两个码头间发送货物一样。在码头发送和接收货物时都需要使用集装箱来装载货物，UDP通信也是一样，发送和接收的数据也需要使用“集装箱”进行打包，为此JDK中提供了一个DatagramPacket类，该类的实例对象就相当于一个集装箱，用于封装UDP通信中发送或者接收的数据。<br>       想要创建一个DatagramPacket对象，首先需要了解一下它的构造方法。在创建发送端和接收端的DatagramPacket对象时，使用的构造方法有所不同，接收端的构造方法只需要接收一个字节数组来存放接收到的数据，而发送端的构造方法不但要接收存放了发送数据的字节数组，还需要指定发送端IP地址和端口号。<br>        接下来根据API文档的内容，对DatagramPacket的构造方法进行逐一详细地讲解。<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013100.png" loading="lazy"><br>   使用该构造方法在创建DatagramPacket对象时，指定了封装数据的字节数组和数据的大小，没有指定IP地址和端口号。很明显，这样的对象只能用于接收端，不能用于发送端。因为发送端一定要明确指出数据的目的地(ip地址和端口号)，而接收端不需要明确知道数据的来源，只需要接收到数据即可。<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013116.png" loading="lazy"><br>     使用该构造方法在创建DatagramPacket对象时，不仅指定了封装数据的字节数组和数据的大小，还指定了数据包的目标IP地址（address）和端口号（port）。该对象通常用于发送端，因为在发送数据时必须指定接收端的IP地址和端口号，就好像发送货物的集装箱上面必须标明接收人的地址一样。<br>       上面我们讲解了DatagramPacket的构造方法，接下来对DatagramPacket类中的常用方法进行详细地讲解，如下表所示。<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013136.png" loading="lazy"></p>
+<p>2.2      DatagramSocket<br>       DatagramPacket数据包的作用就如同是“集装箱”，可以将发送端或者接收端的数据封装起来。然而运输货物只有“集装箱”是不够的，还需要有码头。在程序中需要实现通信只有DatagramPacket数据包也同样不行，为此JDK中提供的一个DatagramSocket类。DatagramSocket类的作用就类似于码头，使用这个类的实例对象就可以发送和接收DatagramPacket数据包。<br><img src="https://www.leafii.top/upload/2019/11/image-3e8ac860d4a942f88fa97e4da58a4a7e.png" alt="image.png" loading="lazy"><br>该构造方法用于创建发送端的DatagramSocket对象，在创建DatagramSocket对象时，并没有指定端口号，此时，系统会分配一个没有被其它网络程序所使用的端口号。<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013151.png" loading="lazy"><br>该构造方法既可用于创建接收端的DatagramSocket对象，又可以创建发送端的DatagramSocket对象，在创建接收端的DatagramSocket对象时，必须要指定一个端口号，这样就可以监听指定的端口。<br>      上面我们讲解了DatagramSocket的构造方法，接下来对DatagramSocket类中的常用方法进行介绍。<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013209.png" loading="lazy"><br>2.3      UDP实现<br>import java.io.IOException;<br>import java.net.DatagramPacket;<br>import java.net.DatagramSocket;<br>import java.net.InetAddress;<br>import java.net.SocketException;</p>
+<p>&#x2F;*</p>
+<ul>
+<li><p>使用UDP协议发送数据<br>   创建发送端Socket对象<br>   创建数据并打包<br>   发送数据<br>   释放资源</p>
+<ul>
+<li></li>
+</ul>
+</li>
+<li><p>DatagramSocket:此类表示用来发送和接收数据,基于UDP协议的</p>
+<ul>
+<li></li>
+</ul>
+</li>
+<li><p>DatagramSocket() ：创建Socket对象并随机分配端口号</p>
+</li>
+<li><p>DatagramSocket(int port) ：创建Socket对象并指定端口号<br><em>&#x2F;<br>public class SendDemo {<br>public static void main(String[] args) throws IOException  {<br>&#x2F;&#x2F;创建发送端Socket对象<br>DatagramSocket ds &#x3D; new DatagramSocket();<br>&#x2F;&#x2F;创建数据并打包<br>&#x2F;</em><br> * DatagramPacket :此类表示数据报包<br> * 数据 byte[]<br> * 设备的地址 ip<br> * 进程的地址  端口号<br>   DatagramPacket(byte[] buf, int length, InetAddress address, int port)<br> *&#x2F;<br><br><br>String s &#x3D; “hello udp,im comming!”;<br>byte[] bys &#x3D; s.getBytes();<br>int length &#x3D; bys.length;<br>InetAddress address &#x3D; InetAddress.getByName(“127.0.0.1”);&#x2F;&#x2F;发送给当前设备<br>int port &#x3D; 8888;<br>&#x2F;&#x2F;打包<br>DatagramPacket dp &#x3D; new DatagramPacket(bys,length,address,port);<br>&#x2F;&#x2F;发送数据<br>ds.send(dp);<br>&#x2F;&#x2F;释放资源<br>ds.close();<br>}<br>}</p>
+</li>
+</ul>
+<p>import java.io.IOException;<br>import java.net.DatagramPacket;<br>import java.net.DatagramSocket;<br>import java.net.InetAddress;</p>
+<p>&#x2F;*</p>
+<ul>
+<li>使用UDP协议接收数据<br>   创建接收端Socket对象<br>   接收数据<br>   解析数据<br>   输出数据<br>   释放资源</li>
+</ul>
+<p> *&#x2F;<br>public class ReceiveDemo {<br>    public static void main(String[] args) throws IOException {<br>        &#x2F;&#x2F;创建接收端Socket对象<br>        DatagramSocket ds &#x3D; new DatagramSocket(8888);<br>        &#x2F;&#x2F;接收数据<br>        &#x2F;&#x2F;DatagramPacket(byte[] buf, int length)<br>        byte[] bys &#x3D; new byte[1024];<br>        DatagramPacket dp &#x3D; new DatagramPacket(bys,bys.length);</p>
+<pre><code>    System.out.println(1);
+    ds.receive(dp);//阻塞
+    System.out.println(2);
+     
+    //解析数据
+    //InetAddress getAddress() : 获取发送端的IP对象
+    InetAddress address = dp.getAddress();
+    //byte[] getData()  ：获取接收到的数据，也可以直接使用创建包对象时的数组
+    byte[] data = dp.getData();
+    //int getLength()  ：获取具体收到数据的长度
+    int length = dp.getLength();
+</code></pre>
+<p>​<br>​<br>​        &#x2F;&#x2F;输出数据<br>​        System.out.println(“sender —&gt; “ + address.getHostAddress());<br>​        &#x2F;&#x2F;System.out.println(new String(data,0,length));<br>​        System.out.println(new String(bys,0,length));<br>​        &#x2F;&#x2F;释放资源<br>​        ds.close();<br>​    }<br>}<br>第3章     TCP协议<br>​       TCP通信同UDP通信一样，都能实现两台计算机之间的通信，通信的两端都需要创建socket对象。区别在于，UDP中只有发送端和接收端，不区分客户端与服务器端，计算机之间可以任意地发送数据。而TCP通信是严格区分客户端与服务器端的，在通信时，必须先由客户端去连接服务器端才能实现通信，服务器端不可以主动连接客户端，并且服务器端程序需要事先启动，等待客户端的连接。<br>​       在JDK中提供了两个类用于实现TCP程序，一个是ServerSocket类，用于表示服务器端，一个是Socket类，用于表示客户端。通信时，首先创建代表服务器端的ServerSocket对象，该对象相当于开启一个服务，并等待客户端的连接，然后创建代表客户端的Socket对象向服务器端发出连接请求，服务器端响应请求，两者建立连接开始通信。<br>3.1      ServerSocket<br>JDK的java.net包中提供了一个ServerSocket类，该类的实例对象可以实现一个服务器段的程序。<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013306.png" loading="lazy"><br>使用该构造方法在创建ServerSocket对象时，就可以将其绑定到一个指定的端口号上（参数port就是端口号）。<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013248.png" loading="lazy"><br> ServerSocket对象负责监听某台计算机的某个端口号，在创建ServerSocket对象后，需要继续调用该对象的accept()方法，接收来自客户端的请求。当执行了accept()方法之后，服务器端程序会发生阻塞，直到客户端发出连接请求，accept()方法才会返回一个Scoket对象用于和客户端实现通信，程序才能继续向下执行。<br>3.2      Socket<br>ServerSocket对象可以实现服务端程序，但只实现服务器端程序还不能完成通信，此时还需要一个客户端程序与之交互，为此JDK提供了一个Socket类，用于实现TCP客户端程序。<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013326.png" loading="lazy"><br>使用该构造方法在创建Socket对象时，会根据参数去连接在指定地址和端口上运行的服务器程序，其中参数host接收的是一个字符串类型的IP地址。<br><img src="https://gitee.com/mikutown/pic/raw/master/img/20200411013349.png" loading="lazy"><br>该方法在使用上与第二个构造方法类似，参数address用于接收一个InetAddress类型的对象，该对象用于封装一个IP地址。<br>方法声明<br>功能描述<br>int getPort()<br>该方法返回一个int类型对象，该对象是Socket对象与服务器端连接的端口号<br>InetAddress getLocalAddress()<br>该方法用于获取Socket对象绑定的本地IP地址，并将IP地址封装成InetAddress类型的对象返回<br>void close()<br>该方法用于关闭Socket连接，结束本次通信。在关闭socket之前，应将与socket相关的所有的输入&#x2F;输出流全部关闭，这是因为一个良好的程序应该在执行完毕时释放所有的资源<br>InputStream getInputStream()<br>该方法返回一个InputStream类型的输入流对象，如果该对象是由服务器端的Socket返回，就用于读取客户端发送的数据，反之，用于读取服务器端发送的数据<br>OutputStream getOutputStream()<br>该方法返回一个OutputStream类型的输出流对象，如果该对象是由服务器端的Socket返回，就用于向客户端发送数据，反之，用于向服务器端发送数据</p>
+<p>在Socket类的常用方法中，getInputStream()和getOutStream()方法分别用于获取输入流和输出流。当客户端和服务端建立连接后，数据是以IO流的形式进行交互的，从而实现通信。<br>3.3      TCP协议实现<br>import java.io.IOException;<br>import java.io.OutputStream;<br>import java.net.InetAddress;<br>import java.net.Socket;</p>
+<p>&#x2F;*</p>
+<ul>
+<li><p>使用TCP协议发送数据<br>   创建发送端Socket对象（创建连接）<br>   获取输出流对象<br>   发送数据<br>   释放资源</p>
+<p>Socket(InetAddress address, int port)<br>Exception in thread “main” java.net.ConnectException: Connection refused: connect</p>
+</li>
+</ul>
+<p> *&#x2F;<br>public class ClientDemo {<br>    public static void main(String[] args) throws IOException {<br>        &#x2F;&#x2F;创建发送端Socket对象（创建连接）<br>        Socket s &#x3D; new Socket(InetAddress.getByName(“127.0.0.1”),10086);<br>        &#x2F;&#x2F;获取输出流对象<br>        OutputStream os &#x3D; s.getOutputStream();<br>        &#x2F;&#x2F;发送数据<br>        String str &#x3D; “hello tcp,im comming!!!”;<br>        os.write(str.getBytes());<br>        &#x2F;&#x2F;释放资源<br>        &#x2F;&#x2F;os.close();<br>        s.close();<br>    }<br>}</p>
+<p>import java.io.IOException;<br>import java.io.InputStream;<br>import java.net.InetAddress;<br>import java.net.ServerSocket;<br>import java.net.Socket;</p>
+<p>&#x2F;*</p>
+<ul>
+<li><p>使用TCP协议接收数据<br>   创建接收端Socket对象<br>   监听（阻塞）<br>   获取输入流对象<br>   获取数据<br>   输出数据<br>   释放资源</p>
+<p>ServerSocket：接收端，服务端Socket<br>ServerSocket(int port)<br>Socket accept()</p>
+</li>
+</ul>
+<p> *&#x2F;<br>public class ServerDemo {<br>    public static void main(String[] args) throws IOException  {<br>        &#x2F;&#x2F;创建接收端Socket对象<br>        ServerSocket ss &#x3D; new ServerSocket(10086);<br>        &#x2F;&#x2F;监听（阻塞）<br>        Socket s &#x3D; ss.accept();<br>        &#x2F;&#x2F;获取输入流对象<br>        InputStream is &#x3D; s.getInputStream();<br>        &#x2F;&#x2F;获取数据<br>        byte[] bys &#x3D; new byte[1024];<br>        int len;&#x2F;&#x2F;用于存储读到的字节个数<br>        len &#x3D; is.read(bys);<br>        &#x2F;&#x2F;输出数据<br>        InetAddress address &#x3D; s.getInetAddress();<br>        System.out.println(“client —&gt; “ + address.getHostName());<br>        System.out.println(new String(bys,0,len));<br>        &#x2F;&#x2F;释放资源<br>        s.close();<br>        &#x2F;&#x2F;ss.close();<br>    }<br>}<br>3.4  TCP练习：服务端将接收到的数据转换成大写返回给客户端<br>import java.io.IOException;<br>import java.io.InputStream;<br>import java.io.OutputStream;<br>import java.net.InetAddress;<br>import java.net.Socket;</p>
+<p>&#x2F;*<br>    需求：使用TCP协议发送数据，并将接收到的数据转换成大写返回</p>
+<pre><code>客户端发出数据
+服务端接收数据
+服务端转换数据
+服务端发出数据
+客户端接收数据
+</code></pre>
+<p> *&#x2F;<br>public class ClientDemo {<br>    public static void main(String[] args) throws IOException {<br>        &#x2F;&#x2F;创建客户端Socket对象<br>        Socket s &#x3D; new Socket(InetAddress.getByName(“127.0.0.1”),10010);<br>        &#x2F;&#x2F;获取输出流对象<br>        OutputStream os &#x3D; s.getOutputStream();<br>        &#x2F;&#x2F;发出数据<br>        os.write(“tcp,im comming again!!!”.getBytes());</p>
+<pre><code>    //获取输入流对象
+    InputStream is = s.getInputStream();
+    byte[] bys = new byte[1024];
+    int len;//用于存储读取到的字节个数
+    //接收数据
+    len = is.read(bys);
+    //输出数据
+    System.out.println(new String(bys,0,len));
+     
+    //释放资源
+    s.close();
+     
+&#125;
+</code></pre>
+<p>}</p>
+<p>import java.io.IOException;<br>import java.io.InputStream;<br>import java.io.OutputStream;<br>import java.net.ServerSocket;<br>import java.net.Socket;</p>
+<p>public class ServerDemo {<br>    public static void main(String[] args) throws IOException {<br>        &#x2F;&#x2F;创建服务端Socket对象<br>        ServerSocket ss &#x3D; new ServerSocket(10010);<br>        &#x2F;&#x2F;监听<br>        Socket s &#x3D; ss.accept();<br>        &#x2F;&#x2F;获取输入流对象<br>        InputStream is &#x3D; s.getInputStream();<br>        &#x2F;&#x2F;获取数据<br>        byte[] bys &#x3D; new byte[1024];<br>        int len;&#x2F;&#x2F;用于存储读取到的字节个数<br>        len &#x3D; is.read(bys);<br>        String str &#x3D; new String(bys,0,len);<br>        &#x2F;&#x2F;输出数据<br>        System.out.println(str);<br>        &#x2F;&#x2F;转换数据<br>        String upperStr &#x3D; str.toUpperCase();<br>        &#x2F;&#x2F;获取输出流对象<br>        OutputStream os &#x3D; s.getOutputStream();<br>        &#x2F;&#x2F;返回数据（发出数据）<br>        os.write(upperStr.getBytes());</p>
+<pre><code>    //释放资源
+    s.close();
+    //ss.close();//服务端一般不关闭
+&#125;
+</code></pre>
+<p>}<br>3.5  TCP练习：聊天程序设计<br>&#x2F;&#x2F;创建服务端，并在其中启动读写线程并一直接收客户端连接信息<br>public class ServerDemo {<br>    public static void main(String[] args) {<br>        &#x2F;&#x2F;服务端<br>        try {<br>            ServerSocket serverSocket&#x3D;new ServerSocket(8888);<br>            System.out.println(“等待客户端连接。。。”);<br>            while (true){<br>                Socket accept &#x3D; serverSocket.accept();<br>                &#x2F;&#x2F;开启不断写的线程<br>                new Thread(new WriteThread(accept),”服务端”).start();<br>                &#x2F;&#x2F;开启不断读的线程<br>                new Thread(new ReadThread(accept),”服务端”).start();<br>            }<br>        } catch (IOException e) {<br>            e.printStackTrace();<br>        }<br>    }<br>}</p>
+<p>&#x2F;&#x2F;创建客户端，并开启读写线程<br>public class ClientDemo {<br>    public static void main(String[] args) {<br>        &#x2F;&#x2F;客户端<br>        try {<br>            Socket socket&#x3D;new Socket(“192.168.102.16”,8888);<br>            InputStream is &#x3D; socket.getInputStream();<br>            byte[] b&#x3D;new byte[1024];<br>            new Thread(new WriteThread(socket),”客户端1”).start();<br>            while (true){<br>                int read &#x3D; is.read(b);<br>                System.out.println(new String(b,0,read));<br>            }<br>        } catch (IOException e) {<br>            e.printStackTrace();<br>        }<br>    }<br>}</p>
+<p>&#x2F;&#x2F;创建读线程<br>public class ReadThread implements Runnable{<br>    private Socket socket;<br>    private InputStream is;</p>
+<pre><code>public ReadThread(Socket socket) &#123;
+    this.socket = socket;
+    try &#123;
+        is=this.socket.getInputStream();
+    &#125; catch (IOException e) &#123;
+        e.printStackTrace();
+    &#125;
+&#125;
+  
+@Override
+public void run() &#123;
+    byte[] b=new byte[1024];
+    while (true)&#123;
+        int read = 0;
+        try &#123;
+            read = is.read(b);
+            System.out.println(new String(b,0,read));
+        &#125; catch (IOException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>}</p>
+<p>&#x2F;&#x2F;创建写线程<br>public class WriteThread implements Runnable {<br>    private Socket socket;<br>    private OutputStream os;</p>
+<pre><code>public WriteThread(Socket socket) &#123;
+    this.socket = socket;
+    try &#123;
+        os=socket.getOutputStream();
+    &#125; catch (IOException e) &#123;
+        e.printStackTrace();
+    &#125;
+&#125;
+  
+@Override
+public void run() &#123;
+    //不断的写
+    Scanner scan=new Scanner(System.in);
+    while (true)&#123;
+        String msg=scan.nextLine();
+        msg=Thread.currentThread().getName()+&quot;:&quot;+msg;
+        try  &#123;
+            os.write(msg.getBytes());
+            os.flush();
+        &#125; catch (IOException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>}</p>
+</div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>Leafii</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://mikutown.gitee.io/blog/2020/04/11/Java%E3%81%AE%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" title="Javaの网络编程">https://mikutown.gitee.io/blog/2020/04/11/Java%E3%81%AE%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/blog/2020/04/11/Java%E3%81%AE%E5%8F%8D%E5%B0%84/" rel="prev" title="Javaの反射"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">Javaの反射</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/blog/2020/04/11/Java%E3%81%AE%E5%BA%8F%E5%88%97%E5%8C%96%E6%B5%81/" rel="next" title="Javaの序列化流"><span class="post-nav-text">Javaの序列化流</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>感谢你的评论！</span><br></div><div id="valine-container"></div><script src="https://cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script><script>function initValine() {
+  const valineConfig = {"enable":true,"appId":"fasMRJRMUg1x2MHPljy8weGi-gzGzoHsz","appKey":"wDk1eqgoXJ0eaCoCF00Baith","placeholder":"Just go go","avatar":null,"pageSize":10,"visitor":false,"highlight":true,"recordIP":false,"enableQQ":true,"el":"#valine-container","lang":"zh-cn"}
+  valineConfig.path = window.location.pathname
+  new Valine(valineConfig)
+}
+setTimeout(initValine, 800)</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2022 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> Leafii</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v5.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.3.0</span></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#C4BBE1" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="/blog/js/search/local-search.js" defer></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div id="local-search-result"></div></div></div><script defer src="/blog/js/utils.js"></script><script defer src="/blog/js/hexo-theme-yun.js"></script></body></html>
