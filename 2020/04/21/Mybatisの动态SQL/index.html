@@ -91,9 +91,9 @@ DEBUG [main] - &lt;&#x3D;&#x3D;      Total: 1
 User&#123;id&#x3D;3, username&#x3D;&#39;王五&#39;, birthday&#x3D;Tue Jul 10 00:00:00 CST 2018, sex&#x3D;&#39;1&#39;, address&#x3D;&#39;广州&#39;&#125;</code></pre>
 </li>
 <li><p>提出问题<br>  <strong>若让sex为空值，那么查出的结果将为空，但是符合条件的却有一条</strong><br>  因此现在想让sql语句实现这样的功能：如果传来的参数不为空，那么就执行响应的判断，如果传来的参数为空，则干脆不执行传来的参数部分的语句。因此我们需要在xml文件中的sql语句中添加动态SQL语句</p>
-<h3 id="在sql语句中使用if标签"><a href="#在sql语句中使用if标签" class="headerlink" title="在sql语句中使用if标签"></a>在sql语句中使用if标签</h3></li>
+</li>
 </ul>
-<p>Mapper.xml</p>
+<h3 id="在sql语句中使用if标签"><a href="#在sql语句中使用if标签" class="headerlink" title="在sql语句中使用if标签"></a>在sql语句中使用if标签</h3><p>Mapper.xml</p>
 <pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>selectUserByExample<span class="token punctuation">"</span></span> <span class="token attr-name">resultMap</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>baseResultMap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
    select  id, username ,birthday,sex , address from user where
    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>user.username!=null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -116,7 +116,9 @@ DEBUG [main] - &lt;&#x3D;&#x3D;      Total: 1
 User&#123;id&#x3D;3, username&#x3D;&#39;王五&#39;, birthday&#x3D;Tue Jul 10 00:00:00 CST 2018, sex&#x3D;&#39;1&#39;, address&#x3D;&#39;广州&#39;&#125;</code></pre></li>
 <li>问题：如果username为空，且sex为空，那么语句依然会报错：<pre class="language-none"><code class="language-none">DEBUG [main] - &#x3D;&#x3D;&gt;  Preparing: select id, username ,birthday,sex , address from user where and address&#x3D;? 
 DEBUG [main] - &#x3D;&#x3D;&gt; Parameters: 广州(String)</code></pre>
-怎么解决呢？<h3 id="在动态SQL语句中使用trim"><a href="#在动态SQL语句中使用trim" class="headerlink" title="在动态SQL语句中使用trim"></a>在动态SQL语句中使用trim</h3></li>
+怎么解决呢？</li>
+</ul>
+<h3 id="在动态SQL语句中使用trim"><a href="#在动态SQL语句中使用trim" class="headerlink" title="在动态SQL语句中使用trim"></a>在动态SQL语句中使用trim</h3><ul>
 <li>where 元素只会在至少有一个子元素的条件返回 SQL 子句的情况下才去插入“WHERE”子句。而且，若语句的开头为“AND”或“OR”，where 元素也会将它们去除。</li>
 <li>如果 where 元素没有按正常套路出牌，我们可以通过自定义 trim 元素来定制 where 元素的功能。比如，和 where 元素等价的自定义 trim 元素为：<br>Mapper.xml<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>selectUserByExample<span class="token punctuation">"</span></span> <span class="token attr-name">resultMap</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>baseResultMap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     select  id, username ,birthday,sex , address from user
@@ -133,7 +135,9 @@ DEBUG [main] - &#x3D;&#x3D;&gt; Parameters: 广州(String)</code></pre>
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>trim</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre></li>
-<li>但是trim这个标签用的不是很多 因为有另一个标签更常用而且还包含了trim的所有功能，这个标签就是where标签<h3 id="在动态SQL语句中使用where标签"><a href="#在动态SQL语句中使用where标签" class="headerlink" title="在动态SQL语句中使用where标签"></a>在动态SQL语句中使用where标签</h3><pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>selectUserByExample<span class="token punctuation">"</span></span> <span class="token attr-name">resultMap</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>baseResultMap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<li>但是trim这个标签用的不是很多 因为有另一个标签更常用而且还包含了trim的所有功能，这个标签就是where标签</li>
+</ul>
+<h3 id="在动态SQL语句中使用where标签"><a href="#在动态SQL语句中使用where标签" class="headerlink" title="在动态SQL语句中使用where标签"></a>在动态SQL语句中使用where标签</h3><pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>selectUserByExample<span class="token punctuation">"</span></span> <span class="token attr-name">resultMap</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>baseResultMap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
         select id, username ,birthday,sex , address from user
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>where</span><span class="token punctuation">></span></span>
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>user.username!=null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -147,8 +151,7 @@ DEBUG [main] - &#x3D;&#x3D;&gt; Parameters: 广州(String)</code></pre>
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>where</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span>
-<span class="token comment">&lt;!--where标签在这里使用与&lt;trim prefix="where" prefixOverrides="and | or ">&lt;/trim>标签的功能等价--></span></code></pre></li>
-</ul>
+<span class="token comment">&lt;!--where标签在这里使用与&lt;trim prefix="where" prefixOverrides="and | or ">&lt;/trim>标签的功能等价--></span></code></pre>
 <ol>
 <li>where标签在此时，如果三个语句都为空，就不会在最终的sql语句中出现where，只要有一个不为空，那么where就会显示</li>
 <li>where标签还拥有和trim等价的功能，可以在适当的时间屏蔽and或者or</li>
@@ -163,10 +166,8 @@ DEBUG [main] - &#x3D;&#x3D;&gt; Parameters: 广州(String)</code></pre>
       <span class="token attr-name">open</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>(<span class="token punctuation">"</span></span> <span class="token attr-name">separator</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>,<span class="token punctuation">"</span></span> <span class="token attr-name">close</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
         #&#123;item&#125;
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>foreach</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre></li>
-</ul>
-<p>*foreach的使用，请看<a target="_blank" rel="noopener" href="https://www.leafii.top/archives/mybatisdemofind#%E4%BA%8C%E6%A1%88%E4%BE%8B2%E4%B8%A4%E4%B8%AA%E4%BB%A5%E4%B8%8Asql-%E5%8F%82%E6%95%B0">Mybatis案例（查询）的案例2：</a></p>
-<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token comment">&lt;!--演示List做参数的使用--></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+*foreach的使用，请看<a target="_blank" rel="noopener" href="https://www.leafii.top/archives/mybatisdemofind#%E4%BA%8C%E6%A1%88%E4%BE%8B2%E4%B8%A4%E4%B8%AA%E4%BB%A5%E4%B8%8Asql-%E5%8F%82%E6%95%B0">Mybatis案例（查询）的案例2：</a><pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token comment">&lt;!--演示List做参数的使用--></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>selectByAddrs<span class="token punctuation">"</span></span> <span class="token attr-name">resultMap</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>userMap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     select * from user where address in
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>foreach</span> <span class="token attr-name">collection</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>addresses<span class="token punctuation">"</span></span> <span class="token attr-name">separator</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>,<span class="token punctuation">"</span></span> <span class="token attr-name">open</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>(<span class="token punctuation">"</span></span> <span class="token attr-name">close</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>)<span class="token punctuation">"</span></span> <span class="token attr-name">item</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>addr<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -181,7 +182,8 @@ DEBUG [main] - &#x3D;&#x3D;&gt; Parameters: 广州(String)</code></pre>
         #&#123;addr&#125;
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>foreach</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
-<p><strong>foreach 元素的功能非常强大，它允许你指定一个集合，声明可以在元素体内使用的集合项（item）和索引（index）变量。它也允许你指定开头与结尾的字符串以及在迭代结果之间放置分隔符。这个元素是很智能的，因此它不会偶然地附加多余的分隔符。</strong><br><strong>注意:你可以将任何可迭代对象（如 List、Set 等）、Map 对象或者数组对象传递给 foreach 作为集合参数。当使用可迭代对象或者数组时，index 是当前迭代的次数，item 的值是本次迭代获取的元素。当使用 Map 对象（或者 Map.Entry 对象的集合）时，index 是键，item 是值。</strong></p>
+<strong>foreach 元素的功能非常强大，它允许你指定一个集合，声明可以在元素体内使用的集合项（item）和索引（index）变量。它也允许你指定开头与结尾的字符串以及在迭代结果之间放置分隔符。这个元素是很智能的，因此它不会偶然地附加多余的分隔符。</strong><br><strong>注意:你可以将任何可迭代对象（如 List、Set 等）、Map 对象或者数组对象传递给 foreach 作为集合参数。当使用可迭代对象或者数组时，index 是当前迭代的次数，item 的值是本次迭代获取的元素。当使用 Map 对象（或者 Map.Entry 对象的集合）时，index 是键，item 是值。</strong></li>
+</ul>
 <h3 id="choose-when-otherwise"><a href="#choose-when-otherwise" class="headerlink" title="choose, when, otherwise"></a>choose, when, otherwise</h3><p>有些时候，我们不想用到所有的条件语句，而只想从中择其一二。针对这种情况，MyBatis 提供了 choose 元素，它有点像 Java 中的 switch 语句。</p>
 <p>还是上面的例子，但是这次变为提供了”title”就按”title”查找，提供了”author”就按”author”查找，若两者都没有提供，就返回所有符合条件的BLOG（实际情况可能是由管理员按一定策略选出BLOG列表，而不是返回大量无意义的随机结果）。</p>
 <pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>findActiveBlogLike<span class="token punctuation">"</span></span>

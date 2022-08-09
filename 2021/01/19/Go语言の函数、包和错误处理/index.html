@@ -81,7 +81,7 @@ document.addEventListener("pjax:success", initScrollReveal);
 </ol>
 </li>
 </ul>
-<h2 id="函数的基本概念"><a href="#函数的基本概念" class="headerlink" title="函数的基本概念"></a>函数的基本概念</h2><p>​    为完成某一功能的程序指令（语句）的集合，称为函数。</p>
+<h2 id="函数的基本概念"><a href="#函数的基本概念" class="headerlink" title="函数的基本概念"></a>函数的基本概念</h2><p>​	为完成某一功能的程序指令（语句）的集合，称为函数。</p>
 <p>在Go中，函数分为：自定义函数、系统函数（查看Go编程手册）</p>
 <h2 id="函数的基本语法"><a href="#函数的基本语法" class="headerlink" title="函数的基本语法"></a>函数的基本语法</h2><pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> 函数名 <span class="token punctuation">(</span>形参列表<span class="token punctuation">)</span> <span class="token punctuation">(</span>返回值列表<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
   执行语句<span class="token operator">...</span>
@@ -125,7 +125,7 @@ document.addEventListener("pjax:success", initScrollReveal);
 </ol>
 <h2 id="包的原理图"><a href="#包的原理图" class="headerlink" title="包的原理图"></a>包的原理图</h2><p>包的本质实际上就是创建不同的文件夹，来存放程序文件。</p>
 <p><img src="http://cdn.leafii.top/img/20220520151521.png" loading="lazy"></p>
-<h2 id="包的基本概念"><a href="#包的基本概念" class="headerlink" title="包的基本概念"></a>包的基本概念</h2><p>​    说明：go的每一个文件都是属于一个包的，也就是说go是以包的形式来管理文件和项目目录结构的</p>
+<h2 id="包的基本概念"><a href="#包的基本概念" class="headerlink" title="包的基本概念"></a>包的基本概念</h2><p>​	说明：go的每一个文件都是属于一个包的，也就是说go是以包的形式来管理文件和项目目录结构的</p>
 <h2 id="包的三大作用"><a href="#包的三大作用" class="headerlink" title="包的三大作用"></a>包的三大作用</h2><ul>
 <li><p>区分相同名字的函数、变量等标识符</p>
 </li>
@@ -648,7 +648,7 @@ sum&#x3D; 3</code></pre>
 
 <pre class="language-none"><code class="language-none">a&#x3D;20,b&#x3D;10 </code></pre>
 
-<h2 id="init函数"><a href="#init函数" class="headerlink" title="init函数"></a>init函数</h2><h3 id="基本介绍-1"><a href="#基本介绍-1" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>​    每一个源文件都可以包含一个init函数，该函数会在main函数执行前，被Go运行框架调用，也就是说init会在main函数前被调用。</p>
+<h2 id="init函数"><a href="#init函数" class="headerlink" title="init函数"></a>init函数</h2><h3 id="基本介绍-1"><a href="#基本介绍-1" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>​	每一个源文件都可以包含一个init函数，该函数会在main函数执行前，被Go运行框架调用，也就是说init会在main函数前被调用。</p>
 <h3 id="案例说明："><a href="#案例说明：" class="headerlink" title="案例说明："></a>案例说明：</h3><pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
 <span class="token keyword">import</span> <span class="token punctuation">(</span>
   <span class="token string">"fmt"</span>
@@ -679,8 +679,8 @@ main()...</code></pre>
 <li>细节说明：面试题：案例如果main.go和utils.go都含有变量定义，init函数时，执行的流程又是什么样呢？</li>
 </ol>
 <p><img src="http://cdn.leafii.top/img/20220520152039.png" loading="lazy"></p>
-<h2 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>​    Go支持匿名函数，匿名函数就是没有名字的函数，如果我们某个函数只是希望使用一次，可以考虑使用匿名函数，匿名函数也可以实现多次调用。</p>
-<h3 id="匿名函数使用方式1"><a href="#匿名函数使用方式1" class="headerlink" title="匿名函数使用方式1"></a>匿名函数使用方式1</h3><p>​    在定义匿名函数时就直接调用，这种方式匿名函数只能调用一次。【案例演示】</p>
+<h2 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>​	Go支持匿名函数，匿名函数就是没有名字的函数，如果我们某个函数只是希望使用一次，可以考虑使用匿名函数，匿名函数也可以实现多次调用。</p>
+<h3 id="匿名函数使用方式1"><a href="#匿名函数使用方式1" class="headerlink" title="匿名函数使用方式1"></a>匿名函数使用方式1</h3><p>​	在定义匿名函数时就直接调用，这种方式匿名函数只能调用一次。【案例演示】</p>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   <span class="token comment">//在定义匿名函数时就直接调用，这种方式匿名函数只能调用一次</span>
   
@@ -691,7 +691,7 @@ main()...</code></pre>
   fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"res1="</span><span class="token punctuation">,</span> res1<span class="token punctuation">)</span>
 <span class="token punctuation">&#125;</span></code></pre>
 
-<h3 id="匿名函数使用方式2"><a href="#匿名函数使用方式2" class="headerlink" title="匿名函数使用方式2"></a>匿名函数使用方式2</h3><p>​    将<strong>匿名函数赋给一个变量</strong>（函数变量），再通过该<strong>变量来调用匿名函数</strong>【案例演示】</p>
+<h3 id="匿名函数使用方式2"><a href="#匿名函数使用方式2" class="headerlink" title="匿名函数使用方式2"></a>匿名函数使用方式2</h3><p>​	将<strong>匿名函数赋给一个变量</strong>（函数变量），再通过该<strong>变量来调用匿名函数</strong>【案例演示】</p>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token comment">//将匿名函数func (n1 int, n2 int) int 赋给a变量</span>
 <span class="token comment">//则a的数据类型就是函数类型，此时，我们可以通过a完成调用</span>
 a <span class="token operator">:=</span> <span class="token keyword">func</span> <span class="token punctuation">(</span>n1 <span class="token builtin">int</span><span class="token punctuation">,</span> n2 <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">&#123;</span>
@@ -702,7 +702,7 @@ fmt<span class="token punctuation">.</span><span class="token function">Println<
 res3 <span class="token operator">:=</span> <span class="token function">a</span><span class="token punctuation">(</span><span class="token number">90</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">)</span>
 fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"res3="</span><span class="token punctuation">,</span> res3<span class="token punctuation">)</span></code></pre>
 
-<h3 id="全局匿名函数"><a href="#全局匿名函数" class="headerlink" title="全局匿名函数"></a>全局匿名函数</h3><p>​    如果将匿名函数赋给一个全局变量，那么这个匿名函数，就成为一个全局匿名函数，可以在程序有效。</p>
+<h3 id="全局匿名函数"><a href="#全局匿名函数" class="headerlink" title="全局匿名函数"></a>全局匿名函数</h3><p>​	如果将匿名函数赋给一个全局变量，那么这个匿名函数，就成为一个全局匿名函数，可以在程序有效。</p>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> <span class="token punctuation">(</span>
   <span class="token comment">//func1就是一个全局匿名函数</span>
   Fun1 <span class="token operator">=</span> <span class="token keyword">func</span> <span class="token punctuation">(</span>n1 <span class="token builtin">int</span><span class="token punctuation">,</span> n2 <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">&#123;</span>
@@ -714,7 +714,7 @@ fmt<span class="token punctuation">.</span><span class="token function">Println<
 res4 <span class="token operator">:=</span> <span class="token function">Fun1</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">)</span>
 fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"res4="</span><span class="token punctuation">,</span> res4<span class="token punctuation">)</span></code></pre>
 
-<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><p>​    基本介绍：闭包就是<strong>一个函数</strong>和<strong>其相关的引用环境</strong>组合的一个整体（实体）</p>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><p>​	基本介绍：闭包就是<strong>一个函数</strong>和<strong>其相关的引用环境</strong>组合的一个整体（实体）</p>
 <h3 id="案例演示"><a href="#案例演示" class="headerlink" title="案例演示"></a>案例演示</h3><pre class="language-go" data-language="go"><code class="language-go"><span class="token comment">//累加器</span>
 <span class="token keyword">func</span> <span class="token function">AddUpper</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">func</span> <span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">&#123;</span>
   <span class="token keyword">var</span> n <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">10</span>
@@ -815,7 +815,7 @@ fmt<span class="token punctuation">.</span><span class="token function">Println<
 <li>返回的匿名函数和 makeSuffix (suffix string) 的 suffix 变量 组合成一个闭包,因为 返回的函数引用 到 suffix 这个变量</li>
 <li>我们体会一下闭包的好处，如果使用传统的方法，也可以轻松实现这个功能，但是传统方法需要每 次都传入 后缀名，比如 .jpg ,而闭包因为可以保留上次引用的某个值，所以我们传入一次就可以反复 使用。可以仔细的体会一把!</li>
 </ol>
-<h2 id="函数的defer"><a href="#函数的defer" class="headerlink" title="函数的defer"></a>函数的defer</h2><h3 id="为什么需要defer"><a href="#为什么需要defer" class="headerlink" title="为什么需要defer"></a>为什么需要defer</h3><p>​    在函数中，程序员经常需要创建资源（比如：数据库连接、文件句柄、锁等），为了在<strong>函数执行完毕后，及时的释放资源</strong>，Go的设计者提供defer（延时机制）。</p>
+<h2 id="函数的defer"><a href="#函数的defer" class="headerlink" title="函数的defer"></a>函数的defer</h2><h3 id="为什么需要defer"><a href="#为什么需要defer" class="headerlink" title="为什么需要defer"></a>为什么需要defer</h3><p>​	在函数中，程序员经常需要创建资源（比如：数据库连接、文件句柄、锁等），为了在<strong>函数执行完毕后，及时的释放资源</strong>，Go的设计者提供defer（延时机制）。</p>
 <h3 id="快速入门案例-1"><a href="#快速入门案例-1" class="headerlink" title="快速入门案例"></a>快速入门案例</h3><pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">sum</span><span class="token punctuation">(</span>n1 <span class="token builtin">int</span><span class="token punctuation">,</span> n2 <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">&#123;</span>
   <span class="token comment">//当执行到defer时，暂时不执行，会将defer后面的语句压入到独立的栈（defer栈）</span>
   <span class="token comment">//当函数执行完毕后，再从defer栈，按照先入后出的方式出栈，执行</span>
@@ -881,7 +881,7 @@ res&#x3D; 30</code></pre>
 <li>当函数完毕后，系统会依次从defer栈中，取出语句，关闭资源</li>
 <li>这种机制，非常简洁，程序员不用再为什么时候关闭资源而烦心。</li>
 </ol>
-<h2 id="函数参数传递方式"><a href="#函数参数传递方式" class="headerlink" title="函数参数传递方式"></a>函数参数传递方式</h2><h3 id="基本介绍-2"><a href="#基本介绍-2" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>​    我们在讲解函数注意事项和使用细节时，已经讲过值类型和引用类型了，这里我们再系统总结一 下，因为这是重难点，值类型参数默认就是值传递，而引用类型参数默认就是引用传递。</p>
+<h2 id="函数参数传递方式"><a href="#函数参数传递方式" class="headerlink" title="函数参数传递方式"></a>函数参数传递方式</h2><h3 id="基本介绍-2"><a href="#基本介绍-2" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>​	我们在讲解函数注意事项和使用细节时，已经讲过值类型和引用类型了，这里我们再系统总结一 下，因为这是重难点，值类型参数默认就是值传递，而引用类型参数默认就是引用传递。</p>
 <h3 id="两种传递方式"><a href="#两种传递方式" class="headerlink" title="两种传递方式"></a>两种传递方式</h3><ol>
 <li>值传递</li>
 <li>引用传递</li>
@@ -1053,7 +1053,7 @@ Name <span class="token operator">:=</span> <span class="token string">"tom"</sp
 <ol start="3">
 <li>编写函数，对给定的一个二位数组（3 * 3）转置，这个题将数组的时候再完成8</li>
 </ol>
-<h2 id="字符串常用的系统函数"><a href="#字符串常用的系统函数" class="headerlink" title="字符串常用的系统函数"></a>字符串常用的系统函数</h2><p>​    说明：字符串在我们程序开发中，使用的是非常多的，常用的函数需要同学们掌握[带看手册或者 官方编程指南]</p>
+<h2 id="字符串常用的系统函数"><a href="#字符串常用的系统函数" class="headerlink" title="字符串常用的系统函数"></a>字符串常用的系统函数</h2><p>​	说明：字符串在我们程序开发中，使用的是非常多的，常用的函数需要同学们掌握[带看手册或者 官方编程指南]</p>
 <ol>
 <li>统计字符串的长度，按字节 len(str)</li>
 </ol>
@@ -1191,7 +1191,7 @@ fmt<span class="token punctuation">.</span><span class="token function">Printf</
 <ol start="21">
 <li>判断字符串是否以指定的字符串结束：<code>strings.HasSuffix(&quot;NLT_abc.jpg&quot;,&quot;abc&quot;) //false</code></li>
 </ol>
-<h2 id="时间和日期相关函数"><a href="#时间和日期相关函数" class="headerlink" title="时间和日期相关函数"></a>时间和日期相关函数</h2><h3 id="基本的介绍"><a href="#基本的介绍" class="headerlink" title="基本的介绍"></a>基本的介绍</h3><p>​    说明：在编程中，程序员会经常用到日期相关的函数，比如：统计某段代码执行花费的时间等等。</p>
+<h2 id="时间和日期相关函数"><a href="#时间和日期相关函数" class="headerlink" title="时间和日期相关函数"></a>时间和日期相关函数</h2><h3 id="基本的介绍"><a href="#基本的介绍" class="headerlink" title="基本的介绍"></a>基本的介绍</h3><p>​	说明：在编程中，程序员会经常用到日期相关的函数，比如：统计某段代码执行花费的时间等等。</p>
 <ol>
 <li>时间和日期相关函数，需要导入time包</li>
 </ol>
@@ -1239,8 +1239,8 @@ fmt<span class="token punctuation">.</span><span class="token function">Printf</
 fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
 <p>对上面代码的说明：</p>
-<p>“2006&#x2F;01&#x2F;02 15:04:05”    这个字符串的各个数字是固定的，必须是这样写。</p>
-<p>“2006&#x2F;01&#x2F;02 15:05:05”    这个字符串各个数字可以自由的组合，这样可以按程序需求来返回时间和日期</p>
+<p>“2006&#x2F;01&#x2F;02 15:04:05”	这个字符串的各个数字是固定的，必须是这样写。</p>
+<p>“2006&#x2F;01&#x2F;02 15:05:05”	这个字符串各个数字可以自由的组合，这样可以按程序需求来返回时间和日期</p>
 <ol start="5">
 <li>时间的常量</li>
 </ol>
@@ -1253,8 +1253,8 @@ fmt<span class="token punctuation">.</span><span class="token function">Println<
   Hour								<span class="token operator">=</span> <span class="token number">60</span> <span class="token operator">*</span> Minute <span class="token comment">//小时</span>
 <span class="token punctuation">)</span></code></pre>
 
-<p>​    常量的作用：<strong>在程序中可用于获取指定时间单位的时间，比如想得到100毫秒</strong></p>
-<p>​    100 * time.Millisecond</p>
+<p>​	常量的作用：<strong>在程序中可用于获取指定时间单位的时间，比如想得到100毫秒</strong></p>
+<p>​	100 * time.Millisecond</p>
 <ol start="6">
 <li>结合Sleep来使用一下时间常量</li>
 </ol>
@@ -1305,7 +1305,7 @@ unix时间戳<span class="token operator">=</span><span class="token number">152
   fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"执行test03()耗费时间为%v秒\n"</span><span class="token punctuation">,</span> end<span class="token operator">-</span>start<span class="token punctuation">)</span>
 <span class="token punctuation">&#125;</span></code></pre>
 
-<h2 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h2><h3 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h3><p>​    Golang设计者为了编程方便，提供了一些函数，这些函数可以直接使用，我们称为Go的内置函数。文档：<a target="_blank" rel="noopener" href="https://studygolang.com/pkgdoc">https://studygolang.com/pkgdoc</a> -&gt; builtin</p>
+<h2 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h2><h3 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h3><p>​	Golang设计者为了编程方便，提供了一些函数，这些函数可以直接使用，我们称为Go的内置函数。文档：<a target="_blank" rel="noopener" href="https://studygolang.com/pkgdoc">https://studygolang.com/pkgdoc</a> -&gt; builtin</p>
 <ol>
 <li>len:用来求长度，比如string、array、slice、map、channel</li>
 <li>new:用来分配内存，主要用来分配值类型，比如int、float32,struct…返回的是指针</li>

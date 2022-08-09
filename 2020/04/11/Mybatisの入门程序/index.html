@@ -86,10 +86,8 @@ INSERT INTO &#96;user&#96; VALUES (&#39;5&#39;, &#39;王八&#39;, &#39;2018-07-1
      <span class="token comment">// ......</span>
        <span class="token comment">// ......</span>
 <span class="token punctuation">&#125;</span>
-</code></pre></li>
-</ol>
-<p>2.编写JDBC代码</p>
-<pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">JdbcTest</span> <span class="token punctuation">&#123;</span>
+</code></pre>
+2.编写JDBC代码<pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">JdbcTest</span> <span class="token punctuation">&#123;</span>
     <span class="token annotation punctuation">@Test</span>
     <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
         <span class="token class-name">ResultSet</span> resultSet <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
@@ -144,7 +142,8 @@ INSERT INTO &#96;user&#96; VALUES (&#39;5&#39;, &#39;王八&#39;, &#39;2018-07-1
 
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span>
-</code></pre>
+</code></pre></li>
+</ol>
 <h4 id="JDBC问题分析："><a href="#JDBC问题分析：" class="headerlink" title="JDBC问题分析："></a>JDBC问题分析：</h4><p>上边使用JDBC的原始方法（未经封装）实现了查询数据库表记录的操作。</p>
 <p>1、数据库链接创建、释放频繁造成系统资源浪费从而影响系统性能，如果使用数据库链接池可解决此问题。</p>
 <p>2、Sql语句在代码中硬编码，造成代码不易维护，实际应用sql变化的可能较大，sql变动需要改变Java代码。</p>

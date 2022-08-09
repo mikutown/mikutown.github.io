@@ -116,7 +116,7 @@ fmt<span class="token punctuation">.</span><span class="token function">Println<
     
 <span class="token punctuation">&#125;</span></code></pre>
 
-<p>​    如何一次性声明多个全局变量【在go中函数外部定义变量就是全局变量】：</p>
+<p>​	如何一次性声明多个全局变量【在go中函数外部定义变量就是全局变量】：</p>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token comment">//定义全局变量</span>
 <span class="token keyword">var</span> n1 <span class="token operator">=</span> <span class="token number">100</span>
 <span class="token keyword">var</span> n2 <span class="token operator">=</span> <span class="token number">200</span>
@@ -196,7 +196,7 @@ num <span class="token operator">=</span> <span class="token number">780</span> 
 <li>每一种数据都定义了明确的数据类型，在内存中分配了不同大小的内存空间。</li>
 </ul>
 <p><img src="http://cdn.leafii.top/img/20220520153407.png" loading="lazy"></p>
-<h2 id="整数类型"><a href="#整数类型" class="headerlink" title="整数类型"></a>整数类型</h2><h3 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>​    简单地说，就是用于存放整数值的，比如0，-1，2345等等。</p>
+<h2 id="整数类型"><a href="#整数类型" class="headerlink" title="整数类型"></a>整数类型</h2><h3 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>​	简单地说，就是用于存放整数值的，比如0，-1，2345等等。</p>
 <h3 id="案例演示"><a href="#案例演示" class="headerlink" title="案例演示"></a>案例演示</h3><pre class="language-go" data-language="go"><code class="language-go"><span class="token comment">//演示Golang中整数类型的使用</span>
 <span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     <span class="token keyword">var</span> i <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">1</span>
@@ -822,7 +822,7 @@ f1 type float64 f1&#x3D;123.456</code></pre>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> num5 <span class="token builtin">int</span> <span class="token number">32</span>
 num5 <span class="token operator">=</span> <span class="token function">int32</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span></code></pre></li>
 </ul>
-<h3 id="string转基本数据类型的注意事项"><a href="#string转基本数据类型的注意事项" class="headerlink" title="string转基本数据类型的注意事项"></a>string转基本数据类型的注意事项</h3><p>​    在将string类型转成基本数据类型时，要确保string类型能够转成有效的数据，比如我们可以把“123”，转成一个整数，但是我们不能将”hello”转成一个整数，如果这样做，Golang直接将其转成0，其他类型也是一样的道理.float–&gt;0      bool –&gt; false</p>
+<h3 id="string转基本数据类型的注意事项"><a href="#string转基本数据类型的注意事项" class="headerlink" title="string转基本数据类型的注意事项"></a>string转基本数据类型的注意事项</h3><p>​	在将string类型转成基本数据类型时，要确保string类型能够转成有效的数据，比如我们可以把“123”，转成一个整数，但是我们不能将”hello”转成一个整数，如果这样做，Golang直接将其转成0，其他类型也是一样的道理.float–&gt;0      bool –&gt; false</p>
 <ul>
 <li>案例说明：</li>
 </ul>

@@ -49,8 +49,8 @@ document.addEventListener("pjax:success", initScrollReveal);
 </ol>
 <span id="more"></span>
 
-<h2 id="顺序控制"><a href="#顺序控制" class="headerlink" title="顺序控制"></a>顺序控制</h2><p>​    程序从上到下逐行执行，中间没有任何判断和跳转。</p>
-<p>​    一个案例说明，必须下面的代码中，没有判断，也没有跳转，因此程序按照默认的流程执行，即顺序控制。</p>
+<h2 id="顺序控制"><a href="#顺序控制" class="headerlink" title="顺序控制"></a>顺序控制</h2><p>​	程序从上到下逐行执行，中间没有任何判断和跳转。</p>
+<p>​	一个案例说明，必须下面的代码中，没有判断，也没有跳转，因此程序按照默认的流程执行，即顺序控制。</p>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
 <span class="token keyword">import</span> <span class="token punctuation">(</span>
 	<span class="token string">"fmt"</span>
@@ -70,7 +70,7 @@ document.addEventListener("pjax:success", initScrollReveal);
 134.2对应的摄氏温度&#x3D; 19 </code></pre>
 
 <h3 id="程序控制的流程图"><a href="#程序控制的流程图" class="headerlink" title="程序控制的流程图"></a>程序控制的流程图</h3><p><img src="http://cdn.leafii.top/img/20220520152341.png" loading="lazy"></p>
-<h3 id="顺序控制举例和注意事项"><a href="#顺序控制举例和注意事项" class="headerlink" title="顺序控制举例和注意事项"></a>顺序控制举例和注意事项</h3><p>​    Golang中定义变量时采用合法的前向引用。如：</p>
+<h3 id="顺序控制举例和注意事项"><a href="#顺序控制举例和注意事项" class="headerlink" title="顺序控制举例和注意事项"></a>顺序控制举例和注意事项</h3><p>​	Golang中定义变量时采用合法的前向引用。如：</p>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   <span class="token keyword">var</span> num1 <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">10</span> <span class="token comment">//声明了num1</span>
   <span class="token keyword">var</span> num2 <span class="token builtin">int</span> <span class="token operator">=</span> num1 <span class="token operator">+</span> <span class="token number">20</span> <span class="token comment">//使用num1</span>
@@ -306,10 +306,10 @@ document.addEventListener("pjax:success", initScrollReveal);
 <li>多分支的快速入门案例</li>
 </ul>
 <p>岳小鹏参加 Golang 考试，他和父亲岳不群达成承诺: 如果:</p>
-<p>​    成绩为 100 分时，奖励一辆 BMW; </p>
-<p>​    成绩为(80，99]时，奖励一台 iphone7plus; </p>
-<p>​    当成绩为[60,80]时，奖励一个 iPad; </p>
-<p>​    其它时，什么奖励也没有。 请从键盘输入岳小鹏的期末成绩，并加以判断</p>
+<p>​	成绩为 100 分时，奖励一辆 BMW; </p>
+<p>​	成绩为(80，99]时，奖励一台 iphone7plus; </p>
+<p>​	当成绩为[60,80]时，奖励一个 iPad; </p>
+<p>​	其它时，什么奖励也没有。 请从键盘输入岳小鹏的期末成绩，并加以判断</p>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   <span class="token keyword">var</span> score <span class="token builtin">int</span>
   fmt<span class="token punctuation">.</span><span class="token function">Print</span><span class="token punctuation">(</span><span class="token string">"请输入成绩:"</span><span class="token punctuation">)</span>
@@ -345,7 +345,7 @@ document.addEventListener("pjax:success", initScrollReveal);
 <span class="token comment">//输出结果是b</span>
 <span class="token comment">//如果写成b=flase;能编译通过吗？如果能，结果是？（不能通过，if的条件表达式不是赋值语句)</span></code></pre>
 
-<p>​    案例演示3</p>
+<p>​	案例演示3</p>
 <p><img src="http://cdn.leafii.top/img/20220520152442.png" loading="lazy"></p>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
 <span class="token keyword">import</span> <span class="token punctuation">(</span>
@@ -379,7 +379,7 @@ x1&#x3D;-0.5857864376269049 x2&#x3D;-3.414213562373095%
 x1&#x3D;-0.5857864376269049 x2&#x3D;-3.414213562373095 
 ➜  main </code></pre>
 
-<p>​    案例演示4</p>
+<p>​	案例演示4</p>
 <p><img src="http://cdn.leafii.top/img/20220520152501.png" loading="lazy"></p>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> height <span class="token builtin">int32</span>
 <span class="token keyword">var</span> money <span class="token builtin">float32</span>
@@ -488,12 +488,12 @@ out......
 <li><p>示例代码2</p>
 <p>出票系统：根据淡旺季的月份和年龄，打印票价</p>
 <p>4到10是旺季：</p>
-<p>​    成人（18-60）：60</p>
-<p>​    儿童（&lt;18):半价 30</p>
-<p>​    老人（&gt;60): 1&#x2F;3 20</p>
+<p>​	成人（18-60）：60</p>
+<p>​	儿童（&lt;18):半价 30</p>
+<p>​	老人（&gt;60): 1&#x2F;3 20</p>
 <p>淡季: </p>
-<p>​    成人:40</p>
-<p>​    其他:20</p>
+<p>​	成人:40</p>
+<p>​	其他:20</p>
 </li>
 </ul>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> month <span class="token builtin">int</span>
@@ -972,7 +972,7 @@ str <span class="token operator">=</span> <span class="token string">"abc~ok"</s
 <li><p>上面代码的细节讨论</p>
 <p>如果我们的字符串含有中文，那么传统的遍历字符串方式就是错误的，会出现乱码。原因是传统的对字符串的遍历是按照<strong>字节来遍历</strong>，而一个汉字在utf8编码是对应3个字节。</p>
 <p>如何解决？</p>
-<p>​    需要要将 str 转成 []rune切片。</p>
+<p>​	需要要将 str 转成 []rune切片。</p>
 </li>
 </ul>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> str <span class="token builtin">string</span> <span class="token operator">=</span> <span class="token string">"hello,world!北京"</span>
@@ -981,7 +981,7 @@ str2 <span class="token operator">:=</span> <span class="token punctuation">[</s
   fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"%c \n"</span><span class="token punctuation">,</span> str2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token comment">//使用到下标</span>
 <span class="token punctuation">&#125;</span></code></pre>
 
-<p>​    对应for-range遍历方式而言，是按照字符方式遍历。因此如果有字符串有中文，也是ok的</p>
+<p>​	对应for-range遍历方式而言，是按照字符方式遍历。因此如果有字符串有中文，也是ok的</p>
 <pre class="language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> str <span class="token builtin">string</span> <span class="token operator">=</span> <span class="token string">"abc~ok上海"</span>
 <span class="token keyword">for</span> index<span class="token punctuation">,</span> val <span class="token operator">:=</span> <span class="token keyword">range</span> str <span class="token punctuation">&#123;</span>
   fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"index=%d, val=%c \n"</span><span class="token punctuation">,</span> index<span class="token punctuation">,</span> val<span class="token punctuation">)</span>
@@ -1057,7 +1057,7 @@ sum &#x3D; 594
 7 + 1 &#x3D; 8 
 8 + 0 &#x3D; 8 </code></pre>
 
-<h2 id="while和do-while的实现"><a href="#while和do-while的实现" class="headerlink" title="while和do..while的实现"></a>while和do..while的实现</h2><p>​    Go语言没有while和do…while语法，这一点需要注意，如果我们需要使用类似的其他语言（java&#x2F;c的while和do…while)，<strong>可以通过for循环来实现其使用效果。</strong></p>
+<h2 id="while和do-while的实现"><a href="#while和do-while的实现" class="headerlink" title="while和do..while的实现"></a>while和do..while的实现</h2><p>​	Go语言没有while和do…while语法，这一点需要注意，如果我们需要使用类似的其他语言（java&#x2F;c的while和do…while)，<strong>可以通过for循环来实现其使用效果。</strong></p>
 <h3 id="while循环的实现"><a href="#while循环的实现" class="headerlink" title="while循环的实现"></a>while循环的实现</h3><pre class="language-go" data-language="go"><code class="language-go">循环变量初始化
 <span class="token keyword">for</span> <span class="token punctuation">&#123;</span>
   <span class="token keyword">if</span> 循环条件表达式 <span class="token punctuation">&#123;</span>
@@ -1347,7 +1347,7 @@ fmt<span class="token punctuation">.</span><span class="token function">Println<
 ➜  main go run .&#x2F;main.go
 生成99共进行了 25 次</code></pre>
 
-<h3 id="基本介绍-3"><a href="#基本介绍-3" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>​    break语句用于终止某个语句块的执行，用于中断当前for循环或跳出switch语句。</p>
+<h3 id="基本介绍-3"><a href="#基本介绍-3" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>​	break语句用于终止某个语句块的执行，用于中断当前for循环或跳出switch语句。</p>
 <h3 id="基本语法-1"><a href="#基本语法-1" class="headerlink" title="基本语法"></a>基本语法</h3><pre class="language-go" data-language="go"><code class="language-go"><span class="token punctuation">&#123;</span>
   <span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token punctuation">.</span>
   <span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token punctuation">.</span>
