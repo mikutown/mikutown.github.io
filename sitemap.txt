@@ -69,9 +69,9 @@ categories/index.html
 links/index.html
 tags/index.html
 https://leafii.top/
+tags/Git/
 tags/Linux/
 tags/MySQL/
-tags/Git/
 tags/Go/
 tags/javaWeb/
 tags/Java/
