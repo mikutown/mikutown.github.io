@@ -699,14 +699,14 @@
   </url>
   
   <url>
-    <loc>tags/Mybatis/</loc>
+    <loc>tags/Maven/</loc>
     <lastmod>2022-09-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>tags/Maven/</loc>
+    <loc>tags/Mybatis/</loc>
     <lastmod>2022-09-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
