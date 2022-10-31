@@ -1,5 +1,5 @@
-2022/09/20/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0_PPO%E7%AE%97%E6%B3%95(Proximal%20Policy%20Optimization)/
 2022/09/30/MAPPO%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/
+2022/09/20/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0_PPO%E7%AE%97%E6%B3%95(Proximal%20Policy%20Optimization)/
 2022/08/09/%E7%94%A8SHAP%E8%A7%A3%E9%87%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/
 2022/08/09/Shapley-Values/
 2022/04/24/python%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/
@@ -77,11 +77,10 @@ tags/Git/
 tags/Go/
 tags/javaWeb/
 tags/Java/
-tags/python/
-tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/
 tags/MarkDown/
 tags/Maven/
 tags/Mybatis/
+tags/python/
 tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/
 tags/Spring/
 tags/leetcode/
@@ -93,3 +92,4 @@ tags/nodejs/
 tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/
 tags/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%9F%BA%E7%A1%80/
 tags/Hexo/
+tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/
