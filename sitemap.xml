@@ -700,6 +700,13 @@
   </url>
   
   <url>
+    <loc>tags/Git/</loc>
+    <lastmod>2022-12-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>tags/Linux/</loc>
     <lastmod>2022-12-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -708,13 +715,6 @@
   
   <url>
     <loc>tags/MySQL/</loc>
-    <lastmod>2022-12-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>tags/Git/</loc>
     <lastmod>2022-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -798,14 +798,14 @@
   </url>
   
   <url>
-    <loc>tags/vim/</loc>
+    <loc>tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2022-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>tags/vim/</loc>
     <lastmod>2022-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
