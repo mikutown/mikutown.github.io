@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-01-10T07:19:49.598Z</updated>
+  <updated>2023-01-11T07:39:19.425Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode:19.删除链表的倒数第N个结点</title>
+    <link href="2023/01/11/leetcode-19-%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E7%BB%93%E7%82%B9/"/>
+    <id>2023/01/11/leetcode-19-%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E7%BB%93%E7%82%B9/</id>
+    <published>2023-01-11T07:20:46.000Z</published>
+    <updated>2023-01-11T07:39:19.425Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个链表，删除链表的倒数第 <code>n</code> 个结点，并且返回链表的头结点。</p><span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/remove_ex1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1,2,3,4,5], n &#x3D; 2输出：[1,2,3,5]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1], n &#x3D; 1输出：[]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1,2], n &#x3D; 1输出：[1]</code></pre><p><strong>提示：</strong></p><ul><li>链表中结点的数目为 <code>sz</code></li><li><code>1 &lt;= sz &lt;= 30</code></li><li><code>0 &lt;= Node.val &lt;= 100</code></li><li><code>1 &lt;= n &lt;= sz</code></li></ul><p><strong>进阶：</strong>你能尝试使用一趟扫描实现吗？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>双指针遍历一次链表，思路如下：</li></ol><p>设置两个指针p，q，分别初始为头结点，然后p指针向后移动n次，接着p和q指针同时移动直到p指针指向链表的最后一个元素，此时q指针指向的是被删除元素的前一个元素，因此将需要被删除的元素进行删除，最终返回头结点即可，需要注意<strong>删除头结点的情况</strong>。实现代码如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode() : val(0), next(nullptr) &#123;&#125; *     ListNode(int x) : val(x), next(nullptr) &#123;&#125; *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    ListNode* removeNthFromEnd(ListNode* head, int n) &#123;        ListNode *q &#x3D; head, *p &#x3D; head, *t &#x3D; head -&gt; next;        if(head &#x3D;&#x3D; NULL)        &#123;            return head;        &#125;        while(n-- &amp;&amp; p -&gt; next !&#x3D; NULL) &#x2F;&#x2F;p指针向后移动n位        &#123;            p &#x3D; p -&gt; next;        &#125;        if(n !&#x3D; -1) &#x2F;&#x2F;删除头结点        &#123;            t &#x3D; head;            head &#x3D; head -&gt; next;            delete t;            return head;        &#125;        while(p -&gt; next !&#x3D; NULL) &#x2F;&#x2F;此时p和q指针一起向后移动，直到p指向最后一个结点        &#123;            q &#x3D; q -&gt; next;            p &#x3D; p -&gt; next;        &#125;        t &#x3D; q -&gt; next;        q -&gt; next &#x3D; t -&gt; next;        delete t;        return head;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个链表，删除链表的倒数第 &lt;code&gt;n&lt;/code&gt; 个结点，并且返回链表的头结点。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode:7.整数反转</title>
@@ -431,25 +452,6 @@
     
     
     <category term="nasm" scheme="tags/nasm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>vim的配置及其使用</title>
-    <link href="2021/04/27/vim%E7%9A%84%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8/"/>
-    <id>2021/04/27/vim%E7%9A%84%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8/</id>
-    <published>2021-04-27T07:35:24.000Z</published>
-    <updated>2022-05-20T06:57:45.668Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="vim的配置及其使用"><a href="#vim的配置及其使用" class="headerlink" title="vim的配置及其使用"></a>vim的配置及其使用</h1><p>本文将记录本人学习vim的一些笔记以及对自己mac上面的vim的一些配置。</p><span id="more"></span><hr><h2 id="vim教程"><a href="#vim教程" class="headerlink" title="vim教程"></a>vim教程</h2><p><code>vim 文件名</code> 进入vim (默认进入命令模式)</p><ul><li>输入<code>i</code> (it means insert)进入编辑模式(在当前字符前)</li><li>输入<code>a</code>(it means append)进入编辑模式（在当前字符后添加字符）</li><li>输入<code>shift+i </code>在行前插入</li><li>输入<code>shift+a</code> 在行尾插入</li><li>输入<code>o</code>在下一行进行插入</li><li>输入<code>shift + o</code> 在当前一行的上一行插入</li><li>按<code>esc</code>退出编辑模式</li></ul><p>退出编辑模式后，回到命令模式下</p><ul><li>按<code>w</code>(word)跳动到下一个单词</li><li>按<code>b</code>(back)跳动到上一个单词</li><li><code>control+f</code>(forward) 代表下一页（等同于pagedown）</li><li><code>control+b</code>(backward)代表上一页（等同于pageup）</li><li><code>数字+gg</code>跳转到指定行</li><li><code>xx+j/k</code>跳转到这一行的下&#x2F;上xx行 比如向上10行 就是10j，向下10行就是10k</li><li>命令输入错误可以按esc进行命令的清除</li><li><code>/word+回车</code>查找指定单词，按<code>n</code>查找符合条件的下一个 <code>shift+n</code>查找符合条件的上一个</li><li><code>?word+回车</code>查找指定单词，按<code>n</code>查找符合条件的上一个 <code>shift+n</code>查找符合条件的下一个</li><li><code>cc</code>剪切光标所在的一行 删除后自动进入编辑模式</li><li><code>c2c</code>连续剪切两行</li><li><code>p</code>粘贴命令 </li><li><code>u</code>（undo）恢复上一步操作</li></ul><p>按：就可以开始输入指令</p><ul><li><code>：w</code> 保存</li><li><code>：q</code> 退出</li><li></li></ul><hr><p>vim中的方向键</p><p>hjkl means 左下上右</p><hr><p>Visual模式： <code>v</code> 这时可以通过hjkl移动光标选择文本，再使用c（剪切）yy（复制）p（粘贴）</p><p>808</p>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;vim的配置及其使用&quot;&gt;&lt;a href=&quot;#vim的配置及其使用&quot; class=&quot;headerlink&quot; title=&quot;vim的配置及其使用&quot;&gt;&lt;/a&gt;vim的配置及其使用&lt;/h1&gt;&lt;p&gt;本文将记录本人学习vim的一些笔记以及对自己mac上面的vim的一些配置。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="vim" scheme="tags/vim/"/>
     
   </entry>
   
