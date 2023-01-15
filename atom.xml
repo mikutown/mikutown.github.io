@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-01-12T09:25:45.046Z</updated>
+  <updated>2023-01-15T07:53:35.991Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode:20.有效的括号</title>
+    <link href="2023/01/15/leetcode-20-%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/"/>
+    <id>2023/01/15/leetcode-20-%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/</id>
+    <published>2023-01-15T05:24:30.000Z</published>
+    <updated>2023-01-15T07:53:35.991Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个只包括 <code>&#39;(&#39;</code>，<code>&#39;)&#39;</code>，<code>&#39;&#123;&#39;</code>，<code>&#39;&#125;&#39;</code>，<code>&#39;[&#39;</code>，<code>&#39;]&#39;</code> 的字符串 <code>s</code> ，判断字符串是否有效。</p><p>有效字符串需满足：</p><ol><li>左括号必须用相同类型的右括号闭合。</li><li>左括号必须以正确的顺序闭合。</li><li>每个右括号都有一个对应的相同类型的左括号。</li></ol><span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;()&quot;输出：true</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;()[]&#123;&#125;&quot;输出：true</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;(]&quot;输出：false</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 104</code></li><li><code>s</code> 仅由括号 <code>&#39;()[]&#123;&#125;&#39;</code> 组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>使用栈进行左半边括号的存储，遍历字符串，当遇到右半边括号时进行匹配，若是相匹配的括号则继续遍历字符串直到最后一个字符，否则返回false。实现代码如下：</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isValid(string s) &#123;        stack&lt;char&gt; sc; &#x2F;&#x2F;创建栈        for(char a:s)&#123; &#x2F;&#x2F;遍历并判断，首先判断栈是否为空，                       &#x2F;&#x2F;接下来判断两个括号是否匹配。            if(sc.size() &amp;&amp; a&#x3D;&#x3D;&#39;)&#39; &amp;&amp; sc.top()&#x3D;&#x3D;&#39;(&#39;)                sc.pop(); &#x2F;&#x2F;匹配成功后将栈内的左括号弹出            else if(sc.size() &amp;&amp; a&#x3D;&#x3D;&#39;]&#39; &amp;&amp; sc.top()&#x3D;&#x3D;&#39;[&#39;)                sc.pop();            else if(sc.size() &amp;&amp; a&#x3D;&#x3D;&#39;&#125;&#39; &amp;&amp; sc.top()&#x3D;&#x3D;&#39;&#123;&#39;)                sc.pop();            else                 sc.push(a); &#x2F;&#x2F;若是左括号，则压入栈内        &#125;        return sc.empty(); &#x2F;&#x2F;遍历结束后，若栈为空，则返回true    &#125;&#125;;</code></pre><ol start="2"><li>官方解答</li></ol><p>判断括号的有效性可以使用「栈」这一数据结构来解决。</p><p>我们遍历给定的字符串 sss。当我们遇到一个左括号时，我们会期望在后续的遍历中，有一个相同类型的右括号将其闭合。由于后遇到的左括号要先闭合，因此我们可以将这个左括号放入栈顶。</p><p>当我们遇到一个右括号时，我们需要将一个相同类型的左括号闭合。此时，我们可以取出栈顶的左括号并判断它们是否是相同类型的括号。如果不是相同的类型，或者栈中并没有左括号，那么字符串 sss 无效，返回 False\text{False}False。为了快速判断括号的类型，我们可以使用哈希表存储每一种括号。哈希表的键为右括号，值为相同类型的左括号。</p><p>在遍历结束后，如果栈中没有左括号，说明我们将字符串 sss 中的所有左括号闭合，返回 True\text{True}True，否则返回 False\text{False}False。</p><p>注意到有效字符串的长度一定为偶数，因此如果字符串的长度为奇数，我们可以直接返回 False\text{False}False，省去后续的遍历判断过程。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isValid(string s) &#123;        int n &#x3D; s.size();        if (n % 2 &#x3D;&#x3D; 1) &#123;            return false;        &#125;        unordered_map&lt;char, char&gt; pairs &#x3D; &#123;            &#123;&#39;)&#39;, &#39;(&#39;&#125;,            &#123;&#39;]&#39;, &#39;[&#39;&#125;,            &#123;&#39;&#125;&#39;, &#39;&#123;&#39;&#125;        &#125;;        stack&lt;char&gt; stk;        for (char ch: s) &#123;            if (pairs.count(ch)) &#123;                if (stk.empty() || stk.top() !&#x3D; pairs[ch]) &#123;                    return false;                &#125;                stk.pop();            &#125;            else &#123;                stk.push(ch);            &#125;        &#125;        return stk.empty();    &#125;&#125;;</code></pre><p>作者：力扣官方题解<br>链接：<a href="https://leetcode.cn/problems/valid-parentheses/solutions/373578/you-xiao-de-gua-hao-by-leetcode-solution/">https://leetcode.cn/problems/valid-parentheses/solutions/373578/you-xiao-de-gua-hao-by-leetcode-solution/</a><br>来源：力扣（LeetCode）<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个只包括 &lt;code&gt;&amp;#39;(&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;)&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;&amp;#123;&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;&amp;#125;&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;[&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;]&amp;#39;&lt;/code&gt; 的字符串 &lt;code&gt;s&lt;/code&gt; ，判断字符串是否有效。&lt;/p&gt;
+&lt;p&gt;有效字符串需满足：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;左括号必须用相同类型的右括号闭合。&lt;/li&gt;
+&lt;li&gt;左括号必须以正确的顺序闭合。&lt;/li&gt;
+&lt;li&gt;每个右括号都有一个对应的相同类型的左括号。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode:23.合并K个升序链表</title>
@@ -436,25 +463,6 @@
     
     
     <category term="python" scheme="tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>二叉搜索树的操作（pta题目）</title>
-    <link href="2022/03/29/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%93%8D%E4%BD%9C%EF%BC%88pta%E9%A2%98%E7%9B%AE%EF%BC%89/"/>
-    <id>2022/03/29/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%93%8D%E4%BD%9C%EF%BC%88pta%E9%A2%98%E7%9B%AE%EF%BC%89/</id>
-    <published>2022-03-29T05:29:16.000Z</published>
-    <updated>2022-05-20T06:57:29.013Z</updated>
-    
-    <content type="html"><![CDATA[<p>本题要求实现给定二叉搜索树的5种常用操作。</p><span id="more"></span>函数接口定义：<pre class="language-C" data-language="C"><code class="language-C">BinTree Insert( BinTree BST, ElementType X );BinTree Delete( BinTree BST, ElementType X );Position Find( BinTree BST, ElementType X );Position FindMin( BinTree BST );Position FindMax( BinTree BST );</code></pre><p>其中BinTree结构定义如下：</p><pre class="language-C" data-language="C"><code class="language-C">typedef struct TNode *Position;typedef Position BinTree;struct TNode&#123;    ElementType Data;    BinTree Left;    BinTree Right;&#125;;</code></pre><ul><li>函数<code>Insert</code>将<code>X</code>插入二叉搜索树<code>BST</code>并返回结果树的根结点指针；</li><li>函数<code>Delete</code>将<code>X</code>从二叉搜索树<code>BST</code>中删除，并返回结果树的根结点指针；如果<code>X</code>不在树中，则打印一行<code>Not Found</code>并返回原树的根结点指针；</li><li>函数<code>Find</code>在二叉搜索树<code>BST</code>中找到<code>X</code>，返回该结点的指针；如果找不到则返回空指针；</li><li>函数<code>FindMin</code>返回二叉搜索树<code>BST</code>中最小元结点的指针；</li><li>函数<code>FindMax</code>返回二叉搜索树<code>BST</code>中最大元结点的指针。</li></ul><h2 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h2><pre class="language-C" data-language="C"><code class="language-C">#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;typedef int ElementType;typedef struct TNode *Position;typedef Position BinTree;struct TNode&#123;    ElementType Data;    BinTree Left;    BinTree Right;&#125;;void PreorderTraversal( BinTree BT ); &#x2F;* 先序遍历，由裁判实现，细节不表 *&#x2F;void InorderTraversal( BinTree BT );  &#x2F;* 中序遍历，由裁判实现，细节不表 *&#x2F;BinTree Insert( BinTree BST, ElementType X );BinTree Delete( BinTree BST, ElementType X );Position Find( BinTree BST, ElementType X );Position FindMin( BinTree BST );Position FindMax( BinTree BST );int main()&#123;    BinTree BST, MinP, MaxP, Tmp;    ElementType X;    int N, i;    BST &#x3D; NULL;    scanf(&quot;%d&quot;, &amp;N);    for ( i&#x3D;0; i&lt;N; i++ ) &#123;        scanf(&quot;%d&quot;, &amp;X);        BST &#x3D; Insert(BST, X);    &#125;    printf(&quot;Preorder:&quot;); PreorderTraversal(BST); printf(&quot;\n&quot;);    MinP &#x3D; FindMin(BST);    MaxP &#x3D; FindMax(BST);    scanf(&quot;%d&quot;, &amp;N);    for( i&#x3D;0; i&lt;N; i++ ) &#123;        scanf(&quot;%d&quot;, &amp;X);        Tmp &#x3D; Find(BST, X);        if (Tmp &#x3D;&#x3D; NULL) printf(&quot;%d is not found\n&quot;, X);        else &#123;            printf(&quot;%d is found\n&quot;, Tmp-&gt;Data);            if (Tmp&#x3D;&#x3D;MinP) printf(&quot;%d is the smallest key\n&quot;, Tmp-&gt;Data);            if (Tmp&#x3D;&#x3D;MaxP) printf(&quot;%d is the largest key\n&quot;, Tmp-&gt;Data);        &#125;    &#125;    scanf(&quot;%d&quot;, &amp;N);    for( i&#x3D;0; i&lt;N; i++ ) &#123;        scanf(&quot;%d&quot;, &amp;X);        BST &#x3D; Delete(BST, X);    &#125;    printf(&quot;Inorder:&quot;); InorderTraversal(BST); printf(&quot;\n&quot;);    return 0;&#125;&#x2F;* 你的代码将被嵌在这里 *&#x2F;</code></pre><h2 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h2><pre class="language-none"><code class="language-none">105 8 6 2 4 1 0 10 9 756 3 10 0 555 7 0 10 3</code></pre><h2 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h2><pre class="language-none"><code class="language-none">Preorder: 5 2 1 0 4 8 6 7 10 96 is found3 is not found10 is found10 is the largest key0 is found0 is the smallest key5 is foundNot FoundInorder: 1 2 4 6 8 9</code></pre><h2 id="Answer"><a href="#Answer" class="headerlink" title="Answer"></a>Answer</h2><pre class="language-C" data-language="C"><code class="language-C">BinTree Insert( BinTree BST, ElementType X )&#123;    &#x2F;&#x2F;如果是一个空节点    if(!BST)&#123;        BST &#x3D; (BinTree)malloc(sizeof(struct TNode));&#x2F;&#x2F;既然为空所以要生成一个        BST-&gt;Data &#x3D; X;        BST-&gt;Left &#x3D; NULL;        BST-&gt;Right &#x3D; NULL;    &#125;    else&#123;&#x2F;&#x2F;一般情况        if(X &lt; BST-&gt;Data)&#123;&#x2F;&#x2F;插入值小于节点，应该往左子树中找位置            BST-&gt;Left &#x3D; Insert(BST-&gt;Left,X);&#x2F;&#x2F;递归插入左子树        &#125;        else if(X &gt; BST-&gt;Data)&#123;&#x2F;&#x2F;插入值大于节点，应该往右子树中找            BST-&gt;Right &#x3D; Insert(BST-&gt;Right,X);&#x2F;&#x2F;递归插入右子树        &#125;        &#x2F;&#x2F;如果相等说明X已经存在，什么也不做    &#125;    return BST;&#125;Position Find( BinTree BST, ElementType X )&#123;    while(BST)&#123;&#x2F;&#x2F;直接循环查找，类似链表        if(X &lt; BST-&gt;Data)&#123;            BST &#x3D; BST-&gt;Left;&#x2F;&#x2F;小于节点，找左子树        &#125;        else if(X &gt; BST-&gt;Data)&#123;&#x2F;&#x2F;大于节点，找右子树            BST &#x3D; BST-&gt;Right;        &#125;        else&#123;&#x2F;&#x2F;相等则找到            return BST;        &#125;    &#125;    return NULL;&#125;Position FindMin( BinTree BST )&#123;    if(!BST)&#123;        return NULL;    &#125;    else if(!BST-&gt;Left)        return BST;    else return FindMin(BST-&gt;Left);&#125;Position FindMax( BinTree BST )&#123;    if(!BST)return NULL;    else if(!BST-&gt;Right)return BST;    else return FindMax(BST-&gt;Right);&#125;BinTree Delete( BinTree BST, ElementType X )&#123;    Position temp;    if(!BST)&#123;        printf(&quot;Not Found\n&quot;);&#x2F;&#x2F;如果最终树为空，说明没有    &#125;    else&#123;&#x2F;&#x2F;这里类似于插入重点在于找到后怎么办        if(X &lt; BST-&gt;Data)&#123;            BST-&gt;Left &#x3D; Delete(BST-&gt;Left,X);&#x2F;&#x2F;从左子树递归删除        &#125;        else if(X &gt; BST-&gt;Data)&#123;            BST-&gt;Right &#x3D; Delete(BST-&gt;Right,X);&#x2F;&#x2F;从右子树递归删除        &#125;        else&#123;&#x2F;&#x2F;当前BST就是要删除的节点              if(BST-&gt;Left &amp;&amp; BST-&gt;Right)&#123;&#x2F;&#x2F;要被删除的节点有左右两个孩子，就从右子树中找最小的数填充删除的节点                temp &#x3D; FindMin(BST-&gt;Right);&#x2F;&#x2F;找最小                BST-&gt;Data &#x3D; temp-&gt;Data;&#x2F;&#x2F;填充删除的节点                BST-&gt;Right &#x3D; Delete(BST-&gt;Right,temp-&gt;Data);&#x2F;&#x2F;删除拿来填充的那个节点              &#125;              else&#123;&#x2F;&#x2F;只有一个子节点                temp &#x3D; BST;                if(!BST-&gt;Left)&#123;&#x2F;&#x2F;只有右节点                    BST &#x3D; BST-&gt;Right;&#x2F;&#x2F;直接赋值就可以                &#125;                else if(!BST-&gt;Right)&#123;&#x2F;&#x2F;只有左节点                    BST &#x3D; BST-&gt;Left;&#x2F;&#x2F;直接赋值就可以                &#125;                free(temp);&#x2F;&#x2F;如果啥也没有直接删除就可以，当然上面两种情况赋值后也要删除              &#125;        &#125;    &#125;    return BST;&#125;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;本题要求实现给定二叉搜索树的5种常用操作。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="数据结构" scheme="tags/数据结构/"/>
     
   </entry>
   
