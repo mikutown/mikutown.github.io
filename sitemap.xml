@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>2023/02/01/leetcode-70-%E7%88%AC%E6%A5%BC%E6%A2%AF/</loc>
+    
+    <lastmod>2023-02-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>2023/02/01/Flexible%20Job-Shop%20Scheduling%20via%20Graph%20Neural%20Network%20and%20Deep%20Reinforcement%20Learning/</loc>
     
     <lastmod>2023-02-02</lastmod>
@@ -14,15 +23,6 @@
     <loc>2023/02/02/leetcode-53-%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84%E5%92%8C/</loc>
     
     <lastmod>2023-02-02</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>2023/02/01/leetcode-70-%E7%88%AC%E6%A5%BC%E6%A2%AF/</loc>
-    
-    <lastmod>2023-02-01</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

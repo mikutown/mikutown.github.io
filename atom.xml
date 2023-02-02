@@ -43,16 +43,13 @@
     <link href="2023/02/01/leetcode-70-%E7%88%AC%E6%A5%BC%E6%A2%AF/"/>
     <id>2023/02/01/leetcode-70-%E7%88%AC%E6%A5%BC%E6%A2%AF/</id>
     <published>2023-02-01T06:48:43.000Z</published>
-    <updated>2023-02-01T07:19:51.622Z</updated>
+    <updated>2023-02-02T16:52:25.742Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>递归</li></ol><p>很明显，该问题可以用$f(x) &#x3D; f(x - 1) + f(x - 2)$并且很容易得知$f(0) &#x3D; 1;f(1) &#x3D; 1;f(2) &#x3D; 2$,但是直接写递归(<code>return climbStairs(n - 1) + climbStairs(n - 2)</code>)会导致时间超限，在这里使用「滚动数组思想」把空间复杂度优化成 $O(1)$。</p><p><img src="http://cdn.leafii.top/img/70_fig1.gif" alt="fig1" loading="lazy"></p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int climbStairs(int n) &#123;        int p &#x3D; 0, q &#x3D; 0, r &#x3D; 1;        for (int i &#x3D; 1; i &lt;&#x3D; n; ++i) &#123;            p &#x3D; q;             q &#x3D; r;             r &#x3D; p + q;        &#125;        return r;    &#125;&#125;;</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>力扣官方题解：<a href="https://leetcode.cn/problems/climbing-stairs/solutions/286022/pa-lou-ti-by-leetcode-solution/">https://leetcode.cn/problems/climbing-stairs/solutions/286022/pa-lou-ti-by-leetcode-solution/</a> </p>]]></content>
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>假设你正在爬楼梯。需要 <code>n</code> 阶你才能到达楼顶。</p><p>每次你可以爬 <code>1</code> 或 <code>2</code> 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p><span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 2输出：2解释：有两种方法可以爬到楼顶。1. 1 阶 + 1 阶2. 2 阶</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3输出：3解释：有三种方法可以爬到楼顶。1. 1 阶 + 1 阶 + 1 阶2. 1 阶 + 2 阶3. 2 阶 + 1 阶</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= n &lt;= 45</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>递归</li></ol><p>很明显，该问题可以用$f(x) &#x3D; f(x - 1) + f(x - 2)$并且很容易得知$f(0) &#x3D; 1;f(1) &#x3D; 1;f(2) &#x3D; 2$,但是直接写递归(<code>return climbStairs(n - 1) + climbStairs(n - 2)</code>)会导致时间超限，在这里使用「滚动数组思想」把空间复杂度优化成 $O(1)$。</p><p><img src="http://cdn.leafii.top/img/70_fig1.gif" alt="fig1" loading="lazy"></p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int climbStairs(int n) &#123;        int p &#x3D; 0, q &#x3D; 0, r &#x3D; 1;        for (int i &#x3D; 1; i &lt;&#x3D; n; ++i) &#123;            p &#x3D; q;             q &#x3D; r;             r &#x3D; p + q;        &#125;        return r;    &#125;&#125;;</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>力扣官方题解：<a href="https://leetcode.cn/problems/climbing-stairs/solutions/286022/pa-lou-ti-by-leetcode-solution/">https://leetcode.cn/problems/climbing-stairs/solutions/286022/pa-lou-ti-by-leetcode-solution/</a> </p>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;h2 id=&quot;解答&quot;&gt;&lt;a href=&quot;#解答&quot; class=&quot;headerlink&quot; title=&quot;解答&quot;&gt;&lt;/a&gt;解答&lt;/h2&gt;&lt;ol&gt;
-&lt;</summary>
-      
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;假设你正在爬楼梯。需要 &lt;code&gt;n&lt;/code&gt; 阶你才能到达楼顶。&lt;/p&gt;
+&lt;p&gt;每次你可以爬 &lt;code&gt;1&lt;/code&gt; 或 &lt;code&gt;2&lt;/code&gt; 个台阶。你有多少种不同的方法可以爬到楼顶呢？&lt;/p&gt;</summary>
     
     
     
