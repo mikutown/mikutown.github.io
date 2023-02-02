@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Leafii"><meta name="copyright" content="Leafii"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>Flexible Job-Shop Scheduling via Graph Neural Network and Deep Reinforcement Learning | LeafiiのBlog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><script src="https://fastly.jsdelivr.net/npm/@unocss/runtime/mini.global.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script defer src="https://fastly.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script><link rel="stylesheet" type="text/css" href="https://fastly.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.css"><script defer src="https://fastly.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><script defer src="https://fastly.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js"></script><script type="module">import { renderKatex } from '/js/utils.js'
+document.addEventListener("DOMContentLoaded", () => {
+  renderKatex({
+    ...{},
+    ...true?.options,
+  });
+});</script><link rel="icon" type="image/png" href="../../../../favicon.ico"><link rel="mask-icon" href="../../../../favicon.ico" color="#0078E7"><link rel="preload" href="../../../../css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="../../../../js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"leafii.top","root":"/","title":["Leafii","の","博","客"],"version":"1.9.3","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"fireworks":{"colors":null},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="../../../../css/hexo-theme-yun.css"><script src="../../../../js/hexo-theme-yun.js" type="module"></script><link rel="alternate" href="../../../../atom.xml" title="LeafiiのBlog" type="application/atom+xml"><meta name="description" content="Flexible Job-Shop Scheduling via Graph Neural Network and Deep Reinforcement Learning 通过图神经网络和深度强化学习进行灵活的作业车间调度解决的问题本文考虑了众所周知的灵活作业车间调度问题，并通过提出一种新颖的 DRL 方法来端到端地学习高质量的 PDR 来解决这些问题。操作选择和机器分配被组合为一个复合决策。此外">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flexible Job-Shop Scheduling via Graph Neural Network and Deep Reinforcement Learning">
+<meta property="og:url" content="2023/02/01/Flexible%20Job-Shop%20Scheduling%20via%20Graph%20Neural%20Network%20and%20Deep%20Reinforcement%20Learning/index.html">
+<meta property="og:site_name" content="LeafiiのBlog">
+<meta property="og:description" content="Flexible Job-Shop Scheduling via Graph Neural Network and Deep Reinforcement Learning 通过图神经网络和深度强化学习进行灵活的作业车间调度解决的问题本文考虑了众所周知的灵活作业车间调度问题，并通过提出一种新颖的 DRL 方法来端到端地学习高质量的 PDR 来解决这些问题。操作选择和机器分配被组合为一个复合决策。此外">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.leafii.top/img/image-20230202204228094.png">
+<meta property="og:image" content="http://cdn.leafii.top/img/image-20230203000256621.png">
+<meta property="og:image" content="http://cdn.leafii.top/img/image-20230203000557428.png">
+<meta property="og:image" content="http://cdn.leafii.top/img/image-20230203002931755.png">
+<meta property="og:image" content="http://cdn.leafii.top/img/image-20230203003842530.png">
+<meta property="og:image" content="http://cdn.leafii.top/img/image-20230203003828665.png">
+<meta property="article:published_time" content="2023-02-01T06:46:17.000Z">
+<meta property="article:modified_time" content="2023-02-02T16:44:38.580Z">
+<meta property="article:author" content="Leafii">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="强化学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.leafii.top/img/image-20230202204228094.png"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head><body><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="../../../../js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="../../../../js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="../../../../about/" title="Leafii"><img width="96" loading="lazy" src="../../../../images/avatar.jpg" alt="Leafii"></a><div class="site-author-name"><a href="../../../../about/">Leafii</a></div><a class="site-name" href="../../../../about/site.html">LeafiiのBlog</a><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="../../../../index.html" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="../../../../archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">89</span></a></div><div class="site-state-item"><a href="../../../../categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">0</span></a></div><div class="site-state-item"><a href="../../../../tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">24</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="主题文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/mikutown" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:yunsenye@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=299583310" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="../../../../links/" title="友情链接" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-genderless-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Flexible-Job-Shop-Scheduling-via-Graph-Neural-Network-and-Deep-Reinforcement-Learning-%E9%80%9A%E8%BF%87%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%92%8C%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E8%BF%9B%E8%A1%8C%E7%81%B5%E6%B4%BB%E7%9A%84%E4%BD%9C%E4%B8%9A%E8%BD%A6%E9%97%B4%E8%B0%83%E5%BA%A6"><span class="toc-number">1.</span> <span class="toc-text">Flexible Job-Shop Scheduling via Graph Neural Network and Deep Reinforcement Learning 通过图神经网络和深度强化学习进行灵活的作业车间调度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">实现方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MDP-Formulation"><span class="toc-number">1.2.1.</span> <span class="toc-text">MDP Formulation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Heterogeneous-Graph"><span class="toc-number">1.2.2.</span> <span class="toc-text">Heterogeneous Graph</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Heterogeneous-Graph-Neural-Network"><span class="toc-number">1.2.3.</span> <span class="toc-text">Heterogeneous Graph Neural Network</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Machine-Node-Embedding"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">Machine Node Embedding:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Operation-Node-Embedding"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">Operation Node Embedding:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Stacking-and-Pooling"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">Stacking and Pooling:</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Decision-Making"><span class="toc-number">1.2.4.</span> <span class="toc-text">Decision Making</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Training"><span class="toc-number">1.2.5.</span> <span class="toc-text">Training</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.3.</span> <span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Experimental-Settings"><span class="toc-number">1.3.1.</span> <span class="toc-text">Experimental Settings</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">数据来源</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Baseline"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">Baseline</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Performance-on-Synthetic-Instances"><span class="toc-number">1.3.2.</span> <span class="toc-text">Performance on Synthetic Instances</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Performance-on-Public-Benchmarks"><span class="toc-number">1.3.3.</span> <span class="toc-text">Performance on Public Benchmarks</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">1.4.</span> <span class="toc-text">结论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https:/leafii.top"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Leafii"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="LeafiiのBlog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Flexible Job-Shop Scheduling via Graph Neural Network and Deep Reinforcement Learning</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2023-02-01 14:46:17" itemprop="dateCreated datePublished" datetime="2023-02-01T14:46:17+08:00">2023-02-01</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2023-02-03 00:44:38" itemprop="dateModified" datetime="2023-02-03T00:44:38+08:00">2023-02-03</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">4.6k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">17m</span></span></span><div class="post-classify"><span class="post-tag"><a class="tag-item" href="../../../../tags/python/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">python</span></a><a class="tag-item" href="../../../../tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">强化学习</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="Flexible-Job-Shop-Scheduling-via-Graph-Neural-Network-and-Deep-Reinforcement-Learning-通过图神经网络和深度强化学习进行灵活的作业车间调度"><a href="#Flexible-Job-Shop-Scheduling-via-Graph-Neural-Network-and-Deep-Reinforcement-Learning-通过图神经网络和深度强化学习进行灵活的作业车间调度" class="headerlink" title="Flexible Job-Shop Scheduling via Graph Neural Network and Deep Reinforcement Learning 通过图神经网络和深度强化学习进行灵活的作业车间调度"></a>Flexible Job-Shop Scheduling via Graph Neural Network and Deep Reinforcement Learning 通过图神经网络和深度强化学习进行灵活的作业车间调度</h2><h3 id="解决的问题"><a href="#解决的问题" class="headerlink" title="解决的问题"></a>解决的问题</h3><p>本文考虑了众所周知的灵活作业车间调度问题，并通过提出一种新颖的 DRL 方法来端到端地学习高质量的 PDR 来解决这些问题。操作选择和机器分配被组合为一个复合决策。此外，基于一种新颖的调度状态异构图表示，提出了一种基于异构图神经网络的体系结构来捕获操作和机器之间的复杂关系。</p>
+<span id="more"></span>
+
+<ul>
+<li><strong>背景</strong></li>
+</ul>
+<p>本文聚焦柔性车间调度问题(FJSP)，FJSP 允许在任何机器上处理一组可选机器的操作，因此更适合处理新制造范例（例如云制造）中任务-资源关系的灵活性和多样性。</p>
+<p>JSP本来就是NP-hard问题，FJSP问题一般使用启发式方法，为效率牺牲最优性。优先调度规则 (PDR)是一种比较知名并且实践性强的启发式方法，它根据一些优先级规则 [例如，先进先出 (FIFO)] 将作业迭代地分配给机器。与元启发式相比，PDR 直观、易于实现且计算速度非常快，使其更适合处理云制造中的问题，这些问题通常是大规模的，甚至是动态的。</p>
+<ul>
+<li><strong>提出问题</strong></li>
+</ul>
+<p>PDR调度结果远非最优。原因如下：</p>
+<ol>
+<li>施工过程基于优先措施是贪婪的，这可能是短视的。</li>
+<li>决策主要基于每个步骤中符合条件的工作和机器的信息，而全局信息在很大程度上被忽略了。</li>
+<li>目前的PDR主要是根据人类经验设计的，通常不能保证最优性，缺乏适应特定问题和情况的能力</li>
+</ol>
+<p>因此，在这个方向上，最近的一些工作尝试以端到端的方式使用 DRL 自动生成用于调度问题的 PDR，但他们都只关注于非柔性的JSP问题，因为要通过该方式改良FJSP问题的调度有两个重大挑战：</p>
+<ol>
+<li>FJSP 中的决策更加复杂，不仅有操作选择，还有机器分配</li>
+<li>由于操作和机器之间复杂的一对多关系，调度状态可能更难使用神经网络进行编码。</li>
+</ol>
+<p>因此，需要研究的问题就是：</p>
+<ol>
+<li>如何制定调度流程以纳入机器分配</li>
+<li>如何设计表示方案和神经架构以从原始调度状态中提取有用信息。</li>
+</ol>
+<ul>
+<li><strong>解决思路</strong></li>
+</ul>
+<ol>
+<li>本文提出了一种基于 PDR 的 FJSP 调度的 MDP 公式，其中一个动作是选择一个符合条件的操作-机器（O-M）对，以便可以同时做出操作选择和机器分配决策。</li>
+<li>通过用机器节点扩展 FJSP 的析取图，本文提出了一种新颖的异构图结构来表示 MDP 状态，从而可以捕获操作和机器之间的复杂关系。此外，提出了一种两阶段图神经网络（GNN）来获得异构图中节点的特征嵌入，在此基础上使用近端策略优化（PPO）设计和训练策略网络。</li>
+<li>与现有的基于DRL的调度方法中使用的GNN不同，本文中提出的 GNN 适用于专用于 FJSP 的异构图，它不仅捕获操作的状态，还捕获机器和 O-M 关系的状态</li>
+</ol>
+<ul>
+<li><strong>实验结果</strong></li>
+</ul>
+<p>在合成实例和公共基准上进行了广泛的实验。结果表明，在保持高计算效率的同时，所提出的方法可以优于传统的手工 PDR，并有效地泛化到训练中未见过的更大规模的问题和公共基准。</p>
+<p>除了方法上的新颖性外，所提出的方法还具有良好的实用价值。它的神经结构与大小无关；因此，经过训练的策略可以应用于解决不同大小的实例，而不仅仅是训练大小。</p>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><p>在每次迭代过程中，调度状态首先转化为异构图结构。然后，将具有两阶段嵌入过程的 HGNN 应用于异构图，以提取操作和机器的特征嵌入，决策网络使用这些嵌入来生成动作概率分布，从中采样调度操作。</p>
+<h4 id="MDP-Formulation"><a href="#MDP-Formulation" class="headerlink" title="MDP Formulation"></a>MDP Formulation</h4><p>调度过程：在每个决策步骤t(时间为0或操作完成时)，agent观察当前系统状态$s_t$并做出决策$a_t$,该决策分配一个未调度的操作给空闲的机器，并从当前时间开始，记为$T(t)$.然后，环境过渡到下一个决策步骤$t+1$。该过程迭代直到所有操作都被调度。</p>
+<ul>
+<li><p>状态（State）：在第t步的所有操作和机器的状态构成了状态$s_t$</p>
+</li>
+<li><p>动作（Action）：本文中的动作将操作选择和机器分配结合为一个复合决策。具体来说，一个动作$a_t \in A_t$被定义为在第t步的一个可行的O-M对$(O_{ij}, M_K)$，其中的$O_{ij}$是可行的operation，$M_k$是空闲的机器。</p>
+</li>
+<li><p>状态转移(Transition)：基于$s_t$和$a_t$，环境确定性的过渡到新状态$s_{t+1}$，这是操作完成的时间。在本文中，两种不同的状态由异构图的拓扑和特征来区分。</p>
+</li>
+<li><p>奖励(Reward)：奖励定义为部分调度在 $s_t$ 和 $s_{t+1}$ 的完工时间之差，如$r(s_t, a_t, s_{t+1}) &#x3D; C_{max}(s_t) - C_{max}(s_{t+1}))$.若折扣因子$\gamma &#x3D; 1$时，一次求解过程中的累计奖励可以被记为$G &#x3D; \sum_{t&#x3D;0}^{|O|}r(s-t, a_t,s_{t+1}) &#x3D; C_{max}(s_0) - C_{max}$.对于一个特定的问题实例，$C_{max}(s0)$ 是一个常数，这意味着最小化 $C_{max}$ 和最大化 $G$是等价的。</p>
+</li>
+<li><p>策略(Policy):策略 $π(a_t|s_t)$ 为每个状态 $s_t$ 定义了动作集 $A_t$ 上的概率分布。接下来，本文将设计一个 DRL 算法，将 π 参数化为神经网络，并朝着最大化预期累积奖励的方向对其进行优化。</p>
+</li>
+</ul>
+<h4 id="Heterogeneous-Graph"><a href="#Heterogeneous-Graph" class="headerlink" title="Heterogeneous Graph"></a>Heterogeneous Graph</h4><p>用析取图表示FJSP调度更复杂的原因：</p>
+<ol>
+<li>由于多台机器处理operation，析取弧集合D会明显变得更大。所以这种密集的图很难被有效处理。</li>
+<li>一个操作在不同兼容机器上的处理时间是不同的，很难表示。</li>
+</ol>
+<p>为了解决上述问题，本文通过修改析取图结构，定义了一个新颖的异构图结构$H &#x3D; (O,M,C,E)$。如图所示，操作结点集合O和合取弧集C，增加了一组机器节点M，每个节点对应一台机器$M_k$。原本的析取弧集D由O-M弧集E替换。每个元素$E_{ijk} \in E$是一个将操作结点$O_{ij}$和兼容机器节点$M_k$连接起来的无向的弧。</p>
+<p>该异构图结构拥有以下优点：</p>
+<ol>
+<li>图密度显着降低。</li>
+<li>H 中的机器节点提供了一种方便的方式来注入机器信息并提取有用的特征以区分状态中的不同机器。</li>
+<li>处理时间 $p_{ijk}$ 可以通过简单地附加为 $O-M$ 弧 $E_{ijk}$ 的特征来轻松表示。</li>
+</ol>
+<p>定义异构图之后，每一个状态$s_t$可以由异构图$H_t &#x3D; (O, M, C, E_t)$表示，其中$E_t$在求解过程中动态变化。具体来说：在第t步采取一个动作$(O_{ij},M_k)$后，只保留$E_{ijk}$，去掉$O_{ij}$的其他$O-M$弧，得到$H_{t+1}$。因此，节点之间的相邻关系也会动态变化。</p>
+<p>在每个步骤t，定义$N_t(O_{ij})$ 是操作 $O_{ij}$ 的相邻机器，$N_t(M_k)$ 是机器 $M_k$ 的相邻操作。</p>
+<h4 id="Heterogeneous-Graph-Neural-Network"><a href="#Heterogeneous-Graph-Neural-Network" class="headerlink" title="Heterogeneous Graph Neural Network"></a>Heterogeneous Graph Neural Network</h4><p>作为组合问题中的典型，FJSP 实例具有不同的大小。要使用 DRL 学习实用的调度策略，神经架构必须能够在不同大小的状态图上运行。之前的一些工作表明GNN可以用于实现大小不可知的特性，然而它们都是对齐次图（Homogenous graph）进行处理的，在这里不可用。目前提出的HGNN都没有考虑到FJSP的异构图$H_t$，原因如下：</p>
+<ol>
+<li>首先，$H_t$ 中的不同节点类型具有很强的连接模式。任何机器的邻居只能是通过无向弧连接的操作，而操作可以通过有向或无向弧连接到操作和机器。</li>
+<li>O-M 弧上的特征（即处理时间）对于解决 FJSP 非常重要。</li>
+</ol>
+<p>然而，现有的 HGNN 通常只关注节点特征，不考虑弧特征。</p>
+<p>为了利用异构图结构的特性和优势，本文提出了一种为 FJSP 定制的新型 HGNN 架构，以有效地编码 $H_t$.如图所示：</p>
+<p><img src="http://cdn.leafii.top/img/image-20230202204228094.png" alt="image-20230202204228094" loading="lazy"></p>
+<p>所提出的方法具有两阶段嵌入过程的特点，以便将图的拓扑和数值信息（原始特征）考虑在内，并将 $H_t$ 中的节点映射到$ d$ 维嵌入。</p>
+<p>在第一阶段，机器嵌入$ ν′<em>k \in \R^d$ 通过聚合相关信息更新，而操作嵌入 $μ′</em>{ij} \in \R^d$ 在第二阶段更新。详情如下.</p>
+<h5 id="Machine-Node-Embedding"><a href="#Machine-Node-Embedding" class="headerlink" title="Machine Node Embedding:"></a>Machine Node Embedding:</h5><p>在 $H_t$ 中，机器 $M_k$ 的邻居是一组操作 $N_t(M_k)$，它可能对 $M_k$ 有不同的含义。例如，预计较早开始的操作可能比较晚开始的操作更重要。这促使我们考虑图形注意力网络（GAT）,它通过应用注意力机制自动学习不同节点的重要性.对于齐次图，给定具有特征 $x_i$ 的节点 $i$，GAT 首先计算 $i$ 和其一阶邻域 $N(i)$（包括 $i$ 本身）中的每个$j$ 之间的注意系数 $e_{ij}$（标量）为$e_{ij}&#x3D;LeakyReLU(a^T[W_{x_i}||W_{x_j}])$.</p>
+<p>换句话说，$x_i$ 和 $x_j$ 首先由共享线性变换 $W$ 处理，然后连接 $(||)$ 并馈入具有权重 a 和 LeakyReLU 激活的单层前馈神经网络。然后，使用 softmax 函数对邻域内的系数进行归一化:$\alpha_{ij}&#x3D;\frac{exp(e_{ij})}{\sum_{q\in N(i)exp(e_{iq})}} \forall j\in N(i)$</p>
+<p>最终，GAT 在 $N (i)$ 上聚合（线性变换）特征并应用非线性 $\sigma$ 来获得 $i$ 的嵌入:$x’<em>i &#x3D; \sigma(\sum</em>{j \in N(i)}\alpha_{ij}W_{x_j})$.</p>
+<p><strong>但是</strong>原来的GAT只是针对齐次图的，没有考虑弧特征。在这里，为了满足本文的需要（即计算相邻操作对机器的重要性）.</p>
+<ol>
+<li>可以观察到，对于每个机器 $M_k$，只有一个$O-M$ 弧将其与相邻操作连接起来。因此，每个 $O_{ij} \in N_t(M_k)$ 的原始特征向量通过将其原始原始特征与相应 O-M 弧的原始特征连接起来扩展为 $\mu_{ijk} &#x3D;[\mu_{ij}||\lambda_{ijk}] \in \R^7$.</li>
+<li>在这里，两个线性变换 $W^M \in \R^{d×3}$ 和 $W^O \in \R^{d × 7}$ 分别用于机器和操作节点，而不是使用共享的。</li>
+<li>对于机器 $M_k$，注意系数 $e_{ijk}$，即每个相邻操作的重要性 $O_{ij} \in N_t(M_k)$，可以计算为:$e_{ijk} &#x3D; LeakyReLU(a^T[W^Mv_k||W^O\mu_{ijk}])$,其中$a\in \R^{2d}$。</li>
+</ol>
+<p>通过这种方式，来自异构节点和 O-M 弧的信息可以有效地纳入注意力计算。</p>
+<p>上面的式子中有一件事情未被考虑：原始GAT中涉及的机器$M_k$对自身的注意力系数。这里，$e_{kk}$ 是使用机器特定权重 $W^M$ 计算的，如下所示：$e_{kk} &#x3D; LeakyReLU(a^T[W^M_{V_k}||W^M_{v_k}])$.</p>
+<p>所有 $e_{ijk} \forall O_{ij} \in N_t(M_k)$ 与 $e_kk$ 一起使用 softmax 函数进行归一化，以获得归一化的注意力系数 $α_{ijk}$ 和 $\alpha_{kk}$。</p>
+<p>最终，机器嵌入$v’<em>k$由融合相邻操作和自身的特征计算得到。计算$v’<em>k$的聚合函数为：$v’<em>k &#x3D; \sigma(\alpha</em>{kk}W^M</em>{v_k} + \sum</em>{O_{ij}\in N_t(M_k)}\alpha_{ijk}W^O\mu_{ijk})$</p>
+<h5 id="Operation-Node-Embedding"><a href="#Operation-Node-Embedding" class="headerlink" title="Operation Node Embedding:"></a>Operation Node Embedding:</h5><p>本文直接使用多个MLP对每个源的信息（包括$O_{ij}$本身的特征）进行处理，将结果拼接起来，投影回d维空间作为$O_{ij}$的embedding。</p>
+<p>具体来说，有5个MLP被定义，每一个都有d维的输出，两个 $d_h$ 维隐藏层和 ELU 激活.$O_{ij}$的embedding计算如下:</p>
+<p>$\mu’<em>{ij}&#x3D;MLP</em>{\theta_0}(ELU[MLP_{\theta_1}(\mu_{i,j-1})||MLP_{\theta_2}(\mu_{i, j+1})||MLP_{\theta_3}(\bar{v}’<em>{ij})||MLP</em>{\theta_4(\mu_{ij})}])$</p>
+<p>请注意，无需计算两个虚拟操作 Start 和 End 的嵌入。</p>
+<h5 id="Stacking-and-Pooling"><a href="#Stacking-and-Pooling" class="headerlink" title="Stacking and Pooling:"></a>Stacking and Pooling:</h5><p>上面的嵌入过程可以看作是一个HGNN层，它转换每个操作的原始特征$μ_{ij}$和$ν_k$，为了增强特征提取能力，这里将结构相同但可训练参数独立的 L个HGNN层堆叠起来，以获得最终的嵌入 $μ’^{(L)}_{ij}$ 和 $ν’^{(L)} _k$。</p>
+<p>在HGNN的L层之后，分别对得到的操作嵌入集和机器嵌入集应用均值池化。然后，将生成的两个 d 维向量连接为异构图状态 $H_t$ 的嵌入 $ht \in \R^{2d}$，如下所示：$h_t&#x3D;[\frac{1}{O}\sum_{O_{i,j\in O}\mu_{ij}^{‘(L)}}||\frac{1}{|M|}\sum_{M_{k\in M}}v’^{(L)}_k]$.</p>
+<p>通过上述过程，一个可变大小的异构图可以转化为一个固定维度的嵌入。令 θ 为所有 HGNN 参数的集合。</p>
+<h4 id="Decision-Making"><a href="#Decision-Making" class="headerlink" title="Decision Making"></a>Decision Making</h4><p>由于上述异构图结构和 HGNN，策略 π(at|st) 使用提取的嵌入可以简单方便地表示.</p>
+<p>对于在 $a_t &#x3D;(O_{ij},M_k) \in  A_t$ 处的每个可行动作，在步骤 t，相应的操作、机器和状态嵌入被连接起来并送入 MLP 以获得其在状态 $s_t$ 被选择的优先级索引，如下所示：$P(a_t, s_t)&#x3D;MLP_\omega[\mu’^{(L)}<em>{ij}||v’^{(L)}</em>{k}||h_t]$</p>
+<p>选择每个 $a_t$ 的概率是通过对所有 $P (a_t,s_t)$ 应用 softmax 来计算的:</p>
+<p>$\pi_\omega(a_t|s_t)&#x3D;\frac{exp(P(a_t,s_t))}{\sum_{a’_t\in A_t}exp(P(a’_t,s_t))} \forall a_t \in A_t$.</p>
+<p>在训练过程中，根据策略 $\pi_\omega$ 对动作进行采样，以进行探索。</p>
+<p>请注意，对于神经策略，采样的额外开销通常很小，因为图形处理单元 (GPU) 能够并行采样解决方案。</p>
+<p><img src="http://cdn.leafii.top/img/image-20230203000256621.png" alt="image-20230203000256621" loading="lazy"></p>
+<h4 id="Training"><a href="#Training" class="headerlink" title="Training"></a>Training</h4><p>本文使用 PPO进行训练，它采用了 actor-critic 结构。 Actor 是策略网络 $\pi_\omega$，critic $v_\phi$ 是另一个预测状态 $s_t$ 的值 $v(s_t)$ 的网络。</p>
+<p><img src="http://cdn.leafii.top/img/image-20230203000557428.png" alt="image-20230203000557428" loading="lazy"></p>
+<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><p>本节显示<strong>合成</strong>和<strong>公共 FJSP 实例</strong>的实验结果，以验证所提出的方法。</p>
+<h4 id="Experimental-Settings"><a href="#Experimental-Settings" class="headerlink" title="Experimental Settings"></a>Experimental Settings</h4><h5 id="数据来源"><a href="#数据来源" class="headerlink" title="数据来源"></a>数据来源</h5><p>合成数据来自[1].</p>
+<p>两个著名的 FJSP 基准测试数据:[1] 中的十个 mk 实例 (mk01–mk10) 和 [2] 中的三组 la 实例（rdata、edata 和 vdata，每组有 40 个实例）。</p>
+<p>在四个较小的尺寸上进行训练，并使用最大的两个（30×10 和 40×10）来测试泛化能力</p>
+<p>因此，对这些基准测试可以进一步验证所提出的方法在推广到分布外实例时的效果。有关这些实例的更多详细信息，请参见 [6]。</p>
+<h5 id="Baseline"><a href="#Baseline" class="headerlink" title="Baseline"></a>Baseline</h5><p>与四个在实践中运行良好的著名 PDR 相比，包括 FIFO、剩余操作最多 (MOR)、最短处理时间 (SPT) 和剩余工作最多 (MWKR) 。</p>
+<p>本文还与 Google OR-Tools 进行了比较。</p>
+<p>对于公共基准，本文还与 DRL 方法 [3] 和 [4] 和 [5] 中的两种最新遗传算法 (GA) 的结果以及 [6] 中收集的最著名解决方案进行了比较。</p>
+<p>对于具有最大完工时间 $C_{max}$ 的每个解决方案，其与最佳解决方案（不一定是最优）的最大完工时间 $C^{BS}_{max}$ 的相对差距计算如下：</p>
+<p>$\epsilon &#x3D; (C_{max}&#x2F;C_^{BS} - 1) \times 100% $</p>
+<h4 id="Performance-on-Synthetic-Instances"><a href="#Performance-on-Synthetic-Instances" class="headerlink" title="Performance on Synthetic Instances"></a>Performance on Synthetic Instances</h4><p>相当稳定并收敛于所有四种训练规模:</p>
+<p><img src="http://cdn.leafii.top/img/image-20230203002931755.png" alt="image-20230203002931755" loading="lazy"></p>
+<ol>
+<li>训练大小实例的评估</li>
+<li>大型实例的泛化性能</li>
+<li>运行时间分析</li>
+</ol>
+<p><img src="http://cdn.leafii.top/img/image-20230203003842530.png" loading="lazy"></p>
+<h4 id="Performance-on-Public-Benchmarks"><a href="#Performance-on-Public-Benchmarks" class="headerlink" title="Performance on Public Benchmarks"></a>Performance on Public Benchmarks</h4><p>进一步评估经过训练的政策在传统研究中经常使用的两个公共基准上的泛化性能:</p>
+<p><img src="http://cdn.leafii.top/img/image-20230203003828665.png" alt="image-20230203003828665" loading="lazy"></p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>本文提出了一种新颖的端到端 DRL 方法来为 FJSP 学习高质量的 PDR，该方法在实践中得到广泛应用，但很少被现有的基于 DRL 的方法研究。</p>
+<p>底层 MDP 是使用集成方法制定的，该方法将操作选择和机器分配结合为一个决策。然后，提出了一种异构图结构来表示调度状态，该结构由一种新颖的 HGNN 架构处理，以便将图中的数值和拓扑信息转换为特征嵌入。在 HGNN 的基础上，设计了一个 actor-critic 架构，并使用 PPO 进行训练。</p>
+<p>结果表明，所提出的方法以合理的效率优于基线 PDR，并且可以很好地泛化到更大尺寸和公共基准的看不见的实例。</p>
+<p>对于<strong>未来的工作</strong>，该方法将被扩展以处理实际生产中更具挑战性的因素，例如批次、到期日和不确定性。此外，将利用 FJSP 的多最优属性 [46]（即，一个实例可以有多个最优解）来提高训练性能。还将研究与 GA 等高级搜索机制相结合的可能性。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>[1] P. Brandimarte, “Routing and scheduling in a flexible job shop by tabu search,” Ann. Oper. Res., vol. 41, no. 3, pp. 157–183, 1993.</p>
+<p>[2]  J. Hurink, B. Jurisch, and M. Thole, “Tabu search for the job-shop scheduling problem with multi-purpose machines,” OR Spektrum, vol. 15, no. 4, pp. 205–215, 1994.</p>
+<p>[3] B. Han and J. Yang, “A deep reinforcement learning based solution for flexible job shop scheduling problem,” Int. J. Simul. Model., vol. 20, no. 2, pp. 375–386, 2021.</p>
+<p>[4] R. Chen, B. Yang, S. Li, and S. Wang, “A self-learning genetic algorithm based on reinforcement learning for flexible job-shop scheduling problem,” Comput. Ind. Eng., vol. 149, 2020, Art. no. 106778. </p>
+<p>[5] D. Rooyani and F. M. Defersha, “An efficient two-stage genetic algorithm for flexible job-shop scheduling,” IFAC-PapersOnLine, vol. 52, no. 13, pp. 2519–2524, 2019.</p>
+<p>[6] D. Behnke and M. J. Geiger, “Test instances for the flexible job shop scheduling problem with work centers,” Helmut Schmidt Univ., Hamburg, Germany, Tech. Rep. RR-12-01-01, 2012.</p>
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>Leafii</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="2023/02/01/Flexible Job-Shop Scheduling via Graph Neural Network and Deep Reinforcement Learning/" title="Flexible Job-Shop Scheduling via Graph Neural Network and Deep Reinforcement Learning">2023/02/01/Flexible Job-Shop Scheduling via Graph Neural Network and Deep Reinforcement Learning/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="../leetcode-70-%E7%88%AC%E6%A5%BC%E6%A2%AF/" rel="prev" title="leetcode:70.爬楼梯"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">leetcode:70.爬楼梯</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="../leetcode-344-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="next" title="leetcode:344.反转字符串"><span class="post-nav-text">leetcode:344.反转字符串</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2023 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> Leafii</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.2.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.9.3</span></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="../../../../js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div id="local-search-result"></div></div><script>function initMourn() {
+  const date = new Date();
+  const today = (date.getMonth() + 1) + "-" + date.getDate()
+  const mourn_days = ["4-4","9-18"]
+  if (mourn_days.includes(today)) {
+    document.documentElement.style.filter = "grayscale(1)";
+  }
+}
+initMourn();</script></div></body></html>
