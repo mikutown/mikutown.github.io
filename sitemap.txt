@@ -1,3 +1,5 @@
+2023/02/03/leetcode-37-%E8%A7%A3%E6%95%B0%E7%8B%AC/
+2023/02/03/leetcode-198-%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/
 2023/02/01/leetcode-70-%E7%88%AC%E6%A5%BC%E6%A2%AF/
 2023/02/01/Flexible%20Job-Shop%20Scheduling%20via%20Graph%20Neural%20Network%20and%20Deep%20Reinforcement%20Learning/
 2023/02/02/leetcode-53-%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84%E5%92%8C/
