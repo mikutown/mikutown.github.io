@@ -907,20 +907,6 @@
   </url>
   
   <url>
-    <loc>tags/Linux/</loc>
-    <lastmod>2023-02-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>tags/MySQL/</loc>
-    <lastmod>2023-02-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>tags/Git/</loc>
     <lastmod>2023-02-05</lastmod>
     <changefreq>weekly</changefreq>
@@ -935,13 +921,6 @@
   </url>
   
   <url>
-    <loc>tags/javaWeb/</loc>
-    <lastmod>2023-02-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>tags/Java/</loc>
     <lastmod>2023-02-05</lastmod>
     <changefreq>weekly</changefreq>
@@ -949,7 +928,7 @@
   </url>
   
   <url>
-    <loc>tags/MarkDown/</loc>
+    <loc>tags/javaWeb/</loc>
     <lastmod>2023-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -957,6 +936,27 @@
   
   <url>
     <loc>tags/Maven/</loc>
+    <lastmod>2023-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>tags/Linux/</loc>
+    <lastmod>2023-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>tags/MySQL/</loc>
+    <lastmod>2023-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>tags/MarkDown/</loc>
     <lastmod>2023-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1005,7 +1005,7 @@
   </url>
   
   <url>
-    <loc>tags/vim/</loc>
+    <loc>tags/nodejs/</loc>
     <lastmod>2023-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1019,7 +1019,14 @@
   </url>
   
   <url>
-    <loc>tags/nodejs/</loc>
+    <loc>tags/vim/</loc>
+    <lastmod>2023-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</loc>
     <lastmod>2023-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1040,7 +1047,7 @@
   </url>
   
   <url>
-    <loc>tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</loc>
+    <loc>tags/Hexo/</loc>
     <lastmod>2023-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1048,13 +1055,6 @@
   
   <url>
     <loc>tags/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2023-02-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>tags/Hexo/</loc>
     <lastmod>2023-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
