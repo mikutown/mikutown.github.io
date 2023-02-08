@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-02-07T11:49:11.488Z</updated>
+  <updated>2023-02-08T18:17:59.114Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,53 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode:76.最小覆盖子串</title>
+    <link href="2023/02/09/leetcode-76-%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/"/>
+    <id>2023/02/09/leetcode-76-%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/</id>
+    <published>2023-02-08T18:10:05.000Z</published>
+    <updated>2023-02-08T18:17:59.114Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个字符串 <code>s</code> 、一个字符串 <code>t</code> 。返回 <code>s</code> 中涵盖 <code>t</code> 所有字符的最小子串。如果 <code>s</code> 中不存在涵盖 <code>t</code> 所有字符的子串，则返回空字符串 <code>&quot;&quot;</code> 。</p><p><strong>注意：</strong></p><ul><li>对于 <code>t</code> 中重复字符，我们寻找的子字符串中该字符数量必须不少于 <code>t</code> 中该字符数量。</li><li>如果 <code>s</code> 中存在这样的子串，我们保证它是唯一的答案。</li></ul><span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;ADOBECODEBANC&quot;, t &#x3D; &quot;ABC&quot;输出：&quot;BANC&quot;解释：最小覆盖子串 &quot;BANC&quot; 包含来自字符串 t 的 &#39;A&#39;、&#39;B&#39; 和 &#39;C&#39;。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;a&quot;, t &#x3D; &quot;a&quot;输出：&quot;a&quot;解释：整个字符串 s 是最小覆盖子串。</code></pre><p><strong>示例 3:</strong></p><pre class="language-none"><code class="language-none">输入: s &#x3D; &quot;a&quot;, t &#x3D; &quot;aa&quot;输出: &quot;&quot;解释: t 中两个字符 &#39;a&#39; 均应包含在 s 的子串中，因此没有符合条件的子字符串，返回空字符串。</code></pre><p><strong>提示：</strong></p><ul><li><code>m == s.length</code></li><li><code>n == t.length</code></li><li><code>1 &lt;= m, n &lt;= 105</code></li><li><code>s</code> 和 <code>t</code> 由英文字母组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>滑动窗口</li></ol><p>一个常见的解决方案是使用双指针法和滑动窗口技巧，并利用一个哈希表来维护字符串 <code>t</code> 中字符的出现次数。</p><p>我们用两个指针分别指向当前枚举的子串的左端点和右端点，同时用一个计数器维护当前子串是否已经包含了字符串 <code>t</code> 中的所有字符。</p><p>每当右指针移动到一个字符时，如果该字符在字符串 <code>t</code> 中出现过，则将哈希表中该字符的计数器减一，同时如果该字符的计数器减一后不再为 0，则将计数器减一，表示该字符已经被包含在当前子串中了。</p><p>当计数器变成 0 时，说明当前子串已经包含了字符串 <code>t</code> 中的所有字符，此时开始移动左指针，直到该子串不再包含字符串 <code>t</code> 中的所有字符，此时计数器再次变成非 0 的值，表示当前子串不再完整包含字符串 <code>t</code>。</p><p>在整个过程中，每当移动左指针时，同时记录当前子串的长度是否比之前记录的子串长度更短，如果是，则将当前子串的长度和起始位置记录下来，作为结果的可能。</p><p>这样，我们就可以在 $O(m + n)$ 的时间复杂度内解决此问题。</p><p>C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string minWindow(string s, string t) &#123;        unordered_map&lt;char, int&gt; t_map;        for (const char&amp; c : t) &#123;            ++t_map[c];        &#125;        int left &#x3D; 0, right &#x3D; 0, count &#x3D; t.length(), min_len &#x3D; INT_MAX, min_start &#x3D; 0;        while (right &lt; s.length()) &#123;            &#x2F;&#x2F; 右指针右移            if (t_map[s[right++]]-- &gt; 0) &#123;                --count;            &#125;            while (count &#x3D;&#x3D; 0) &#123;                if (right - left &lt; min_len) &#123;                    min_len &#x3D; right - left;                    min_start &#x3D; left;                &#125;                &#x2F;&#x2F; 左指针左移                if (t_map[s[left++]]++ &#x3D;&#x3D; 0) &#123;                    ++count;                &#125;            &#125;        &#125;        return min_len &#x3D;&#x3D; INT_MAX ? &quot;&quot; : s.substr(min_start, min_len);    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个字符串 &lt;code&gt;s&lt;/code&gt; 、一个字符串 &lt;code&gt;t&lt;/code&gt; 。返回 &lt;code&gt;s&lt;/code&gt; 中涵盖 &lt;code&gt;t&lt;/code&gt; 所有字符的最小子串。如果 &lt;code&gt;s&lt;/code&gt; 中不存在涵盖 &lt;code&gt;t&lt;/code&gt; 所有字符的子串，则返回空字符串 &lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对于 &lt;code&gt;t&lt;/code&gt; 中重复字符，我们寻找的子字符串中该字符数量必须不少于 &lt;code&gt;t&lt;/code&gt; 中该字符数量。&lt;/li&gt;
+&lt;li&gt;如果 &lt;code&gt;s&lt;/code&gt; 中存在这样的子串，我们保证它是唯一的答案。&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>leetcode:59.螺旋矩阵II</title>
+    <link href="2023/02/09/leetcode-59-%E8%9E%BA%E6%97%8B%E7%9F%A9%E9%98%B5II/"/>
+    <id>2023/02/09/leetcode-59-%E8%9E%BA%E6%97%8B%E7%9F%A9%E9%98%B5II/</id>
+    <published>2023-02-08T16:53:16.000Z</published>
+    <updated>2023-02-08T16:56:58.490Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个正整数 <code>n</code> ，生成一个包含 <code>1</code> 到 <code>n2</code> 所有元素，且元素按顺时针顺序螺旋排列的 <code>n x n</code> 正方形矩阵 <code>matrix</code> 。</p><span id="more"></span><p><strong>示例 1：</strong></p><p><img src="https://assets.leetcode.com/uploads/2020/11/13/spiraln.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3输出：[[1,2,3],[8,9,4],[7,6,5]]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 1输出：[[1]]</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= n &lt;= 20</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>定义四个变量<code>top</code>,<code>bottom</code>,<code>left</code>,<code>right</code>，分别代表矩阵的上下左右边界。</li><li>定义一个变量 <code>count</code> 表示当前元素的值，初始值为1。</li><li>只要 <code>top &lt;= bottom &amp;&amp; left &lt;= right</code> ，循环执行以下步骤：<ol><li>先向右填充 <code>top</code> 行的元素，元素的值递增，并将 <code>top</code> 向下移动1。</li><li>向下填充 <code>right</code> 列的元素，元素的值递增，并将 <code>right</code> 向左移动1。</li><li>如果 <code>top &lt;= bottom</code> ，向左填充 <code>bottom</code> 行的元素，元素的值递增，并将 <code>bottom</code> 向上移动1。</li><li>如果 <code>left &lt;= right</code> ，向上填充 <code>left</code> 列的元素，元素的值递增，并将 <code>left</code> 向右移动1。</li></ol></li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; generateMatrix(int n) &#123;        vector&lt;vector&lt;int&gt;&gt; matrix(n, vector&lt;int&gt;(n, 0));        int top &#x3D; 0, bottom &#x3D; n - 1, left &#x3D; 0, right &#x3D; n - 1;        int count &#x3D; 1;        while (top &lt;&#x3D; bottom &amp;&amp; left &lt;&#x3D; right) &#123;            for (int j &#x3D; left; j &lt;&#x3D; right; j++) &#123;                matrix[top][j] &#x3D; count++;            &#125;            top++;            for (int i &#x3D; top; i &lt;&#x3D; bottom; i++) &#123;                matrix[i][right] &#x3D; count++;            &#125;            right--;            if (top &lt;&#x3D; bottom) &#123;                for (int j &#x3D; right; j &gt;&#x3D; left; j--) &#123;                    matrix[bottom][j] &#x3D; count++;                &#125;                bottom--;            &#125;            if (left &lt;&#x3D; right) &#123;                for (int i &#x3D; bottom; i &gt;&#x3D; top; i--) &#123;                    matrix[i][left] &#x3D; count++;                &#125;                left++;            &#125;        &#125;        return matrix;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个正整数 &lt;code&gt;n&lt;/code&gt; ，生成一个包含 &lt;code&gt;1&lt;/code&gt; 到 &lt;code&gt;n2&lt;/code&gt; 所有元素，且元素按顺时针顺序螺旋排列的 &lt;code&gt;n x n&lt;/code&gt; 正方形矩阵 &lt;code&gt;matrix&lt;/code&gt; 。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode:209.长度最小的子数组</title>
@@ -406,55 +453,6 @@
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。&lt;/p&gt;
 &lt;p&gt;请必须使用时间复杂度为 &lt;code&gt;O(log n)&lt;/code&gt; 的算法。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode:20.有效的括号</title>
-    <link href="2023/01/15/leetcode-20-%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/"/>
-    <id>2023/01/15/leetcode-20-%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/</id>
-    <published>2023-01-15T05:24:30.000Z</published>
-    <updated>2023-01-15T08:01:36.793Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个只包括 <code>&#39;(&#39;</code>，<code>&#39;)&#39;</code>，<code>&#39;&#123;&#39;</code>，<code>&#39;&#125;&#39;</code>，<code>&#39;[&#39;</code>，<code>&#39;]&#39;</code> 的字符串 <code>s</code> ，判断字符串是否有效。</p><p>有效字符串需满足：</p><ol><li>左括号必须用相同类型的右括号闭合。</li><li>左括号必须以正确的顺序闭合。</li><li>每个右括号都有一个对应的相同类型的左括号。</li></ol><span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;()&quot;输出：true</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;()[]&#123;&#125;&quot;输出：true</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;(]&quot;输出：false</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 104</code></li><li><code>s</code> 仅由括号 <code>&#39;()[]&#123;&#125;&#39;</code> 组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>使用栈进行左半边括号的存储，遍历字符串，当遇到右半边括号时进行匹配，若是相匹配的括号则继续遍历字符串直到最后一个字符，否则返回false。实现代码如下：</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isValid(string s) &#123;        stack&lt;char&gt; sc; &#x2F;&#x2F;创建栈        for(char a:s)&#123; &#x2F;&#x2F;遍历并判断，首先判断栈是否为空，                       &#x2F;&#x2F;接下来判断两个括号是否匹配。            if(sc.size() &amp;&amp; a&#x3D;&#x3D;&#39;)&#39; &amp;&amp; sc.top()&#x3D;&#x3D;&#39;(&#39;)                sc.pop(); &#x2F;&#x2F;匹配成功后将栈内的左括号弹出            else if(sc.size() &amp;&amp; a&#x3D;&#x3D;&#39;]&#39; &amp;&amp; sc.top()&#x3D;&#x3D;&#39;[&#39;)                sc.pop();            else if(sc.size() &amp;&amp; a&#x3D;&#x3D;&#39;&#125;&#39; &amp;&amp; sc.top()&#x3D;&#x3D;&#39;&#123;&#39;)                sc.pop();            else                 sc.push(a); &#x2F;&#x2F;若是左括号，则压入栈内        &#125;        return sc.empty(); &#x2F;&#x2F;遍历结束后，若栈为空，则返回true    &#125;&#125;;</code></pre><ol start="2"><li>官方解答</li></ol><p>判断括号的有效性可以使用「栈」这一数据结构来解决。</p><p>我们遍历给定的字符串 sss。当我们遇到一个左括号时，我们会期望在后续的遍历中，有一个相同类型的右括号将其闭合。由于后遇到的左括号要先闭合，因此我们可以将这个左括号放入栈顶。</p><p>当我们遇到一个右括号时，我们需要将一个相同类型的左括号闭合。此时，我们可以取出栈顶的左括号并判断它们是否是相同类型的括号。如果不是相同的类型，或者栈中并没有左括号，那么字符串 sss 无效，返回 False\text{False}False。为了快速判断括号的类型，我们可以使用哈希表存储每一种括号。哈希表的键为右括号，值为相同类型的左括号。</p><p>在遍历结束后，如果栈中没有左括号，说明我们将字符串 sss 中的所有左括号闭合，返回<code>True</code>，否则返回 <code>False</code>。</p><p>注意到有效字符串的长度一定为偶数，因此如果字符串的长度为奇数，我们可以直接返回 <code>False</code>，省去后续的遍历判断过程。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isValid(string s) &#123;        int n &#x3D; s.size();        if (n % 2 &#x3D;&#x3D; 1) &#123;            return false;        &#125;        unordered_map&lt;char, char&gt; pairs &#x3D; &#123;            &#123;&#39;)&#39;, &#39;(&#39;&#125;,            &#123;&#39;]&#39;, &#39;[&#39;&#125;,            &#123;&#39;&#125;&#39;, &#39;&#123;&#39;&#125;        &#125;;        stack&lt;char&gt; stk;        for (char ch: s) &#123;            if (pairs.count(ch)) &#123;                if (stk.empty() || stk.top() !&#x3D; pairs[ch]) &#123;                    return false;                &#125;                stk.pop();            &#125;            else &#123;                stk.push(ch);            &#125;        &#125;        return stk.empty();    &#125;&#125;;</code></pre><p>作者：力扣官方题解<br>链接：<a href="https://leetcode.cn/problems/valid-parentheses/solutions/373578/you-xiao-de-gua-hao-by-leetcode-solution/">https://leetcode.cn/problems/valid-parentheses/solutions/373578/you-xiao-de-gua-hao-by-leetcode-solution/</a><br>来源：力扣（LeetCode）<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个只包括 &lt;code&gt;&amp;#39;(&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;)&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;&amp;#123;&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;&amp;#125;&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;[&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;]&amp;#39;&lt;/code&gt; 的字符串 &lt;code&gt;s&lt;/code&gt; ，判断字符串是否有效。&lt;/p&gt;
-&lt;p&gt;有效字符串需满足：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;左括号必须用相同类型的右括号闭合。&lt;/li&gt;
-&lt;li&gt;左括号必须以正确的顺序闭合。&lt;/li&gt;
-&lt;li&gt;每个右括号都有一个对应的相同类型的左括号。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode:23.合并K个升序链表</title>
-    <link href="2023/01/12/leetcode-23-%E5%90%88%E5%B9%B6K%E4%B8%AA%E5%8D%87%E5%BA%8F%E9%93%BE%E8%A1%A8/"/>
-    <id>2023/01/12/leetcode-23-%E5%90%88%E5%B9%B6K%E4%B8%AA%E5%8D%87%E5%BA%8F%E9%93%BE%E8%A1%A8/</id>
-    <published>2023-01-12T09:23:49.000Z</published>
-    <updated>2023-01-12T09:25:45.046Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个链表数组，每个链表都已经按升序排列。</p><p>请你将所有链表合并到一个升序链表中，返回合并后的链表。</p><span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：lists &#x3D; [[1,4,5],[1,3,4],[2,6]]输出：[1,1,2,3,4,4,5,6]解释：链表数组如下：[  1-&gt;4-&gt;5,  1-&gt;3-&gt;4,  2-&gt;6]将它们合并到一个有序链表中得到。1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：lists &#x3D; []输出：[]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：lists &#x3D; [[]]输出：[]</code></pre><p><strong>提示：</strong></p><ul><li><code>k == lists.length</code></li><li><code>0 &lt;= k &lt;= 10^4</code></li><li><code>0 &lt;= lists[i].length &lt;= 500</code></li><li><code>-10^4 &lt;= lists[i][j] &lt;= 10^4</code></li><li><code>lists[i]</code> 按 <strong>升序</strong> 排列</li><li><code>lists[i].length</code> 的总和不超过 <code>10^4</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>写一个可以合并两个有序链表的函数，然后对传入的list进行遍历，将list的两个元素两两合并，最后返回头结点。实现代码如下：</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode() : val(0), next(nullptr) &#123;&#125; *     ListNode(int x) : val(x), next(nullptr) &#123;&#125; *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    &#x2F;&#x2F;合并两个有序链表    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2)    &#123;        ListNode* head &#x3D; nullptr;        ListNode* curNode &#x3D; nullptr;        ListNode** temp &#x3D; nullptr;        bool isFirst &#x3D; true;        while(list1 !&#x3D; nullptr &amp;&amp; list2 !&#x3D; nullptr)        &#123;            temp &#x3D; (list1 -&gt; val &lt; list2 -&gt; val)? &amp;list1:&amp;list2; &#x2F;&#x2F;使用二级指针，因为temp如果是一级指针，那么temp &#x3D; temp-&gt;next;是无法改变list1和list2的值的，而二级指针可以间接改变list1和list2的地址。            if(isFirst)            &#123;                head &#x3D; *temp;                curNode &#x3D; *temp;                isFirst &#x3D; false;            &#125;            else            &#123;                curNode -&gt; next &#x3D; *temp;                curNode &#x3D; curNode -&gt; next;            &#125;            *temp &#x3D; (*temp) -&gt; next;        &#125;        if(nullptr !&#x3D; list1)        &#123;            if(isFirst)  &#x2F;&#x2F;有一方链表为空            &#123;                head &#x3D; list1;            &#125;            else         &#x2F;&#x2F;剩下结点直接补齐            &#123;                curNode -&gt; next &#x3D; list1;            &#125;        &#125;        if(nullptr !&#x3D; list2)        &#123;            if(isFirst)            &#123;                head &#x3D; list2;            &#125;            else            &#123;                curNode-&gt;next &#x3D; list2;            &#125;        &#125;        return head;    &#125;    ListNode* mergeKLists(vector&lt;ListNode*&gt;&amp; lists) &#123;        ListNode* head &#x3D; nullptr;        for(int i &#x3D; 0; i &lt; lists.size(); i++)        &#123;            head &#x3D; mergeTwoLists(head, lists[i]);        &#125;        return head;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个链表数组，每个链表都已经按升序排列。&lt;/p&gt;
-&lt;p&gt;请你将所有链表合并到一个升序链表中，返回合并后的链表。&lt;/p&gt;</summary>
     
     
     
