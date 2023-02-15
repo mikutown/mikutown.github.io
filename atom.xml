@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-02-14T07:39:03.891Z</updated>
+  <updated>2023-02-15T10:45:13.616Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode55.跳跃游戏</title>
+    <link href="2023/02/15/leetcode55-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/"/>
+    <id>2023/02/15/leetcode55-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/</id>
+    <published>2023-02-15T10:21:20.000Z</published>
+    <updated>2023-02-15T10:45:13.616Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个非负整数数组 <code>nums</code> ，你最初位于数组的 <strong>第一个下标</strong> 。</p><p>数组中的每个元素代表你在该位置可以跳跃的最大长度。</p><p>判断你是否能够到达最后一个下标。</p><span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [2,3,1,1,4]输出：true解释：可以先跳 1 步，从下标 0 到达下标 1, 然后再从下标 1 跳 3 步到达最后一个下标。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [3,2,1,0,4]输出：false解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ， 所以永远不可能到达最后一个下标。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 3 * 104</code></li><li><code>0 &lt;= nums[i] &lt;= 105</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>利用栈（<strong>超时</strong>）</li></ol><p>将能到达的数组元素推进栈，模拟树的操作，但是会超时。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool canJump(vector&lt;int&gt;&amp; nums) &#123;        int len &#x3D; nums.size();        if (len &gt; 1 &amp;&amp; nums[0] &#x3D;&#x3D; 0) return false;        if (len &#x3D;&#x3D; 1) return true;        stack&lt;int&gt; s; &#x2F;&#x2F; 定义一个栈        int index &#x3D; 0;        if (nums[index] &gt; len) return true;        s.push(index);        while(!s.empty()) &#123;            int temp_index &#x3D; s.top();            int temp_num &#x3D; nums[temp_index];            s.pop();            for (int i &#x3D; 1; i &lt;&#x3D; temp_num; i++) &#123;                if (temp_index + i &#x3D;&#x3D; len - 1) return true;                if (nums[temp_index + i] &gt;&#x3D; (len - (temp_index + i))) return true;                if (nums[temp_index + i] !&#x3D; 0) s.push(temp_index + i);            &#125;        &#125;        return false;    &#125;&#125;;</code></pre><p>用chatGPT分析超时的原因：</p><blockquote><p>您的代码的时间复杂度为 O(2^n)，其中 n 是数组的长度，因为在每个位置都可以有两个选择：跳或不跳，总共有 2^n 种可能的路径。这样的时间复杂度是无法通过本题的。</p><p>此外，您使用了栈来存储待搜索的位置，但这样的做法并不高效。因为每个位置最多只需要被遍历一次，而使用栈会重复遍历一些位置，导致时间复杂度进一步增加。</p></blockquote><ol start="2"><li>使用贪心算法</li></ol><p>使用贪心算法，从左到右遍历数组，用一个变量来维护能够到达的最远距离，如果当前位置在这个最远距离之内，那么更新最远距离。如果遍历结束后最远距离大于等于数组的最后一个位置，那么就说明可以到达最后一个位置，否则就无法到达。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool canJump(vector&lt;int&gt;&amp; nums) &#123;        int n &#x3D; nums.size();        int maxPos &#x3D; 0; &#x2F;&#x2F; 当前能到达的最远距离        for (int i &#x3D; 0; i &lt; n; i++) &#123;            if (i &gt; maxPos) return false; &#x2F;&#x2F; 如果当前位置无法到达，则返回false            maxPos &#x3D; max(maxPos, i + nums[i]); &#x2F;&#x2F; 更新能够到达的最远距离            if (maxPos &gt;&#x3D; n - 1) return true; &#x2F;&#x2F; 如果能够到达最后一个位置，返回true        &#125;        return false;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个非负整数数组 &lt;code&gt;nums&lt;/code&gt; ，你最初位于数组的 &lt;strong&gt;第一个下标&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;数组中的每个元素代表你在该位置可以跳跃的最大长度。&lt;/p&gt;
+&lt;p&gt;判断你是否能够到达最后一个下标。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode101.对称二叉树</title>
@@ -430,27 +453,6 @@
 &lt;p&gt;&lt;strong&gt;n 皇后问题&lt;/strong&gt; 研究的是如何将 &lt;code&gt;n&lt;/code&gt; 个皇后放置在 &lt;code&gt;n×n&lt;/code&gt; 的棋盘上，并且使皇后彼此之间不能相互攻击。&lt;/p&gt;
 &lt;p&gt;给你一个整数 &lt;code&gt;n&lt;/code&gt; ，返回所有不同的 &lt;strong&gt;n 皇后问题&lt;/strong&gt; 的解决方案。&lt;/p&gt;
 &lt;p&gt;每一种解法包含一个不同的 &lt;strong&gt;n 皇后问题&lt;/strong&gt; 的棋子放置方案，该方案中 &lt;code&gt;&amp;#39;Q&amp;#39;&lt;/code&gt; 和 &lt;code&gt;&amp;#39;.&amp;#39;&lt;/code&gt; 分别代表了皇后和空位。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>剑指Offer64.求1+2+…+n</title>
-    <link href="2023/01/17/%E5%89%91%E6%8C%87Offer64-%E6%B1%821-2-%E2%80%A6-n/"/>
-    <id>2023/01/17/%E5%89%91%E6%8C%87Offer64-%E6%B1%821-2-%E2%80%A6-n/</id>
-    <published>2023-01-17T05:17:16.000Z</published>
-    <updated>2023-01-17T06:10:05.987Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>求 <code>1+2+...+n</code> ，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入: n &#x3D; 3输出: 6</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入: n &#x3D; 9输出: 45</code></pre><p><strong>限制：</strong></p><ul><li><code>1 &lt;= n &lt;= 10000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>错误解法（使用了if）,虽然通过了但是不符合题意。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int sumNums(int n) &#123;        if(n &#x3D;&#x3D; 1)        &#123;            return 1;        &#125;        else        &#123;            return n + sumNums(n - 1);        &#125;    &#125;&#125;;</code></pre><ol start="2"><li>由于不能使用乘除法，<code>for</code>，<code>while</code>等关键字以及条件判断语句，因此我们能用的挚友加减法，赋值，位运算符和逻辑运算符。</li></ol><p>但是如果使用递归方法，那么递归的结束条件很难不用条件判断语句，那么怎么解决？答案是使用逻辑运算符<code>&amp;&amp;</code>或者<code>||</code>，利用它的短路性质，对于<code> A &amp;&amp; B</code> 这个表达式，如果 <code>A</code> 表达式返回 <code>False</code> ，那么 <code>A &amp;&amp; B</code> 已经确定为 <code>False</code>，此时不会去执行表达式 <code>B</code>。同理，对于逻辑运算符 <code>||</code>， 对于 <code>A || B</code> 这个表达式，如果 <code>A</code> 表达式返回 <code>True</code> ，那么<code> A || B</code> 已经确定为<code> True</code> ，此时不会去执行表达式<code> B</code>。</p><p>因此我们可以将判断是否为递归的出口看作<code>A&amp;B</code>表达式中的<code>A</code>部分，递归的主体函数看作<code>B</code>部分。如果不是递归出口，就返回<code>True</code>，并继续执行表达式<code>B</code>的部分，否则递归结束。结合逻辑运算符<code>&amp;&amp;</code>的递归实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int sumNums(int n) &#123;        n &amp;&amp; (n +&#x3D; sumNums(n-1));        return n;    &#125;&#125;;</code></pre><p>用逻辑运算符<code>||</code>的递归实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int sumNums(int n) &#123;        n&#x3D;&#x3D;1 || (n +&#x3D; sumNums(n-1));        return n;    &#125;&#125;;</code></pre><ol start="3"><li>使用C++的sizeof函数进行$\frac{1}{2}(n \times (n+1))$的模拟：</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int sumNums(int n) &#123;        bool a[n][n+1]; &#x2F;&#x2F;bool一个元素占一bit        return sizeof(a) &gt;&gt; 1; &#x2F;&#x2F;sizeof(a) 计算了n*(n+1)    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;求 &lt;code&gt;1+2+...+n&lt;/code&gt; ，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。&lt;/p&gt;</summary>
     
     
     
