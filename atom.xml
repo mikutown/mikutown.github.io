@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-02-17T06:49:29.485Z</updated>
+  <updated>2023-02-19T05:58:44.157Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode455.分发饼干</title>
+    <link href="2023/02/19/leetcode455-%E5%88%86%E5%8F%91%E9%A5%BC%E5%B9%B2/"/>
+    <id>2023/02/19/leetcode455-%E5%88%86%E5%8F%91%E9%A5%BC%E5%B9%B2/</id>
+    <published>2023-02-19T05:35:55.000Z</published>
+    <updated>2023-02-19T05:58:44.157Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>假设你是一位很棒的家长，想要给你的孩子们一些小饼干。但是，每个孩子最多只能给一块饼干。</p><p>对每个孩子 <code>i</code>，都有一个胃口值 <code>g[i]</code>，这是能让孩子们满足胃口的饼干的最小尺寸；并且每块饼干 <code>j</code>，都有一个尺寸 <code>s[j]</code> 。如果 <code>s[j] &gt;= g[i]</code>，我们可以将这个饼干 <code>j</code> 分配给孩子 <code>i</code> ，这个孩子会得到满足。你的目标是尽可能满足越多数量的孩子，并输出这个最大数值。</p><span id="more"></span> <p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入: g &#x3D; [1,2,3], s &#x3D; [1,1]输出: 1解释: 你有三个孩子和两块小饼干，3个孩子的胃口值分别是：1,2,3。虽然你有两块小饼干，由于他们的尺寸都是1，你只能让胃口值是1的孩子满足。所以你应该输出1。</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: g &#x3D; [1,2], s &#x3D; [1,2,3]输出: 2解释: 你有两个孩子和三块小饼干，2个孩子的胃口值分别是1,2。你拥有的饼干数量和尺寸都足以让所有孩子满足。所以你应该输出2.</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= g.length &lt;= 3 * 104</code></li><li><code>0 &lt;= s.length &lt;= 3 * 104</code></li><li><code>1 &lt;= g[i], s[j] &lt;= 231 - 1</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>初见思路</li></ol><p>对两个数组进行排序，然后使用双层for循环进行贪心的遍历查找；C++实现代码如下，但是显然还有优化空间。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int findContentChildren(vector&lt;int&gt;&amp; g, vector&lt;int&gt;&amp; s) &#123;        sort(g.begin(), g.end());        sort(s.begin(), s.end()); &#x2F;&#x2F;排列数组        int result &#x3D; 0;        for (int i &#x3D; 0; i &lt; g.size(); i++) &#123;            for (int j &#x3D; 0; j &lt; s.size(); j++) &#123;                if (s[j] &gt;&#x3D; g[i]) &#123;                    &#x2F;&#x2F; 如果满足条件，则result++,且修改s中的数值。                    &#x2F;&#x2F; g中的无需修改，因为循环会继续                    result++;                    s[j] &#x3D; -1;                    break;                &#125;            &#125;        &#125;        return result;         &#125;&#125;;</code></pre><ol start="2"><li>使用双指针优化刚才的双层for循环，C++代码实现如下：</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int findContentChildren(vector&lt;int&gt;&amp; g, vector&lt;int&gt;&amp; s) &#123;        sort(g.begin(), g.end());        sort(s.begin(), s.end()); &#x2F;&#x2F;排列数组        int result &#x3D; 0;        int i &#x3D; 0, j &#x3D; 0;        while (i &lt; g.size() &amp;&amp; j &lt; s.size()) &#123;            if (s[j] &gt;&#x3D; g[i]) &#123;                result++;                i++;                j++;                        &#125;            else j++;        &#125;        return result;         &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;假设你是一位很棒的家长，想要给你的孩子们一些小饼干。但是，每个孩子最多只能给一块饼干。&lt;/p&gt;
+&lt;p&gt;对每个孩子 &lt;code&gt;i&lt;/code&gt;，都有一个胃口值 &lt;code&gt;g[i]&lt;/code&gt;，这是能让孩子们满足胃口的饼干的最小尺寸；并且每块饼干 &lt;code&gt;j&lt;/code&gt;，都有一个尺寸 &lt;code&gt;s[j]&lt;/code&gt; 。如果 &lt;code&gt;s[j] &amp;gt;= g[i]&lt;/code&gt;，我们可以将这个饼干 &lt;code&gt;j&lt;/code&gt; 分配给孩子 &lt;code&gt;i&lt;/code&gt; ，这个孩子会得到满足。你的目标是尽可能满足越多数量的孩子，并输出这个最大数值。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode135.分发糖果</title>
@@ -435,27 +457,6 @@
     <summary type="html">&lt;h2 id=&quot;15-三数之和&quot;&gt;&lt;a href=&quot;#15-三数之和&quot; class=&quot;headerlink&quot; title=&quot;15. 三数之和&quot;&gt;&lt;/a&gt;15. 三数之和&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; ，判断是否存在三元组 &lt;code&gt;[nums[i], nums[j], nums[k]]&lt;/code&gt; 满足 &lt;code&gt;i != j&lt;/code&gt;、&lt;code&gt;i != k&lt;/code&gt; 且 &lt;code&gt;j != k&lt;/code&gt; ，同时还满足 &lt;code&gt;nums[i] + nums[j] + nums[k] == 0&lt;/code&gt; 。请&lt;/p&gt;
 &lt;p&gt;你返回所有和为 &lt;code&gt;0&lt;/code&gt; 且不重复的三元组。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;答案中不可以包含重复的三元组。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode:94.二叉树的中序遍历</title>
-    <link href="2023/01/27/leetcode-94-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/"/>
-    <id>2023/01/27/leetcode-94-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/</id>
-    <published>2023-01-27T06:59:43.000Z</published>
-    <updated>2023-01-27T08:22:12.502Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个二叉树的根节点 <code>root</code> ，返回 <em>它的 <strong>中序</strong> 遍历</em> 。</p><span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/inorder_1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,null,2,3]输出：[1,3,2]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; []输出：[]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1]输出：[1]</code></pre><p><strong>提示：</strong></p><ul><li>树中节点数目在范围 <code>[0, 100]</code> 内</li><li><code>-100 &lt;= Node.val &lt;= 100</code></li></ul><p><strong>进阶:</strong> 递归算法很简单，你可以通过迭代算法完成吗？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>递归算法</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    void inorder(TreeNode* root, vector&lt;int&gt;&amp; res)&#123;      &#x2F;&#x2F;原函数没办法对vector数组的内容进行添加        if(!root) &#123;            return;        &#125;      &#x2F;&#x2F;中 左 右        inorder(root-&gt;left, res);        res.push_back(root -&gt; val);        inorder(root-&gt;right, res);    &#125;    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        inorder(root, result);        return result;    &#125;&#125;;</code></pre><ol start="2"><li>迭代</li></ol><p>方法一的递归函数我们也可以用迭代的方式实现，两种方式是等价的，区别在于递归的时候隐式地维护了一个栈，而我们在迭代的时候需要显式地将这个栈模拟出来，其他都相同，具体实现可以看下面的代码。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; stk;        while (root !&#x3D; nullptr || !stk.empty()) &#123;            &#x2F;&#x2F;结点非空时，将root结点push进去， root迭代至左结点            while(root !&#x3D; nullptr) &#123;                stk.push(root);                root &#x3D; root -&gt; left;            &#125;            &#x2F;&#x2F;符合条件的结点都push进去之后，出栈，然后将root结点的值push进res数组中，            root &#x3D; stk.top();            stk.pop();            res.push_back(root -&gt; val);            &#x2F;&#x2F; 将root结点迭代至右结点            root &#x3D; root -&gt; right;         &#125;        return res;    &#125;    &#125;;</code></pre><ol start="3"><li>Morris遍历算法</li></ol><p>思路与算法</p><p>Morris 遍历算法是另一种遍历二叉树的方法，它能将非递归的中序遍历空间复杂度降为 $O(1)$。</p><p>Morris 遍历算法整体步骤如下（假设当前遍历到的节点为 $x$）：</p><p>如果 $x$ 无左孩子，先将 $x$ 的值加入答案数组，再访问 $x$ 的右孩子，即 $x &#x3D; x.right $。<br>如果 $x$ 有左孩子，则找到 $x$ 左子树上最右的节点（即左子树中序遍历的最后一个节点，$x$ 在中序遍历中的前驱节点），我们记为 $predecessor $。根据 $predecessor $ 的右孩子是否为空，进行如下操作。<br>如果 $predecessor $ 的右孩子为空，则将其右孩子指向 $x$，然后访问 $x$ 的左孩子，即 $x &#x3D; x.left $。<br>如果 $predecessor $ 的右孩子不为空，则此时其右孩子指向 $x$，说明我们已经遍历完 $x$ 的左子树，我们将 $predecessor $ 的右孩子置空，将 $x$ 的值加入答案数组，然后访问 $x$ 的右孩子，即 $x &#x3D; x.right $。<br>重复上述操作，直至访问完整棵树。</p><p>其实整个过程我们就多做一步：假设当前遍历到的节点为 xxx，将 xxx 的左子树中最右边的节点的右孩子指向 xxx，这样在左子树遍历完成后我们通过这个指向走回了 xxx，且能通过这个指向知晓我们已经遍历完成了左子树，而不用再通过栈来维护，省去了栈的空间复杂度。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        TreeNode *predecessor &#x3D; nullptr;        while (root !&#x3D; nullptr) &#123;            if(root -&gt; left !&#x3D; nullptr) &#123;                &#x2F;&#x2F;predecessor就是当前root节点向左走一步，再一直向右走到无法走为止                predecessor &#x3D; root -&gt; left;                while(predecessor -&gt; right !&#x3D; nullptr &amp;&amp; predecessor -&gt; right !&#x3D; root) &#123;                    predecessor &#x3D; predecessor -&gt; right;                &#125;            &#x2F;&#x2F;让predecessor的右指针指向root，继续遍历左子树            if (predecessor -&gt; right &#x3D;&#x3D; nullptr) &#123;                predecessor -&gt; right &#x3D; root;                root &#x3D; root -&gt; left;            &#125;            &#x2F;&#x2F;说明左子树已经访问完了， 需要断开连接            else &#123;                res.push_back(root -&gt; val);                predecessor -&gt; right &#x3D; nullptr;                root &#x3D; root -&gt; right;                &#125;            &#125;            &#x2F;&#x2F;如果没有左孩子，则直接访问右孩子            else &#123;                res.push_back(root -&gt; val);                root &#x3D; root -&gt; right;            &#125;                    &#125;        return res;            &#125;&#125;;</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li>力扣官方题解：<a href="https://leetcode.cn/problems/binary-tree-inorder-traversal/solutions/412886/er-cha-shu-de-zhong-xu-bian-li-by-leetcode-solutio/">https://leetcode.cn/problems/binary-tree-inorder-traversal/solutions/412886/er-cha-shu-de-zhong-xu-bian-li-by-leetcode-solutio/</a></li></ul>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个二叉树的根节点 &lt;code&gt;root&lt;/code&gt; ，返回 &lt;em&gt;它的 &lt;strong&gt;中序&lt;/strong&gt; 遍历&lt;/em&gt; 。&lt;/p&gt;</summary>
     
     
     
