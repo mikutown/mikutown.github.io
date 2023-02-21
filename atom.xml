@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-02-20T08:13:18.262Z</updated>
+  <updated>2023-02-21T06:43:08.348Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -17,13 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>leetcode45.跳跃游戏II</title>
+    <link href="2023/02/21/leetcode45-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8FII/"/>
+    <id>2023/02/21/leetcode45-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8FII/</id>
+    <published>2023-02-21T06:38:37.000Z</published>
+    <updated>2023-02-21T06:43:08.348Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个长度为 <code>n</code> 的 <strong>0 索引</strong>整数数组 <code>nums</code>。初始位置为 <code>nums[0]</code>。</p><p>每个元素 <code>nums[i]</code> 表示从索引 <code>i</code> 向前跳转的最大长度。换句话说，如果你在 <code>nums[i]</code> 处，你可以跳转到任意 <code>nums[i + j]</code> 处:</p><ul><li><code>0 &lt;= j &lt;= nums[i]</code> </li><li><code>i + j &lt; n</code></li></ul><p>返回到达 <code>nums[n - 1]</code> 的最小跳跃次数。生成的测试用例可以到达 <code>nums[n - 1]</code>。</p> <span id="more"></span><p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入: nums &#x3D; [2,3,1,1,4]输出: 2解释: 跳到最后一个位置的最小跳跃数是 2。     从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: nums &#x3D; [2,3,0,1,4]输出: 2</code></pre><p><strong>提示:</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 104</code></li><li><code>0 &lt;= nums[i] &lt;= 1000</code></li><li>题目保证可以到达 <code>nums[n-1]</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>贪心算法</li></ol><p>算法思路是：遍历数组，用变量 <code>max_pos</code> 记录当前能够到达的最远位置，用变量 <code>end_pos</code> 记录当前步数下能够到达的最远位置，如果遍历到 <code>end_pos</code>，则更新 <code>end_pos</code> 为 <code>max_pos</code>，并将步数加 1。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int jump(vector&lt;int&gt;&amp; nums) &#123;        int n &#x3D; nums.size();        if (n &#x3D;&#x3D; 1) return 0; &#x2F;&#x2F; 如果数组只有一个元素，返回 0        int steps &#x3D; 0, max_pos &#x3D; 0, end_pos &#x3D; 0;        &#x2F;&#x2F; steps：跳跃的步数，max_pos：当前能够到达的最远位置，end_pos：当前步数下能够到达的最远位置        for (int i &#x3D; 0; i &lt; n - 1; i++) &#123;            &#x2F;&#x2F; 遍历数组，到达 n - 1 时不需要再跳跃，因为已经到达了终点            max_pos &#x3D; max(max_pos, i + nums[i]); &#x2F;&#x2F; 更新能够到达的最远位置            if (i &#x3D;&#x3D; end_pos) &#123; &#x2F;&#x2F; 如果到达了当前步数下能够到达的最远位置，需要增加步数                end_pos &#x3D; max_pos; &#x2F;&#x2F; 更新当前步数下能够到达的最远位置                steps++; &#x2F;&#x2F; 增加步数            &#125;        &#125;        return steps; &#x2F;&#x2F; 返回跳跃的步数    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个长度为 &lt;code&gt;n&lt;/code&gt; 的 &lt;strong&gt;0 索引&lt;/strong&gt;整数数组 &lt;code&gt;nums&lt;/code&gt;。初始位置为 &lt;code&gt;nums[0]&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;每个元素 &lt;code&gt;nums[i]&lt;/code&gt; 表示从索引 &lt;code&gt;i&lt;/code&gt; 向前跳转的最大长度。换句话说，如果你在 &lt;code&gt;nums[i]&lt;/code&gt; 处，你可以跳转到任意 &lt;code&gt;nums[i + j]&lt;/code&gt; 处:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;0 &amp;lt;= j &amp;lt;= nums[i]&lt;/code&gt; &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;i + j &amp;lt; n&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;返回到达 &lt;code&gt;nums[n - 1]&lt;/code&gt; 的最小跳跃次数。生成的测试用例可以到达 &lt;code&gt;nums[n - 1]&lt;/code&gt;。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
     <title>leetcode860.柠檬水找零</title>
     <link href="2023/02/20/leetcode860-%E6%9F%A0%E6%AA%AC%E6%B0%B4%E6%89%BE%E9%9B%B6/"/>
     <id>2023/02/20/leetcode860-%E6%9F%A0%E6%AA%AC%E6%B0%B4%E6%89%BE%E9%9B%B6/</id>
     <published>2023-02-20T08:12:25.000Z</published>
-    <updated>2023-02-20T08:13:18.262Z</updated>
+    <updated>2023-02-20T08:53:43.814Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>在柠檬水摊上，每一杯柠檬水的售价为 <code>5</code> 美元。顾客排队购买你的产品，（按账单 <code>bills</code> 支付的顺序）一次购买一杯。</p><p>每位顾客只买一杯柠檬水，然后向你付 <code>5</code> 美元、<code>10</code> 美元或 <code>20</code> 美元。你必须给每个顾客正确找零，也就是说净交易是每位顾客向你支付 <code>5</code> 美元。</p><p>注意，一开始你手头没有任何零钱。</p><p>给你一个整数数组 <code>bills</code> ，其中 <code>bills[i]</code> 是第 <code>i</code> 位顾客付的账。如果你能给每位顾客正确找零，返回 <code>true</code> ，否则返回 <code>false</code> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：bills &#x3D; [5,5,5,10,20]输出：true解释：前 3 位顾客那里，我们按顺序收取 3 张 5 美元的钞票。第 4 位顾客那里，我们收取一张 10 美元的钞票，并返还 5 美元。第 5 位顾客那里，我们找还一张 10 美元的钞票和一张 5 美元的钞票。由于所有客户都得到了正确的找零，所以我们输出 true。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：bills &#x3D; [5,5,10,10,20]输出：false解释：前 2 位顾客那里，我们按顺序收取 2 张 5 美元的钞票。对于接下来的 2 位顾客，我们收取一张 10 美元的钞票，然后返还 5 美元。对于最后一位顾客，我们无法退回 15 美元，因为我们现在只有两张 10 美元的钞票。由于不是每位顾客都得到了正确的找零，所以答案是 false。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= bills.length &lt;= 105</code></li><li><code>bills[i]</code> 不是 <code>5</code> 就是 <code>10</code> 或是 <code>20</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>初见思路</li></ol><p>使用一个大小为2的数组存储5元和10元的数量，对数组进行遍历，最后返回相应的值。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool lemonadeChange(vector&lt;int&gt;&amp; bills) &#123;        vector&lt;int&gt; count(2,0);        for (int i &#x3D; 0; i &lt; bills.size(); i++) &#123;            if (bills[i] &#x3D;&#x3D; 5) &#123;                count[0]++;            &#125;            else if (bills[i] &#x3D;&#x3D; 10) &#123;                if (count[0] !&#x3D; 0) &#123;                    count[0]--;                    count[1]++;                &#125;                else return false;            &#125;            else if (bills[i] &#x3D;&#x3D; 20)&#123;                &#x2F;&#x2F;20 usd&#39;s situation                if (count[1] &gt; 0 &amp;&amp; count[0] &gt; 0) &#123;                    count[0]--;                    count[1]--;                &#125;                else if (count[0] &gt;&#x3D; 3) &#123;                    count[0] -&#x3D; 3;                &#125;                else return false;            &#125;        &#125;        return true;    &#125;&#125;;</code></pre>]]></content>
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>在柠檬水摊上，每一杯柠檬水的售价为 <code>5</code> 美元。顾客排队购买你的产品，（按账单 <code>bills</code> 支付的顺序）一次购买一杯。</p><p>每位顾客只买一杯柠檬水，然后向你付 <code>5</code> 美元、<code>10</code> 美元或 <code>20</code> 美元。你必须给每个顾客正确找零，也就是说净交易是每位顾客向你支付 <code>5</code> 美元。</p><p>注意，一开始你手头没有任何零钱。</p><p>给你一个整数数组 <code>bills</code> ，其中 <code>bills[i]</code> 是第 <code>i</code> 位顾客付的账。如果你能给每位顾客正确找零，返回 <code>true</code> ，否则返回 <code>false</code> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：bills &#x3D; [5,5,5,10,20]输出：true解释：前 3 位顾客那里，我们按顺序收取 3 张 5 美元的钞票。第 4 位顾客那里，我们收取一张 10 美元的钞票，并返还 5 美元。第 5 位顾客那里，我们找还一张 10 美元的钞票和一张 5 美元的钞票。由于所有客户都得到了正确的找零，所以我们输出 true。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：bills &#x3D; [5,5,10,10,20]输出：false解释：前 2 位顾客那里，我们按顺序收取 2 张 5 美元的钞票。对于接下来的 2 位顾客，我们收取一张 10 美元的钞票，然后返还 5 美元。对于最后一位顾客，我们无法退回 15 美元，因为我们现在只有两张 10 美元的钞票。由于不是每位顾客都得到了正确的找零，所以答案是 false。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= bills.length &lt;= 105</code></li><li><code>bills[i]</code> 不是 <code>5</code> 就是 <code>10</code> 或是 <code>20</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>初见思路</li></ol><p>使用一个大小为2的数组count存储5元纸币和10元纸币的数量，接着对数组bills进行遍历，当满足条件时将对应的纸币数量进行加减，若成功遍历整个数组，则说明可以找零(<code>return true</code>)，否则无法找零(<code>return false</code>)。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool lemonadeChange(vector&lt;int&gt;&amp; bills) &#123;        vector&lt;int&gt; count(2,0);        for (int i &#x3D; 0; i &lt; bills.size(); i++) &#123;            if (bills[i] &#x3D;&#x3D; 5) &#123;                count[0]++;            &#125;            else if (bills[i] &#x3D;&#x3D; 10) &#123;                if (count[0] !&#x3D; 0) &#123;                    count[0]--;                    count[1]++;                &#125;                else return false;            &#125;            else if (bills[i] &#x3D;&#x3D; 20)&#123;                &#x2F;&#x2F;20 usd&#39;s situation                if (count[1] &gt; 0 &amp;&amp; count[0] &gt; 0) &#123;                    count[0]--;                    count[1]--;                &#125;                else if (count[0] &gt;&#x3D; 3) &#123;                    count[0] -&#x3D; 3;                &#125;                else return false;            &#125;        &#125;        return true;    &#125;&#125;;</code></pre>]]></content>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;在柠檬水摊上，每一杯柠檬水的售价为 &lt;code&gt;5&lt;/code&gt; 美元。顾客排队购买你的产品，（按账单 &lt;code&gt;bills&lt;/code&gt; 支付的顺序）一次购买一杯。&lt;/p&gt;
@@ -437,27 +464,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定 &lt;code&gt;n&lt;/code&gt; 个非负整数表示每个宽度为 &lt;code&gt;1&lt;/code&gt; 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode:46.全排列</title>
-    <link href="2023/01/29/leetcode-46-%E5%85%A8%E6%8E%92%E5%88%97/"/>
-    <id>2023/01/29/leetcode-46-%E5%85%A8%E6%8E%92%E5%88%97/</id>
-    <published>2023-01-29T06:23:57.000Z</published>
-    <updated>2023-01-29T06:47:10.334Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个不含重复数字的数组 <code>nums</code> ，返回其 <em>所有可能的全排列</em> 。你可以 <strong>按任意顺序</strong> 返回答案。</p><span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [1,2,3]输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [0,1]输出：[[0,1],[1,0]]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [1]输出：[[1]]</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 6</code></li><li><code>-10 &lt;= nums[i] &lt;= 10</code></li><li><code>nums</code> 中的所有整数 <strong>互不相同</strong></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>回溯</li></ol><p>用回溯法模拟全排列的过程。</p><p>定义一个递归函数<code>backtrack(first, output)</code>表示从左往右填到第first个位置，当前排列为output，所以有以下两种情况：</p><ul><li>若<code>first = n</code>，则说明n个位置已经填完了，找到了一个可行的解，此时需要把output放入答案数组中，递归结束。</li><li>如果<code>first &lt; n</code>，我们需要考虑在第first个位置上我们需要填哪个数。根据题目要求我们肯定不能填已经填过的数，因此很容易想到的一个处理手段是我们定义一个标记数组vis来标记已经填过的数，如果有数未被标记，就尝试填入，并将其标记，然后继续调用<code>backtrack(first + 1, output)</code>，回溯时要撤销之前的标记以及已经填入的数字，但是标记数组增加了算法的空间复杂度。</li></ul><p>我们将题目给定的n个数的数组nums划分为左右两个部分，左边为已经填过的数，右边是待填的数，在回溯时只需要动态维护这个数组即可。</p><p>具体的来说，如果我们已经填到第first个位置，那么nums数组中<code>[0, first - 1]</code>是已经填过的数的集合，<code>[first, n - 1]</code>是待填数的集合。我们肯定是用<code>[first, n - 1]</code>的数去填第first个数，假设待填的数的下标为i，那么填完以后我们将第i个数和第first个数交换，即能使得在第first+1个数的时候nums数组的<code>[0, first]</code>部分为已填过的数，<code>[first + 1, n - 1]</code>为待填的数，回溯的时候交换回来就可以完成撤销操作。</p><p>举个简单的例子，假设我们有 <code>[2,5,8,9,10]</code>这 5 个数要填入，已经填到第 3 个位置，已经填了 <code>[8, 9]</code> 两个数，那么这个数组目前为 <code>[8, 9|2, 5, 10]</code> 这样的状态，分隔符区分了左右两个部分。假设这个位置我们要填 10 这个数，为了维护数组，我们将 2 和 10 交换，即能使得数组继续保持分隔符左边的数已经填过，右边的待填 <code>[8, 9, 10|2, 5]</code> 。C++实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    void backtrack(vector&lt;vector&lt;int&gt;&gt;&amp; res, vector&lt;int&gt;&amp; output, int first, int len) &#123;        &#x2F;&#x2F;所有数都填完了        if (first &#x3D;&#x3D; len) &#123;            res.emplace_back(output);             &#x2F;&#x2F;和push_back()类似，emplace_back() 用来给容器中添加元素。            &#x2F;&#x2F;在容器尾部添加一个元素，调用构造函数原地构造，不需要触发拷贝构造和移动构造。因此比push_back()更加高效。            return;        &#125;        for (int i &#x3D; first; i &lt; len; ++i) &#123;            &#x2F;&#x2F;动态维护数组            swap(output[i], output[first]); &#x2F;&#x2F;swap用于交换两个int型变量的值            &#x2F;&#x2F;继续递归填下一个数            backtrack(res, output, first + 1, len);            &#x2F;&#x2F;撤销操作            swap(output[i], output[first]);        &#125;    &#125;    vector&lt;vector&lt;int&gt;&gt; permute(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt; &gt; res;        backtrack(res, nums, 0, (int)nums.size());        return res;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个不含重复数字的数组 &lt;code&gt;nums&lt;/code&gt; ，返回其 &lt;em&gt;所有可能的全排列&lt;/em&gt; 。你可以 &lt;strong&gt;按任意顺序&lt;/strong&gt; 返回答案。&lt;/p&gt;</summary>
     
     
     
