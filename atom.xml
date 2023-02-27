@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-02-26T05:56:06.765Z</updated>
+  <updated>2023-02-27T07:41:11.685Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode206.反转链表</title>
+    <link href="2023/02/27/leetcode206-%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/"/>
+    <id>2023/02/27/leetcode206-%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/</id>
+    <published>2023-02-27T07:20:51.000Z</published>
+    <updated>2023-02-27T07:41:11.685Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你单链表的头节点 <code>head</code> ，请你反转链表，并返回反转后的链表。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="https://assets.leetcode.com/uploads/2021/02/19/rev1ex1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1,2,3,4,5]输出：[5,4,3,2,1]</code></pre><p><strong>示例 2：</strong></p><p><img src="https://assets.leetcode.com/uploads/2021/02/19/rev1ex2.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1,2]输出：[2,1]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：head &#x3D; []输出：[]</code></pre><p><strong>提示：</strong></p><ul><li>链表中节点的数目范围是 <code>[0, 5000]</code></li><li><code>-5000 &lt;= Node.val &lt;= 5000</code></li></ul><p><strong>进阶：</strong>链表可以选用迭代或递归方式完成反转。你能否用两种方法解决这道题？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>递归方式</li></ol><p>在这个实现中，我们首先检查链表是否为空或只有一个节点。如果是这样，我们直接返回该节点，因为没有必要反转链表。</p><p>如果链表中有多个节点，我们将递归调用 <code>reverseList</code> 函数来反转链表的后半部分。然后，我们将当前节点连接到反转后的链表的末尾，将当前节点作为新的尾节点，连接到 NULL。最后，返回新的头节点。</p><p>这个递归方法的时间复杂度是 O(n)，其中 n 是链表的长度。虽然它可能需要使用堆栈来存储递归调用的上下文，但它通常比迭代方法更简洁易懂。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * 以链表1-&gt;2-&gt;3-&gt;4-&gt;5举例 * @param head * @return *&#x2F;ListNode* reverseList(ListNode* head) &#123;    if (head &#x3D;&#x3D; nullptr || head-&gt;next &#x3D;&#x3D; nullptr) &#123;        &#x2F;*            直到当前节点的下一个节点为空时返回当前节点            由于5没有下一个节点了，所以此处返回节点5         *&#x2F;        return head;    &#125;    &#x2F;&#x2F;递归传入下一个节点，目的是为了到达最后一个节点    ListNode* newHead &#x3D; reverseList(head-&gt;next);    &#x2F;*        第一轮出栈，head为5，head-&gt;next为空，返回5        第二轮出栈，head为4，head-&gt;next为5，执行head-&gt;next-&gt;next&#x3D;head也就是5-&gt;next&#x3D;4，                  把当前节点的子节点的子节点指向当前节点                  此时链表为1-&gt;2-&gt;3-&gt;4&lt;-&gt;5，由于4与5互相指向，所以此处要断开4-&gt;next&#x3D;null                  此时链表为1-&gt;2-&gt;3-&gt;4&lt;-5                  返回节点5        第三轮出栈，head为3，head-&gt;next为4，执行head-&gt;next-&gt;next&#x3D;head也就是4-&gt;next&#x3D;3，                  此时链表为1-&gt;2-&gt;3&lt;-&gt;4&lt;-5，由于3与4互相指向，所以此处要断开3-&gt;next&#x3D;null                  此时链表为1-&gt;2-&gt;3&lt;-4&lt;-5                  返回节点5        第四轮出栈，head为2，head-&gt;next为3，执行head-&gt;next-&gt;next&#x3D;head也就是3-&gt;next&#x3D;2，                  此时链表为1-&gt;2&lt;-&gt;3&lt;-4&lt;-5，由于2与3互相指向，所以此处要断开2-&gt;next&#x3D;null                  此时链表为1-&gt;2&lt;-3&lt;-4&lt;-5                  返回节点5        第五轮出栈，head为1，head-&gt;next为2，执行head-&gt;next-&gt;next&#x3D;head也就是2-&gt;next&#x3D;1，                  此时链表为1&lt;-&gt;2&lt;-3&lt;-4&lt;-5，由于1与2互相指向，所以此处要断开1-&gt;next&#x3D;null                  此时链表为1&lt;-2&lt;-3&lt;-4&lt;-5                  返回节点5        出栈完成，最终头节点5-&gt;4-&gt;3-&gt;2-&gt;1     *&#x2F;    head-&gt;next-&gt;next &#x3D; head;    head-&gt;next &#x3D; nullptr;    return newHead;&#125;</code></pre><ol start="2"><li>迭代方式（头插法）</li></ol><p>头插法的基本思路是，将链表的每个节点插入到新链表的头部。由于头插法是从头部开始插入，因此我们需要一个指针来跟踪新链表的头部。</p><p>在这个实现中，我们首先定义一个新链表的头部指针 <code>newHead</code>，并将其初始化为 NULL。</p><p>然后，我们遍历原链表中的每个节点。在每个迭代中，我们先记录当前节点的下一个节点，然后将当前节点插入到新链表的头部。为此，我们将当前节点的 <code>next</code> 指针指向新链表的头部，然后将新链表的头部指针指向当前节点。</p><p>最后，我们将当前节点更新为原链表中的下一个节点，并重复这个过程，直到我们遍历完整个链表。</p><p>这个方法的时间复杂度是 O(n)，其中 n 是链表的长度。它不需要额外的空间来存储递归调用的上下文，因此它通常比递归方法更快。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode() : val(0), next(nullptr) &#123;&#125; *     ListNode(int x) : val(x), next(nullptr) &#123;&#125; *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    ListNode* reverseList(ListNode* head) &#123;        &#x2F;&#x2F; 新链表的头节点指针，初始为 NULL        ListNode* newHead &#x3D; NULL;        &#x2F;&#x2F; 依次遍历原链表中的每个节点        while (head !&#x3D; NULL) &#123;            &#x2F;&#x2F; 记录当前节点的下一个节点            ListNode* next &#x3D; head-&gt;next;            &#x2F;&#x2F; 将当前节点插入到新链表的头部            head-&gt;next &#x3D; newHead;            newHead &#x3D; head;            &#x2F;&#x2F; 处理下一个节点            head &#x3D; next;        &#125;        &#x2F;&#x2F; 返回新链表的头节点指针        return newHead;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你单链表的头节点 &lt;code&gt;head&lt;/code&gt; ，请你反转链表，并返回反转后的链表。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode203.移除链表元素</title>
@@ -442,28 +463,6 @@
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;子数组&lt;/strong&gt; 是数组中的一个连续部分。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode:70.爬楼梯</title>
-    <link href="2023/02/01/leetcode-70-%E7%88%AC%E6%A5%BC%E6%A2%AF/"/>
-    <id>2023/02/01/leetcode-70-%E7%88%AC%E6%A5%BC%E6%A2%AF/</id>
-    <published>2023-02-01T06:48:43.000Z</published>
-    <updated>2023-02-02T16:52:25.742Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>假设你正在爬楼梯。需要 <code>n</code> 阶你才能到达楼顶。</p><p>每次你可以爬 <code>1</code> 或 <code>2</code> 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p><span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 2输出：2解释：有两种方法可以爬到楼顶。1. 1 阶 + 1 阶2. 2 阶</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3输出：3解释：有三种方法可以爬到楼顶。1. 1 阶 + 1 阶 + 1 阶2. 1 阶 + 2 阶3. 2 阶 + 1 阶</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= n &lt;= 45</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>递归</li></ol><p>很明显，该问题可以用$f(x) &#x3D; f(x - 1) + f(x - 2)$并且很容易得知$f(0) &#x3D; 1;f(1) &#x3D; 1;f(2) &#x3D; 2$,但是直接写递归(<code>return climbStairs(n - 1) + climbStairs(n - 2)</code>)会导致时间超限，在这里使用「滚动数组思想」把空间复杂度优化成 $O(1)$。</p><p><img src="http://cdn.leafii.top/img/70_fig1.gif" alt="fig1" loading="lazy"></p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int climbStairs(int n) &#123;        int p &#x3D; 0, q &#x3D; 0, r &#x3D; 1;        for (int i &#x3D; 1; i &lt;&#x3D; n; ++i) &#123;            p &#x3D; q;             q &#x3D; r;             r &#x3D; p + q;        &#125;        return r;    &#125;&#125;;</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>力扣官方题解：<a href="https://leetcode.cn/problems/climbing-stairs/solutions/286022/pa-lou-ti-by-leetcode-solution/">https://leetcode.cn/problems/climbing-stairs/solutions/286022/pa-lou-ti-by-leetcode-solution/</a> </p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;假设你正在爬楼梯。需要 &lt;code&gt;n&lt;/code&gt; 阶你才能到达楼顶。&lt;/p&gt;
-&lt;p&gt;每次你可以爬 &lt;code&gt;1&lt;/code&gt; 或 &lt;code&gt;2&lt;/code&gt; 个台阶。你有多少种不同的方法可以爬到楼顶呢？&lt;/p&gt;</summary>
     
     
     
