@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-02-27T13:18:14.919Z</updated>
+  <updated>2023-03-05T08:46:03.892Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode141.环形链表</title>
+    <link href="2023/03/05/leetcode141-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/"/>
+    <id>2023/03/05/leetcode141-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/</id>
+    <published>2023-03-05T08:19:39.000Z</published>
+    <updated>2023-03-05T08:46:03.892Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个链表的头节点 <code>head</code> ，判断链表中是否有环。</p><p>如果链表中有某个节点，可以通过连续跟踪 <code>next</code> 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 <code>pos</code> 来表示链表尾连接到链表中的位置（索引从 0 开始）。<strong>注意：<code>pos</code> 不作为参数进行传递</strong> 。仅仅是为了标识链表的实际情况。</p><p><em>如果链表中存在环</em> ，则返回 <code>true</code> 。 否则，返回 <code>false</code> 。</p><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/circularlinkedlist.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [3,2,0,-4], pos &#x3D; 1输出：true解释：链表中有一个环，其尾部连接到第二个节点。</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/circularlinkedlist_test2.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1,2], pos &#x3D; 0输出：true解释：链表中有一个环，其尾部连接到第一个节点。</code></pre><p><strong>示例 3：</strong></p><p><img src="http://cdn.leafii.top/img/circularlinkedlist_test3.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1], pos &#x3D; -1输出：false解释：链表中没有环。</code></pre><p><strong>提示：</strong></p><ul><li>链表中节点的数目范围是 <code>[0, 104]</code></li><li><code>-105 &lt;= Node.val &lt;= 105</code></li><li><code>pos</code> 为 <code>-1</code> 或者链表中的一个 <strong>有效索引</strong> 。</li></ul><p><strong>进阶：</strong>你能用 <code>O(1)</code>（即，常量）内存解决此问题吗？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>使用快慢指针判断是否存在环，如果快指针走到了链表尾部，则直接返回false，若快指针追上了慢指针，则说明链表存在环。C++代码实现如下：</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    bool hasCycle(ListNode *head) &#123;        if (head &#x3D;&#x3D; NULL || head-&gt;next &#x3D;&#x3D; NULL) return false;        ListNode* slow &#x3D; head;        ListNode* fast &#x3D; head-&gt;next;        while (fast !&#x3D; slow) &#123;            &#x2F;&#x2F; 若fast指针走至链表尾部            if (fast &#x3D;&#x3D; NULL || fast-&gt;next &#x3D;&#x3D; NULL) return false;            fast &#x3D; fast-&gt;next-&gt;next;            slow &#x3D; slow-&gt;next;        &#125;        return true;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个链表的头节点 &lt;code&gt;head&lt;/code&gt; ，判断链表中是否有环。&lt;/p&gt;
+&lt;p&gt;如果链表中有某个节点，可以通过连续跟踪 &lt;c</summary>
+      
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode707.设计链表</title>
@@ -440,28 +465,6 @@
 &lt;li&gt;数字 &lt;code&gt;1-9&lt;/code&gt; 在每一个以粗实线分隔的 &lt;code&gt;3x3&lt;/code&gt; 宫内只能出现一次。（请参考示例图）&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;数独部分空格内已填入了数字，空白格用 &lt;code&gt;&amp;#39;.&amp;#39;&lt;/code&gt; 表示。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode:198.打家劫舍</title>
-    <link href="2023/02/03/leetcode-198-%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/"/>
-    <id>2023/02/03/leetcode-198-%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/</id>
-    <published>2023-02-03T06:32:26.000Z</published>
-    <updated>2023-02-05T04:48:09.411Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警</strong>。</p><p>给定一个代表每个房屋存放金额的非负整数数组，计算你 <strong>不触动警报装置的情况下</strong> ，一夜之内能够偷窃到的最高金额。</p><span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：[1,2,3,1]输出：4解释：偷窃 1 号房屋 (金额 &#x3D; 1) ，然后偷窃 3 号房屋 (金额 &#x3D; 3)。     偷窃到的最高金额 &#x3D; 1 + 3 &#x3D; 4 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：[2,7,9,3,1]输出：12解释：偷窃 1 号房屋 (金额 &#x3D; 2), 偷窃 3 号房屋 (金额 &#x3D; 9)，接着偷窃 5 号房屋 (金额 &#x3D; 1)。     偷窃到的最高金额 &#x3D; 2 + 9 + 1 &#x3D; 12 。</code></pre><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>动态规划</li></ol><p>动态规划分析如下：</p><ol><li>确定dp数组(dp table)以及它的下标的含义：</li></ol><p>dp[i]:考虑下标i以内的房屋，最多可以偷窃的金额为dp[i];</p><ol start="2"><li>确定递推公式</li></ol><p>决定是否偷第i个房间:</p><ul><li>如果偷第i个房间，dp[i] &#x3D; dp[i - 2] + nums[i];</li></ul><p>也就是不偷第i-1，而是找到i-2以内最多的房屋，然后再加上第i间房偷到的钱。</p><ul><li>如果不偷第i个房间，那么dp[i] &#x3D; dp[i - 1];也就是要考虑i-1房（<strong>注意这里是考虑而不是真的要偷i-1房</strong>）</li></ul><p>完成分析后取dp[i]的最大值，也就是dp[i] &#x3D; max(dp[i-2] + nums[i], dp[i-1]);</p><ol start="3"><li>dp数组如何初始化</li></ol><p>因为dp[i] &#x3D; max(dp[i-2] + nums[i], dp[i-1]);所以基础就是dp[0]和dp[1];</p><p>因此dp[0] &#x3D; nums[0],dp[1] &#x3D; max(nums[0], nums[1]);</p><ol start="4"><li>确定遍历顺序</li></ol><p>dp[i]是根据dp[i-2]和dp[i-1]推导出来的，那么一定是从前到后遍历。</p><ol start="5"><li>举例推导dp数组</li></ol><p>C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int rob(vector&lt;int&gt;&amp; nums) &#123;        if(nums.empty()) &#123;            return 0;        &#125;        int size &#x3D; nums.size();        if(size &#x3D;&#x3D; 1) &#123;            return nums[0];        &#125;        vector&lt;int&gt; dp &#x3D; vector&lt;int&gt;(size, 0); &#x2F;&#x2F;3. initialize        dp[0] &#x3D; nums[0];        dp[1] &#x3D; max(nums[0], nums[1]);        &#x2F;&#x2F;4. 遍历        for(int i &#x3D; 2; i &lt; size; i++) &#123;            dp[i] &#x3D; max(dp[i - 2] + nums[i], dp[i - 1]);        &#125;        return dp[size - 1];    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，&lt;strong&gt;如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;给定一个代表每个房屋存放金额的非负整数数组，计算你 &lt;strong&gt;不触动警报装置的情况下&lt;/strong&gt; ，一夜之内能够偷窃到的最高金额。&lt;/p&gt;</summary>
     
     
     
