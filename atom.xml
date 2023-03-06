@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-03-06T07:20:59.431Z</updated>
+  <updated>2023-03-06T14:19:40.504Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode142.环形链表II</title>
+    <link href="2023/03/06/leetcode142-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8II/"/>
+    <id>2023/03/06/leetcode142-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8II/</id>
+    <published>2023-03-06T12:44:53.000Z</published>
+    <updated>2023-03-06T14:19:40.504Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个链表的头节点  <code>head</code> ，返回链表开始入环的第一个节点。 <em>如果链表无环，则返回 <code>null</code>。</em></p><p>如果链表中有某个节点，可以通过连续跟踪 <code>next</code> 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 <code>pos</code> 来表示链表尾连接到链表中的位置（<strong>索引从 0 开始</strong>）。如果 <code>pos</code> 是 <code>-1</code>，则在该链表中没有环。<strong>注意：<code>pos</code> 不作为参数进行传递</strong>，仅仅是为了标识链表的实际情况。</p><p><strong>不允许修改</strong> 链表。</p><span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/circularlinkedlist-20230306204553902.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [3,2,0,-4], pos &#x3D; 1输出：返回索引为 1 的链表节点解释：链表中有一个环，其尾部连接到第二个节点。</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/circularlinkedlist_test2-20230306204600878.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1,2], pos &#x3D; 0输出：返回索引为 0 的链表节点解释：链表中有一个环，其尾部连接到第一个节点。</code></pre><p><strong>示例 3：</strong></p><p><img src="http://cdn.leafii.top/img/circularlinkedlist_test3-20230306204608161.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1], pos &#x3D; -1输出：返回 null解释：链表中没有环。</code></pre><p><strong>提示：</strong></p><ul><li>链表中节点的数目范围在范围 <code>[0, 104]</code> 内</li><li><code>-105 &lt;= Node.val &lt;= 105</code></li><li><code>pos</code> 的值为 <code>-1</code> 或者链表中的一个有效索引</li></ul><p><strong>进阶：</strong>你是否可以使用 <code>O(1)</code> 空间解决此题？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>使用hashset存储链表元素的地址，当使用快慢指针确定环形链表存在时，返回相应的环形节点。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    ListNode *detectCycle(ListNode *head) &#123;        if (head &#x3D;&#x3D; nullptr || head-&gt;next &#x3D;&#x3D; nullptr) &#x2F;&#x2F; 如果链表为空或者只有一个元素，则返回null            return nullptr;         ListNode* slow &#x3D; head;        ListNode* fast &#x3D; head-&gt;next;        while (slow !&#x3D; fast) &#123;            if (fast &#x3D;&#x3D; NULL || fast-&gt;next &#x3D;&#x3D; NULL) return nullptr;            fast &#x3D; fast-&gt;next-&gt;next;            slow &#x3D; slow-&gt;next;        &#125;        &#x2F;&#x2F;此时已经发现有环了，使用hashset存储链表元素地址，若有相同地址的元素就返回该元素        unordered_set&lt;ListNode*&gt; nodes;        ListNode* cur &#x3D; head;        while (cur !&#x3D; nullptr) &#123;            if (nodes.count(cur)) &#123;                return cur;            &#125;            else &#123;                nodes.insert(cur);                cur &#x3D; cur-&gt;next;            &#125;        &#125;        return nullptr;    &#125;&#125;;</code></pre><ol start="2"><li>快慢指针法</li></ol><p>利用快慢指针，找到链表中是否存在环。若存在环，则将快指针重新指向链表的头结点，并将快慢指针以相同的速度向前移动，直到两个指针相遇，即为环的入口节点。</p><p>假设链表的长度为L，环的长度为C，环的入口节点距离头节点的距离为A，快慢指针相遇的节点距离环的入口节点的距离为B。</p><p>当快慢指针相遇时，快指针走过的距离是慢指针的两倍，即：</p><p>$2 \times (A + B) &#x3D; A + B + n \times C$</p><p>其中n是快指针在环中走过的圈数。</p><p>化简得：</p><p>$A &#x3D; (n - 1) \times C + (C - B)$</p><p>这个式子的意义是，从头节点到环的入口节点的距离等于从相遇点到环的入口节点的距离加上(n - 1)圈的环的长度。</p><p>因此，如果让一个新的指针cur从头节点开始走，同时让slow从相遇点开始走，每次都走一步，那么它们会在环的入口节点相遇，因为它们走过的距离都是A。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    ListNode *detectCycle(ListNode *head) &#123;        &#x2F;&#x2F; 判断链表是否为空或只有一个元素        if (head &#x3D;&#x3D; NULL || head-&gt;next &#x3D;&#x3D; NULL) &#123;            return NULL;        &#125;        &#x2F;&#x2F; 定义快慢指针，初始值指向头结点        ListNode* fast &#x3D; head;        ListNode* slow &#x3D; head;        &#x2F;&#x2F; 判断是否存在环        while (fast !&#x3D; NULL &amp;&amp; fast-&gt;next !&#x3D; NULL) &#123;            fast &#x3D; fast-&gt;next-&gt;next; &#x2F;&#x2F; 快指针走两步            slow &#x3D; slow-&gt;next;       &#x2F;&#x2F; 慢指针走一步            if (fast &#x3D;&#x3D; slow) &#123;      &#x2F;&#x2F; 快慢指针相遇                ListNode* start &#x3D; head; &#x2F;&#x2F; 从头结点开始，与慢指针同时前进，相遇点即为环的起点                while (start !&#x3D; slow) &#123;                    start &#x3D; start-&gt;next;                    slow &#x3D; slow-&gt;next;                &#125;                return start;            &#125;        &#125;        return NULL; &#x2F;&#x2F; 遍历完链表，仍未找到环，返回NULL    &#125;&#125;;</code></pre><blockquote><p>注：在 while 循环中，因为 fast 比 slow 快，所以应该先判断 fast 是否为 NULL 或 fast-&gt;next 是否为 NULL，以保证程序的正确性。</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个链表的头节点  &lt;code&gt;head&lt;/code&gt; ，返回链表开始入环的第一个节点。 &lt;em&gt;如果链表无环，则返回 &lt;code&gt;null&lt;/code&gt;。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;如果链表中有某个节点，可以通过连续跟踪 &lt;code&gt;next&lt;/code&gt; 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 &lt;code&gt;pos&lt;/code&gt; 来表示链表尾连接到链表中的位置（&lt;strong&gt;索引从 0 开始&lt;/strong&gt;）。如果 &lt;code&gt;pos&lt;/code&gt; 是 &lt;code&gt;-1&lt;/code&gt;，则在该链表中没有环。&lt;strong&gt;注意：&lt;code&gt;pos&lt;/code&gt; 不作为参数进行传递&lt;/strong&gt;，仅仅是为了标识链表的实际情况。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;不允许修改&lt;/strong&gt; 链表。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode160.相交链表</title>
@@ -57,6 +80,29 @@
     <category term="leetcode" scheme="tags/leetcode/"/>
     
     <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一种基于知识图谱的离散制造车间资源分配优化方法</title>
+    <link href="2023/03/02/%E4%B8%80%E7%A7%8D%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%A6%BB%E6%95%A3%E5%88%B6%E9%80%A0%E8%BD%A6%E9%97%B4%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/"/>
+    <id>2023/03/02/%E4%B8%80%E7%A7%8D%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%A6%BB%E6%95%A3%E5%88%B6%E9%80%A0%E8%BD%A6%E9%97%B4%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</id>
+    <published>2023-03-02T08:53:33.000Z</published>
+    <updated>2023-03-06T14:19:45.318Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>该文主要讨论了智能资源优化分配中动态个性化订单需求和不确定的制造资源可用性的研究热点。随着制造业所生成数据的迅速扩大，这些数据变得越来越多样化和多尺度化，而如何将这些数据转化为知识，以优化个性化订单和制造资源之间的分配，是提高企业认知智能生产水平的有效策略。然而，制造过程中的资源分配是多样化的，存在许多规则和约束，数据之间的关系也更加复杂。目前还缺乏一种统一的方法，从大规模制造数据挖掘语义信息来进行信息建模和工业知识生成。该文提出了一种统一的知识图谱驱动的生产资源分配方法，通过综合工程语义信息来实现快速的资源分配决策。文章提出了工作坊资源知识图（WRKG）模型来集成机械车间中的工程语义信息，开发了分布式知识表示学习算法来挖掘隐含的资源信息，以实现实时更新WRKG。此外，还提出了一个三阶段的资源分配优化方法，以WRKG为支持，以输出特定任务所需的设备集。最后，文章通过一个航空航天企业的制造资源分配过程任务的案例研究，证明了所提出方法的可行性。</p><span id="more"></span><h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>本文主要讨论了个性化智能制造系统在制造业向智能化转型升级中的重要性，并重点探讨了在离散制造业中合理分配制造资源对于提高生产效率的重要性。以结构部件生产为例，其生产过程具有高混合、低体量和频繁工艺变化等特点。生产过程中同时存在批量生产任务和研发任务，是典型的混合生产模式。其中，批量生产任务有固定的加工时间，可以根据生产计划执行；而研发任务主要由一些在试制阶段需要加工的紧急订单组成，其中涉及到的加工时间和设备使用等方面具有很大的不确定性。这些紧急订单的存在会导致生产车间资源分配上的冲突，影响生产效率和交货时间。因此，有必要通过快速高效的方式配置车间制造资源，以减少资源冲突、提高资源利用率和增强制造过程的灵活性。</p><p>本文介绍了一种基于知识图谱的制造资源分配优化方法。传统的资源分配方法主要关注资源模型和算法的优化，而缺乏对制造数据中丰富的语义信息的挖掘。本文通过对离散制造车间进行现场调研发现，现有的数据处理方法存在数据类型多样、数据关系复杂和数据处理效率低等问题。因此，需要探索一种有效的方法来整合制造资源数据以实现产业知识的重复利用和资源分配应用。本文提出了一种基于知识图谱的决策框架，使用工程语义信息来提高生产过程效率。具体地，该方法首先提出了一种WRKG模型，用于整合制造业大规模生产因素的各种数据类型。然后，开发了知识表示学习算法来推理设备和过程之间的深层隐式关系。最后，提出了一种基于WRKG的三阶段方法，用于资源分配优化。本文在航空加工车间中使用该方法进行了评估，结果表明该方法能够生成更合理和直观的资源重配置过程知识，以提高设备利用率、加工任务响应能力和设备灵活性。该方法的贡献包括：</p><p>1）提出了一种基于知识图谱的决策框架，用于支持资源分配的优化方法；</p><p>2）开发了一种分布式表示学习算法，用于挖掘复杂工程数据之间的隐式关系，增强车间资源之间的联系；</p><p>3）提出了一种基于候选设备集的三阶段方法，在混合模型生产过程中使用WRKG为候选设备的形成和评估提供相关数据支持；</p><p>4）通过在航空加工车间中使用生产任务对所提出的方法进行了评估，证明了该方法能够提高设备利用率和灵活性，同时保持稳定加工。</p><h3 id="Related-work"><a href="#Related-work" class="headerlink" title="Related work"></a>Related work</h3><p>讨论了制造业资源分配中与订单插入相关的基本问题，即如何匹配订单请求。文章重点回顾了现有的制造业资源分配研究工作，侧重于知识表示和建模方法。</p><h4 id="Knowledge-representation-and-modeling-of-manufacturing-resources"><a href="#Knowledge-representation-and-modeling-of-manufacturing-resources" class="headerlink" title="Knowledge representation and modeling of manufacturing resources"></a>Knowledge representation and modeling of manufacturing resources</h4><p>讨论了制造业中资源分配问题中的知识表示和建模方法。现有的知识表示和建模方法（如本体学）在处理大规模知识时存在灵活性和计算效率方面的限制。因此，研究者提出了基于知识图谱的决策框架和改进的知识表示学习算法，以挖掘复杂工程数据之间的隐含语义关系，提供更全面的知识支持资源分配决策。文章认为现有的方法不能直接应用于制造业，因为制造数据复杂多样，存在许多规则和约束，导致制造资源的语义表示和建模困难。</p><h4 id="Optimization-of-resource-configuration"><a href="#Optimization-of-resource-configuration" class="headerlink" title="Optimization of resource configuration"></a>Optimization of resource configuration</h4><p>介绍了混合模式车间动态生产环境下资源分配研究的优化方法、模型和算法。文章总结了鲁棒方法、智能优化方法和重新调度方法的优缺点，并列举了相关文献。鲁棒方法广泛研究用于优化车间资源分配，智能优化方法利用各种智能算法和优化方法进行动态资源分配，重新调度方法具有良好的时效性。这些方法都有其适用范围，但没有考虑车间中所包含的丰富语义信息。作者提出使用知识图谱来提供资源分配方法所需的信息，并提高生产决策的智能水平。因此，本文的主要贡献是使用知识图谱创新地提供资源分配方法所需的信息，并从知识层面提高生产决策的智能水平。</p><p><img src="http://cdn.leafii.top/img/image-20230306165544044.png" alt="image-20230306165544044" loading="lazy"></p><h3 id="The-WRKG-modeling-method-for-production-process"><a href="#The-WRKG-modeling-method-for-production-process" class="headerlink" title="The WRKG modeling method for production process"></a>The WRKG modeling method for production process</h3>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;Abstract&quot;&gt;&lt;a href=&quot;#Abstract&quot; class=&quot;headerlink&quot; title=&quot;Abstract&quot;&gt;&lt;/a&gt;Abstract&lt;/h3&gt;&lt;p&gt;该文主要讨论了智能资源优化分配中动态个性化订单需求和不确定的制造资源可用性的研究热点。随着制造业所生成数据的迅速扩大，这些数据变得越来越多样化和多尺度化，而如何将这些数据转化为知识，以优化个性化订单和制造资源之间的分配，是提高企业认知智能生产水平的有效策略。然而，制造过程中的资源分配是多样化的，存在许多规则和约束，数据之间的关系也更加复杂。目前还缺乏一种统一的方法，从大规模制造数据挖掘语义信息来进行信息建模和工业知识生成。该文提出了一种统一的知识图谱驱动的生产资源分配方法，通过综合工程语义信息来实现快速的资源分配决策。文章提出了工作坊资源知识图（WRKG）模型来集成机械车间中的工程语义信息，开发了分布式知识表示学习算法来挖掘隐含的资源信息，以实现实时更新WRKG。此外，还提出了一个三阶段的资源分配优化方法，以WRKG为支持，以输出特定任务所需的设备集。最后，文章通过一个航空航天企业的制造资源分配过程任务的案例研究，证明了所提出方法的可行性。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="python" scheme="tags/python/"/>
+    
+    <category term="强化学习" scheme="tags/强化学习/"/>
+    
+    <category term="知识图谱" scheme="tags/知识图谱/"/>
     
   </entry>
   
@@ -413,49 +459,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个正整数 $n$ ，生成一个包含 $1$ 到 $n^2$ 所有元素，且元素按顺时针顺序螺旋排列的 $n \times n$ 正方形矩阵 &lt;code&gt;matrix&lt;/code&gt; 。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode:209.长度最小的子数组</title>
-    <link href="2023/02/07/leetcode-209-%E9%95%BF%E5%BA%A6%E6%9C%80%E5%B0%8F%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84/"/>
-    <id>2023/02/07/leetcode-209-%E9%95%BF%E5%BA%A6%E6%9C%80%E5%B0%8F%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84/</id>
-    <published>2023-02-07T11:43:53.000Z</published>
-    <updated>2023-02-07T11:49:11.488Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个含有 <code>n</code> 个正整数的数组和一个正整数 <code>target</code> <strong>。</strong></p><p>找出该数组中满足其和 <code>≥ target</code> 的长度最小的 <strong>连续子数组</strong> <code>[numsl, numsl+1, ..., numsr-1, numsr]</code> ，并返回其长度<strong>。</strong>如果不存在符合条件的子数组，返回 <code>0</code> 。</p><span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：target &#x3D; 7, nums &#x3D; [2,3,1,2,4,3]输出：2解释：子数组 [4,3] 是该条件下的长度最小的子数组。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：target &#x3D; 4, nums &#x3D; [1,4,4]输出：1</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：target &#x3D; 11, nums &#x3D; [1,1,1,1,1,1,1,1]输出：0</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= target &lt;= 109</code></li><li><code>1 &lt;= nums.length &lt;= 105</code></li><li><code>1 &lt;= nums[i] &lt;= 105</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>滑动窗口法</li></ol><p>直接使用双重for循环会超时，因此在这里使用滑动窗口的思想，在一个for循环中解决问题，在for循环中索引值为窗口的右边界。当<code>sum &gt;= target</code>时，窗口左边的指针进行右移，同时<code>sum -= nums[i++]</code>，最终遍历结束就得到了左指针和右指针的最终位置。结果为右指针-左指针+1.</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int minSubArrayLen(int target, vector&lt;int&gt;&amp; nums) &#123;        int sum &#x3D; 0;        int n &#x3D; nums.size();        for (int num : nums) &#123;            if (num &#x3D;&#x3D; target) &#123;                return 1; &#x2F;&#x2F;若数组中有包含target的值，直接返回1            &#125;            sum +&#x3D; num;        &#125;        if (sum &lt; target) &#123;            return 0; &#x2F;&#x2F;若数组所有正数之和均小于target，则直接返回0        &#125;else if (sum &#x3D;&#x3D; target) &#123;            return nums.size();&#x2F;&#x2F;若数组所有正数之和刚好等于target，则直接返回数组的长度        &#125;else &#123;            int result &#x3D; INT32_MAX;&#x2F;&#x2F;初始化为int的最大值            int sum &#x3D; 0;            int i &#x3D; 0;            int subLength &#x3D; 0;            for(int j &#x3D; 0; j &lt; nums.size(); j++) &#123; &#x2F;&#x2F;窗口右边界                sum +&#x3D; nums[j];                while (sum &gt;&#x3D; target) &#123;                    subLength &#x3D; j - i + 1;                    result &#x3D; result &lt; subLength? result:subLength;                    sum -&#x3D; nums[i++]; &#x2F;&#x2F;滑动窗口                &#125;            &#125;            return result;        &#125;        return 0;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个含有 &lt;code&gt;n&lt;/code&gt; 个正整数的数组和一个正整数 &lt;code&gt;target&lt;/code&gt; &lt;strong&gt;。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;找出该数组中满足其和 &lt;code&gt;≥ target&lt;/code&gt; 的长度最小的 &lt;strong&gt;连续子数组&lt;/strong&gt; &lt;code&gt;[numsl, numsl+1, ..., numsr-1, numsr]&lt;/code&gt; ，并返回其长度&lt;strong&gt;。&lt;/strong&gt;如果不存在符合条件的子数组，返回 &lt;code&gt;0&lt;/code&gt; 。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode:977.有序数组的平方</title>
-    <link href="2023/02/06/leetcode-977-%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E5%B9%B3%E6%96%B9/"/>
-    <id>2023/02/06/leetcode-977-%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E5%B9%B3%E6%96%B9/</id>
-    <published>2023-02-06T11:32:22.000Z</published>
-    <updated>2023-02-06T15:08:19.695Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个按 <strong>非递减顺序</strong> 排序的整数数组 <code>nums</code>，返回 <strong>每个数字的平方</strong> 组成的新数组，要求也按 <strong>非递减顺序</strong> 排序。</p><span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [-4,-1,0,3,10]输出：[0,1,9,16,100]解释：平方后，数组变为 [16,1,0,9,100]排序后，数组变为 [0,1,9,16,100]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [-7,-3,2,3,11]输出：[4,9,9,49,121]</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 104</code></li><li><code>-104 &lt;= nums[i] &lt;= 104</code></li><li><code>nums</code> 已按 <strong>非递减顺序</strong> 排序</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>常规思路</li></ol><p>先对每个数组的元素进行平方赋值，然后对数组进行排序。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt;&amp; nums) &#123;        for (int i &#x3D; 0; i &lt; nums.size(); i++) &#123;            nums[i] &#x3D; nums[i] * nums[i];        &#125;        sort(nums.begin(), nums.end()); &#x2F;&#x2F;排序        return nums;    &#125;&#125;;</code></pre><ol start="2"><li>利用指向正负分界线的指针构造“归并排序”</li></ol><p>常规思路未使用题目的“非递减顺序数组”的条件，因此我们新建一个指针，它指向数组中的最后一个非正数元素，然后从中间向两边进行遍历，将平方和较小的结果插入rst数组中。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;int&gt; rst;        int n &#x3D; nums.size();        &#x2F;&#x2F;1. 获取数组正负边界索引        int index &#x3D; -1;        for(int i &#x3D; 0; i &lt; n; i++) &#123;            if (nums[i] &lt; 0) &#123;                index &#x3D; i;            &#125;            else &#123;                break;            &#125;        &#125;        &#x2F;&#x2F;2. 双指针从中间向两边遍历        int i &#x3D; index;        int j &#x3D; index + 1;        while(i &gt;&#x3D; 0 || j &lt; n) &#123;            if (i &lt; 0) &#123;                rst.push_back(nums[j] * nums[j]);                j++;            &#125;            else if (j &#x3D;&#x3D; n) &#123;                rst.push_back(nums[i] * nums[i]);                i--;            &#125;            else if (nums[i] * nums[i] &lt; nums[j] * nums[j]) &#123;                rst.push_back(nums[i] * nums[i]);                i--;            &#125;            else &#123;                rst.push_back(nums[j] * nums[j]);                j++;            &#125;        &#125;        return rst;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个按 &lt;strong&gt;非递减顺序&lt;/strong&gt; 排序的整数数组 &lt;code&gt;nums&lt;/code&gt;，返回 &lt;strong&gt;每个数字的平方&lt;/strong&gt; 组成的新数组，要求也按 &lt;strong&gt;非递减顺序&lt;/strong&gt; 排序。&lt;/p&gt;</summary>
     
     
     
