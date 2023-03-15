@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Leafii"><meta name="copyright" content="Leafii"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>leetcode106.从中序与后序遍历序列构造二叉树 | LeafiiのBlog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><script src="https://fastly.jsdelivr.net/npm/@unocss/runtime/mini.global.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="../../../../favicon.ico"><link rel="mask-icon" href="../../../../favicon.ico" color="#0078E7"><link rel="preload" href="../../../../css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="../../../../js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"leafii.top","root":"/","title":["Leafii","の","博","客"],"version":"1.9.3","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"fireworks":{"colors":null},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="../../../../css/hexo-theme-yun.css"><script src="../../../../js/hexo-theme-yun.js" type="module"></script><link rel="alternate" href="../../../../atom.xml" title="LeafiiのBlog" type="application/atom+xml"><meta name="description" content="题目给定两个整数数组 inorder 和 postorder ，其中 inorder 是二叉树的中序遍历， postorder 是同一棵树的后序遍历，请你构造并返回这颗 二叉树 。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode106.从中序与后序遍历序列构造二叉树">
+<meta property="og:url" content="2023/03/15/leetcode106-%E4%BB%8E%E4%B8%AD%E5%BA%8F%E4%B8%8E%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/index.html">
+<meta property="og:site_name" content="LeafiiのBlog">
+<meta property="og:description" content="题目给定两个整数数组 inorder 和 postorder ，其中 inorder 是二叉树的中序遍历， postorder 是同一棵树的后序遍历，请你构造并返回这颗 二叉树 。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.leafii.top/img/tree.jpg">
+<meta property="article:published_time" content="2023-03-15T09:27:14.000Z">
+<meta property="article:modified_time" content="2023-03-15T09:41:07.494Z">
+<meta property="article:author" content="Leafii">
+<meta property="article:tag" content="leetcode">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.leafii.top/img/tree.jpg"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head><body><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="../../../../js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="../../../../js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="../../../../about/" title="Leafii"><img width="96" loading="lazy" src="../../../../images/avatar.jpg" alt="Leafii"></a><div class="site-author-name"><a href="../../../../about/">Leafii</a></div><a class="site-name" href="../../../../about/site.html">LeafiiのBlog</a><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="../../../../index.html" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="../../../../archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">120</span></a></div><div class="site-state-item"><a href="../../../../categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">0</span></a></div><div class="site-state-item"><a href="../../../../tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">26</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="主题文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/mikutown" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:yunsenye@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=299583310" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="../../../../links/" title="友情链接" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-genderless-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E7%AD%94"><span class="toc-number">2.</span> <span class="toc-text">解答</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https:/leafii.top"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Leafii"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="LeafiiのBlog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">leetcode106.从中序与后序遍历序列构造二叉树</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2023-03-15 17:27:14" itemprop="dateCreated datePublished" datetime="2023-03-15T17:27:14+08:00">2023-03-15</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">1.8k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">7m</span></span></span><div class="post-classify"><span class="post-tag"><a class="tag-item" href="../../../../tags/leetcode/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">leetcode</span></a><a class="tag-item" href="../../../../tags/%E7%AE%97%E6%B3%95/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">算法</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定两个整数数组 <code>inorder</code> 和 <code>postorder</code> ，其中 <code>inorder</code> 是二叉树的中序遍历， <code>postorder</code> 是同一棵树的后序遍历，请你构造并返回这颗 <em>二叉树</em> 。</p>
+ <span id="more"></span>
+
+<p><strong>示例 1:</strong></p>
+<p><img src="http://cdn.leafii.top/img/tree.jpg" alt="img" loading="lazy"></p>
+<pre class="language-none"><code class="language-none">输入：inorder &#x3D; [9,3,15,20,7], postorder &#x3D; [9,15,7,20,3]
+输出：[3,9,20,null,null,15,7]</code></pre>
+
+<p><strong>示例 2:</strong></p>
+<pre class="language-none"><code class="language-none">输入：inorder &#x3D; [-1], postorder &#x3D; [-1]
+输出：[-1]</code></pre>
+
+<p><strong>提示:</strong></p>
+<ul>
+<li><code>1 &lt;= inorder.length &lt;= 3000</code></li>
+<li><code>postorder.length == inorder.length</code></li>
+<li><code>-3000 &lt;= inorder[i], postorder[i] &lt;= 3000</code></li>
+<li><code>inorder</code> 和 <code>postorder</code> 都由 <strong>不同</strong> 的值组成</li>
+<li><code>postorder</code> 中每一个值都在 <code>inorder</code> 中</li>
+<li><code>inorder</code> <strong>保证</strong>是树的中序遍历</li>
+<li><code>postorder</code> <strong>保证</strong>是树的后序遍历</li>
+</ul>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul>
+<li>递归构造</li>
+</ul>
+<p>根据题意，可以得知后序遍历的最后一个元素一定是树的根节点。然后可以在中序遍历中找到该根节点，以此将树分为左子树和右子树。对于左子树和右子树，可以再分别在中序遍历和后序遍历中找到其根节点，以此类推。</p>
+<p>所以该问题可以使用递归的方式解决，每次递归时，先找到后序遍历的最后一个元素作为根节点，在中序遍历中找到该根节点，以此将树分为左子树和右子树。再分别递归左子树和右子树构建二叉树。C++代码实现如下：</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;
+ * &#125;;
+ *&#x2F;
+class Solution &#123;
+public:
+    TreeNode* buildTree(vector&lt;int&gt;&amp; inorder, vector&lt;int&gt;&amp; postorder) &#123;
+        return buildTreeHelper(inorder, postorder, 0, inorder.size()-1, 0, postorder.size()-1);
+    &#125;
+
+    TreeNode* buildTreeHelper(vector&lt;int&gt;&amp; inorder, vector&lt;int&gt;&amp; postorder, int in_start, int in_end, int post_start, int post_end) &#123;
+        &#x2F;*
+            inorder：中序遍历序列；
+            postorder：后序遍历序列；
+            in_start：当前子树在中序遍历序列中的起始位置；
+            in_end：当前子树在中序遍历序列中的结束位置；
+            post_start：当前子树在后序遍历序列中的起始位置；
+            post_end：当前子树在后序遍历序列中的结束位置。
+        *&#x2F;
+        if (in_start &gt; in_end || post_start &gt; post_end) &#123;
+            &#x2F;&#x2F; base case: 树为空
+            return nullptr;
+        &#125;
+
+        int root_val &#x3D; postorder[post_end]; &#x2F;&#x2F; 后续遍历的最后一个元素一定是根节点
+        TreeNode* root &#x3D; new TreeNode(root_val);
+
+        &#x2F;&#x2F; 在中序遍历中找到根节点的位置
+        int root_pos &#x3D; 0;
+        for (int i &#x3D; in_start; i &lt;&#x3D; in_end; i++) &#123;
+            if (inorder[i] &#x3D;&#x3D; root_val) &#123;
+                root_pos &#x3D; i;
+                break;
+            &#125;
+        &#125;
+        
+        &#x2F;&#x2F; 根据根节点的位置， 分别递归构建左子树和右子树 
+        root-&gt;left &#x3D; buildTreeHelper(inorder, postorder, in_start, root_pos-1, post_start, post_start + root_pos - in_start - 1);
+        root-&gt;right &#x3D; buildTreeHelper(inorder, postorder, root_pos + 1, in_end, post_start + root_pos - in_start, post_end - 1);
+
+        return root;
+    &#125;
+&#125;;</code></pre>
+
+<p>以 <code>inorder = [9,3,15,20,7]</code>，<code>postorder = [9,15,7,20,3]</code> 为例，来描述一下各个值的迭代过程。假设我们在第一次递归中，需要构建整棵二叉树。</p>
+<ol>
+<li><p>在 <code>buildTreeHelper</code> 函数中，传入 <code>inorder</code> 和 <code>postorder</code> 数组的起始和结束下标，即 <code>in_start=0</code>，<code>in_end=4</code>，<code>post_start=0</code>，<code>post_end=4</code>。</p>
+</li>
+<li><p>因为 <code>postorder</code> 的最后一个元素是当前子树的根节点，所以我们可以根据 <code>postorder[post_end-1]</code> 得到根节点的值，即 <code>root_val=3</code>。</p>
+</li>
+<li><p>我们在 <code>inorder</code> 数组中查找根节点的位置，得到 <code>root_pos=1</code>。由此，我们可以确定当前子树的左子树和右子树在 <code>inorder</code> 数组中的范围，即左子树为 <code>inorder[in_start, root_pos-1]</code>，右子树为 <code>inorder[root_pos+1, in_end]</code>。</p>
+</li>
+<li><p>接下来，我们需要递归构建当前子树的左子树和右子树。对于左子树，我们需要在 <code>postorder</code> 数组中找到它的后序遍历序列，即从 <code>post_start</code> 开始，长度为左子树在中序遍历序列中节点个数的那段子数组。因此，左子树的后序遍历序列为 <code>postorder[post_start, post_start+root_pos-in_start-1]</code>。</p>
+</li>
+<li><p>对于右子树，我们同样需要在 <code>postorder</code> 数组中找到它的后序遍历序列，即从左子树后面一个位置 <code>post_start+root_pos-in_start</code> 开始，长度为右子树在中序遍历序列中节点个数的那段子数组。因此，右子树的后序遍历序列为 <code>postorder[post_start+root_pos-in_start, post_end-1]</code>。</p>
+</li>
+<li><p>接下来，我们递归构建当前子树的左子树和右子树。对于左子树，我们调用 <code>buildTreeHelper</code> 函数，传入 <code>inorder</code> 和 <code>postorder</code> 数组的起始和结束下标，即 <code>in_start=0</code>，<code>in_end=0+1-1=0</code>，<code>post_start=0</code>，<code>post_end=0+1-1=0</code>。由于 <code>in_start</code> 大于 <code>in_end</code>，说明左子树为空，因此我们返回 <code>nullptr</code>，表示当前子树的左子树为空。</p>
+</li>
+<li><p>对于右子树，我们同样调用 <code>buildTreeHelper</code> 函数，传入 <code>inorder</code> 和 <code>postorder</code> 数组的起始和结束下标，即 <code>in_start=1+1=2</code>，<code>in_end=4</code>，<code>post_start=0+1=1</code>，<code>post_end=4-1=3</code>。在右子树的递归中，我们同样可以先找到根节点的值 <code>root_val=20</code>，然后在 <code>inorder</code> 数组中查找根节点的位置，得到 <code>root_pos=3</code>。因此，右子树的左子树在 <code>inorder</code> 数组中的范围为 <code>inorder[2,2]</code>，右子树的右子树在 <code>inorder</code> 数组中的范围为 <code>inorder[4,4]</code>。</p>
+</li>
+<li><p>对于右子树的左子树，我们可以先计算出它在 <code>postorder</code> 数组中的后序遍历序列，即从 <code>post_start</code> 开始，长度为左子树在中序遍历序列中节点个数的那段子数组。因此，右子树的左子树的后序遍历序列为 <code>postorder[post_start, post_start+root_pos-in_start-1]</code>，即 <code>postorder[1,2]</code>。在右子树的递归中，我们调用 <code>buildTreeHelper</code> 函数，传入 <code>inorder</code> 和 <code>postorder</code> 数组的起始和结束下标，即 <code>in_start=2</code>，<code>in_end=2</code>，<code>post_start=1</code>，<code>post_end=1+2-2=1</code>。由于 <code>in_start</code> 等于 <code>in_end</code>，说明当前子树只有一个节点，即叶子节点，因此我们创建一个节点，将其值赋为 <code>9</code>，并返回。</p>
+</li>
+<li><p>对于右子树的右子树，我们同样可以计算出它在 <code>postorder</code> 数组中的后序遍历序列，即从左子树后面一个位置 <code>post_start+root_pos-in_start</code> 开始，长度为右子树在中序遍历序列中节点个数的那段子数组。因此，右子树的右子树的后序遍历序列为 <code>postorder[post_start+root_pos-in_start, post_end-1]</code>，即 <code>postorder[3,3]</code>。在右子树的递归中，我们调用 <code>buildTreeHelper</code> 函数，传入 <code>inorder</code> 和 <code>postorder</code> 数组的起始和结束下标，即 <code>in_start=4</code>，<code>in_end=4</code>，<code>post_start=3</code>，<code>post_end=3</code>。由于 <code>in_start</code> 等于 <code>in_end</code>，说明当前子树只有一个节点，即叶子节点，因此我们创建一个节点，将其值赋为 <code>7</code>，并返回。</p>
+</li>
+<li><p>接下来，我们回到右子树的递归中，将返回的左子树和右子树节点挂到当前根节点的左右节点上，最终返回根节点 <code>root</code>。整个过程结束。</p>
+<p>在整个递归的过程中，我们都不需要额外的空间来存储子数组，而是通过起始和结束下标来表示子数组。这种方式使得我们可以使用较少的空间来解决问题，并且在递归过程中也不需要频繁地拷贝数组，提高了算法的效率。</p>
+</li>
+</ol>
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>Leafii</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="2023/03/15/leetcode106-从中序与后序遍历序列构造二叉树/" title="leetcode106.从中序与后序遍历序列构造二叉树">2023/03/15/leetcode106-从中序与后序遍历序列构造二叉树/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="../../14/leetcode102-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/" rel="next" title="leetcode102.二叉树的层序遍历"><span class="post-nav-text">leetcode102.二叉树的层序遍历</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2023 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> Leafii</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.2.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.9.3</span></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="../../../../js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div id="local-search-result"></div></div><script>function initMourn() {
+  const date = new Date();
+  const today = (date.getMonth() + 1) + "-" + date.getDate()
+  const mourn_days = ["4-4","9-18"]
+  if (mourn_days.includes(today)) {
+    document.documentElement.style.filter = "grayscale(1)";
+  }
+}
+initMourn();</script></div></body></html>
