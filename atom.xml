@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-03-16T08:00:27.245Z</updated>
+  <updated>2023-03-19T06:37:34.018Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode541.反转字符串II</title>
+    <link href="2023/03/19/leetcode541-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2II/"/>
+    <id>2023/03/19/leetcode541-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2II/</id>
+    <published>2023-03-19T06:36:21.000Z</published>
+    <updated>2023-03-19T06:37:34.018Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串 <code>s</code> 和一个整数 <code>k</code>，从字符串开头算起，每计数至 <code>2k</code> 个字符，就反转这 <code>2k</code> 字符中的前 <code>k</code> 个字符。</p><ul><li>如果剩余字符少于 <code>k</code> 个，则将剩余字符全部反转。</li><li>如果剩余字符小于 <code>2k</code> 但大于或等于 <code>k</code> 个，则反转前 <code>k</code> 个字符，其余字符保持原样。</li></ul> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;abcdefg&quot;, k &#x3D; 2输出：&quot;bacdfeg&quot;</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;abcd&quot;, k &#x3D; 2输出：&quot;bacd&quot;</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 104</code></li><li><code>s</code> 仅由小写英文组成</li><li><code>1 &lt;= k &lt;= 104</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>直接进行交换即可</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string reverseStr(string s, int k) &#123;        int n &#x3D; s.size(); &#x2F;&#x2F; 字符串的长度        for (int i &#x3D; 0; i &lt; n; i +&#x3D; 2 * k) &#123; &#x2F;&#x2F; 每 2k 个字符为一组进行反转            int left &#x3D; i; &#x2F;&#x2F; 左边界            int right &#x3D; min(i + k - 1, n - 1); &#x2F;&#x2F; 右边界，注意防止越界            while (left &lt; right) &#123; &#x2F;&#x2F; 双指针反转                swap(s[left], s[right]); &#x2F;&#x2F; 交换左右指针对应的字符。                left++;                right--; &#x2F;&#x2F; 左右指针向中间移动。            &#125;        &#125;        return s; &#x2F;&#x2F; 返回反转后的字符串    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个字符串 &lt;code&gt;s&lt;/code&gt; 和一个整数 &lt;code&gt;k&lt;/code&gt;，从字符串开头算起，每计数至 &lt;code&gt;2k&lt;/code&gt; 个字符，就反转这 &lt;code&gt;2k&lt;/code&gt; 字符中的前 &lt;code&gt;k&lt;/code&gt; 个字符。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果剩余字符少于 &lt;code&gt;k&lt;/code&gt; 个，则将剩余字符全部反转。&lt;/li&gt;
+&lt;li&gt;如果剩余字符小于 &lt;code&gt;2k&lt;/code&gt; 但大于或等于 &lt;code&gt;k&lt;/code&gt; 个，则反转前 &lt;code&gt;k&lt;/code&gt; 个字符，其余字符保持原样。&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode124.二叉树中的最大路径和</title>
@@ -424,30 +449,6 @@
 &lt;li&gt;&lt;code&gt;i + j &amp;lt; n&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;返回到达 &lt;code&gt;nums[n - 1]&lt;/code&gt; 的最小跳跃次数。生成的测试用例可以到达 &lt;code&gt;nums[n - 1]&lt;/code&gt;。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode860.柠檬水找零</title>
-    <link href="2023/02/20/leetcode860-%E6%9F%A0%E6%AA%AC%E6%B0%B4%E6%89%BE%E9%9B%B6/"/>
-    <id>2023/02/20/leetcode860-%E6%9F%A0%E6%AA%AC%E6%B0%B4%E6%89%BE%E9%9B%B6/</id>
-    <published>2023-02-20T08:12:25.000Z</published>
-    <updated>2023-02-20T08:53:43.814Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>在柠檬水摊上，每一杯柠檬水的售价为 <code>5</code> 美元。顾客排队购买你的产品，（按账单 <code>bills</code> 支付的顺序）一次购买一杯。</p><p>每位顾客只买一杯柠檬水，然后向你付 <code>5</code> 美元、<code>10</code> 美元或 <code>20</code> 美元。你必须给每个顾客正确找零，也就是说净交易是每位顾客向你支付 <code>5</code> 美元。</p><p>注意，一开始你手头没有任何零钱。</p><p>给你一个整数数组 <code>bills</code> ，其中 <code>bills[i]</code> 是第 <code>i</code> 位顾客付的账。如果你能给每位顾客正确找零，返回 <code>true</code> ，否则返回 <code>false</code> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：bills &#x3D; [5,5,5,10,20]输出：true解释：前 3 位顾客那里，我们按顺序收取 3 张 5 美元的钞票。第 4 位顾客那里，我们收取一张 10 美元的钞票，并返还 5 美元。第 5 位顾客那里，我们找还一张 10 美元的钞票和一张 5 美元的钞票。由于所有客户都得到了正确的找零，所以我们输出 true。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：bills &#x3D; [5,5,10,10,20]输出：false解释：前 2 位顾客那里，我们按顺序收取 2 张 5 美元的钞票。对于接下来的 2 位顾客，我们收取一张 10 美元的钞票，然后返还 5 美元。对于最后一位顾客，我们无法退回 15 美元，因为我们现在只有两张 10 美元的钞票。由于不是每位顾客都得到了正确的找零，所以答案是 false。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= bills.length &lt;= 105</code></li><li><code>bills[i]</code> 不是 <code>5</code> 就是 <code>10</code> 或是 <code>20</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>初见思路</li></ol><p>使用一个大小为2的数组count存储5元纸币和10元纸币的数量，接着对数组bills进行遍历，当满足条件时将对应的纸币数量进行加减，若成功遍历整个数组，则说明可以找零(<code>return true</code>)，否则无法找零(<code>return false</code>)。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool lemonadeChange(vector&lt;int&gt;&amp; bills) &#123;        vector&lt;int&gt; count(2,0);        for (int i &#x3D; 0; i &lt; bills.size(); i++) &#123;            if (bills[i] &#x3D;&#x3D; 5) &#123;                count[0]++;            &#125;            else if (bills[i] &#x3D;&#x3D; 10) &#123;                if (count[0] !&#x3D; 0) &#123;                    count[0]--;                    count[1]++;                &#125;                else return false;            &#125;            else if (bills[i] &#x3D;&#x3D; 20)&#123;                &#x2F;&#x2F;20 usd&#39;s situation                if (count[1] &gt; 0 &amp;&amp; count[0] &gt; 0) &#123;                    count[0]--;                    count[1]--;                &#125;                else if (count[0] &gt;&#x3D; 3) &#123;                    count[0] -&#x3D; 3;                &#125;                else return false;            &#125;        &#125;        return true;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;在柠檬水摊上，每一杯柠檬水的售价为 &lt;code&gt;5&lt;/code&gt; 美元。顾客排队购买你的产品，（按账单 &lt;code&gt;bills&lt;/code&gt; 支付的顺序）一次购买一杯。&lt;/p&gt;
-&lt;p&gt;每位顾客只买一杯柠檬水，然后向你付 &lt;code&gt;5&lt;/code&gt; 美元、&lt;code&gt;10&lt;/code&gt; 美元或 &lt;code&gt;20&lt;/code&gt; 美元。你必须给每个顾客正确找零，也就是说净交易是每位顾客向你支付 &lt;code&gt;5&lt;/code&gt; 美元。&lt;/p&gt;
-&lt;p&gt;注意，一开始你手头没有任何零钱。&lt;/p&gt;
-&lt;p&gt;给你一个整数数组 &lt;code&gt;bills&lt;/code&gt; ，其中 &lt;code&gt;bills[i]&lt;/code&gt; 是第 &lt;code&gt;i&lt;/code&gt; 位顾客付的账。如果你能给每位顾客正确找零，返回 &lt;code&gt;true&lt;/code&gt; ，否则返回 &lt;code&gt;false&lt;/code&gt; 。&lt;/p&gt;</summary>
     
     
     
