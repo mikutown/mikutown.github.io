@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-03-19T06:37:34.018Z</updated>
+  <updated>2023-03-20T08:16:16.183Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>剑指Offer05.替换空格</title>
+    <link href="2023/03/20/%E5%89%91%E6%8C%87Offer05-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/"/>
+    <id>2023/03/20/%E5%89%91%E6%8C%87Offer05-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/</id>
+    <published>2023-03-20T08:11:28.000Z</published>
+    <updated>2023-03-20T08:16:16.183Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>请实现一个函数，把字符串 <code>s</code> 中的每个空格替换成”%20”。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;We are happy.&quot;输出：&quot;We%20are%20happy.&quot;</code></pre><p><strong>限制：</strong></p><pre class="language-none"><code class="language-none">0 &lt;&#x3D; s 的长度 &lt;&#x3D; 10000</code></pre><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>常规思路</li></ul><p>新建一个string类型的变量result，对输入的字符串s的每个字符进行判断，若字符为空格，则<code>result+=&quot;%20;&quot;</code>，否则<code>result+=s[i];</code>，C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string replaceSpace(string s) &#123;        string result &#x3D; &quot;&quot;; &#x2F;&#x2F; 定义结果字符串result        int n &#x3D; s.length(); &#x2F;&#x2F; 获取输入字符串s的长度        for(int i &#x3D; 0; i &lt; n; i++) &#123; &#x2F;&#x2F; 进行遍历            if (s[i] &#x3D;&#x3D; &#39; &#39;) &#123; &#x2F;&#x2F; 若s[i]为空格，则result+&#x3D;&quot;%20&quot;;                result +&#x3D; &quot;%20&quot;;            &#125;            else &#123; &#x2F;&#x2F; 否则直接+&#x3D;s[i];                result +&#x3D; s[i];            &#125;        &#125;        return result; &#x2F;&#x2F; 最后返回结果值result    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;请实现一个函数，把字符串 &lt;code&gt;s&lt;/code&gt; 中的每个空格替换成”%20”。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode541.反转字符串II</title>
@@ -422,33 +443,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个区间的集合 &lt;code&gt;intervals&lt;/code&gt; ，其中 &lt;code&gt;intervals[i] = [starti, endi]&lt;/code&gt; 。返回 &lt;em&gt;需要移除区间的最小数量，使剩余区间互不重叠&lt;/em&gt; 。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode45.跳跃游戏II</title>
-    <link href="2023/02/21/leetcode45-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8FII/"/>
-    <id>2023/02/21/leetcode45-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8FII/</id>
-    <published>2023-02-21T06:38:37.000Z</published>
-    <updated>2023-02-21T06:43:08.348Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个长度为 <code>n</code> 的 <strong>0 索引</strong>整数数组 <code>nums</code>。初始位置为 <code>nums[0]</code>。</p><p>每个元素 <code>nums[i]</code> 表示从索引 <code>i</code> 向前跳转的最大长度。换句话说，如果你在 <code>nums[i]</code> 处，你可以跳转到任意 <code>nums[i + j]</code> 处:</p><ul><li><code>0 &lt;= j &lt;= nums[i]</code> </li><li><code>i + j &lt; n</code></li></ul><p>返回到达 <code>nums[n - 1]</code> 的最小跳跃次数。生成的测试用例可以到达 <code>nums[n - 1]</code>。</p> <span id="more"></span><p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入: nums &#x3D; [2,3,1,1,4]输出: 2解释: 跳到最后一个位置的最小跳跃数是 2。     从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: nums &#x3D; [2,3,0,1,4]输出: 2</code></pre><p><strong>提示:</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 104</code></li><li><code>0 &lt;= nums[i] &lt;= 1000</code></li><li>题目保证可以到达 <code>nums[n-1]</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>贪心算法</li></ol><p>算法思路是：遍历数组，用变量 <code>max_pos</code> 记录当前能够到达的最远位置，用变量 <code>end_pos</code> 记录当前步数下能够到达的最远位置，如果遍历到 <code>end_pos</code>，则更新 <code>end_pos</code> 为 <code>max_pos</code>，并将步数加 1。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int jump(vector&lt;int&gt;&amp; nums) &#123;        int n &#x3D; nums.size();        if (n &#x3D;&#x3D; 1) return 0; &#x2F;&#x2F; 如果数组只有一个元素，返回 0        int steps &#x3D; 0, max_pos &#x3D; 0, end_pos &#x3D; 0;        &#x2F;&#x2F; steps：跳跃的步数，max_pos：当前能够到达的最远位置，end_pos：当前步数下能够到达的最远位置        for (int i &#x3D; 0; i &lt; n - 1; i++) &#123;            &#x2F;&#x2F; 遍历数组，到达 n - 1 时不需要再跳跃，因为已经到达了终点            max_pos &#x3D; max(max_pos, i + nums[i]); &#x2F;&#x2F; 更新能够到达的最远位置            if (i &#x3D;&#x3D; end_pos) &#123; &#x2F;&#x2F; 如果到达了当前步数下能够到达的最远位置，需要增加步数                end_pos &#x3D; max_pos; &#x2F;&#x2F; 更新当前步数下能够到达的最远位置                steps++; &#x2F;&#x2F; 增加步数            &#125;        &#125;        return steps; &#x2F;&#x2F; 返回跳跃的步数    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个长度为 &lt;code&gt;n&lt;/code&gt; 的 &lt;strong&gt;0 索引&lt;/strong&gt;整数数组 &lt;code&gt;nums&lt;/code&gt;。初始位置为 &lt;code&gt;nums[0]&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;每个元素 &lt;code&gt;nums[i]&lt;/code&gt; 表示从索引 &lt;code&gt;i&lt;/code&gt; 向前跳转的最大长度。换句话说，如果你在 &lt;code&gt;nums[i]&lt;/code&gt; 处，你可以跳转到任意 &lt;code&gt;nums[i + j]&lt;/code&gt; 处:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;0 &amp;lt;= j &amp;lt;= nums[i]&lt;/code&gt; &lt;/li&gt;
-&lt;li&gt;&lt;code&gt;i + j &amp;lt; n&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;返回到达 &lt;code&gt;nums[n - 1]&lt;/code&gt; 的最小跳跃次数。生成的测试用例可以到达 &lt;code&gt;nums[n - 1]&lt;/code&gt;。&lt;/p&gt;</summary>
     
     
     
