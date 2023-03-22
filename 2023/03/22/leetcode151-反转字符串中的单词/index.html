@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Leafii"><meta name="copyright" content="Leafii"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>leetcode151.反转字符串中的单词 | LeafiiのBlog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><script src="https://fastly.jsdelivr.net/npm/@unocss/runtime/mini.global.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="../../../../favicon.ico"><link rel="mask-icon" href="../../../../favicon.ico" color="#0078E7"><link rel="preload" href="../../../../css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="../../../../js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"leafii.top","root":"/","title":["Leafii","の","博","客"],"version":"1.9.3","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"fireworks":{"colors":null},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="../../../../css/hexo-theme-yun.css"><script src="../../../../js/hexo-theme-yun.js" type="module"></script><link rel="alternate" href="../../../../atom.xml" title="LeafiiのBlog" type="application/atom+xml"><meta name="description" content="题目给你一个字符串 s ，请你反转字符串中 单词 的顺序。 单词 是由非空格字符组成的字符串。s 中使用至少一个空格将字符串中的 单词 分隔开。 返回 单词 顺序颠倒且 单词 之间用单个空格连接的结果字符串。 注意：输入字符串 s中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外的空格。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode151.反转字符串中的单词">
+<meta property="og:url" content="2023/03/22/leetcode151-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E5%8D%95%E8%AF%8D/index.html">
+<meta property="og:site_name" content="LeafiiのBlog">
+<meta property="og:description" content="题目给你一个字符串 s ，请你反转字符串中 单词 的顺序。 单词 是由非空格字符组成的字符串。s 中使用至少一个空格将字符串中的 单词 分隔开。 返回 单词 顺序颠倒且 单词 之间用单个空格连接的结果字符串。 注意：输入字符串 s中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外的空格。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-22T02:01:36.000Z">
+<meta property="article:modified_time" content="2023-03-22T02:31:09.124Z">
+<meta property="article:author" content="Leafii">
+<meta property="article:tag" content="leetcode">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head><body><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="../../../../js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="../../../../js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="../../../../about/" title="Leafii"><img width="96" loading="lazy" src="../../../../images/avatar.jpg" alt="Leafii"></a><div class="site-author-name"><a href="../../../../about/">Leafii</a></div><a class="site-name" href="../../../../about/site.html">LeafiiのBlog</a><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="../../../../index.html" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="../../../../archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">127</span></a></div><div class="site-state-item"><a href="../../../../categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">0</span></a></div><div class="site-state-item"><a href="../../../../tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">30</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="主题文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/mikutown" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:yunsenye@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=299583310" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="../../../../links/" title="友情链接" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-genderless-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E7%AD%94"><span class="toc-number">2.</span> <span class="toc-text">解答</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https:/leafii.top"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Leafii"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="LeafiiのBlog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">leetcode151.反转字符串中的单词</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2023-03-22 10:01:36" itemprop="dateCreated datePublished" datetime="2023-03-22T10:01:36+08:00">2023-03-22</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">1.2k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">5m</span></span></span><div class="post-classify"><span class="post-tag"><a class="tag-item" href="../../../../tags/leetcode/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">leetcode</span></a><a class="tag-item" href="../../../../tags/%E7%AE%97%E6%B3%95/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">算法</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个字符串 <code>s</code> ，请你反转字符串中 <strong>单词</strong> 的顺序。</p>
+<p><strong>单词</strong> 是由非空格字符组成的字符串。<code>s</code> 中使用至少一个空格将字符串中的 <strong>单词</strong> 分隔开。</p>
+<p>返回 <strong>单词</strong> 顺序颠倒且 <strong>单词</strong> 之间用单个空格连接的结果字符串。</p>
+<p><strong>注意：</strong>输入字符串 <code>s</code>中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外的空格。</p>
+<span id="more"></span> 
+
+<p><strong>示例 1：</strong></p>
+<pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;the sky is blue&quot;
+输出：&quot;blue is sky the&quot;</code></pre>
+
+<p><strong>示例 2：</strong></p>
+<pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;  hello world  &quot;
+输出：&quot;world hello&quot;
+解释：反转后的字符串中不能存在前导空格和尾随空格。</code></pre>
+
+<p><strong>示例 3：</strong></p>
+<pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;a good   example&quot;
+输出：&quot;example good a&quot;
+解释：如果两个单词间有多余的空格，反转后的字符串需要将单词间的空格减少到仅有一个。</code></pre>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 104</code></li>
+<li><code>s</code> 包含英文大小写字母、数字和空格 <code>&#39; &#39;</code></li>
+<li><code>s</code> 中 <strong>至少存在一个</strong> 单词</li>
+</ul>
+<p><strong>进阶：</strong>如果字符串在你使用的编程语言中是一种可变数据类型，请尝试使用 <code>O(1)</code> 额外空间复杂度的 <strong>原地</strong> 解法。</p>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul>
+<li>暴力解法</li>
+</ul>
+<p>大致思路：将字符串中的每个单词放入动态数组中，然后将动态数组倒序遍历得到结果字符串，最后返回结果字符串，C++代码实现如下：</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    string reverseWords(string s) &#123;
+        &#x2F;&#x2F; 特判：如果s的长度为1，则只包含一个单词，此时直接返回s即可
+        if (s.length() &#x3D;&#x3D; 1) return s;
+
+        &#x2F;&#x2F; 新建s_vec动态数组，元素类型为string
+        vector&lt;string&gt; s_vec;
+        &#x2F;&#x2F; 定义left，它是指向字符串里第一个单词的第一个字母的指针
+        int left &#x3D; 0; &#x2F;&#x2F; left的初始化
+        while (s[left] &#x3D;&#x3D; &#39; &#39;) &#123;
+            left++;  &#x2F;&#x2F; 防止字符串一开始就是空格
+        &#125;
+        &#x2F;&#x2F; 开始循环
+        for (int i &#x3D; left; i &lt; s.length(); i++) &#123;
+            &#x2F;&#x2F; 当i指向一个单词右边的第一个空格或者字符串的最后一个元素时
+            if (s[i] &#x3D;&#x3D; &#39; &#39; || i &#x3D;&#x3D; s.length() - 1) &#123;
+                if (i &#x3D;&#x3D; s.length()-1) i++; &#x2F;&#x2F; 当i指向字符串的最后一个字母时，需要自增1，否则无法通过substr获得子串
+
+                string temp &#x3D; s.substr(left, i - left); &#x2F;&#x2F; 使用substr获得子串
+                s_vec.push_back(temp); &#x2F;&#x2F; 将子串push进动态数组s_vec中
+                while (s[i] &#x3D;&#x3D; &#39; &#39; &amp;&amp; i &lt; s.length()) &#123;
+                    i++; &#x2F;&#x2F; 令i从其之后的第一个非空字母开始遍历
+                &#125;
+                left &#x3D; i; &#x2F;&#x2F; 更新left的值
+            &#125;
+        &#125;
+        if (s[s.length()-1] !&#x3D; &#39; &#39; &amp;&amp; s[s.length()-2] &#x3D;&#x3D; &#39; &#39;) &#123; &#x2F;&#x2F; 针对字符串最后的一个单词只有一个字母的特判
+            string temp &#x3D; s.substr(s.length()-1);
+            s_vec.push_back(temp);
+        &#125;
+        int n &#x3D; s_vec.size(); &#x2F;&#x2F; 获取动态数组的大小（也就是总的单词个数）
+        string result; &#x2F;&#x2F; 定义结果字符串
+        for (int i &#x3D; n - 1; i &gt;&#x3D; 0; i--) &#123; &#x2F;&#x2F; 反向遍历，将结果同result相加
+            if (i &#x3D;&#x3D; n - 1) &#123; &#x2F;&#x2F; 第一个单词前无需加空格
+                result &#x3D; result + s_vec[i];
+            &#125;
+            else &#123; &#x2F;&#x2F; 其他单词在同result合并前需要先加一个空格
+                result &#x3D; result + &quot; &quot; + s_vec[i]; 
+            &#125;
+        &#125;
+        return result; &#x2F;&#x2F; 返回result字符串
+    &#125;
+&#125;;</code></pre>
+
+<ul>
+<li>空间复杂度为O(1)的解法</li>
+</ul>
+<ol>
+<li>将整个字符串进行反转</li>
+<li>将反转后的字符串的每个单词进行反转</li>
+<li>去除字符串中多余的空格</li>
+</ol>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    string reverseWords(string s) &#123;
+        reverse(s.begin(), s.end()); &#x2F;&#x2F; 翻转整个字符串
+        int n &#x3D; s.size();
+        int idx &#x3D; 0;
+        for (int start &#x3D; 0; start &lt; n; ++start) &#123;
+            if (s[start] !&#x3D; &#39; &#39;) &#123; &#x2F;&#x2F; 找到单词的起始位置
+                if (idx !&#x3D; 0) s[idx++] &#x3D; &#39; &#39;; &#x2F;&#x2F; 添加单词间空格
+                int end &#x3D; start;
+                while (end &lt; n &amp;&amp; s[end] !&#x3D; &#39; &#39;) s[idx++] &#x3D; s[end++]; &#x2F;&#x2F; 翻转单词
+                reverse(s.begin() + idx - (end - start), s.begin() + idx); &#x2F;&#x2F; 翻转单词
+                start &#x3D; end;
+            &#125;
+        &#125;
+        s.erase(s.begin() + idx, s.end()); &#x2F;&#x2F; 删除多余的空格
+        return s;
+    &#125;
+&#125;;</code></pre>
+
+<blockquote>
+<p>当我们调用reverse函数时，它会将字符串中的字符进行翻转。例如，如果我们有一个字符串”hello”，那么调用reverse函数后，它会变成”olleh”。在这个题目中，我们需要将整个字符串进行翻转，所以我们调用了reverse(s.begin(), s.end())函数来实现这个功能。</p>
+</blockquote>
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>Leafii</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="2023/03/22/leetcode151-反转字符串中的单词/" title="leetcode151.反转字符串中的单词">2023/03/22/leetcode151-反转字符串中的单词/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="../../21/%E5%9F%BA%E4%BA%8E%E6%94%B9%E8%BF%9B%E5%B7%AE%E5%88%86%E8%BF%9B%E5%8C%96%E7%AE%97%E6%B3%95%E7%9A%84%E4%BA%91%E7%AB%AF%E7%A7%91%E5%AD%A6%E5%B7%A5%E4%BD%9C%E6%B5%81%E8%B0%83%E5%BA%A6%E8%87%AA%E9%80%82%E5%BA%94%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E7%AD%96%E7%95%A5/" rel="next" title="基于改进差分进化算法的云端科学工作流调度自适应故障检测策略"><span class="post-nav-text">基于改进差分进化算法的云端科学工作流调度自适应故障检测策略</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2023 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> Leafii</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.2.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.9.3</span></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="../../../../js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div id="local-search-result"></div></div><script>function initMourn() {
+  const date = new Date();
+  const today = (date.getMonth() + 1) + "-" + date.getDate()
+  const mourn_days = ["4-4","9-18"]
+  if (mourn_days.includes(today)) {
+    document.documentElement.style.filter = "grayscale(1)";
+  }
+}
+initMourn();</script></div></body></html>

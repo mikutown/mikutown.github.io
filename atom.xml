@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-03-21T13:12:58.115Z</updated>
+  <updated>2023-03-22T02:31:09.124Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode151.反转字符串中的单词</title>
+    <link href="2023/03/22/leetcode151-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E5%8D%95%E8%AF%8D/"/>
+    <id>2023/03/22/leetcode151-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E5%8D%95%E8%AF%8D/</id>
+    <published>2023-03-22T02:01:36.000Z</published>
+    <updated>2023-03-22T02:31:09.124Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个字符串 <code>s</code> ，请你反转字符串中 <strong>单词</strong> 的顺序。</p><p><strong>单词</strong> 是由非空格字符组成的字符串。<code>s</code> 中使用至少一个空格将字符串中的 <strong>单词</strong> 分隔开。</p><p>返回 <strong>单词</strong> 顺序颠倒且 <strong>单词</strong> 之间用单个空格连接的结果字符串。</p><p><strong>注意：</strong>输入字符串 <code>s</code>中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外的空格。</p><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;the sky is blue&quot;输出：&quot;blue is sky the&quot;</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;  hello world  &quot;输出：&quot;world hello&quot;解释：反转后的字符串中不能存在前导空格和尾随空格。</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;a good   example&quot;输出：&quot;example good a&quot;解释：如果两个单词间有多余的空格，反转后的字符串需要将单词间的空格减少到仅有一个。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 104</code></li><li><code>s</code> 包含英文大小写字母、数字和空格 <code>&#39; &#39;</code></li><li><code>s</code> 中 <strong>至少存在一个</strong> 单词</li></ul><p><strong>进阶：</strong>如果字符串在你使用的编程语言中是一种可变数据类型，请尝试使用 <code>O(1)</code> 额外空间复杂度的 <strong>原地</strong> 解法。</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><p>大致思路：将字符串中的每个单词放入动态数组中，然后将动态数组倒序遍历得到结果字符串，最后返回结果字符串，C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string reverseWords(string s) &#123;        &#x2F;&#x2F; 特判：如果s的长度为1，则只包含一个单词，此时直接返回s即可        if (s.length() &#x3D;&#x3D; 1) return s;        &#x2F;&#x2F; 新建s_vec动态数组，元素类型为string        vector&lt;string&gt; s_vec;        &#x2F;&#x2F; 定义left，它是指向字符串里第一个单词的第一个字母的指针        int left &#x3D; 0; &#x2F;&#x2F; left的初始化        while (s[left] &#x3D;&#x3D; &#39; &#39;) &#123;            left++;  &#x2F;&#x2F; 防止字符串一开始就是空格        &#125;        &#x2F;&#x2F; 开始循环        for (int i &#x3D; left; i &lt; s.length(); i++) &#123;            &#x2F;&#x2F; 当i指向一个单词右边的第一个空格或者字符串的最后一个元素时            if (s[i] &#x3D;&#x3D; &#39; &#39; || i &#x3D;&#x3D; s.length() - 1) &#123;                if (i &#x3D;&#x3D; s.length()-1) i++; &#x2F;&#x2F; 当i指向字符串的最后一个字母时，需要自增1，否则无法通过substr获得子串                string temp &#x3D; s.substr(left, i - left); &#x2F;&#x2F; 使用substr获得子串                s_vec.push_back(temp); &#x2F;&#x2F; 将子串push进动态数组s_vec中                while (s[i] &#x3D;&#x3D; &#39; &#39; &amp;&amp; i &lt; s.length()) &#123;                    i++; &#x2F;&#x2F; 令i从其之后的第一个非空字母开始遍历                &#125;                left &#x3D; i; &#x2F;&#x2F; 更新left的值            &#125;        &#125;        if (s[s.length()-1] !&#x3D; &#39; &#39; &amp;&amp; s[s.length()-2] &#x3D;&#x3D; &#39; &#39;) &#123; &#x2F;&#x2F; 针对字符串最后的一个单词只有一个字母的特判            string temp &#x3D; s.substr(s.length()-1);            s_vec.push_back(temp);        &#125;        int n &#x3D; s_vec.size(); &#x2F;&#x2F; 获取动态数组的大小（也就是总的单词个数）        string result; &#x2F;&#x2F; 定义结果字符串        for (int i &#x3D; n - 1; i &gt;&#x3D; 0; i--) &#123; &#x2F;&#x2F; 反向遍历，将结果同result相加            if (i &#x3D;&#x3D; n - 1) &#123; &#x2F;&#x2F; 第一个单词前无需加空格                result &#x3D; result + s_vec[i];            &#125;            else &#123; &#x2F;&#x2F; 其他单词在同result合并前需要先加一个空格                result &#x3D; result + &quot; &quot; + s_vec[i];             &#125;        &#125;        return result; &#x2F;&#x2F; 返回result字符串    &#125;&#125;;</code></pre><ul><li>空间复杂度为O(1)的解法</li></ul><ol><li>将整个字符串进行反转</li><li>将反转后的字符串的每个单词进行反转</li><li>去除字符串中多余的空格</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string reverseWords(string s) &#123;        reverse(s.begin(), s.end()); &#x2F;&#x2F; 翻转整个字符串        int n &#x3D; s.size();        int idx &#x3D; 0;        for (int start &#x3D; 0; start &lt; n; ++start) &#123;            if (s[start] !&#x3D; &#39; &#39;) &#123; &#x2F;&#x2F; 找到单词的起始位置                if (idx !&#x3D; 0) s[idx++] &#x3D; &#39; &#39;; &#x2F;&#x2F; 添加单词间空格                int end &#x3D; start;                while (end &lt; n &amp;&amp; s[end] !&#x3D; &#39; &#39;) s[idx++] &#x3D; s[end++]; &#x2F;&#x2F; 翻转单词                reverse(s.begin() + idx - (end - start), s.begin() + idx); &#x2F;&#x2F; 翻转单词                start &#x3D; end;            &#125;        &#125;        s.erase(s.begin() + idx, s.end()); &#x2F;&#x2F; 删除多余的空格        return s;    &#125;&#125;;</code></pre><blockquote><p>当我们调用reverse函数时，它会将字符串中的字符进行翻转。例如，如果我们有一个字符串”hello”，那么调用reverse函数后，它会变成”olleh”。在这个题目中，我们需要将整个字符串进行翻转，所以我们调用了reverse(s.begin(), s.end())函数来实现这个功能。</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个字符串 &lt;code&gt;s&lt;/code&gt; ，请你反转字符串中 &lt;strong&gt;单词&lt;/strong&gt; 的顺序。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;单词&lt;/strong&gt; 是由非空格字符组成的字符串。&lt;code&gt;s&lt;/code&gt; 中使用至少一个空格将字符串中的 &lt;strong&gt;单词&lt;/strong&gt; 分隔开。&lt;/p&gt;
+&lt;p&gt;返回 &lt;strong&gt;单词&lt;/strong&gt; 顺序颠倒且 &lt;strong&gt;单词&lt;/strong&gt; 之间用单个空格连接的结果字符串。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;输入字符串 &lt;code&gt;s&lt;/code&gt;中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外的空格。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>基于改进差分进化算法的云端科学工作流调度自适应故障检测策略</title>
@@ -426,27 +450,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你单链表的头节点 &lt;code&gt;head&lt;/code&gt; ，请你反转链表，并返回反转后的链表。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode203.移除链表元素</title>
-    <link href="2023/02/26/leetcode203-%E7%A7%BB%E9%99%A4%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0/"/>
-    <id>2023/02/26/leetcode203-%E7%A7%BB%E9%99%A4%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0/</id>
-    <published>2023-02-26T05:43:26.000Z</published>
-    <updated>2023-02-26T05:56:06.765Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个链表的头节点 <code>head</code> 和一个整数 <code>val</code> ，请你删除链表中所有满足 <code>Node.val == val</code> 的节点，并返回 <strong>新的头节点</strong> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/removelinked-list.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1,2,6,3,4,5,6], val &#x3D; 6输出：[1,2,3,4,5]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [], val &#x3D; 1输出：[]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [7,7,7,7], val &#x3D; 7输出：[]</code></pre><p><strong>提示：</strong></p><ul><li>列表中的节点数目在范围 <code>[0, 104]</code> 内</li><li><code>1 &lt;= Node.val &lt;= 50</code></li><li><code>0 &lt;= val &lt;= 50</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>虚拟头节点法：</li></ol><p>若使用常规思路，在移除节点有两种情况：</p><ul><li><p>非头节点的移除：直接讲被删除节点的前一个节点同被删除节点的后一个节点连接，然后删除当前的被删除节点；</p></li><li><p>头节点的移除：新建一个节点指向头节点，令头节点等于头节点的后继节点，然后删除刚才指向头节点的新建节点。</p></li></ul><p>为了防止需要写两个逻辑判断到底怎么删除节点，在这里直接使用一个虚拟节点，他的后继节点指向头节点，此时本来需要被特殊处理的头节点也可以按照非头节点的移除方法进行移除了，在循环的最后删除虚拟头节点，返回虚拟头节点的后继节点（即真实头节点）。C++代码实现思路如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode() : val(0), next(nullptr) &#123;&#125; *     ListNode(int x) : val(x), next(nullptr) &#123;&#125; *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        ListNode* visualHead &#x3D; new ListNode(0); &#x2F;&#x2F; 新建虚拟头节点        visualHead-&gt;next &#x3D; head;        ListNode* cur &#x3D; visualHead; &#x2F;&#x2F; cur指现在要处理的节点，默认指向虚拟头节点        while (cur-&gt;next!&#x3D;NULL) &#123; &#x2F;&#x2F; 开始循环            if (cur-&gt;next-&gt;val &#x3D;&#x3D; val) &#123; &#x2F;&#x2F; 如果值匹配，则进行删除                ListNode* tmp &#x3D; cur-&gt;next;                cur-&gt;next &#x3D; cur-&gt;next-&gt;next;                delete tmp;            &#125; else &#123; &#x2F;&#x2F; 否则当前指针更新为它的next指针指向的元素                cur &#x3D; cur-&gt;next;            &#125;        &#125;        head &#x3D; visualHead-&gt;next; &#x2F;&#x2F; 得到删除对应元素之后的头节点        delete visualHead; &#x2F;&#x2F; 删除虚拟头节点，以降低空间复杂度        return head; &#x2F;&#x2F; 返回头节点，算法结束    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个链表的头节点 &lt;code&gt;head&lt;/code&gt; 和一个整数 &lt;code&gt;val&lt;/code&gt; ，请你删除链表中所有满足 &lt;code&gt;Node.val == val&lt;/code&gt; 的节点，并返回 &lt;strong&gt;新的头节点&lt;/strong&gt; 。&lt;/p&gt;</summary>
     
     
     
