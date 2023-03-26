@@ -153,12 +153,12 @@ tags/nasm/
 tags/vim/
 tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/
 tags/nodejs/
-tags/macOS/
-tags/LaTeX/
 tags/%E8%BF%9B%E5%8C%96%E7%AE%97%E6%B3%95/
 tags/%E5%AE%B9%E9%94%99/
 tags/%E4%BA%91%E8%AE%A1%E7%AE%97/
 tags/%E5%B7%A5%E4%BD%9C%E6%B5%81%E8%B0%83%E5%BA%A6/
+tags/macOS/
+tags/LaTeX/
 tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/
 tags/%E5%8D%9A%E5%BC%88%E8%AE%BA%E5%9F%BA%E7%A1%80/
 tags/Hexo/
