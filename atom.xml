@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-03-28T14:35:56.994Z</updated>
+  <updated>2023-03-29T06:43:47.729Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode968.监控二叉树</title>
+    <link href="2023/03/29/leetcode968-%E7%9B%91%E6%8E%A7%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    <id>2023/03/29/leetcode968-%E7%9B%91%E6%8E%A7%E4%BA%8C%E5%8F%89%E6%A0%91/</id>
+    <published>2023-03-29T06:23:53.000Z</published>
+    <updated>2023-03-29T06:43:47.729Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个二叉树，我们在树的节点上安装摄像头。</p><p>节点上的每个摄影头都可以监视<strong>其父对象、自身及其直接子对象。</strong></p><p>计算监控树的所有节点所需的最小摄像头数量。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/bst_cameras_01.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：[0,0,null,0,0]输出：1解释：如图所示，一台摄像头足以监控所有节点。</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/bst_cameras_02.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：[0,0,null,0,null,0,null,null,0]输出：2解释：需要至少两个摄像头来监视树的所有节点。 上图显示了摄像头放置的有效位置之一。</code></pre><p><strong>提示：</strong></p><ol><li>给定树的节点数的范围是 <code>[1, 1000]</code>。</li><li>每个节点的值都是 0。</li></ol><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>贪心算法</li></ul><p>本题是一道贪心算法的题目。通过对题目进行分析，我们可以发现有以下几种情况：</p><p>1.如果一个节点没有被监控，那么它必须要安装一个摄像头。</p><p>2.如果一个节点安装了摄像头，那么它的父节点就可以被监控了。</p><p>3.如果一个节点的子节点被监控了，那么这个节点也可以被监控。</p><p>因此，我们可以采用自下而上的方式进行处理，从叶子节点开始向根节点进行处理。对于每个节点，我们可以有三种状态：</p><p>0：该节点没有装摄像头，且它的子节点中也没有装摄像头的节点，此时应该给他装一个摄像头。</p><p>1：该节点没有装摄像头，但是它的子节点中至少有一个装摄像头的节点，此时应该给他的父节点装一个摄像头。</p><p>2：该节点装摄像头了，因此它无需再安装一个摄像头。</p><p>对于每个节点，我们可以采用递归的方式进行处理。当节点为叶子节点时，它的状态为0。对于其他节点，如果它的子节点中存在状态为0的节点，那么该节点的状态为1，表示需要安装摄像头。如果它的子节点中都存在状态为1或2的节点，那么该节点的状态为0，表示不需要安装摄像头，但是它的父节点需要安装摄像头。如果它的子节点中存在状态为2的节点，那么该节点的状态为1，表示不需要安装摄像头，因为它的子节点已经可以覆盖它了。</p><p>最后，根据根节点的状态来判断是否需要安装摄像头。如果根节点的状态为0或1，那么需要安装一个摄像头。如果根节点的状态为2，那么不需要安装摄像头。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    int minCameraCover(TreeNode* root) &#123;        int res &#x3D; 0;        if (dfs(root, res) &#x3D;&#x3D; 0) &#123; &#x2F;&#x2F; 根节点未被监控            res++;        &#125;        return res;    &#125;    int dfs(TreeNode* node, int&amp; res) &#123;        if (node &#x3D;&#x3D; nullptr) &#123;            return 2; &#x2F;&#x2F; 空节点不需要监控，返回2        &#125;        int left &#x3D; dfs(node-&gt;left, res);        int right &#x3D; dfs(node-&gt;right, res);        if (left &#x3D;&#x3D; 0 || right &#x3D;&#x3D; 0) &#123; &#x2F;&#x2F; 左右子节点有未被监控的节点，该节点需要安装摄像头            res++; &#x2F;&#x2F; 安装了摄像头            return 1; &#x2F;&#x2F; return 1是指该节点没有被监控，但是它的子节点中至少有一个被监控的节点。        &#125; else if (left &#x3D;&#x3D; 1 || right &#x3D;&#x3D; 1) &#123; &#x2F;&#x2F; 左右子节点中至少有一个节点被监控            return 2; &#x2F;&#x2F; return 2是指该节点被监控了。        &#125; else &#123; &#x2F;&#x2F; 左右子节点均被监控            return 0; &#x2F;&#x2F; return 0是指该节点没有装摄像头        &#125;    &#125;&#125;;</code></pre><blockquote><p>其中，dfs函数的返回值为当前节点的状态。如果返回值为0，表示当前节点需要安装摄像头；如果返回值为1，表示当前节点不需要安装摄像头，但是它的父节点需要安装摄像头；如果返回值为2，表示当前节点不需要安装摄像头。res为引用类型，表示安装摄像头的数量。</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个二叉树，我们在树的节点上安装摄像头。&lt;/p&gt;
+&lt;p&gt;节点上的每个摄影头都可以监视&lt;strong&gt;其父对象、自身及其直接子对象。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;计算监控树的所有节点所需的最小摄像头数量。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>迈向智能云：云系统容错方法回顾</title>
@@ -435,27 +458,6 @@
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个链表的头节点  &lt;code&gt;head&lt;/code&gt; ，返回链表开始入环的第一个节点。 &lt;em&gt;如果链表无环，则返回 &lt;code&gt;null&lt;/code&gt;。&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;如果链表中有某个节点，可以通过连续跟踪 &lt;code&gt;next&lt;/code&gt; 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 &lt;code&gt;pos&lt;/code&gt; 来表示链表尾连接到链表中的位置（&lt;strong&gt;索引从 0 开始&lt;/strong&gt;）。如果 &lt;code&gt;pos&lt;/code&gt; 是 &lt;code&gt;-1&lt;/code&gt;，则在该链表中没有环。&lt;strong&gt;注意：&lt;code&gt;pos&lt;/code&gt; 不作为参数进行传递&lt;/strong&gt;，仅仅是为了标识链表的实际情况。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;不允许修改&lt;/strong&gt; 链表。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode160.相交链表</title>
-    <link href="2023/03/06/leetcode160-%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/"/>
-    <id>2023/03/06/leetcode160-%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/</id>
-    <published>2023-03-06T07:18:58.000Z</published>
-    <updated>2023-03-06T07:20:59.431Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你两个单链表的头节点 <code>headA</code> 和 <code>headB</code> ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 <code>null</code> 。</p><span id="more"></span><p>图示两个链表在节点 <code>c1</code> 开始相交<strong>：</strong></p><p><img src="http://cdn.leafii.top/img/160_statement.png" alt="img" loading="lazy"></p><p>题目数据 <strong>保证</strong> 整个链式结构中不存在环。</p><p><strong>注意</strong>，函数返回结果后，链表必须 <strong>保持其原始结构</strong> 。</p><p><strong>自定义评测：</strong></p><p><strong>评测系统</strong> 的输入如下（你设计的程序 <strong>不适用</strong> 此输入）：</p><ul><li><code>intersectVal</code> - 相交的起始节点的值。如果不存在相交节点，这一值为 <code>0</code></li><li><code>listA</code> - 第一个链表</li><li><code>listB</code> - 第二个链表</li><li><code>skipA</code> - 在 <code>listA</code> 中（从头节点开始）跳到交叉节点的节点数</li><li><code>skipB</code> - 在 <code>listB</code> 中（从头节点开始）跳到交叉节点的节点数</li></ul><p>评测系统将根据这些输入创建链式数据结构，并将两个头节点 <code>headA</code> 和 <code>headB</code> 传递给你的程序。如果程序能够正确返回相交节点，那么你的解决方案将被 <strong>视作正确答案</strong> 。</p><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/160_example_1_1.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：intersectVal &#x3D; 8, listA &#x3D; [4,1,8,4,5], listB &#x3D; [5,6,1,8,4,5], skipA &#x3D; 2, skipB &#x3D; 3输出：Intersected at &#39;8&#39;解释：相交节点的值为 8 （注意，如果两个链表相交则不能为 0）。从各自的表头开始算起，链表 A 为 [4,1,8,4,5]，链表 B 为 [5,6,1,8,4,5]。在 A 中，相交节点前有 2 个节点；在 B 中，相交节点前有 3 个节点。— 请注意相交节点的值不为 1，因为在链表 A 和链表 B 之中值为 1 的节点 (A 中第二个节点和 B 中第三个节点) 是不同的节点。换句话说，它们在内存中指向两个不同的位置，而链表 A 和链表 B 中值为 8 的节点 (A 中第三个节点，B 中第四个节点) 在内存中指向相同的位置。</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/160_example_2.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：intersectVal &#x3D; 2, listA &#x3D; [1,9,1,2,4], listB &#x3D; [3,2,4], skipA &#x3D; 3, skipB &#x3D; 1输出：Intersected at &#39;2&#39;解释：相交节点的值为 2 （注意，如果两个链表相交则不能为 0）。从各自的表头开始算起，链表 A 为 [1,9,1,2,4]，链表 B 为 [3,2,4]。在 A 中，相交节点前有 3 个节点；在 B 中，相交节点前有 1 个节点。</code></pre><p><strong>示例 3：</strong></p><p><img src="http://cdn.leafii.top/img/160_example_3.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：intersectVal &#x3D; 0, listA &#x3D; [2,6,4], listB &#x3D; [1,5], skipA &#x3D; 3, skipB &#x3D; 2输出：null解释：从各自的表头开始算起，链表 A 为 [2,6,4]，链表 B 为 [1,5]。由于这两个链表不相交，所以 intersectVal 必须为 0，而 skipA 和 skipB 可以是任意值。这两个链表不相交，因此返回 null 。</code></pre><p><strong>提示：</strong></p><ul><li><code>listA</code> 中节点数目为 <code>m</code></li><li><code>listB</code> 中节点数目为 <code>n</code></li><li><code>1 &lt;= m, n &lt;= 3 * 104</code></li><li><code>1 &lt;= Node.val &lt;= 105</code></li><li><code>0 &lt;= skipA &lt;= m</code></li><li><code>0 &lt;= skipB &lt;= n</code></li><li>如果 <code>listA</code> 和 <code>listB</code> 没有交点，<code>intersectVal</code> 为 <code>0</code></li><li>如果 <code>listA</code> 和 <code>listB</code> 有交点，<code>intersectVal == listA[skipA] == listB[skipB]</code></li></ul><p><strong>进阶：</strong>你能否设计一个时间复杂度 <code>O(m + n)</code> 、仅用 <code>O(1)</code> 内存的解决方案？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>尾部对齐法</li></ol><p>因为当两链表相交时，它们从相交的节点开始到尾节点都是重叠的，因此首先依次遍历两个链表，获取两个链表的长度，然后将长度更长的链表进行对齐操作，之后分别比较对齐后的两链表的元素，若不相等，则分别迭代为next指针指向的元素，若两元素相等，则返回任意一个元素，若不相等，则遍历结束后返回<code>null</code>.</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) &#123;        &#x2F;&#x2F; 分别计算两个链表的长度        int lenA &#x3D; 0, lenB &#x3D; 0;        ListNode* curA &#x3D; headA;        ListNode* curB &#x3D; headB;        while (curA) &#123;            lenA++;            curA &#x3D; curA-&gt;next;        &#125;        while (curB) &#123;            lenB++;            curB &#x3D; curB-&gt;next;        &#125;        &#x2F;&#x2F; 将较长的链表向后移动，使它们的尾部对齐        curA &#x3D; headA;        curB &#x3D; headB;        if (lenA &gt; lenB) &#123;            for (int i &#x3D; 0; i &lt; (lenA - lenB); i++) &#123;                curA &#x3D; curA-&gt;next;            &#125;        &#125;        else &#123;            for (int i &#x3D; 0; i &lt; (lenB - lenA); i++) &#123;                curB &#x3D; curB-&gt;next;            &#125;        &#125;        while (curA !&#x3D; curB) &#123;            curA &#x3D; curA-&gt;next;            curB &#x3D; curB-&gt;next;        &#125;        if (curA !&#x3D; nullptr) return curA;                return nullptr;    &#125;    &#125;;</code></pre><ol start="2"><li>使用哈希表</li></ol><p>使用一个哈希表存储一个链表的所有元素的地址，接着对另一个链表进行遍历，若另一个链表中有元素的地址和哈希表中的链表地址相等，则返回该元素，否则遍历结束后返回<code>null</code></p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) &#123;        unordered_set&lt;ListNode*&gt; nodes; &#x2F;&#x2F;使用unordered_set存储链表A的各个元素的地址        while (headA) &#123;            nodes.insert(headA);            headA &#x3D; headA-&gt;next;        &#125;        while (headB) &#123;            if (nodes.count(headB)) &#123; &#x2F;&#x2F; 判断headB的元素地址是否在unordered_set中                return headB;            &#125;            headB &#x3D; headB-&gt;next;        &#125;        return nullptr;    &#125;&#125;;</code></pre><blockquote><p>需要注意的是在C++中因为<code>ListNode</code>没有定义比较方法，所以在这里使用的是 <code>unordered_set&lt;ListNode*&gt;</code></p></blockquote><ol start="3"><li>”快慢指针“法</li></ol><p>使用两个指针分别指向两个链表的头结点，分别进行遍历，若指针在遍历时遍历到了尾节点，则令指向尾节点的指针指向另一个链表的头结点，若两个链表有相交，即有重叠部分时，这两个指针终究会相遇，此时返回相遇的指针即可，若不能相遇，则返回<code>null</code>。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) &#123;        &#x2F;&#x2F; &quot;快慢指针&quot;        ListNode* pointA &#x3D; headA;        ListNode* pointB &#x3D; headB;        while (pointA !&#x3D; pointB) &#123;            pointA &#x3D; pointA !&#x3D; nullptr? pointA-&gt;next: pointA &#x3D; headB;            pointB &#x3D; pointB !&#x3D; nullptr? pointB-&gt;next: pointB &#x3D; headA;        &#125;        if (pointA !&#x3D; nullptr) return pointA; &#x2F;&#x2F; 需要注意在遍历结束后判断pointA（或pointB)是否为null        return nullptr;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你两个单链表的头节点 &lt;code&gt;headA&lt;/code&gt; 和 &lt;code&gt;headB&lt;/code&gt; ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 &lt;code&gt;null&lt;/code&gt; 。&lt;/p&gt;</summary>
     
     
     
