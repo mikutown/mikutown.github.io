@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-03T08:49:26.216Z</updated>
+  <updated>2023-04-03T09:44:15.250Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -21,17 +21,20 @@
     <link href="2023/04/03/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%9F%E9%A2%98-%E9%97%A8%E7%89%8C%E5%88%B6%E4%BD%9C/"/>
     <id>2023/04/03/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%9F%E9%A2%98-%E9%97%A8%E7%89%8C%E5%88%B6%E4%BD%9C/</id>
     <published>2023-04-03T08:29:27.000Z</published>
-    <updated>2023-04-03T08:49:26.216Z</updated>
+    <updated>2023-04-03T09:44:15.250Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>小蓝要为一条街的住户制作门牌号。</p><p>这条街一共有 2020 位住户，门牌号从 1 到 2020 编号。</p><p>小蓝制作门牌的方法是先制作 0 到 9 这几个数字字符，最后根据需要将字符粘贴到门牌上，例如门牌 1017 需要依次粘贴字符 1、0、1、7，即需要 1 个字符 0，2 个字符 1，1 个字符 7。</p><p>请问要制作所有的 11 到 20202020 号门牌，总共需要多少个字符 2？</p><p><strong>运行限制</strong></p><ul><li>最大运行时间：1s</li><li>最大运行内存: 128M</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;using namespace std;int main()&#123;    int result &#x3D; 0; &#x2F;&#x2F; 初始化需要数字2的个数为0    for (int i &#x3D; 1; i &lt;&#x3D; 2020; i++) &#123; &#x2F;&#x2F; 循环，从1到2020        int temp &#x3D; i; &#x2F;&#x2F; 令temp&#x3D;i，方便后续判断字符2个数的操作        while (temp &gt; 0) &#123;            if (temp % 10 &#x3D;&#x3D; 2) &#123; &#x2F;&#x2F; 如果temp中最后一位是2                result++; &#x2F;&#x2F; result自增            &#125;            temp &#x2F;&#x3D; 10; &#x2F;&#x2F; temp&#x2F;&#x3D;10去掉最后一位数字        &#125;    &#125;    printf(&quot;%d&quot;, result);&#x2F;&#x2F; 输出结果    return 0;&#125;</code></pre>]]></content>
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>小蓝要为一条街的住户制作门牌号。</p><p>这条街一共有 2020 位住户，门牌号从 1 到 2020 编号。</p><p>小蓝制作门牌的方法是先制作 0 到 9 这几个数字字符，最后根据需要将字符粘贴到门牌上，例如门牌 1017 需要依次粘贴字符 1、0、1、7，即需要 1 个字符 0，2 个字符 1，1 个字符 7。</p><p>请问要制作所有的 11 到 20202020 号门牌，总共需要多少个字符 2？</p><p><strong>运行限制</strong></p><ul><li>最大运行时间：1s</li><li>最大运行内存: 128M</li></ul><span id="more"></span><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;using namespace std;int main()&#123;    int result &#x3D; 0; &#x2F;&#x2F; 初始化需要数字2的个数为0    for (int i &#x3D; 1; i &lt;&#x3D; 2020; i++) &#123; &#x2F;&#x2F; 循环，从1到2020        int temp &#x3D; i; &#x2F;&#x2F; 令temp&#x3D;i，方便后续判断字符2个数的操作        while (temp &gt; 0) &#123;            if (temp % 10 &#x3D;&#x3D; 2) &#123; &#x2F;&#x2F; 如果temp中最后一位是2                result++; &#x2F;&#x2F; result自增            &#125;            temp &#x2F;&#x3D; 10; &#x2F;&#x2F; temp&#x2F;&#x3D;10去掉最后一位数字        &#125;    &#125;    printf(&quot;%d&quot;, result);&#x2F;&#x2F; 输出结果    return 0;&#125;</code></pre>]]></content>
     
     
-      
-      
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;小蓝要为一条街的住户制作门牌号。&lt;/p&gt;
 &lt;p&gt;这条街一共有 2020 位住户，门牌号从 1 到 2020 编号。&lt;/p&gt;
-&lt;p&gt;小蓝制作门</summary>
-      
+&lt;p&gt;小蓝制作门牌的方法是先制作 0 到 9 这几个数字字符，最后根据需要将字符粘贴到门牌上，例如门牌 1017 需要依次粘贴字符 1、0、1、7，即需要 1 个字符 0，2 个字符 1，1 个字符 7。&lt;/p&gt;
+&lt;p&gt;请问要制作所有的 11 到 20202020 号门牌，总共需要多少个字符 2？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;运行限制&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;最大运行时间：1s&lt;/li&gt;
+&lt;li&gt;最大运行内存: 128M&lt;/li&gt;
+&lt;/ul&gt;</summary>
     
     
     
