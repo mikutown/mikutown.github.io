@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-03T09:44:15.250Z</updated>
+  <updated>2023-04-04T07:52:47.633Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>蓝桥杯真题-单词分析</title>
+    <link href="2023/04/04/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%9F%E9%A2%98-%E5%8D%95%E8%AF%8D%E5%88%86%E6%9E%90/"/>
+    <id>2023/04/04/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%9F%E9%A2%98-%E5%8D%95%E8%AF%8D%E5%88%86%E6%9E%90/</id>
+    <published>2023-04-04T07:48:17.000Z</published>
+    <updated>2023-04-04T07:52:47.633Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>小蓝正在学习一门神奇的语言，这门语言中的单词都是由小写英文字母组 成，有些单词很长，远远超过正常英文单词的长度。小蓝学了很长时间也记不住一些单词，他准备不再完全记忆这些单词，而是根据单词中哪个字母出现得最多来分辨单词。</p><p>现在，请你帮助小蓝，给了一个单词后，帮助他找到出现最多的字母和这 个字母出现的次数。</p><span id="more"></span><p><strong>输入描述</strong></p><p>输入一行包含一个单词，单词只由小写英文字母组成。</p><p>对于所有的评测用例，输入的单词长度不超过 1000。</p><p><strong>输出描述</strong></p><p>输出两行，第一行包含一个英文字母，表示单词中出现得最多的字母是哪 个。如果有多个字母出现的次数相等，输出字典序最小的那个。</p><p>第二行包含一个整数，表示出现得最多的那个字母在单词中出现的次数。</p><p><strong>输入输出样例</strong></p><p><strong>示例 1</strong></p><blockquote><p>输入</p></blockquote><pre class="language-txt" data-language="txt"><code class="language-txt">lanqiao</code></pre><blockquote><p>输出</p></blockquote><pre class="language-txt" data-language="txt"><code class="language-txt">a2</code></pre><p><strong>示例 2</strong></p><blockquote><p>输入</p></blockquote><pre class="language-txt" data-language="txt"><code class="language-txt">longlonglongistoolong</code></pre><blockquote><p>输出</p></blockquote><pre class="language-txt" data-language="txt"><code class="language-txt">o6</code></pre><h3 id="运行限制"><a href="#运行限制" class="headerlink" title="运行限制"></a>运行限制</h3><ul><li>最大运行时间：1s</li><li>最大运行内存: 256M</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;using namespace std;int main()&#123;    string word; &#x2F;&#x2F; 定义输入的单词变量    cin &gt;&gt; word; &#x2F;&#x2F; 用输入流为其赋值    int cnt[26] &#x3D; &#123;0&#125;; &#x2F;&#x2F; 初始化计数器    int index &#x3D; -1; &#x2F;&#x2F; 初始化计数器所用的下标    for (char s: word) &#123;        index &#x3D; s - &#39;a&#39;; &#x2F;&#x2F; 获取当前字母在计数器中的下标        cnt[index]++; &#x2F;&#x2F; 对应的计数自增1    &#125;    int max &#x3D; -1; &#x2F;&#x2F; 计数器中的最大值    int max_index &#x3D; -1; &#x2F;&#x2F; 计数器中最大值对应的最小下标    for (int i &#x3D; 0; i &lt; 26; i++) &#123;        if (cnt[i] &gt; max) &#123;            max &#x3D; cnt[i]; &#x2F;&#x2F; 最大值迭代            max_index &#x3D; i; &#x2F;&#x2F; 最大值的最小下标迭代，若最大值未更新，下标也不会更新        &#125;    &#125;    char answer &#x3D; &#39;a&#39; + max_index; &#x2F;&#x2F; 得到字母个数最多的字母    cout &lt;&lt; answer &lt;&lt; endl; &#x2F;&#x2F; 输出题目要求的第一行答案    cout &lt;&lt; max &lt;&lt; endl; &#x2F;&#x2F; 输出题目要求的第二行答案    return 0;&#125;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;小蓝正在学习一门神奇的语言，这门语言中的单词都是由小写英文字母组 成，有些单词很长，远远超过正常英文单词的长度。小蓝学了很长时间也记不住一些单词，他准备不再完全记忆这些单词，而是根据单词中哪个字母出现得最多来分辨单词。&lt;/p&gt;
+&lt;p&gt;现在，请你帮助小蓝，给了一个单词后，帮助他找到出现最多的字母和这 个字母出现的次数。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="蓝桥杯" scheme="tags/蓝桥杯/"/>
+    
+  </entry>
   
   <entry>
     <title>蓝桥杯真题-门牌制作</title>
@@ -447,29 +469,6 @@
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个二叉树，找出其最小深度。&lt;/p&gt;
 &lt;p&gt;最小深度是从根节点到最近叶子节点的最短路径上的节点数量。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;说明：&lt;/strong&gt;叶子节点是指没有子节点的节点。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode25.K个一组翻转链表</title>
-    <link href="2023/03/09/leetcode25-K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/"/>
-    <id>2023/03/09/leetcode25-K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/</id>
-    <published>2023-03-09T09:07:29.000Z</published>
-    <updated>2023-03-09T09:22:48.238Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你链表的头节点 <code>head</code> ，每 <code>k</code> 个节点一组进行翻转，请你返回修改后的链表。</p><p><code>k</code> 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 <code>k</code> 的整数倍，那么请将最后剩余的节点保持原有顺序。</p><p>你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。</p><span id="more"></span> <p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/reverse_ex1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1,2,3,4,5], k &#x3D; 2输出：[2,1,4,3,5]</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/reverse_ex2.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1,2,3,4,5], k &#x3D; 3输出：[3,2,1,4,5]</code></pre><p><strong>提示：</strong></p><ul><li>链表中的节点数目为 <code>n</code></li><li><code>1 &lt;= k &lt;= n &lt;= 5000</code></li><li><code>0 &lt;= Node.val &lt;= 1000</code></li></ul><p><strong>进阶：</strong>你可以设计一个只用 <code>O(1)</code> 额外内存空间的算法解决此问题吗？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>编写一个函数，用于实现反转链表的核心逻辑，思路如下：</p><ul><li><p>初始化一个前驱节点prev和一个当前节点curr，分别指向空和头节点。</p></li><li><p>循环k次，每次做以下操作：</p><ul><li><p>保存当前节点的下一个节点next，以免丢失。</p></li><li><p>将当前节点的next指针指向前驱节点prev，实现反转。</p></li><li><p>将前驱节点prev更新为当前节点curr，为下一次反转做准备。</p></li><li><p>将当前节点curr更新为下一个节点next，继续遍历链表。</p></li></ul></li></ul><p>这样就可以将链表中的k个节点反转，并返回反转后的头尾指针。</p><blockquote><p>对以上函数进行一个图示说明：</p><p>假设链表为1-&gt;2-&gt;3-&gt;4-&gt;5，k为3，那么反转后的链表应该为3-&gt;2-&gt;1-&gt;4-&gt;5。</p><p>初始状态：</p><pre class="language-text" data-language="text"><code class="language-text">prev: nullcurr: 1next: 2null &lt;- prev   curr -> next -> 3 -> 4 -> 5</code></pre><p>第一次循环：</p><pre class="language-text" data-language="text"><code class="language-text">prev: 1curr: 2next: 3null &lt;- prev &lt;- curr   next -> 4 -> 5</code></pre><p>第二次循环：</p><pre class="language-text" data-language="text"><code class="language-text">prev: 2curr: 3next: 4null &lt;- prev &lt;- curr   next -> 5</code></pre><p>第三次循环：</p><pre class="language-text" data-language="text"><code class="language-text">prev: 3curr: 4next: 5null &lt;- prev &lt;- curr   next </code></pre><p>结束循环，返回{prev, head}即{3,1}。</p><pre class="language-text" data-language="text"><code class="language-text"> prev        head   |           |  v           v null&lt;-3&lt;-2&lt;-1    4->5 </code></pre></blockquote><p>代码的整体思路是：</p><ul><li>定义一个虚拟头节点dummy，指向原链表的头节点head，这样可以方便处理边界情况。</li><li>定义一个前驱节点prev，初始指向dummy，用来连接反转后的链表段。</li><li>用一个while循环遍历整个链表，每次循环做以下操作：<ul><li>定义一个尾部指针tail，初始指向头部指针head，并向后移动k-1次，如果为空则说明剩余长度不足k，直接返回dummy-&gt;next即可。</li><li>保存下一段链表的头部指针nextHead，并断开与当前段的连接。</li><li>调用反转函数reverseList，输入当前段的头部指针head和长度k，返回反转后的新头部和新尾部，并将其连接到前驱和下一段上。</li><li>更新前驱为新尾部，更新头部为下一段头部。</li></ul></li></ul><p>这样就可以将整个链表按照每k个节点进行反转，并返回dummy-&gt;next作为新链表的头节点。</p><p>代码的时间复杂度是O(n)，因为我们只需要遍历一次链表，每个节点最多被访问两次。 代码的空间复杂度是O(1)，因为我们只使用了常数个额外变量，没有使用递归或栈。C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode() : val(0), next(nullptr) &#123;&#125; *     ListNode(int x) : val(x), next(nullptr) &#123;&#125; *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    &#x2F;&#x2F; 定义反转链表的函数，输入一个链表头节点和一个长度k，返回反转后的头节点和尾节点    pair&lt;ListNode*, ListNode*&gt; reverseList(ListNode* head, int k) &#123;        &#x2F;&#x2F; 初始化前驱节点和当前节点        ListNode* prev &#x3D; nullptr;        ListNode* curr &#x3D; head;        &#x2F;&#x2F; 遍历k次，每次将当前节点指向前驱节点，并更新前驱和当前节点        for (int i &#x3D; 0; i &lt; k; i++) &#123;            ListNode* next &#x3D; curr-&gt;next; &#x2F;&#x2F; 保存下一个节点            curr-&gt;next &#x3D; prev; &#x2F;&#x2F; 反转指针            prev &#x3D; curr; &#x2F;&#x2F; 更新前驱            curr &#x3D; next; &#x2F;&#x2F; 更新当前        &#125;        &#x2F;&#x2F; 返回反转后的头节点和尾节点，即原来的尾节点和头节点        return &#123;prev, head&#125;;    &#125;    &#x2F;&#x2F; 定义leetcode 25的主函数，输入一个链表头节点和一个整数k，返回反转后的链表头节点    ListNode* reverseKGroup(ListNode* head, int k) &#123;        &#x2F;&#x2F; 初始化虚拟头节点和前驱节点        ListNode* dummy &#x3D; new ListNode(-1);        dummy-&gt;next &#x3D; head;        ListNode* prev &#x3D; dummy;                while (head !&#x3D; nullptr) &#123; &#x2F;&#x2F; 遍历链表直到为空            &#x2F;&#x2F; 初始化尾部指针为头部指针，并向后移动k-1次，如果为空则说明剩余长度不足k，直接返回虚拟头节点的下一个即可            ListNode* tail &#x3D; head;            for (int i &#x3D; 0; i &lt; k - 1; i++) &#123;                tail &#x3D; tail-&gt;next;                if (tail &#x3D;&#x3D; nullptr) return dummy-&gt;next;            &#125;                        &#x2F;&#x2F; 保存下一段链表的头部指针，并断开与当前段的连接            ListNode* nextHead &#x3D; tail-&gt;next;            tail-&gt;next &#x3D; nullptr;            &#x2F;&#x2F; 调用反转函数，得到反转后的新头部和新尾部，并将其连接到前驱和下一段上            auto reversedPair &#x3D; reverseList(head, k);            prev-&gt;next &#x3D; reversedPair.first;            reversedPair.second-&gt;next &#x3D; nextHead;            &#x2F;&#x2F; 更新前驱为新尾部，更新头部为下一段头部            prev &#x3D; reversedPair.second;            head &#x3D; nextHead;                    &#125;            return dummy-&gt;next;     &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你链表的头节点 &lt;code&gt;head&lt;/code&gt; ，每 &lt;code&gt;k&lt;/code&gt; 个节点一组进行翻转，请你返回修改后的链表。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;k&lt;/code&gt; 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 &lt;code&gt;k&lt;/code&gt; 的整数倍，那么请将最后剩余的节点保持原有顺序。&lt;/p&gt;
-&lt;p&gt;你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。&lt;/p&gt;</summary>
     
     
     
