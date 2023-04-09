@@ -14,15 +14,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });</script><link rel="icon" type="image/png" href="../../../../favicon.ico"><link rel="mask-icon" href="../../../../favicon.ico" color="#0078E7"><link rel="preload" href="../../../../css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="../../../../js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
     window.Yun = {}
     window.CONFIG = {"hostname":"leafii.top","root":"/","title":["Leafii","の","博","客"],"version":"1.9.3","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"fireworks":{"colors":null},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
-  </script><link rel="stylesheet" href="../../../../css/hexo-theme-yun.css"><script src="../../../../js/hexo-theme-yun.js" type="module"></script><link rel="alternate" href="../../../../atom.xml" title="LeafiiのBlog" type="application/atom+xml"><meta name="description" content="题目斐波那契数 （通常用 F(n) 表示）形成的序列称为 斐波那契数列 。该数列由 0 和 1 开始，后面的每一项数字都是前面两项数字的和。也就是： F(0) &#x3D; 0，F(1) &#x3D; 1 F(n) &#x3D; F(n - 1) + F(n - 2)，其中 n &gt; 1  给定 n ，请计算 F(n) 。 示例 1： 输入：n &#x3D; 2 输出：1 解释：F(2) &amp;#">
+  </script><link rel="stylesheet" href="../../../../css/hexo-theme-yun.css"><script src="../../../../js/hexo-theme-yun.js" type="module"></script><link rel="alternate" href="../../../../atom.xml" title="LeafiiのBlog" type="application/atom+xml"><meta name="description" content="题目斐波那契数 （通常用 F(n) 表示）形成的序列称为 斐波那契数列 。该数列由 0 和 1 开始，后面的每一项数字都是前面两项数字的和。也就是： F(0) &#x3D; 0，F(1) &#x3D; 1 F(n) &#x3D; F(n - 1) + F(n - 2)，其中 n &gt; 1  给定 n ，请计算 F(n) 。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="leetcode509.斐波那契数">
 <meta property="og:url" content="2023/04/09/leetcode509-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0/index.html">
 <meta property="og:site_name" content="LeafiiのBlog">
-<meta property="og:description" content="题目斐波那契数 （通常用 F(n) 表示）形成的序列称为 斐波那契数列 。该数列由 0 和 1 开始，后面的每一项数字都是前面两项数字的和。也就是： F(0) &#x3D; 0，F(1) &#x3D; 1 F(n) &#x3D; F(n - 1) + F(n - 2)，其中 n &gt; 1  给定 n ，请计算 F(n) 。 示例 1： 输入：n &#x3D; 2 输出：1 解释：F(2) &amp;#">
+<meta property="og:description" content="题目斐波那契数 （通常用 F(n) 表示）形成的序列称为 斐波那契数列 。该数列由 0 和 1 开始，后面的每一项数字都是前面两项数字的和。也就是： F(0) &#x3D; 0，F(1) &#x3D; 1 F(n) &#x3D; F(n - 1) + F(n - 2)，其中 n &gt; 1  给定 n ，请计算 F(n) 。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-09T06:41:47.000Z">
-<meta property="article:modified_time" content="2023-04-09T07:07:14.985Z">
+<meta property="article:modified_time" content="2023-04-09T07:17:20.505Z">
 <meta property="article:author" content="Leafii">
 <meta property="article:tag" content="leetcode">
 <meta property="article:tag" content="算法">
@@ -40,6 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
 F(n) &#x3D; F(n - 1) + F(n - 2)，其中 n &gt; 1</code></pre>
 
 <p>给定 <code>n</code> ，请计算 <code>F(n)</code> 。</p>
+ <span id="more"></span>
+
 <p><strong>示例 1：</strong></p>
 <pre class="language-none"><code class="language-none">输入：n &#x3D; 2
 输出：1
