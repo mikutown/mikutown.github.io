@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-06T13:05:44.470Z</updated>
+  <updated>2023-04-09T07:07:14.985Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode509.斐波那契数</title>
+    <link href="2023/04/09/leetcode509-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0/"/>
+    <id>2023/04/09/leetcode509-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0/</id>
+    <published>2023-04-09T06:41:47.000Z</published>
+    <updated>2023-04-09T07:07:14.985Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><strong>斐波那契数</strong> （通常用 <code>F(n)</code> 表示）形成的序列称为 <strong>斐波那契数列</strong> 。该数列由 <code>0</code> 和 <code>1</code> 开始，后面的每一项数字都是前面两项数字的和。也就是：</p><pre class="language-none"><code class="language-none">F(0) &#x3D; 0，F(1) &#x3D; 1F(n) &#x3D; F(n - 1) + F(n - 2)，其中 n &gt; 1</code></pre><p>给定 <code>n</code> ，请计算 <code>F(n)</code> 。</p><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 2输出：1解释：F(2) &#x3D; F(1) + F(0) &#x3D; 1 + 0 &#x3D; 1</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3输出：2解释：F(3) &#x3D; F(2) + F(1) &#x3D; 1 + 1 &#x3D; 2</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 4输出：3解释：F(4) &#x3D; F(3) + F(2) &#x3D; 2 + 1 &#x3D; 3</code></pre><p><strong>提示：</strong></p><ul><li><code>0 &lt;= n &lt;= 30</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>递归求解</li></ol><p>在递归函数里初始化<code>f(0) = 0,f(1) = 1</code>,对于大于1的函数值，递归调用<code>f(n - 2) + f(n - 1)</code>;</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int fib(int n) &#123;        if (n &#x3D;&#x3D; 0) return 0; &#x2F;&#x2F; f(0)的初始化        if (n &#x3D;&#x3D; 1) return 1; &#x2F;&#x2F; f(1)的初始化        return fib(n - 1) + fib(n - 2); &#x2F;&#x2F; 递归调用    &#125;&#125;;</code></pre><ol start="2"><li>迭代求解</li></ol><p>C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int fib(int n) &#123;        if (n &lt;&#x3D; 1) return n; &#x2F;&#x2F; 如果n为0或者1 直接返回它本身        int pre0 &#x3D; 0, pre1 &#x3D; 1; &#x2F;&#x2F; 初始化pre0和pre1        int answer &#x3D; 0; &#x2F;&#x2F; 初始化答案        for (int i &#x3D; 2; i &lt;&#x3D; n; i++) &#123;            answer &#x3D; pre0 + pre1; &#x2F;&#x2F; 答案为f(n-2) + f(n-1)            pre0 &#x3D; pre1; &#x2F;&#x2F; pre0的值更新            pre1 &#x3D; answer; &#x2F;&#x2F; pre1的值更新        &#125;        return answer; &#x2F;&#x2F; 计算完毕返回答案    &#125;&#125;;</code></pre><ol start="3"><li>矩阵快速幂求解</li></ol><p>核心思路是将斐波那契数列的递推式转化为矩阵的乘法，然后使用矩阵快速幂的方法快速计算出矩阵的幂次，进而得到第 n 个斐波那契数。</p><p>首先，我们知道斐波那契数列的递推式为：</p><p>$F(n) &#x3D; F(n-1) + F(n-2)，其中 F(0) &#x3D; 0，F(1) &#x3D; 1。$</p><p>我们可以将这个递推式转化为矩阵的乘法形式：</p><p>$ \begin{bmatrix} F(n) \ F(n-1) \end{bmatrix} &#x3D; \begin{bmatrix} 1 &amp; 1 \ 1 &amp; 0 \end{bmatrix} \begin{bmatrix} F(n-1) \ F(n-2) \end{bmatrix} $</p><p>根据这个式子，我们可以构造出初始矩阵 base 和单位矩阵 res，然后使用矩阵快速幂的方法快速计算出 base 的 n 次幂，最终得到 res。</p><p>最后，我们可以直接返回<code> res[0][1]</code>，这个值就是第 n 个斐波那契数。</p><p>总的来说，这种解法虽然比较高级，但可以在 O(log n) 的时间复杂度内计算出第 n 个斐波那契数，而且不需要使用数组或者递归来存储之前的结果，空间复杂度为 O(1)。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int fib(int n) &#123;        &#x2F;&#x2F; 如果n小于等于1，直接返回n        if (n &lt;&#x3D; 1) &#123;            return n;        &#125;        &#x2F;&#x2F; 定义初始矩阵        vector&lt;vector&lt;int&gt;&gt; base&#123;&#123;1, 1&#125;, &#123;1, 0&#125;&#125;;        &#x2F;&#x2F; 定义单位矩阵        vector&lt;vector&lt;int&gt;&gt; res&#123;&#123;1, 0&#125;, &#123;0, 1&#125;&#125;;        &#x2F;&#x2F; 矩阵快速幂        while (n) &#123;            if (n &amp; 1) &#123;                res &#x3D; multiply(res, base);            &#125;            base &#x3D; multiply(base, base);            n &gt;&gt;&#x3D; 1; &#x2F;&#x2F; 将变量 n 的二进制表示向右移动一位，并将移位后的结果赋值给 n。相当于n&#x2F;&#x3D;2        &#125;        &#x2F;&#x2F; 返回结果        return res[0][1];    &#125;    &#x2F;&#x2F; 定义矩阵乘法函数    vector&lt;vector&lt;int&gt;&gt; multiply(const vector&lt;vector&lt;int&gt;&gt;&amp; A, const vector&lt;vector&lt;int&gt;&gt;&amp; B) &#123;        int m &#x3D; A.size(), n &#x3D; A[0].size(), l &#x3D; B[0].size();        vector&lt;vector&lt;int&gt;&gt; C(m, vector&lt;int&gt;(l));        for (int i &#x3D; 0; i &lt; m; ++i) &#123;            for (int j &#x3D; 0; j &lt; l; ++j) &#123;                for (int k &#x3D; 0; k &lt; n; ++k) &#123;                    C[i][j] +&#x3D; A[i][k] * B[k][j];                &#125;            &#125;        &#125;        return C;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;斐波那契数&lt;/strong&gt; （通常用 &lt;code&gt;F(n)&lt;/code&gt; 表示）形成的序列称为 &lt;strong&gt;斐波那契数</summary>
+      
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>蓝桥杯真题-青蛙过河</title>
@@ -115,15 +139,15 @@
     <link href="2023/04/03/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%9F%E9%A2%98-%E9%97%A8%E7%89%8C%E5%88%B6%E4%BD%9C/"/>
     <id>2023/04/03/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%9F%E9%A2%98-%E9%97%A8%E7%89%8C%E5%88%B6%E4%BD%9C/</id>
     <published>2023-04-03T08:29:27.000Z</published>
-    <updated>2023-04-03T09:44:15.250Z</updated>
+    <updated>2023-04-09T06:43:56.826Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>小蓝要为一条街的住户制作门牌号。</p><p>这条街一共有 2020 位住户，门牌号从 1 到 2020 编号。</p><p>小蓝制作门牌的方法是先制作 0 到 9 这几个数字字符，最后根据需要将字符粘贴到门牌上，例如门牌 1017 需要依次粘贴字符 1、0、1、7，即需要 1 个字符 0，2 个字符 1，1 个字符 7。</p><p>请问要制作所有的 11 到 20202020 号门牌，总共需要多少个字符 2？</p><p><strong>运行限制</strong></p><ul><li>最大运行时间：1s</li><li>最大运行内存: 128M</li></ul><span id="more"></span><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;using namespace std;int main()&#123;    int result &#x3D; 0; &#x2F;&#x2F; 初始化需要数字2的个数为0    for (int i &#x3D; 1; i &lt;&#x3D; 2020; i++) &#123; &#x2F;&#x2F; 循环，从1到2020        int temp &#x3D; i; &#x2F;&#x2F; 令temp&#x3D;i，方便后续判断字符2个数的操作        while (temp &gt; 0) &#123;            if (temp % 10 &#x3D;&#x3D; 2) &#123; &#x2F;&#x2F; 如果temp中最后一位是2                result++; &#x2F;&#x2F; result自增            &#125;            temp &#x2F;&#x3D; 10; &#x2F;&#x2F; temp&#x2F;&#x3D;10去掉最后一位数字        &#125;    &#125;    printf(&quot;%d&quot;, result);&#x2F;&#x2F; 输出结果    return 0;&#125;</code></pre>]]></content>
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>小蓝要为一条街的住户制作门牌号。</p><p>这条街一共有 2020 位住户，门牌号从 1 到 2020 编号。</p><p>小蓝制作门牌的方法是先制作 0 到 9 这几个数字字符，最后根据需要将字符粘贴到门牌上，例如门牌 1017 需要依次粘贴字符 1、0、1、7，即需要 1 个字符 0，2 个字符 1，1 个字符 7。</p><p>请问要制作所有的 1 到 2020 号门牌，总共需要多少个字符 2？</p><p><strong>运行限制</strong></p><ul><li>最大运行时间：1s</li><li>最大运行内存: 128M</li></ul><span id="more"></span><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;using namespace std;int main()&#123;    int result &#x3D; 0; &#x2F;&#x2F; 初始化需要数字2的个数为0    for (int i &#x3D; 1; i &lt;&#x3D; 2020; i++) &#123; &#x2F;&#x2F; 循环，从1到2020        int temp &#x3D; i; &#x2F;&#x2F; 令temp&#x3D;i，方便后续判断字符2个数的操作        while (temp &gt; 0) &#123;            if (temp % 10 &#x3D;&#x3D; 2) &#123; &#x2F;&#x2F; 如果temp中最后一位是2                result++; &#x2F;&#x2F; result自增            &#125;            temp &#x2F;&#x3D; 10; &#x2F;&#x2F; temp&#x2F;&#x3D;10去掉最后一位数字        &#125;    &#125;    printf(&quot;%d&quot;, result);&#x2F;&#x2F; 输出结果    return 0;&#125;</code></pre>]]></content>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;小蓝要为一条街的住户制作门牌号。&lt;/p&gt;
 &lt;p&gt;这条街一共有 2020 位住户，门牌号从 1 到 2020 编号。&lt;/p&gt;
 &lt;p&gt;小蓝制作门牌的方法是先制作 0 到 9 这几个数字字符，最后根据需要将字符粘贴到门牌上，例如门牌 1017 需要依次粘贴字符 1、0、1、7，即需要 1 个字符 0，2 个字符 1，1 个字符 7。&lt;/p&gt;
-&lt;p&gt;请问要制作所有的 11 到 20202020 号门牌，总共需要多少个字符 2？&lt;/p&gt;
+&lt;p&gt;请问要制作所有的 1 到 2020 号门牌，总共需要多少个字符 2？&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;运行限制&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;最大运行时间：1s&lt;/li&gt;
@@ -453,27 +477,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定两个整数数组 &lt;code&gt;preorder&lt;/code&gt; 和 &lt;code&gt;inorder&lt;/code&gt; ，其中 &lt;code&gt;preorder&lt;/code&gt; 是二叉树的&lt;strong&gt;先序遍历&lt;/strong&gt;， &lt;code&gt;inorder&lt;/code&gt; 是同一棵树的&lt;strong&gt;中序遍历&lt;/strong&gt;，请构造二叉树并返回其根节点。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode106.从中序与后序遍历序列构造二叉树</title>
-    <link href="2023/03/15/leetcode106-%E4%BB%8E%E4%B8%AD%E5%BA%8F%E4%B8%8E%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
-    <id>2023/03/15/leetcode106-%E4%BB%8E%E4%B8%AD%E5%BA%8F%E4%B8%8E%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</id>
-    <published>2023-03-15T09:27:14.000Z</published>
-    <updated>2023-03-16T06:23:59.405Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定两个整数数组 <code>inorder</code> 和 <code>postorder</code> ，其中 <code>inorder</code> 是二叉树的中序遍历， <code>postorder</code> 是同一棵树的后序遍历，请你构造并返回这颗 <em>二叉树</em> 。</p> <span id="more"></span><p><strong>示例 1:</strong></p><p><img src="http://cdn.leafii.top/img/tree.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：inorder &#x3D; [9,3,15,20,7], postorder &#x3D; [9,15,7,20,3]输出：[3,9,20,null,null,15,7]</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入：inorder &#x3D; [-1], postorder &#x3D; [-1]输出：[-1]</code></pre><p><strong>提示:</strong></p><ul><li><code>1 &lt;= inorder.length &lt;= 3000</code></li><li><code>postorder.length == inorder.length</code></li><li><code>-3000 &lt;= inorder[i], postorder[i] &lt;= 3000</code></li><li><code>inorder</code> 和 <code>postorder</code> 都由 <strong>不同</strong> 的值组成</li><li><code>postorder</code> 中每一个值都在 <code>inorder</code> 中</li><li><code>inorder</code> <strong>保证</strong>是树的中序遍历</li><li><code>postorder</code> <strong>保证</strong>是树的后序遍历</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>递归构造</li></ul><p>根据题意，可以得知后序遍历的最后一个元素一定是树的根节点。然后可以在中序遍历中找到该根节点，以此将树分为左子树和右子树。对于左子树和右子树，可以再分别在中序遍历和后序遍历中找到其根节点，以此类推。</p><p>所以该问题可以使用递归的方式解决，每次递归时，先找到后序遍历的最后一个元素作为根节点，在中序遍历中找到该根节点，以此将树分为左子树和右子树。再分别递归左子树和右子树构建二叉树。C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    TreeNode* buildTree(vector&lt;int&gt;&amp; inorder, vector&lt;int&gt;&amp; postorder) &#123;        &#x2F;&#x2F; 创建根节点        TreeNode* root &#x3D; build(inorder, 0, inorder.size() - 1, postorder, 0, postorder.size() - 1);        return root;    &#125;    TreeNode* build(vector&lt;int&gt;&amp; inorder, int inStart, int inEnd, vector&lt;int&gt;&amp; postorder, int postStart, int postEnd) &#123;      &#x2F;*            inorder：中序遍历序列；            postorder：后序遍历序列；            inStart：当前子树在中序遍历序列中的起始位置；            inEnd：当前子树在中序遍历序列中的结束位置；            postStart：当前子树在后序遍历序列中的起始位置；            postEnd：当前子树在后序遍历序列中的结束位置。        *&#x2F;        &#x2F;&#x2F; 特判： 若postStart &gt; postEnd时， 无节点需要处理，返回NULL        if (postStart &gt; postEnd) &#123;            return nullptr;        &#125;        &#x2F;&#x2F; 创建新的子树根节点        TreeNode* root &#x3D; new TreeNode(postorder[postEnd]); &#x2F;&#x2F; 后续遍历的最后一个元素一定是根节点        &#x2F;&#x2F; 在中序遍历中寻找当前子树根节点的位置        int inRootIndex &#x3D; inStart;        while (inorder[inRootIndex] !&#x3D; root-&gt;val) &#123;            inRootIndex++;        &#125;        &#x2F;&#x2F; 计算当前子树左子树的大小        int leftTreeSize &#x3D; inRootIndex - inStart;                &#x2F;&#x2F; 根据根节点的位置， 分别递归构建左子树和右子树         root-&gt;left &#x3D; build(inorder, inStart, inRootIndex - 1, postorder, postStart, postStart + leftTreeSize - 1);        root-&gt;right &#x3D; build(inorder, inRootIndex + 1, inEnd, postorder, postStart + leftTreeSize, postEnd - 1);         return root;    &#125;&#125;;</code></pre><p>关于<code>root-&gt;left = build(inorder, inStart, inRootIndex - 1, postorder, postStart, postStart + leftTreeSize - 1);</code>和<code>root-&gt;right = build(inorder, inRootIndex + 1, inEnd, postorder, postStart + leftTreeSize, postEnd - 1); </code>的解释：</p><blockquote><p>在中序遍历中找到了根节点的位置后，在中序遍历中根节点的左边就是左子树的中序遍历，根节点的右边就是右子树的中序遍历，在递归调用时，左子树的中序遍历的右边界指针指向根节点索引-1，同理右子树的中序遍历的左边界指针指向根节点索引+1；计算了左子树的大小之后，可以发现在后序遍历中，从最开始到左子树的大小-1的元素即为左子树对应的后序遍历，因此从最开始索引+左子树大小到最右边索引-1的后序遍历即为右子树的后序遍历，这样一直递归即可得到完整的左右子树，将子树同根节点连接，返回根节点即可得到完整的树。</p></blockquote><p>在整个递归的过程中，我们都不需要额外的空间来存储子数组，而是通过起始和结束下标来表示子数组。这种方式使得我们可以使用较少的空间来解决问题，并且在递归过程中也不需要频繁地拷贝数组，提高了算法的效率。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定两个整数数组 &lt;code&gt;inorder&lt;/code&gt; 和 &lt;code&gt;postorder&lt;/code&gt; ，其中 &lt;code&gt;inorder&lt;/code&gt; 是二叉树的中序遍历， &lt;code&gt;postorder&lt;/code&gt; 是同一棵树的后序遍历，请你构造并返回这颗 &lt;em&gt;二叉树&lt;/em&gt; 。&lt;/p&gt;</summary>
     
     
     
