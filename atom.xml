@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-09T07:17:20.505Z</updated>
+  <updated>2023-04-10T07:57:11.324Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode746.使用最小花费爬楼梯</title>
+    <link href="2023/04/10/leetcode746-%E4%BD%BF%E7%94%A8%E6%9C%80%E5%B0%8F%E8%8A%B1%E8%B4%B9%E7%88%AC%E6%A5%BC%E6%A2%AF/"/>
+    <id>2023/04/10/leetcode746-%E4%BD%BF%E7%94%A8%E6%9C%80%E5%B0%8F%E8%8A%B1%E8%B4%B9%E7%88%AC%E6%A5%BC%E6%A2%AF/</id>
+    <published>2023-04-10T07:44:23.000Z</published>
+    <updated>2023-04-10T07:57:11.324Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数数组 <code>cost</code> ，其中 <code>cost[i]</code> 是从楼梯第 <code>i</code> 个台阶向上爬需要支付的费用。一旦你支付此费用，即可选择向上爬一个或者两个台阶。</p><p>你可以选择从下标为 <code>0</code> 或下标为 <code>1</code> 的台阶开始爬楼梯。</p><p>请你计算并返回达到楼梯顶部的最低花费。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：cost &#x3D; [10,15,20]输出：15解释：你将从下标为 1 的台阶开始。- 支付 15 ，向上爬两个台阶，到达楼梯顶部。总花费为 15 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：cost &#x3D; [1,100,1,1,1,100,1,1,100,1]输出：6解释：你将从下标为 0 的台阶开始。- 支付 1 ，向上爬两个台阶，到达下标为 2 的台阶。- 支付 1 ，向上爬两个台阶，到达下标为 4 的台阶。- 支付 1 ，向上爬两个台阶，到达下标为 6 的台阶。- 支付 1 ，向上爬一个台阶，到达下标为 7 的台阶。- 支付 1 ，向上爬两个台阶，到达下标为 9 的台阶。- 支付 1 ，向上爬一个台阶，到达楼梯顶部。总花费为 6 。</code></pre><p><strong>提示：</strong></p><ul><li><code>2 &lt;= cost.length &lt;= 1000</code></li><li><code>0 &lt;= cost[i] &lt;= 999</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>因为上台阶可以一次1阶或者一次2阶，因此定义一个dp数组，长度为cost的大小+1，dp[i]表示到达第n个台阶需要的最小费用。因此<code>dp[i]</code>的更新公式为:</p><p>$dp[i] &#x3D; min(dp[i-1] + cost[i - 1], dp[i - 2] + cost[i - 2])$</p><p>C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int minCostClimbingStairs(vector&lt;int&gt;&amp; cost) &#123;        int len &#x3D; cost.size(); &#x2F;&#x2F; 获取cost的大小（总的台阶数）        vector&lt;int&gt; dp(len + 1); &#x2F;&#x2F; 定义一个dp数组，长度为cost的大小+1 dp[i]表示到达第n个台阶需要的最小费用。        dp[0] &#x3D; 0, dp[1] &#x3D; 0; &#x2F;&#x2F; 因为可以从下标为0或者1的台阶出发，因此dp[0]和dp[1]都初始化为0；        for (int i &#x3D; 2; i &lt; len + 1;i++) &#123;            dp[i] &#x3D; min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2]); &#x2F;&#x2F; dp[i]的更新公式        &#125;        return dp[len]; &#x2F;&#x2F; 返回到达第n个台阶（也就是最后一个台阶）的最小费用。    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;cost&lt;/code&gt; ，其中 &lt;code&gt;cost[i]&lt;/code&gt; 是从楼梯第 &lt;code&gt;i&lt;/code&gt; 个台阶向上爬需要支付的费用。一旦你支付此费用，即可选择向上爬一个或者两个台阶。&lt;/p&gt;
+&lt;p&gt;你可以选择从下标为 &lt;code&gt;0&lt;/code&gt; 或下标为 &lt;code&gt;1&lt;/code&gt; 的台阶开始爬楼梯。&lt;/p&gt;
+&lt;p&gt;请你计算并返回达到楼梯顶部的最低花费。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode509.斐波那契数</title>
@@ -457,27 +480,6 @@ F(n) &amp;#x3D; F(n - 1) + F(n - 2)，其中 n &amp;gt; 1&lt;/code&gt;&lt;/pre&g
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;路径&lt;/strong&gt; 被定义为一条从树中任意节点出发，沿父节点-子节点连接，达到任意节点的序列。同一个节点在一条路径序列中 &lt;strong&gt;至多出现一次&lt;/strong&gt; 。该路径 &lt;strong&gt;至少包含一个&lt;/strong&gt; 节点，且不一定经过根节点。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;路径和&lt;/strong&gt; 是路径中各节点值的总和。&lt;/p&gt;
 &lt;p&gt;给你一个二叉树的根节点 &lt;code&gt;root&lt;/code&gt; ，返回其 &lt;strong&gt;最大路径和&lt;/strong&gt; 。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode105.从前序与中序遍历序列构造二叉树</title>
-    <link href="2023/03/16/leetcode105-%E4%BB%8E%E5%89%8D%E5%BA%8F%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
-    <id>2023/03/16/leetcode105-%E4%BB%8E%E5%89%8D%E5%BA%8F%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</id>
-    <published>2023-03-16T06:24:30.000Z</published>
-    <updated>2023-03-16T06:27:34.358Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定两个整数数组 <code>preorder</code> 和 <code>inorder</code> ，其中 <code>preorder</code> 是二叉树的<strong>先序遍历</strong>， <code>inorder</code> 是同一棵树的<strong>中序遍历</strong>，请构造二叉树并返回其根节点。</p> <span id="more"></span><p><strong>示例 1:</strong></p><p><img src="http://cdn.leafii.top/img/tree-20230316142527347.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入: preorder &#x3D; [3,9,20,15,7], inorder &#x3D; [9,3,15,20,7]输出: [3,9,20,null,null,15,7]</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: preorder &#x3D; [-1], inorder &#x3D; [-1]输出: [-1]</code></pre><p><strong>提示:</strong></p><ul><li><code>1 &lt;= preorder.length &lt;= 3000</code></li><li><code>inorder.length == preorder.length</code></li><li><code>-3000 &lt;= preorder[i], inorder[i] &lt;= 3000</code></li><li><code>preorder</code> 和 <code>inorder</code> 均 <strong>无重复</strong> 元素</li><li><code>inorder</code> 均出现在 <code>preorder</code></li><li><code>preorder</code> <strong>保证</strong> 为二叉树的前序遍历序列</li><li><code>inorder</code> <strong>保证</strong> 为二叉树的中序遍历序列</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>同<a href="https://leafii.top/2023/03/15/leetcode106-%E4%BB%8E%E4%B8%AD%E5%BA%8F%E4%B8%8E%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">106的解法</a>相似,因此在这里只提供代码.</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    TreeNode* buildTree(vector&lt;int&gt;&amp; preorder, vector&lt;int&gt;&amp; inorder) &#123;        &#x2F;&#x2F; 创建根节点        TreeNode* root &#x3D; build(preorder, 0, preorder.size() - 1, inorder, 0, inorder.size() - 1);        return root;    &#125;        TreeNode* build(vector&lt;int&gt;&amp; preorder, int preStart, int preEnd, vector&lt;int&gt;&amp; inorder, int inStart, int inEnd) &#123;        &#x2F;&#x2F; 特判：preStart &gt; preEnd 时，已经没有节点需要处理，返回 NULL        if (preStart &gt; preEnd) &#123;            return nullptr;        &#125;                &#x2F;&#x2F; 创建当前子树的根节点        TreeNode* root &#x3D; new TreeNode(preorder[preStart]);                &#x2F;&#x2F; 在中序遍历序列中查找当前子树根节点的位置        int inRootIndex &#x3D; inStart;        while (inorder[inRootIndex] !&#x3D; root-&gt;val) &#123;            inRootIndex++;        &#125;                &#x2F;&#x2F; 计算当前子树左子树的大小        int leftTreeSize &#x3D; inRootIndex - inStart;                &#x2F;&#x2F; 递归构建当前子树的左子树和右子树        root-&gt;left &#x3D; build(preorder, preStart + 1, preStart + leftTreeSize, inorder, inStart, inRootIndex - 1);        root-&gt;right &#x3D; build(preorder, preStart + leftTreeSize + 1, preEnd, inorder, inRootIndex + 1, inEnd);                &#x2F;&#x2F; 返回当前子树的根节点        return root;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定两个整数数组 &lt;code&gt;preorder&lt;/code&gt; 和 &lt;code&gt;inorder&lt;/code&gt; ，其中 &lt;code&gt;preorder&lt;/code&gt; 是二叉树的&lt;strong&gt;先序遍历&lt;/strong&gt;， &lt;code&gt;inorder&lt;/code&gt; 是同一棵树的&lt;strong&gt;中序遍历&lt;/strong&gt;，请构造二叉树并返回其根节点。&lt;/p&gt;</summary>
     
     
     
