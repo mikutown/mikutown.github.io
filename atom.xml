@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-10T07:57:11.324Z</updated>
+  <updated>2023-04-12T01:21:48.654Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,53 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode63.不同路径II</title>
+    <link href="2023/04/12/leetcode63-%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84II/"/>
+    <id>2023/04/12/leetcode63-%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84II/</id>
+    <published>2023-04-12T01:18:23.000Z</published>
+    <updated>2023-04-12T01:21:48.654Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>一个机器人位于一个 <code>m x n</code> 网格的左上角 （起始点在下图中标记为 “Start” ）。</p><p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish”）。</p><p>现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？</p><p>网格中的障碍物和空位置分别用 <code>1</code> 和 <code>0</code> 来表示。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/robot1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：obstacleGrid &#x3D; [[0,0,0],[0,1,0],[0,0,0]]输出：2解释：3x3 网格的正中间有一个障碍物。从左上角到右下角一共有 2 条不同的路径：1. 向右 -&gt; 向右 -&gt; 向下 -&gt; 向下2. 向下 -&gt; 向下 -&gt; 向右 -&gt; 向右</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/robot2.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：obstacleGrid &#x3D; [[0,1],[0,0]]输出：1</code></pre><p><strong>提示：</strong></p><ul><li><code>m == obstacleGrid.length</code></li><li><code>n == obstacleGrid[i].length</code></li><li><code>1 &lt;= m, n &lt;= 100</code></li><li><code>obstacleGrid[i][j]</code> 为 <code>0</code> 或 <code>1</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>这是一道典型的动态规划问题。定义一个二维数组<code>dp</code>，其中<code>dp[i][j]</code>表示从左上角出发到第i行第j列的格子的不同路径数目。</p><p>在定义dp数组时，需要特别注意：如果某个格子为障碍物，则不能通过该格子，路径数为0；如果第一列某个格子为障碍物，则其下方的所有格子均无法到达，路径数为0；如果第一行某个格子为障碍物，则其右方的所有格子均无法到达，路径数为0。</p><p>在状态转移方程中，如果某个格子为障碍物，则其路径数为0；否则，其到达的路径有两种：从上方的格子到达和从左边的格子到达。因此，其不同路径数目为到达其上方格子的路径数目加上到达其左边格子的路径数目之和，即：</p><p><code>dp[i][j] = dp[i-1][j] + dp[i][j-1]</code></p><p>最终答案为<code>dp[m-1][n-1]</code>，即到达右下角的不同路径数目。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int uniquePathsWithObstacles(vector&lt;vector&lt;int&gt;&gt;&amp; obstacleGrid) &#123;        int m &#x3D; obstacleGrid.size();        int n &#x3D; obstacleGrid[0].size();        &#x2F;&#x2F; 定义二维数组dp        vector&lt;vector&lt;int&gt;&gt; dp(m, vector&lt;int&gt;(n, 0));        &#x2F;&#x2F; 初始化第一列        for (int i &#x3D; 0; i &lt; m; i++) &#123;            if (obstacleGrid[i][0] &#x3D;&#x3D; 1) &#123;                break;            &#125;            dp[i][0] &#x3D; 1;        &#125;        &#x2F;&#x2F; 初始化第一行        for (int j &#x3D; 0; j &lt; n; j++) &#123;            if (obstacleGrid[0][j] &#x3D;&#x3D; 1) &#123;                break;            &#125;            dp[0][j] &#x3D; 1;        &#125;        &#x2F;&#x2F; 对于其他格子，其不同路径数目为到达其上方格子的路径数目加上到达其左边格子的路径数目之和        for (int i &#x3D; 1; i &lt; m; i++) &#123;            for (int j &#x3D; 1; j &lt; n; j++) &#123;                if (obstacleGrid[i][j] &#x3D;&#x3D; 1) &#123;  &#x2F;&#x2F; 如果当前格子为障碍物，则不可到达，路径数为0                    dp[i][j] &#x3D; 0;                &#125; else &#123;  &#x2F;&#x2F; 否则，其到达的路径有两种：从上方的格子到达和从左边的格子到达                    dp[i][j] &#x3D; dp[i-1][j] + dp[i][j-1];                &#125;            &#125;        &#125;        &#x2F;&#x2F; 返回右下角格子的不同路径数目        return dp[m-1][n-1];    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;一个机器人位于一个 &lt;code&gt;m x n&lt;/code&gt; 网格的左上角 （起始点在下图中标记为 “Start” ）。&lt;/p&gt;
+&lt;p&gt;机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish”）。&lt;/p&gt;
+&lt;p&gt;现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？&lt;/p&gt;
+&lt;p&gt;网格中的障碍物和空位置分别用 &lt;code&gt;1&lt;/code&gt; 和 &lt;code&gt;0&lt;/code&gt; 来表示。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>leetcode62.不同路径</title>
+    <link href="2023/04/12/leetcode62-%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84/"/>
+    <id>2023/04/12/leetcode62-%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84/</id>
+    <published>2023-04-12T00:57:03.000Z</published>
+    <updated>2023-04-12T01:21:20.348Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>一个机器人位于一个 <code>m x n</code> 网格的左上角 （起始点在下图中标记为 “Start” ）。</p><p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。</p><p>问总共有多少条不同的路径？</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/robot_maze.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：m &#x3D; 3, n &#x3D; 7输出：28</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：m &#x3D; 3, n &#x3D; 2输出：3解释：从左上角开始，总共有 3 条路径可以到达右下角。1. 向右 -&gt; 向下 -&gt; 向下2. 向下 -&gt; 向下 -&gt; 向右3. 向下 -&gt; 向右 -&gt; 向下</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：m &#x3D; 7, n &#x3D; 3输出：28</code></pre><p><strong>示例 4：</strong></p><pre class="language-none"><code class="language-none">输入：m &#x3D; 3, n &#x3D; 3输出：6</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= m, n &lt;= 100</code></li><li>题目数据保证答案小于等于 <code>2 * 109</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>这是一道比较典型的动态规划问题。我们定义一个二维数组<code>dp[i][j]</code>表示从左上角出发到第i行第j列的格子的不同路径数目。</p><p>根据题目要求，从第一行第一列出发只能向下或向右移动一步，因此<code>dp[0][j]</code>和<code>dp[i][0]</code>的值都为1。</p><p>对于其他的格子，其到达的路径有两种：从上方的格子到达和从左边的格子到达。因此，其不同路径数目为到达其上方格子的路径数目加上到达其左边格子的路径数目之和，即：</p><p><code>dp[i][j] = dp[i-1][j] + dp[i][j-1]</code></p><p>最终答案为<code>dp[m-1][n-1]</code>，即到达右下角的不同路径数目。C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int uniquePaths(int m, int n) &#123;        &#x2F;&#x2F; 定义二维数组dp        vector&lt;vector&lt;int&gt;&gt; dp(m, vector&lt;int&gt;(n, 1));        &#x2F;&#x2F; 对于除第一行第一列外的其他格子，其不同路径数目为到达其上方格子的路径数目加上到达其左边格子的路径数目之和        for (int i &#x3D; 1; i &lt; m; i++) &#123;            for (int j &#x3D; 1; j &lt; n; j++) &#123;                dp[i][j] &#x3D; dp[i-1][j] + dp[i][j-1];            &#125;        &#125;        &#x2F;&#x2F; 返回右下角格子的不同路径数目        return dp[m-1][n-1];    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;一个机器人位于一个 &lt;code&gt;m x n&lt;/code&gt; 网格的左上角 （起始点在下图中标记为 “Start” ）。&lt;/p&gt;
+&lt;p&gt;机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。&lt;/p&gt;
+&lt;p&gt;问总共有多少条不同的路径？&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode746.使用最小花费爬楼梯</title>
@@ -432,54 +479,6 @@ F(n) &amp;#x3D; F(n - 1) + F(n - 2)，其中 n &amp;gt; 1&lt;/code&gt;&lt;/pre&g
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;请实现一个函数，把字符串 &lt;code&gt;s&lt;/code&gt; 中的每个空格替换成”%20”。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode541.反转字符串II</title>
-    <link href="2023/03/19/leetcode541-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2II/"/>
-    <id>2023/03/19/leetcode541-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2II/</id>
-    <published>2023-03-19T06:36:21.000Z</published>
-    <updated>2023-03-19T06:37:34.018Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串 <code>s</code> 和一个整数 <code>k</code>，从字符串开头算起，每计数至 <code>2k</code> 个字符，就反转这 <code>2k</code> 字符中的前 <code>k</code> 个字符。</p><ul><li>如果剩余字符少于 <code>k</code> 个，则将剩余字符全部反转。</li><li>如果剩余字符小于 <code>2k</code> 但大于或等于 <code>k</code> 个，则反转前 <code>k</code> 个字符，其余字符保持原样。</li></ul> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;abcdefg&quot;, k &#x3D; 2输出：&quot;bacdfeg&quot;</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;abcd&quot;, k &#x3D; 2输出：&quot;bacd&quot;</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 104</code></li><li><code>s</code> 仅由小写英文组成</li><li><code>1 &lt;= k &lt;= 104</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>直接进行交换即可</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string reverseStr(string s, int k) &#123;        int n &#x3D; s.size(); &#x2F;&#x2F; 字符串的长度        for (int i &#x3D; 0; i &lt; n; i +&#x3D; 2 * k) &#123; &#x2F;&#x2F; 每 2k 个字符为一组进行反转            int left &#x3D; i; &#x2F;&#x2F; 左边界            int right &#x3D; min(i + k - 1, n - 1); &#x2F;&#x2F; 右边界，注意防止越界            while (left &lt; right) &#123; &#x2F;&#x2F; 双指针反转                swap(s[left], s[right]); &#x2F;&#x2F; 交换左右指针对应的字符。                left++;                right--; &#x2F;&#x2F; 左右指针向中间移动。            &#125;        &#125;        return s; &#x2F;&#x2F; 返回反转后的字符串    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个字符串 &lt;code&gt;s&lt;/code&gt; 和一个整数 &lt;code&gt;k&lt;/code&gt;，从字符串开头算起，每计数至 &lt;code&gt;2k&lt;/code&gt; 个字符，就反转这 &lt;code&gt;2k&lt;/code&gt; 字符中的前 &lt;code&gt;k&lt;/code&gt; 个字符。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;如果剩余字符少于 &lt;code&gt;k&lt;/code&gt; 个，则将剩余字符全部反转。&lt;/li&gt;
-&lt;li&gt;如果剩余字符小于 &lt;code&gt;2k&lt;/code&gt; 但大于或等于 &lt;code&gt;k&lt;/code&gt; 个，则反转前 &lt;code&gt;k&lt;/code&gt; 个字符，其余字符保持原样。&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode124.二叉树中的最大路径和</title>
-    <link href="2023/03/16/leetcode124-%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/"/>
-    <id>2023/03/16/leetcode124-%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/</id>
-    <published>2023-03-16T07:56:05.000Z</published>
-    <updated>2023-03-16T08:00:27.245Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><strong>路径</strong> 被定义为一条从树中任意节点出发，沿父节点-子节点连接，达到任意节点的序列。同一个节点在一条路径序列中 <strong>至多出现一次</strong> 。该路径 <strong>至少包含一个</strong> 节点，且不一定经过根节点。</p><p><strong>路径和</strong> 是路径中各节点值的总和。</p><p>给你一个二叉树的根节点 <code>root</code> ，返回其 <strong>最大路径和</strong> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/exx1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2,3]输出：6解释：最优路径是 2 -&gt; 1 -&gt; 3 ，路径和为 2 + 1 + 3 &#x3D; 6</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/exx2.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [-10,9,20,null,null,15,7]输出：42解释：最优路径是 15 -&gt; 20 -&gt; 7 ，路径和为 15 + 20 + 7 &#x3D; 42</code></pre><p><strong>提示：</strong></p><ul><li>树中节点数目范围是 <code>[1, 3 * 104]</code></li><li><code>-1000 &lt;= Node.val &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>树形DP<ol><li>首先判断当前节点是否为 null，若为 null 则返回 0。</li><li>递归计算当前节点的左子树和右子树的最大路径和，分别为 <code>left</code> 和 <code>right</code>。</li><li>计算当前子树中包含当前节点的最大路径和 <code>curMax</code>，公式为 <code>node-&gt;val + max(0, max(left, right))</code>，其中 <code>node-&gt;val</code> 表示当前节点的值，<code>max(left, right)</code> 表示当前子树中不包含当前节点的最大路径和，<code>max(0, ...)</code> 的作用是保证当前子树中的路径和一定是非负数。</li><li>更新全局最大路径和 <code>res</code>，公式为 <code>max(res, left+right+node-&gt;val)</code>，其中 <code>left+right+node-&gt;val</code> 表示当前子树中包含当前节点的路径和。</li><li>返回当前子树的最大路径和 <code>curMax</code>。</li></ol></li></ol><p>在递归计算时，每个节点都会计算自己为根节点的最大路径和，并更新全局最大路径和。最终返回的是整棵树中的最大路径和。</p><p>这种递归思路在处理树形结构的问题时非常常见，被称为树形 DP（动态规划）。通过递归计算子树的最大路径和，并将结果传递给父节点，最终得到整棵树的最大路径和。C++代码实现如下:</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int maxPathSum(TreeNode* root) &#123;        int res &#x3D; INT_MIN;        dfs(root, res);        return res;    &#125;    int dfs(TreeNode* root, int&amp; res) &#123;        if (!root) return 0;        int left &#x3D; max(0, dfs(root-&gt;left, res)); &#x2F;&#x2F; 左子树的最大贡献值        int right &#x3D; max(0, dfs(root-&gt;right, res)); &#x2F;&#x2F; 右子树的最大贡献值        res &#x3D; max(res, root-&gt;val + left + right); &#x2F;&#x2F; 更新最大路径和        return root-&gt;val + max(left, right); &#x2F;&#x2F; 返回当前子树的最大路径和    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;路径&lt;/strong&gt; 被定义为一条从树中任意节点出发，沿父节点-子节点连接，达到任意节点的序列。同一个节点在一条路径序列中 &lt;strong&gt;至多出现一次&lt;/strong&gt; 。该路径 &lt;strong&gt;至少包含一个&lt;/strong&gt; 节点，且不一定经过根节点。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;路径和&lt;/strong&gt; 是路径中各节点值的总和。&lt;/p&gt;
-&lt;p&gt;给你一个二叉树的根节点 &lt;code&gt;root&lt;/code&gt; ，返回其 &lt;strong&gt;最大路径和&lt;/strong&gt; 。&lt;/p&gt;</summary>
     
     
     
