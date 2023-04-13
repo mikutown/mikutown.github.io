@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-12T01:21:48.654Z</updated>
+  <updated>2023-04-13T12:19:59.086Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode72.编辑距离</title>
+    <link href="2023/04/13/leetcode72-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/"/>
+    <id>2023/04/13/leetcode72-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/</id>
+    <published>2023-04-13T12:06:19.000Z</published>
+    <updated>2023-04-13T12:19:59.086Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你两个单词 <code>word1</code> 和 <code>word2</code>， <em>请返回将 <code>word1</code> 转换成 <code>word2</code> 所使用的最少操作数</em> 。</p><p>你可以对一个单词进行如下三种操作：</p><ul><li>插入一个字符</li><li>删除一个字符</li><li>替换一个字符</li></ul> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：word1 &#x3D; &quot;horse&quot;, word2 &#x3D; &quot;ros&quot;输出：3解释：horse -&gt; rorse (将 &#39;h&#39; 替换为 &#39;r&#39;)rorse -&gt; rose (删除 &#39;r&#39;)rose -&gt; ros (删除 &#39;e&#39;)</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：word1 &#x3D; &quot;intention&quot;, word2 &#x3D; &quot;execution&quot;输出：5解释：intention -&gt; inention (删除 &#39;t&#39;)inention -&gt; enention (将 &#39;i&#39; 替换为 &#39;e&#39;)enention -&gt; exention (将 &#39;n&#39; 替换为 &#39;x&#39;)exention -&gt; exection (将 &#39;n&#39; 替换为 &#39;c&#39;)exection -&gt; execution (插入 &#39;u&#39;)</code></pre><p><strong>提示：</strong></p><ul><li><code>0 &lt;= word1.length, word2.length &lt;= 500</code></li><li><code>word1</code> 和 <code>word2</code> 由小写英文字母组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>这道题要求我们找到从 word1 转换到 word2 所需要的最小操作数，其中每个操作都是插入、删除或替换一个字符。这道题可以使用动态规划来解决。我们可以定义一个 dp 数组，其中 dp[i][j] 表示从 word1 的前 i 个字符转换到 word2 的前 j 个字符所需的最小操作数。</p><p>当 i &#x3D; 0 时，表示 word1 为空，这时要将 word1 转换为 word2 的前 j 个字符，所以最小操作数就是 j。同样地，当 j &#x3D; 0 时，表示 word2 为空，这时要将 word1 转换为空字符串，所以最小操作数就是 i。</p><p>对于任意的 i 和 j，有以下两种情况：</p><ol><li>当 <code>word1[i-1] == word2[j-1] </code>时，不需要进行任何操作，所以 <code>dp[i][j] = dp[i-1][j-1]</code>。</li><li>当 <code>word1[i-1] != word2[j-1] </code>时，有三种操作可以选择，分别为：<ol><li>在 word1 的第 i 个字符后面插入一个和 word2 的第 j 个字符相同的字符，这样就可以让 word1 的前 i 个字符和 word2 的前 j 个字符相等。操作数为 <code>dp[i][j-1] + 1</code>。</li><li>删除 word1 的第 i 个字符，这样就可以让 word1 的前 i-1 个字符和 word2 的前 j 个字符相等。操作数为<code> dp[i-1][j] + 1</code>。</li><li>将 word1 的第 i 个字符替换成和 word2 的第 j 个字符相同的字符，这样就可以让 word1 的前 i 个字符和 word2 的前 j 个字符相等。操作数为 <code>dp[i-1][j-1] + 1</code>。</li></ol></li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int minDistance(string word1, string word2) &#123;        int m &#x3D; word1.size();  &#x2F;&#x2F; 获取 word1 的长度        int n &#x3D; word2.size();  &#x2F;&#x2F; 获取 word2 的长度        vector&lt;vector&lt;int&gt;&gt; dp(m+1, vector&lt;int&gt;(n+1));  &#x2F;&#x2F; 定义一个二维数组 dp，其中 dp[i][j] 表示从 word1 的前 i 个字符转换到 word2 的前 j 个字符所需的最小操作数        for (int i &#x3D; 0; i &lt;&#x3D; m; ++i) &#123;  &#x2F;&#x2F; 当 word2 为空字符串时，需要将 word1 转换为空字符串，所以最小操作数为 i            dp[i][0] &#x3D; i;        &#125;        for (int j &#x3D; 0; j &lt;&#x3D; n; ++j) &#123;  &#x2F;&#x2F; 当 word1 为空字符串时，需要将 word1 转换为 word2 的前 j 个字符，所以最小操作数为 j            dp[0][j] &#x3D; j;        &#125;        for (int i &#x3D; 1; i &lt;&#x3D; m; ++i) &#123;  &#x2F;&#x2F; 从 word1 的第一个字符开始遍历            for (int j &#x3D; 1; j &lt;&#x3D; n; ++j) &#123;  &#x2F;&#x2F; 从 word2 的第一个字符开始遍历                if (word1[i-1] &#x3D;&#x3D; word2[j-1]) &#123;  &#x2F;&#x2F; 如果 word1 的第 i 个字符和 word2 的第 j 个字符相等，不需要进行任何操作                    dp[i][j] &#x3D; dp[i-1][j-1];                &#125; else &#123;  &#x2F;&#x2F; 否则，有三种操作可以选择                    dp[i][j] &#x3D; min(dp[i][j-1], min(dp[i-1][j], dp[i-1][j-1])) + 1;  &#x2F;&#x2F; 分别为插入、删除和替换一个字符，选择操作数最小的那个                &#125;            &#125;        &#125;        return dp[m][n];  &#x2F;&#x2F; 返回最小操作数    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你两个单词 &lt;code&gt;word1&lt;/code&gt; 和 &lt;code&gt;word2&lt;/code&gt;， &lt;em&gt;请返回将 &lt;code&gt;word1&lt;/code&gt; 转换成 &lt;code&gt;word2&lt;/code&gt; 所使用的最少操作数&lt;/em&gt; 。&lt;/p&gt;
+&lt;p&gt;你可以对一个单词进行如下三种操作：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;插入一个字符&lt;/li&gt;
+&lt;li&gt;删除一个字符&lt;/li&gt;
+&lt;li&gt;替换一个字符&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode63.不同路径II</title>
@@ -458,27 +485,6 @@ F(n) &amp;#x3D; F(n - 1) + F(n - 2)，其中 n &amp;gt; 1&lt;/code&gt;&lt;/pre&g
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你两个字符串 &lt;code&gt;haystack&lt;/code&gt; 和 &lt;code&gt;needle&lt;/code&gt; ，请你在 &lt;code&gt;haystack&lt;/code&gt; 字符串中找出 &lt;code&gt;needle&lt;/code&gt; 字符串的第一个匹配项的下标（下标从 0 开始）。如果 &lt;code&gt;needle&lt;/code&gt; 不是 &lt;code&gt;haystack&lt;/code&gt; 的一部分，则返回 &lt;code&gt;-1&lt;/code&gt; 。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>剑指Offer05.替换空格</title>
-    <link href="2023/03/20/%E5%89%91%E6%8C%87Offer05-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/"/>
-    <id>2023/03/20/%E5%89%91%E6%8C%87Offer05-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/</id>
-    <published>2023-03-20T08:11:28.000Z</published>
-    <updated>2023-03-20T08:16:16.183Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>请实现一个函数，把字符串 <code>s</code> 中的每个空格替换成”%20”。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;We are happy.&quot;输出：&quot;We%20are%20happy.&quot;</code></pre><p><strong>限制：</strong></p><pre class="language-none"><code class="language-none">0 &lt;&#x3D; s 的长度 &lt;&#x3D; 10000</code></pre><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>常规思路</li></ul><p>新建一个string类型的变量result，对输入的字符串s的每个字符进行判断，若字符为空格，则<code>result+=&quot;%20;&quot;</code>，否则<code>result+=s[i];</code>，C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string replaceSpace(string s) &#123;        string result &#x3D; &quot;&quot;; &#x2F;&#x2F; 定义结果字符串result        int n &#x3D; s.length(); &#x2F;&#x2F; 获取输入字符串s的长度        for(int i &#x3D; 0; i &lt; n; i++) &#123; &#x2F;&#x2F; 进行遍历            if (s[i] &#x3D;&#x3D; &#39; &#39;) &#123; &#x2F;&#x2F; 若s[i]为空格，则result+&#x3D;&quot;%20&quot;;                result +&#x3D; &quot;%20&quot;;            &#125;            else &#123; &#x2F;&#x2F; 否则直接+&#x3D;s[i];                result +&#x3D; s[i];            &#125;        &#125;        return result; &#x2F;&#x2F; 最后返回结果值result    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;请实现一个函数，把字符串 &lt;code&gt;s&lt;/code&gt; 中的每个空格替换成”%20”。&lt;/p&gt;</summary>
     
     
     
