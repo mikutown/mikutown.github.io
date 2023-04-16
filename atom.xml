@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-13T12:19:59.086Z</updated>
+  <updated>2023-04-16T08:00:48.395Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode342.4的幂</title>
+    <link href="2023/04/16/leetcode342-4%E7%9A%84%E5%B9%82/"/>
+    <id>2023/04/16/leetcode342-4%E7%9A%84%E5%B9%82/</id>
+    <published>2023-04-16T07:35:33.000Z</published>
+    <updated>2023-04-16T08:00:48.395Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个整数，写一个函数来判断它是否是 4 的幂次方。如果是，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p><p>整数 <code>n</code> 是 4 的幂次方需满足：存在整数 <code>x</code> 使得 $n &#x3D;&#x3D; 4^x$</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 16输出：true</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 5输出：false</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 1输出：true</code></pre><p><strong>提示：</strong></p><ul><li><code>-231 &lt;= n &lt;= 231 - 1</code></li></ul><p><strong>进阶：</strong>你能不使用循环或者递归来完成本题吗？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>循环</li></ol><p>直接使用循环进行<code>n/=4</code>的操作,到最后n小于3时根据n是否为1来判断原本的n是否为4的幂次</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isPowerOfFour(int n) &#123;        while(n &gt; 3) &#123;            if (n % 4 &#x3D;&#x3D; 0) &#123; &#x2F;&#x2F; 判断n是否是4的整倍数 （在n大于3的情况下）                n &#x2F;&#x3D; 4;            &#125;            else return false; &#x2F;&#x2F; 如果不是直接返回false        &#125;        if (n &#x3D;&#x3D; 1) return true; &#x2F;&#x2F; &#x2F;&#x3D;操作结束后判断n是否为1 or n本来就为1的时候应该直接返回true        return false;    &#125;&#125;;</code></pre><ol start="2"><li>递归</li></ol><p>如题，直接递归就完事了</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isPowerOfFour(int n) &#123;        if (n &#x3D;&#x3D; 1 || n &#x3D;&#x3D; 4) return true; &#x2F;&#x2F; 返回true的条件        else if (n &gt; 4) &#123;            if (n % 4 !&#x3D; 0) return false; &#x2F;&#x2F; 余数不为0 直接返回false            else return isPowerOfFour(n &#x2F; 4); &#x2F;&#x2F; 通过递归完成对n的更新        &#125;        return false;     &#125;&#125;;</code></pre><ol start="3"><li>使用位与运算符和掩码</li></ol><p>首先，我们需要检查n是否为正数，并且它的二进制表示中只有一个1。这是因为4的幂次方的二进制表示中只有一个1。因此，如果n不是正数或者它的二进制表示中有多个1，则它不是4的幂。</p><p>其次，我们需要使用位运算来检查n是否为4的幂。我们可以使用位与运算符（&amp;）和一个掩码来完成此操作。掩码是一个32位整数，它的二进制表示中只有偶数位为1，奇数位为0。如果n是4的幂，则它的二进制表示中的1只能在偶数位上出现。因此，如果我们将n与掩码进行位与运算，结果应该等于n本身。</p><p>最终，如果n既是正数且只有一个1，又是4的幂，则函数返回true；否则，返回false。</p><p>详细的说，当你看到一个整数n时，你需要确定它是否是4的幂次方。一个正整数n是4的幂次方，当且仅当它满足以下两个条件：</p><ol><li>n是正整数，并且它的二进制表示中只有一个1，例如1、4、16等；</li><li>n可以表示为4^k的形式，其中k是一个非负整数。</li></ol><p>因此，我们需要找到一种方法来检查n是否满足这两个条件。在不使用循环或递归的前提下，我们可以使用位运算来实现这个目标。</p><p>首先，我们检查n是否为正整数，这可以通过检查n是否大于0来实现。然后，我们需要检查n的二进制表示中只有一个1。如果我们将n减去1，那么所有在原来的二进制表示中为1的位都会变成0，而它后面的所有位都会变成1。例如，如果n的二进制表示为10000，那么n-1的二进制表示为01111。如果我们将n和n-1进行位与运算，结果将为0。因为n的二进制表示中只有一个1，所以n-1的二进制表示中所有的1都位于n的二进制表示中的0的位置上，因此它们不会在位与运算中重叠。如果n的二进制表示中有多个1，则n-1的二进制表示中将有一个以上的1与n的二进制表示中的1重叠，这样位与运算的结果将不为0。</p><p>接下来，我们需要使用位运算来检查n是否可以表示为4的幂。我们知道，4的幂的二进制表示中的1只能出现在偶数位上，例如100、10000、1000000等。因此，我们可以使用一个掩码来将所有奇数位上的位设置为0，而偶数位上的位设置为1。这个掩码可以是0x55555555，它的二进制表示为01010101010101010101010101010101。如果我们将n与这个掩码进行位与运算，结果将为n本身，如果n不能表示为4的幂，则结果将不为n本身。</p><p>最后，如果n既是正整数且只有一个1，又是4的幂，则函数返回true，否则返回false。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isPowerOfFour(int n) &#123;        &#x2F;&#x2F; 检查n是否为正数，且n的二进制表示只有一个1，且n是否为4的幂        return (n &gt; 0) &amp;&amp; ((n &amp; (n - 1)) &#x3D;&#x3D; 0) &amp;&amp; ((n &amp; 0x55555555) &#x3D;&#x3D; n);     &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个整数，写一个函数来判断它是否是 4 的幂次方。如果是，返回 &lt;code&gt;true&lt;/code&gt; ；否则，返回 &lt;code&gt;false&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;整数 &lt;code&gt;n&lt;/code&gt; 是 4 的幂次方需满足：存在整数 &lt;code&gt;x&lt;/code&gt; 使得 $n &amp;#x3D;&amp;#x3D; 4^x$&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode72.编辑距离</title>
@@ -471,27 +493,6 @@ F(n) &amp;#x3D; F(n - 1) + F(n - 2)，其中 n &amp;gt; 1&lt;/code&gt;&lt;/pre&g
     <category term="云计算" scheme="tags/云计算/"/>
     
     <category term="工作流调度" scheme="tags/工作流调度/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode28.找出字符串中第一个匹配项的下标</title>
-    <link href="2023/03/21/leetcode28-%E6%89%BE%E5%87%BA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8C%B9%E9%85%8D%E9%A1%B9%E7%9A%84%E4%B8%8B%E6%A0%87/"/>
-    <id>2023/03/21/leetcode28-%E6%89%BE%E5%87%BA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8C%B9%E9%85%8D%E9%A1%B9%E7%9A%84%E4%B8%8B%E6%A0%87/</id>
-    <published>2023-03-21T08:03:49.000Z</published>
-    <updated>2023-03-21T08:55:29.612Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你两个字符串 <code>haystack</code> 和 <code>needle</code> ，请你在 <code>haystack</code> 字符串中找出 <code>needle</code> 字符串的第一个匹配项的下标（下标从 0 开始）。如果 <code>needle</code> 不是 <code>haystack</code> 的一部分，则返回 <code>-1</code> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：haystack &#x3D; &quot;sadbutsad&quot;, needle &#x3D; &quot;sad&quot;输出：0解释：&quot;sad&quot; 在下标 0 和 6 处匹配。第一个匹配项的下标是 0 ，所以返回 0 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：haystack &#x3D; &quot;leetcode&quot;, needle &#x3D; &quot;leeto&quot;输出：-1解释：&quot;leeto&quot; 没有在 &quot;leetcode&quot; 中出现，所以返回 -1 。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= haystack.length, needle.length &lt;= 104</code></li><li><code>haystack</code> 和 <code>needle</code> 仅由小写英文字符组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>暴力解法</li></ol><p>首先判断haystack的长度是否小于needle，若小于则直接返回-1.然后对haystack进行遍历，若haystack[i]&#x3D;&#x3D;needle[0]，则说明haystack同needle的第一个字符匹配了，此时直接求haystack在i上长度为needle长度的子串并比较他们是否相等，若相等则直接返回i即可，否则继续遍历haystack。C++解法如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int strStr(string haystack, string needle) &#123;        int m &#x3D; haystack.length();         int n &#x3D; needle.length(); &#x2F;&#x2F; 分别求两个字符串的长度        if (n &#x3D;&#x3D; 0) return 0; &#x2F;&#x2F; 此判断符合strStr函数的原始定义        if (m &lt; n) return -1; &#x2F;&#x2F; 若haystack长度小于needle长度，则直接返回-1        for (int i &#x3D; 0; i &lt; m; i++) &#123; &#x2F;&#x2F; 遍历匹配第一个字母            if (haystack[i] &#x3D;&#x3D; needle[0]) &#123; &#x2F;&#x2F; 若第一个字母成功匹配                string temp &#x3D; haystack.substr(i, n); &#x2F;&#x2F; 直接求下标为i，长度同needle相等的子串temp                if (temp &#x3D;&#x3D; needle) &#123; &#x2F;&#x2F; 判断temp与needle是否相等                    return i; &#x2F;&#x2F; 若相等，则直接返回i                &#125;            &#125;        &#125;        return -1; &#x2F;&#x2F; 否则返回-1    &#125;&#125;;</code></pre><ol start="2"><li>KMP算法</li></ol><p>KMP的详细介绍：<a href="https://programmercarl.com/0028.%E5%AE%9E%E7%8E%B0strStr.html">https://programmercarl.com/0028.%E5%AE%9E%E7%8E%B0strStr.html</a></p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    void getNext(int* next, const string&amp; s) &#123;        int j &#x3D; -1;        next[0] &#x3D; j;        for(int i &#x3D; 1; i &lt; s.size(); i++) &#123; &#x2F;&#x2F; 注意i从1开始            while (j &gt;&#x3D; 0 &amp;&amp; s[i] !&#x3D; s[j+1]) &#123; &#x2F;&#x2F;前后缀不相同了                j &#x3D; next[j];            &#125;            if (s[i] &#x3D;&#x3D; s[j + 1]) &#123; &#x2F;&#x2F; 找到相同的前后缀                j++;            &#125;            next[i] &#x3D; j; &#x2F;&#x2F; 将j（前缀的长度）赋给next[i]        &#125;    &#125;    int strStr(string haystack, string needle) &#123;        if (needle.size() &#x3D;&#x3D; 0) &#123;            return 0;        &#125;        int next[needle.size()];        getNext(next, needle);        int j &#x3D; -1;        for (int i &#x3D; 0; i &lt; haystack.size(); i++) &#123; &#x2F;&#x2F; 注意i从0开始            while(j &gt;&#x3D; 0 &amp;&amp; haystack[i] !&#x3D; needle[j + 1]) &#123; &#x2F;&#x2F; 不匹配                j &#x3D; next[j]; &#x2F;&#x2F; j寻找之前匹配的位置            &#125;            if (haystack[i] &#x3D;&#x3D; needle[j + 1]) &#123; &#x2F;&#x2F; 匹配，j和i同时向后移动                j++;            &#125;            if (j &#x3D;&#x3D;(needle.size() - 1))  &#123; &#x2F;&#x2F; 文本串s里出现了模式串t                return (i - needle.size() + 1);            &#125;        &#125;        return -1;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你两个字符串 &lt;code&gt;haystack&lt;/code&gt; 和 &lt;code&gt;needle&lt;/code&gt; ，请你在 &lt;code&gt;haystack&lt;/code&gt; 字符串中找出 &lt;code&gt;needle&lt;/code&gt; 字符串的第一个匹配项的下标（下标从 0 开始）。如果 &lt;code&gt;needle&lt;/code&gt; 不是 &lt;code&gt;haystack&lt;/code&gt; 的一部分，则返回 &lt;code&gt;-1&lt;/code&gt; 。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
     
   </entry>
   
