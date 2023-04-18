@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-17T01:33:35.704Z</updated>
+  <updated>2023-04-18T04:12:22.999Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode1823.找出游戏的获胜者</title>
+    <link href="2023/04/18/leetcode1823-%E6%89%BE%E5%87%BA%E6%B8%B8%E6%88%8F%E7%9A%84%E8%8E%B7%E8%83%9C%E8%80%85/"/>
+    <id>2023/04/18/leetcode1823-%E6%89%BE%E5%87%BA%E6%B8%B8%E6%88%8F%E7%9A%84%E8%8E%B7%E8%83%9C%E8%80%85/</id>
+    <published>2023-04-18T03:49:15.000Z</published>
+    <updated>2023-04-18T04:12:22.999Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>共有 <code>n</code> 名小伙伴一起做游戏。小伙伴们围成一圈，按 <strong>顺时针顺序</strong> 从 <code>1</code> 到 <code>n</code> 编号。确切地说，从第 <code>i</code> 名小伙伴顺时针移动一位会到达第 <code>(i+1)</code> 名小伙伴的位置，其中 <code>1 &lt;= i &lt; n</code> ，从第 <code>n</code> 名小伙伴顺时针移动一位会回到第 <code>1</code> 名小伙伴的位置。</p><p>游戏遵循如下规则：</p><ol><li>从第 <code>1</code> 名小伙伴所在位置 <strong>开始</strong> 。</li><li>沿着顺时针方向数 <code>k</code> 名小伙伴，计数时需要 <strong>包含</strong> 起始时的那位小伙伴。逐个绕圈进行计数，一些小伙伴可能会被数过不止一次。</li><li>你数到的最后一名小伙伴需要离开圈子，并视作输掉游戏。</li><li>如果圈子中仍然有不止一名小伙伴，从刚刚输掉的小伙伴的 <strong>顺时针下一位</strong> 小伙伴 <strong>开始</strong>，回到步骤 <code>2</code> 继续执行。</li><li>否则，圈子中最后一名小伙伴赢得游戏。</li></ol><p>给你参与游戏的小伙伴总数 <code>n</code> ，和一个整数 <code>k</code> ，返回游戏的获胜者。</p><span id="more"></span> <p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/ic234-q2-ex11.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 5, k &#x3D; 2输出：3解释：游戏运行步骤如下：1) 从小伙伴 1 开始。2) 顺时针数 2 名小伙伴，也就是小伙伴 1 和 2 。3) 小伙伴 2 离开圈子。下一次从小伙伴 3 开始。4) 顺时针数 2 名小伙伴，也就是小伙伴 3 和 4 。5) 小伙伴 4 离开圈子。下一次从小伙伴 5 开始。6) 顺时针数 2 名小伙伴，也就是小伙伴 5 和 1 。7) 小伙伴 1 离开圈子。下一次从小伙伴 3 开始。8) 顺时针数 2 名小伙伴，也就是小伙伴 3 和 5 。9) 小伙伴 5 离开圈子。只剩下小伙伴 3 。所以小伙伴 3 是游戏的获胜者。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 6, k &#x3D; 5输出：1解释：小伙伴离开圈子的顺序：5、4、6、2、3 。小伙伴 1 是游戏的获胜者。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= k &lt;= n &lt;= 500</code></li></ul><p><strong>进阶：</strong>你能否使用线性时间复杂度和常数空间复杂度解决此问题？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>约瑟夫问题求解</li></ul><p>首先我们需要确定递推公式，假设上一轮淘汰的是第 m 个人，那么本轮淘汰的是第 $(m+k)% n$ 个人，所以我们可以得到递推公式：$f(n, k) &#x3D; (f(n-1, k)+k) % n$，其中$ f(n, k) $表示 n 个人中最后剩下的人的编号。</p><p>当只有一个人的时候，那么这个人一定是胜者，因此我们可以得到初始值：f(1, k) &#x3D; 0。</p><p>最后，我们可以通过递推得到 f(n, k) 的值，即为最后的胜者的编号。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int findTheWinner(int n, int k) &#123;        int ans &#x3D; 0;  &#x2F;&#x2F; 最后胜者的编号        for (int i &#x3D; 2; i &lt;&#x3D; n; i++) &#123;  &#x2F;&#x2F; 从第二个人开始进行游戏            ans &#x3D; (ans + k) % i;  &#x2F;&#x2F; 计算本轮淘汰的人的编号        &#125;        return ans + 1;  &#x2F;&#x2F; 将编号从 0-based 转换为 1-based 并返回    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;共有 &lt;code&gt;n&lt;/code&gt; 名小伙伴一起做游戏。小伙伴们围成一圈，按 &lt;strong&gt;顺时针顺序&lt;/strong&gt; 从 &lt;code&gt;1&lt;/code&gt; 到 &lt;code&gt;n&lt;/code&gt; 编号。确切地说，从第 &lt;code&gt;i&lt;/code&gt; 名小伙伴顺时针移动一位会到达第 &lt;code&gt;(i+1)&lt;/code&gt; 名小伙伴的位置，其中 &lt;code&gt;1 &amp;lt;= i &amp;lt; n&lt;/code&gt; ，从第 &lt;code&gt;n&lt;/code&gt; 名小伙伴顺时针移动一位会回到第 &lt;code&gt;1&lt;/code&gt; 名小伙伴的位置。&lt;/p&gt;
+&lt;p&gt;游戏遵循如下规则：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;从第 &lt;code&gt;1&lt;/code&gt; 名小伙伴所在位置 &lt;strong&gt;开始&lt;/strong&gt; 。&lt;/li&gt;
+&lt;li&gt;沿着顺时针方向数 &lt;code&gt;k&lt;/code&gt; 名小伙伴，计数时需要 &lt;strong&gt;包含&lt;/strong&gt; 起始时的那位小伙伴。逐个绕圈进行计数，一些小伙伴可能会被数过不止一次。&lt;/li&gt;
+&lt;li&gt;你数到的最后一名小伙伴需要离开圈子，并视作输掉游戏。&lt;/li&gt;
+&lt;li&gt;如果圈子中仍然有不止一名小伙伴，从刚刚输掉的小伙伴的 &lt;strong&gt;顺时针下一位&lt;/strong&gt; 小伙伴 &lt;strong&gt;开始&lt;/strong&gt;，回到步骤 &lt;code&gt;2&lt;/code&gt; 继续执行。&lt;/li&gt;
+&lt;li&gt;否则，圈子中最后一名小伙伴赢得游戏。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;给你参与游戏的小伙伴总数 &lt;code&gt;n&lt;/code&gt; ，和一个整数 &lt;code&gt;k&lt;/code&gt; ，返回游戏的获胜者。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode231.2的幂</title>
@@ -458,30 +488,6 @@ F(n) &amp;#x3D; F(n - 1) + F(n - 2)，其中 n &amp;gt; 1&lt;/code&gt;&lt;/pre&g
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个字符串 &lt;em&gt;&lt;strong&gt;s&lt;/strong&gt;&lt;/em&gt;，你可以通过在字符串前面添加字符将其转换为回文串。找到并返回可以用这种方式转换的最短回文串。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode151.反转字符串中的单词</title>
-    <link href="2023/03/22/leetcode151-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E5%8D%95%E8%AF%8D/"/>
-    <id>2023/03/22/leetcode151-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E5%8D%95%E8%AF%8D/</id>
-    <published>2023-03-22T02:01:36.000Z</published>
-    <updated>2023-03-22T02:31:09.124Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个字符串 <code>s</code> ，请你反转字符串中 <strong>单词</strong> 的顺序。</p><p><strong>单词</strong> 是由非空格字符组成的字符串。<code>s</code> 中使用至少一个空格将字符串中的 <strong>单词</strong> 分隔开。</p><p>返回 <strong>单词</strong> 顺序颠倒且 <strong>单词</strong> 之间用单个空格连接的结果字符串。</p><p><strong>注意：</strong>输入字符串 <code>s</code>中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外的空格。</p><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;the sky is blue&quot;输出：&quot;blue is sky the&quot;</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;  hello world  &quot;输出：&quot;world hello&quot;解释：反转后的字符串中不能存在前导空格和尾随空格。</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;a good   example&quot;输出：&quot;example good a&quot;解释：如果两个单词间有多余的空格，反转后的字符串需要将单词间的空格减少到仅有一个。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 104</code></li><li><code>s</code> 包含英文大小写字母、数字和空格 <code>&#39; &#39;</code></li><li><code>s</code> 中 <strong>至少存在一个</strong> 单词</li></ul><p><strong>进阶：</strong>如果字符串在你使用的编程语言中是一种可变数据类型，请尝试使用 <code>O(1)</code> 额外空间复杂度的 <strong>原地</strong> 解法。</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><p>大致思路：将字符串中的每个单词放入动态数组中，然后将动态数组倒序遍历得到结果字符串，最后返回结果字符串，C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string reverseWords(string s) &#123;        &#x2F;&#x2F; 特判：如果s的长度为1，则只包含一个单词，此时直接返回s即可        if (s.length() &#x3D;&#x3D; 1) return s;        &#x2F;&#x2F; 新建s_vec动态数组，元素类型为string        vector&lt;string&gt; s_vec;        &#x2F;&#x2F; 定义left，它是指向字符串里第一个单词的第一个字母的指针        int left &#x3D; 0; &#x2F;&#x2F; left的初始化        while (s[left] &#x3D;&#x3D; &#39; &#39;) &#123;            left++;  &#x2F;&#x2F; 防止字符串一开始就是空格        &#125;        &#x2F;&#x2F; 开始循环        for (int i &#x3D; left; i &lt; s.length(); i++) &#123;            &#x2F;&#x2F; 当i指向一个单词右边的第一个空格或者字符串的最后一个元素时            if (s[i] &#x3D;&#x3D; &#39; &#39; || i &#x3D;&#x3D; s.length() - 1) &#123;                if (i &#x3D;&#x3D; s.length()-1) i++; &#x2F;&#x2F; 当i指向字符串的最后一个字母时，需要自增1，否则无法通过substr获得子串                string temp &#x3D; s.substr(left, i - left); &#x2F;&#x2F; 使用substr获得子串                s_vec.push_back(temp); &#x2F;&#x2F; 将子串push进动态数组s_vec中                while (s[i] &#x3D;&#x3D; &#39; &#39; &amp;&amp; i &lt; s.length()) &#123;                    i++; &#x2F;&#x2F; 令i从其之后的第一个非空字母开始遍历                &#125;                left &#x3D; i; &#x2F;&#x2F; 更新left的值            &#125;        &#125;        if (s[s.length()-1] !&#x3D; &#39; &#39; &amp;&amp; s[s.length()-2] &#x3D;&#x3D; &#39; &#39;) &#123; &#x2F;&#x2F; 针对字符串最后的一个单词只有一个字母的特判            string temp &#x3D; s.substr(s.length()-1);            s_vec.push_back(temp);        &#125;        int n &#x3D; s_vec.size(); &#x2F;&#x2F; 获取动态数组的大小（也就是总的单词个数）        string result; &#x2F;&#x2F; 定义结果字符串        for (int i &#x3D; n - 1; i &gt;&#x3D; 0; i--) &#123; &#x2F;&#x2F; 反向遍历，将结果同result相加            if (i &#x3D;&#x3D; n - 1) &#123; &#x2F;&#x2F; 第一个单词前无需加空格                result &#x3D; result + s_vec[i];            &#125;            else &#123; &#x2F;&#x2F; 其他单词在同result合并前需要先加一个空格                result &#x3D; result + &quot; &quot; + s_vec[i];             &#125;        &#125;        return result; &#x2F;&#x2F; 返回result字符串    &#125;&#125;;</code></pre><ul><li>空间复杂度为O(1)的解法</li></ul><ol><li>将整个字符串进行反转</li><li>将反转后的字符串的每个单词进行反转</li><li>去除字符串中多余的空格</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string reverseWords(string s) &#123;        reverse(s.begin(), s.end()); &#x2F;&#x2F; 翻转整个字符串        int n &#x3D; s.size();        int idx &#x3D; 0;        for (int start &#x3D; 0; start &lt; n; ++start) &#123;            if (s[start] !&#x3D; &#39; &#39;) &#123; &#x2F;&#x2F; 找到单词的起始位置                if (idx !&#x3D; 0) s[idx++] &#x3D; &#39; &#39;; &#x2F;&#x2F; 添加单词间空格                int end &#x3D; start;                while (end &lt; n &amp;&amp; s[end] !&#x3D; &#39; &#39;) s[idx++] &#x3D; s[end++]; &#x2F;&#x2F; 翻转单词                reverse(s.begin() + idx - (end - start), s.begin() + idx); &#x2F;&#x2F; 翻转单词                start &#x3D; end;            &#125;        &#125;        s.erase(s.begin() + idx, s.end()); &#x2F;&#x2F; 删除多余的空格        return s;    &#125;&#125;;</code></pre><blockquote><p>当我们调用reverse函数时，它会将字符串中的字符进行翻转。例如，如果我们有一个字符串”hello”，那么调用reverse函数后，它会变成”olleh”。在这个题目中，我们需要将整个字符串进行翻转，所以我们调用了reverse(s.begin(), s.end())函数来实现这个功能。</p></blockquote>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个字符串 &lt;code&gt;s&lt;/code&gt; ，请你反转字符串中 &lt;strong&gt;单词&lt;/strong&gt; 的顺序。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;单词&lt;/strong&gt; 是由非空格字符组成的字符串。&lt;code&gt;s&lt;/code&gt; 中使用至少一个空格将字符串中的 &lt;strong&gt;单词&lt;/strong&gt; 分隔开。&lt;/p&gt;
-&lt;p&gt;返回 &lt;strong&gt;单词&lt;/strong&gt; 顺序颠倒且 &lt;strong&gt;单词&lt;/strong&gt; 之间用单个空格连接的结果字符串。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;输入字符串 &lt;code&gt;s&lt;/code&gt;中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外的空格。&lt;/p&gt;</summary>
     
     
     
