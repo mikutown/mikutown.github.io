@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-18T04:12:22.999Z</updated>
+  <updated>2023-04-19T07:00:57.166Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode486.预测赢家</title>
+    <link href="2023/04/19/leetcode486-%E9%A2%84%E6%B5%8B%E8%B5%A2%E5%AE%B6/"/>
+    <id>2023/04/19/leetcode486-%E9%A2%84%E6%B5%8B%E8%B5%A2%E5%AE%B6/</id>
+    <published>2023-04-19T06:44:54.000Z</published>
+    <updated>2023-04-19T07:00:57.166Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数数组 <code>nums</code> 。玩家 1 和玩家 2 基于这个数组设计了一个游戏。</p><p>玩家 1 和玩家 2 轮流进行自己的回合，玩家 1 先手。开始时，两个玩家的初始分值都是 <code>0</code> 。每一回合，玩家从数组的任意一端取一个数字（即，<code>nums[0]</code> 或 <code>nums[nums.length - 1]</code>），取到的数字将会从数组中移除（数组长度减 <code>1</code> ）。玩家选中的数字将会加到他的得分上。当数组中没有剩余数字可取时，游戏结束。</p><p>如果玩家 1 能成为赢家，返回 <code>true</code> 。如果两个玩家得分相等，同样认为玩家 1 是游戏的赢家，也返回 <code>true</code> 。你可以假设每个玩家的玩法都会使他的分数最大化。</p><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [1,5,2]输出：false解释：一开始，玩家 1 可以从 1 和 2 中进行选择。如果他选择 2（或者 1 ），那么玩家 2 可以从 1（或者 2 ）和 5 中进行选择。如果玩家 2 选择了 5 ，那么玩家 1 则只剩下 1（或者 2 ）可选。 所以，玩家 1 的最终分数为 1 + 2 &#x3D; 3，而玩家 2 为 5 。因此，玩家 1 永远不会成为赢家，返回 false 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [1,5,233,7]输出：true解释：玩家 1 一开始选择 1 。然后玩家 2 必须从 5 和 7 中进行选择。无论玩家 2 选择了哪个，玩家 1 都可以选择 233 。最终，玩家 1（234 分）比玩家 2（12 分）获得更多的分数，所以返回 true，表示玩家 1 可以成为赢家。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 20</code></li><li><code>0 &lt;= nums[i] &lt;= 107</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>首先，我们可以把这个问题看成是两个玩家在一堆石头上进行取石子游戏。每个玩家都可以在任何时候从石堆中取出一些石头，但是每次取石头的数量不能超过石堆中剩余石头的数量。游戏的规则是先手玩家必须先取，然后轮流取石头，直到石堆为空。每个石头的价值都不同，每个玩家在取石头时可以获得相应的价值。</p><p>我们可以用动态规划来解决这个问题。假设nums数组的长度为n，<code>dp[i][j]</code>表示在<code>nums[i...j]</code>范围内，先手玩家能获得的最大分数，那么先手玩家最终获胜的条件是<code>dp[0][n-1]</code>不小于nums中所有数之和的一半。</p><p>接下来考虑如何计算dp数组。首先，我们可以很容易地得出当区间长度为1时，<code>dp[i][i]</code>的值就是<code>nums[i]</code>。这是因为当只有一个数时，先手玩家必定获胜，得分为该数。</p><p>接下来，我们需要考虑更长的区间。假设当前处理的区间长度为len，则可以枚举区间左端点i，然后通过递推式来计算<code>dp[i][j]</code>。对于区间<code>[i,j]</code>，先手玩家可以选择<code>i</code>或<code>j</code>作为自己的选择，那么后手玩家就会在<code>[i+1, j]</code>或<code>[i, j-1]</code>区间内变成先手玩家。这样转化后的问题就可以通过<code>dp</code>数组的计算得到解决。</p><p>具体地，假设先手玩家选择了左端点i，那么后手玩家就会在<code>[i+1, j]</code>区间内变成先手玩家，此时先手玩家能获得的最大分数就是<code>nums[i]</code>加上区间<code>[i+2,j]</code>或区间<code>[i+1,j-1]</code>内先手玩家能获得的最大分数的最小值，即：</p><pre class="language-C++" data-language="C++"><code class="language-C++">left &#x3D; nums[i] + min(dp[i+2][j], dp[i+1][j-1])</code></pre><p>同样地，假设先手玩家选择了右端点<code>j</code>，那么后手玩家就会在<code>[i, j-1]</code>区间内变成先手玩家，此时先手玩家能获得的最大分数就是<code>nums[j]</code>加上区间<code>[i,j-2]</code>或区间<code>[i+1,j-1]</code>内先手玩家能获得的最大分数的最小值，即：</p><pre class="language-C++" data-language="C++"><code class="language-C++">right &#x3D; nums[j] + min(dp[i][j-2], dp[i+1][j-1])</code></pre><p>由于先手玩家和后手玩家的取石头顺序是交替进行的，因此先手玩家和后手玩家在不同的区间上作为先手玩家和后手玩家的情况应该分别考虑。最终，<code>dp[i][j]</code>的值就是left和right中的较大值，即：</p><pre class="language-C++" data-language="C++"><code class="language-C++">dp[i][j] &#x3D; max(left, right)</code></pre><p>最终的答案就是<code>dp[0][n-1]</code>是否大于等于<code>nums</code>中所有数之和的一半。</p><p>代码实现时，我们可以使用二维数组<code>dp</code>来保存先手玩家能获得的最大分数，然后用双重循环来枚举区间长度和区间左端点，并使用上述递推式来计算<code>dp</code>数组中的每个元素。最后，比较<code>dp[0][n-1]</code>和<code>nums</code>中所有数之和的一半即可得到答案。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool PredictTheWinner(vector&lt;int&gt;&amp; nums) &#123;        int n &#x3D; nums.size();        vector&lt;vector&lt;int&gt;&gt; dp(n, vector&lt;int&gt;(n)); &#x2F;&#x2F; 定义二维dp数组，dp[i][j]表示当剩下的数是nums[i..j]时，先手玩家比后手玩家多得的最大分数。        &#x2F;&#x2F; 处理区间长度为1的情况        for (int i &#x3D; 0; i &lt; n; i++) &#123;            dp[i][i] &#x3D; nums[i]; &#x2F;&#x2F; 当剩下的数只有一个时，先手玩家只能取这个数，并且得分就是这个数本身。        &#125;        &#x2F;&#x2F; 处理更长的区间        for (int len &#x3D; 2; len &lt;&#x3D; n; len++) &#123; &#x2F;&#x2F; 枚举区间长度            for (int i &#x3D; 0; i &lt;&#x3D; n - len; i++) &#123; &#x2F;&#x2F; 枚举区间左端点                int j &#x3D; i + len - 1; &#x2F;&#x2F; 区间右端点                int left &#x3D; nums[i] + min(i+2 &lt;&#x3D; j ? dp[i+2][j] : 0, i+1 &lt;&#x3D; j-1 ? dp[i+1][j-1] : 0); &#x2F;&#x2F; 先手玩家取nums[i]后，后手玩家就成为了先手玩家，接下来剩下的数就是nums[i+1..j]，此时先手玩家能得到的最大分数是dp[i+1][j]。如果先手玩家取nums[i]后，后手玩家也取了一个数，那么接下来剩下的数就是nums[i+2..j]，此时先手玩家能得到的最大分数是dp[i+2][j]。由于后手玩家也是聪明的，他肯定会选择让先手玩家得到更少的分数，因此先手玩家能得到的最大分数就是nums[i]加上min(dp[i+2][j], dp[i+1][j-1])。同理，我们也可以计算出先手玩家取nums[j]时能得到的最大分数right。                int right &#x3D; nums[j] + min(i &lt;&#x3D; j-2 ? dp[i][j-2] : 0, i+1 &lt;&#x3D; j-1 ? dp[i+1][j-1] : 0);                dp[i][j] &#x3D; max(left, right); &#x2F;&#x2F; 取left和right的较大值，表示先手玩家在nums[i..j]这个区间内能得到的最大分数。            &#125;        &#125;        &#x2F;&#x2F; 判断先手玩家是否能获胜        return dp[0][n-1] &gt;&#x3D; accumulate(nums.begin(), nums.end(), 0) &#x2F; 2.0; &#x2F;&#x2F; 如果先手玩家能得到的最大分数不小于nums中所有数之和的一半，那么先手玩家就能获胜。    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; 。玩家 1 和玩家 2 基于这个数组设计了一个游戏。&lt;/p&gt;
+&lt;p&gt;玩家 1 和玩家 2 轮流进行自己的回合，玩家 1 先手。开始时，两个玩家的初始分值都是 &lt;code&gt;0&lt;/code&gt; 。每一回合，玩家从数组的任意一端取一个数字（即，&lt;code&gt;nums[0]&lt;/code&gt; 或 &lt;code&gt;nums[nums.length - 1]&lt;/code&gt;），取到的数字将会从数组中移除（数组长度减 &lt;code&gt;1&lt;/code&gt; ）。玩家选中的数字将会加到他的得分上。当数组中没有剩余数字可取时，游戏结束。&lt;/p&gt;
+&lt;p&gt;如果玩家 1 能成为赢家，返回 &lt;code&gt;true&lt;/code&gt; 。如果两个玩家得分相等，同样认为玩家 1 是游戏的赢家，也返回 &lt;code&gt;true&lt;/code&gt; 。你可以假设每个玩家的玩法都会使他的分数最大化。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode1823.找出游戏的获胜者</title>
@@ -467,27 +490,6 @@ F(n) &amp;#x3D; F(n - 1) + F(n - 2)，其中 n &amp;gt; 1&lt;/code&gt;&lt;/pre&g
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; ，其中元素已经按 &lt;strong&gt;升序&lt;/strong&gt; 排列，请你将其转换为一棵 &lt;strong&gt;高度平衡&lt;/strong&gt; 二叉搜索树。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;高度平衡&lt;/strong&gt; 二叉树是一棵满足「每个节点的左右两个子树的高度差的绝对值不超过 1 」的二叉树。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode214.最短回文串</title>
-    <link href="2023/03/23/leetcode214-%E6%9C%80%E7%9F%AD%E5%9B%9E%E6%96%87%E4%B8%B2/"/>
-    <id>2023/03/23/leetcode214-%E6%9C%80%E7%9F%AD%E5%9B%9E%E6%96%87%E4%B8%B2/</id>
-    <published>2023-03-23T06:14:31.000Z</published>
-    <updated>2023-03-23T06:27:13.948Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串 <em><strong>s</strong></em>，你可以通过在字符串前面添加字符将其转换为回文串。找到并返回可以用这种方式转换的最短回文串。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;aacecaaa&quot;输出：&quot;aaacecaaa&quot;</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;abcd&quot;输出：&quot;dcbabcd&quot;</code></pre><p><strong>提示：</strong></p><ul><li><code>0 &lt;= s.length &lt;= 5 * 104</code></li><li><code>s</code> 仅由小写英文字母组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>KMP算法求解</li></ul><p>本题可以通过将原字符串翻转后与原字符串拼接，然后在新的字符串中找到以原字符串开头的最长回文子串，最后将翻转字符串的前缀加到原字符串前面即可得到新的字符串。为了找到以原字符串开头的最长回文子串，可以使用KMP算法中的next数组，将新的字符串l的next数组求出来，那么l.size() - 1位置处的值就是以原字符串开头的最长回文子串的长度。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string shortestPalindrome(string s) &#123;        &#x2F;&#x2F; 将字符串s翻转并存储在rev_s中        string rev_s &#x3D; s;        reverse(rev_s.begin(), rev_s.end());        &#x2F;&#x2F; 将s和rev_s拼接，并用“#”分割        string l &#x3D; s + &quot;#&quot; + rev_s;        &#x2F;&#x2F; 初始化一个大小为l.size()的数组p        vector&lt;int&gt; p(l.size(), 0);        &#x2F;&#x2F; 通过循环遍历l，求出p数组        for (int i &#x3D; 1; i &lt; l.size(); i++) &#123;            int j &#x3D; p[i - 1];            while (j &gt; 0 &amp;&amp; l[i] !&#x3D; l[j]) j &#x3D; p[j - 1];            p[i] &#x3D; (j +&#x3D; l[i] &#x3D;&#x3D; l[j]);        &#125;        &#x2F;&#x2F; 返回一个由rev_s的前缀和s组成的新字符串        return rev_s.substr(0, s.size() - p[l.size() - 1]) + s;    &#125;&#125;;</code></pre><blockquote><p>以输入<code>s=&quot;aacecaaa&quot;</code>为例，说明代码的运行过程：</p><p>首先将字符串s翻转得到rev_s&#x3D;”aaacecaa”，然后将s和rev_s用”#”分割拼接起来得到l&#x3D;”aacecaaa#aaacecaa”。</p><p>然后初始化一个大小为l.size()的数组p，数组中每个元素表示对应位置之前的字符串的最长相同前缀后缀的长度。</p><p>接下来使用KMP算法的思想，通过遍历l来求得数组p的所有元素。从i&#x3D;1开始，依次比较l[i]和l[p[i-1]]，如果不相同，则令j&#x3D;p[i-1]，并循环将j更新为p[j-1]，直到j&#x3D;0或者找到一个位置k使得l[i]和l[k]相等。如果找到了k，则令p[i]&#x3D;k+1，否则令p[i]&#x3D;0。</p><p>经过上述循环遍历后，p数组的最后一个元素p[l.size()-1]表示以原字符串开头的最长回文子串的长度，即3。因此，可以将rev_s的前缀”aa”加到s的前面，得到新的字符串为”aaacecaaa”，这个字符串是由原字符串”aacecaaa”通过添加最少字符得到的回文串。</p></blockquote>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个字符串 &lt;em&gt;&lt;strong&gt;s&lt;/strong&gt;&lt;/em&gt;，你可以通过在字符串前面添加字符将其转换为回文串。找到并返回可以用这种方式转换的最短回文串。&lt;/p&gt;</summary>
     
     
     
