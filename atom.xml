@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-24T05:38:24.759Z</updated>
+  <updated>2023-04-24T10:34:27.185Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WorkflowSim：用于在分布式环境中模拟科学工作流程的工具包</title>
+    <link href="2023/04/24/WorkflowSim%EF%BC%9A%E7%94%A8%E4%BA%8E%E5%9C%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E6%A8%A1%E6%8B%9F%E7%A7%91%E5%AD%A6%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E7%9A%84%E5%B7%A5%E5%85%B7%E5%8C%85/"/>
+    <id>2023/04/24/WorkflowSim%EF%BC%9A%E7%94%A8%E4%BA%8E%E5%9C%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E6%A8%A1%E6%8B%9F%E7%A7%91%E5%AD%A6%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E7%9A%84%E5%B7%A5%E5%85%B7%E5%8C%85/</id>
+    <published>2023-04-24T10:33:26.000Z</published>
+    <updated>2023-04-24T10:34:27.185Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="WorkflowSim-A-Toolkit-for-Simulating-Scientific-Workflows-in-Distributed-Environments"><a href="#WorkflowSim-A-Toolkit-for-Simulating-Scientific-Workflows-in-Distributed-Environments" class="headerlink" title="WorkflowSim: A Toolkit for Simulating Scientific Workflows in Distributed Environments"></a>WorkflowSim: A Toolkit for Simulating Scientific Workflows in Distributed Environments</h2><h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>现有的工作流模拟器无法提供一个考虑异构系统开销和失败的框架，也缺少对广泛使用的工作流优化技术（如任务聚合）的支持。因此我们引入了WorkflowSim。在扩展CloudSim的基础上提供了更高层的工作流管理。我们还通过实验证明了忽视系统开销和故障会导致预测工作流时间的极大不准确。在两个研究领域中我们进一步验证了WorkflowSim在促进科学研究方面的价值。</p><h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>首先介绍了科学工作流，然后说对于科学工作流工作的验证如果放在真实环境中验证有很多缺点，而基于模拟的验证有很多好处，比如降低实验步骤的复杂度并且通过在可重复和受控的环境中测试他们的应用程序，在工作流执行中节省了大量精力。</p><p>因此一个能够准确模拟的工作流调度模拟框架是非常需要的。易购分布式系统使开销也五花八门，考虑到全面的系统开销在工作流的运行时间中起到的重要作用，需要对这些工作流开销进行分类，这有助于提高模拟器的精确度（相较于不考虑开小的模拟器）。</p><p>此外，很多研究者已经强调了容错设计的重要性并认为现代分布式系统中的错误率不应该被忽视，我们需要一个支持随机以及分层故障的模拟器来促进相关方面的研究。</p><p>最后，工作流研究的进展还需要一个能够支持广泛接受的工作流特征和优化技术的通用框架。现有的模拟器，如 CloudSim&#x2F;GridSim[12] 无法提供细粒度的工作流模拟。</p><p>据我们所知，当前的分布式系统模拟器都不支持这些丰富的特性和技术。在本文中，我们介绍了我们在模拟满足这些要求的科学工作流程方面的早期工作。我们以任务聚类为例评估 WorkflowSim 的性能。我们进一步表明，WorkflowSim 有望为容错集群和开销鲁棒性研究等研究领域提供评估平台。</p><h3 id="Related-work"><a href="#Related-work" class="headerlink" title="Related work"></a>Related work</h3><p>在我们的设计中，我们在 CloudSim 现有的工作流调度层之上添加了多个层，包括 Workflow Mapper、Workflow Engine、Clustering Engine、Failure Generator、Failure Monitor 等。我们将解释这些层的细节在第三节。</p><p>CloudSim只支持单工作流，并没有考虑工作流的任务依赖关系，也没有对故障和开销进行分析。WorkflowSim 扩展了 CloudSim 以满足这些新要求。</p><p>其他模拟器是专门为工作流管理的一些理想方面（例如工作流调度）而设计的，但这种简化与不断变化的分布式计算世界和新工作流管理技术的发展不匹配。</p><p>因此，与其针对特定领域的工作流进行模拟，WorkflowSim 试图提取各种工作流系统公开的共同特征，并支持广泛使用的工作流管理技术。WorkflowSim 不仅支持调度技术的评估，还考虑了各种任务调度&#x2F;执行开销和故障。</p><p>在任务聚合方面，论文的聚合策略是静态的并且没有考虑动态的资源特征，他也没考虑到一些开销，这些开销包含在我们的模型中，其值是根据实际执行轨迹估算的。</p><p>故障分析和建模呈现系统特征，例如错误和故障分布以及危险率。在所有故障中，我们重点关注暂时性故障，因为预计它们比永久性故障更普遍。基于这些工作，我们模拟了两层（任务&#x2F;工作）的故障，并为用户提供了一个接口开发容错算法</p><h3 id="Models-and-Features"><a href="#Models-and-Features" class="headerlink" title="Models and Features"></a>Models and Features</h3><p>如图 1 所示，准备和执行工作流涉及多个组件层。工作流管理系统 (WMS) 的模型类似于 Pegasus WMS [17]，它包含： 一个工作流映射器，用于将抽象工作流映射到依赖于执行站点的具体工作流；一个工作流引擎来处理数据依赖；和一个工作流调度程序，用于将作业与资源相匹配。其他组件包括将小任务合并到大作业中的集群引擎、跟踪任务&#x2F;作业执行历史的 Provenance 收集器以及将用户工作流划分为多个子工作流的工作流分区器。</p><p><img src="http://cdn.leafii.top/img/image-20230424175929354.png" alt="image-20230424175929354" loading="lazy"></p><h4 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h4><h5 id="Workflow-Mapper"><a href="#Workflow-Mapper" class="headerlink" title="Workflow Mapper"></a>Workflow Mapper</h5><p>我们将工作流建模为有向无环图 (DAG)，其中作业代表用户要执行的计算，有向边代表作业之间的数据或控制流依赖关系.Workflow Mapper 用于导入 XML 格式的 DAG 文件和文件大小等其他元数据信息。Workflow Mapper 创建任务列表并将这些任务分配给执行站点。任务是用户想要执行的程序&#x2F;活动。</p><h5 id="Clustering-Engine"><a href="#Clustering-Engine" class="headerlink" title="Clustering Engine"></a>Clustering Engine</h5><p>我们将任务定义为用户想要执行的程序。 作业是执行系统看到的一个原子单元，它包含多个顺序或并行执行的任务。Clustering Engine将任务合并到作业中，以减少调度开销。</p><p><img src="http://cdn.leafii.top/img/image-20230424180131785.png" alt="image-20230424180131785" loading="lazy"></p><h5 id="Workflow-Engine"><a href="#Workflow-Engine" class="headerlink" title="Workflow Engine"></a>Workflow Engine</h5><p>Workflow Engine根据作业的依赖关系管理作业，以确保只有在其所有父作业都成功完成后才能发布作业。Workflow Engine 只会向 Scheduler 释放空闲作业。我们使用 DAGMan作为工作流引擎。</p><h5 id="Workflow-Scheduler-and-Job-Execution"><a href="#Workflow-Scheduler-and-Job-Execution" class="headerlink" title="Workflow Scheduler and Job Execution"></a>Workflow Scheduler and Job Execution</h5><p>Workflow Scheduler 用于根据用户选择的标准（MaxMin [2]、MinMin [1] 和许多其他试探法）将作业与工作节点匹配。 CloudSim 已经支持静态调度算法，我们添加了对动态工作流算法的支持。WorkflowSim 依靠 CloudSim 提供准确可靠的作业级执行模型，例如分时模型和空间共享模型。但是WorkflowSim引入了不同层次的开销和故障，提高了仿真的准确性.</p><p>为了关联和协调这些层，我们采用了基于事件的方法，其中每个组件维护一个消息队列。图 3 显示了具有两个执行站点的简单配置，每个执行站点都有两个节点。</p><p><img src="http://cdn.leafii.top/img/image-20230424180421142.png" alt="image-20230424180421142" loading="lazy"></p><h4 id="Layered-Overhead"><a href="#Layered-Overhead" class="headerlink" title="Layered Overhead"></a>Layered Overhead</h4><p>基于我们之前对工作流开销的研究，我们将分层开销添加到工作流模拟中。我们将工作流开销分为以下五类。</p><ul><li>Workflow Engine Delay测量作业的最后一个父作业完成与作业提交到本地队列的时间之间的时间。Workflow Engine Delay反映了工作流引擎（在我们的例子中是 DAGMan）的效率。</li><li>Queue Delay定义为工作流引擎向本地队列提交作业与本地调度程序看到作业运行（可能在远程资源上）之间的时间。它反映了工作流调度程序（例如，Condor [19]）执行作业的效率以及执行作业的资源可用性。</li><li>Postscript Delay and Prescript Delay是在某些执行系统下执行作业前后执行轻量级脚本所花费的时间。Prescripts 通常用于创建作业执行目录。Postscript在作业的计算部分完成后检查作业的退出代码。</li><li>Data Transfer Delay当数据在节点之间传输时发生。它包括三种不同类型的过程：staging data in, cleaning up, and staging data out.</li><li>Clustering Delay衡量的是实际任务运行时间的总和与工作流调度程序看到的作业运行时间之间的差异</li></ul><p>我们指出有必要考虑开销的分配，而不是简单地在作业执行后添加一个恒定的延迟。我们以工作流引擎延迟为例来说明对开销进行适当建模的必要性。</p><p><img src="http://cdn.leafii.top/img/image-20230424180933926.png" alt="image-20230424180933926" loading="lazy"></p><p>图 4 显示了 Montage 8 度工作流中开销和运行时间的真实轨迹（对于缩放问题，我们仅显示 mProjectPP 级别中的前 15 个作业）。我们可以看到，工作流引擎延迟在每五个作业后稳定增加。我们将这种工作流开销的特殊性称为循环递增。因此，在每次作业执行后简单地添加一个恒定的延迟忽略了它对性能的潜在影响。出于这个原因，我们采用基于消息队列的方法并迭代检查 WorkflowSim 中的消息队列。</p><p>图 6 显示了 mProjectPP、mDiffFit 和 mBackground 的 Clustering Delay 的平均值。很明显，随着k（每个水平级别的最大作业数）的增加，集群中的任务越来越少，因此每个作业的集群延迟减少。</p><p>根据等式1，<img src="http://cdn.leafii.top/img/image-20230424181348922.png" alt="image-20230424181348922" loading="lazy"></p><p>如果已知k&#x3D;j时的延迟，反比例模型可以直接估计k&#x3D;i时的延迟。因此，只要我们收集到一个聚类案例，我们就可以预测所有的聚类案例。</p><h4 id="Layered-Failures-and-Job-Retry"><a href="#Layered-Failures-and-Job-Retry" class="headerlink" title="Layered Failures and Job Retry"></a>Layered Failures and Job Retry</h4><p>在工作流执行期间的不同时间可能会发生故障。与任务和作业的定义一致，我们将瞬态故障分为两类：任务故障和作业故障。如果暂时性故障影响任务的计算（任务失败），作业中的其他任务不一定失败。如果暂时性故障影响集群作业（作业失败），则其所有任务都会失败。我们添加了两个组件来响应故障模拟：</p><ul><li>Failure Generator被引入以在每个执行站点注入任务&#x2F;作业失败。每个作业执行后，Failure Generator 根据用户指定的分布和平均失败率随机生成任务&#x2F;作业失败。</li><li>Failure Monitor收集故障记录并将它们返回给工作流管理系统，以便它可以动态调整调度策略。</li></ul><p>我们还修改了其他组件以支持容错优化。在容易出现故障的环境中，有多种方法可以提高工作流性能。</p><ol><li>当计算不成功时，可以简单地重试整个作业或仅重试该作业的失败部分。此功能被添加到 Workflow Scheduler，它检查作业的状态并根据用户选择的策略采取行动。</li><li>Reclustering是我们提出的一种技术，它试图根据检测到的故障率来调整任务聚类策略。</li></ol><h3 id="VALIDATION"><a href="#VALIDATION" class="headerlink" title="VALIDATION"></a>VALIDATION</h3><p>我们以任务聚类为例说明在工作流模拟中引入开销overheads的必要性。目标是比较工作流的模拟整体运行时间，以防作业运行时间和系统开销的信息已知并从先前的跟踪中提取。</p><h3 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h3><p>在Application部分，作者介绍了如何使用WorkflowSim进行科学工作流研究。他们提到，WorkflowSim提供了一种灵活的框架，可以轻松地模拟各种科学工作流应用程序，并支持各种优化技术，例如任务聚类和容错性。 作者还列举了一些使用WorkflowSim进行研究的实际应用案例，包括生物信息学、气象预测、天文学和地震模拟等领域。他们指出，WorkflowSim可以帮助研究人员更好地理解和优化这些复杂的科学工作流应用程序，并提高其性能和效率。 </p><h3 id="Conclusion-and-future-work"><a href="#Conclusion-and-future-work" class="headerlink" title="Conclusion and future work"></a>Conclusion and future work</h3><p>在Conclusion and Future Work部分，作者总结了他们的研究成果，并提出了未来的研究方向。作者指出，WorkflowSim是一个可靠且有效的工作流仿真器，可以用于各种科学工作流应用程序中，并支持各种优化技术。 作者还提到，未来的研究方向包括进一步改进WorkflowSim的性能和功能，例如增加对容错性和动态资源管理的支持。此外，作者还计划将WorkflowSim扩展到更广泛的应用领域，并与其他工作流引擎进行比较。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;WorkflowSim-A-Toolkit-for-Simulating-Scientific-Workflows-in-Distributed-Environments&quot;&gt;&lt;a href=&quot;#WorkflowSim-A-Toolkit-for-Simulatin</summary>
+      
+    
+    
+    
+    
+    <category term="容错" scheme="tags/容错/"/>
+    
+    <category term="云计算" scheme="tags/云计算/"/>
+    
+    <category term="工作流调度" scheme="tags/工作流调度/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode119.杨辉三角II</title>
@@ -472,29 +498,6 @@ F(n) &amp;#x3D; F(n - 1) + F(n - 2)，其中 n &amp;gt; 1&lt;/code&gt;&lt;/pre&g
     <category term="算法" scheme="tags/算法/"/>
     
     <category term="蓝桥杯" scheme="tags/蓝桥杯/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode968.监控二叉树</title>
-    <link href="2023/03/29/leetcode968-%E7%9B%91%E6%8E%A7%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
-    <id>2023/03/29/leetcode968-%E7%9B%91%E6%8E%A7%E4%BA%8C%E5%8F%89%E6%A0%91/</id>
-    <published>2023-03-29T06:23:53.000Z</published>
-    <updated>2023-03-29T06:43:47.729Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个二叉树，我们在树的节点上安装摄像头。</p><p>节点上的每个摄影头都可以监视<strong>其父对象、自身及其直接子对象。</strong></p><p>计算监控树的所有节点所需的最小摄像头数量。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/bst_cameras_01.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：[0,0,null,0,0]输出：1解释：如图所示，一台摄像头足以监控所有节点。</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/bst_cameras_02.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：[0,0,null,0,null,0,null,null,0]输出：2解释：需要至少两个摄像头来监视树的所有节点。 上图显示了摄像头放置的有效位置之一。</code></pre><p><strong>提示：</strong></p><ol><li>给定树的节点数的范围是 <code>[1, 1000]</code>。</li><li>每个节点的值都是 0。</li></ol><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>贪心算法</li></ul><p>本题是一道贪心算法的题目。通过对题目进行分析，我们可以发现有以下几种情况：</p><p>1.如果一个节点没有被监控，那么它必须要安装一个摄像头。</p><p>2.如果一个节点安装了摄像头，那么它的父节点就可以被监控了。</p><p>3.如果一个节点的子节点被监控了，那么这个节点也可以被监控。</p><p>因此，我们可以采用自下而上的方式进行处理，从叶子节点开始向根节点进行处理。对于每个节点，我们可以有三种状态：</p><p>0：该节点没有装摄像头，且它的子节点中也没有装摄像头的节点，此时应该给他装一个摄像头。</p><p>1：该节点没有装摄像头，但是它的子节点中至少有一个装摄像头的节点，此时应该给他的父节点装一个摄像头。</p><p>2：该节点装摄像头了，因此它无需再安装一个摄像头。</p><p>对于每个节点，我们可以采用递归的方式进行处理。当节点为叶子节点时，它的状态为0。对于其他节点，如果它的子节点中存在状态为0的节点，那么该节点的状态为1，表示需要安装摄像头。如果它的子节点中都存在状态为1或2的节点，那么该节点的状态为0，表示不需要安装摄像头，但是它的父节点需要安装摄像头。如果它的子节点中存在状态为2的节点，那么该节点的状态为1，表示不需要安装摄像头，因为它的子节点已经可以覆盖它了。</p><p>最后，根据根节点的状态来判断是否需要安装摄像头。如果根节点的状态为0或1，那么需要安装一个摄像头。如果根节点的状态为2，那么不需要安装摄像头。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    int minCameraCover(TreeNode* root) &#123;        int res &#x3D; 0;        if (dfs(root, res) &#x3D;&#x3D; 0) &#123; &#x2F;&#x2F; 根节点未被监控            res++;        &#125;        return res;    &#125;    int dfs(TreeNode* node, int&amp; res) &#123;        if (node &#x3D;&#x3D; nullptr) &#123;            return 2; &#x2F;&#x2F; 空节点不需要监控，返回2        &#125;        int left &#x3D; dfs(node-&gt;left, res);        int right &#x3D; dfs(node-&gt;right, res);        if (left &#x3D;&#x3D; 0 || right &#x3D;&#x3D; 0) &#123; &#x2F;&#x2F; 左右子节点有未被监控的节点，该节点需要安装摄像头            res++; &#x2F;&#x2F; 安装了摄像头            return 1; &#x2F;&#x2F; return 1是指该节点没有被监控，但是它的子节点中至少有一个被监控的节点。        &#125; else if (left &#x3D;&#x3D; 1 || right &#x3D;&#x3D; 1) &#123; &#x2F;&#x2F; 左右子节点中至少有一个节点被监控            return 2; &#x2F;&#x2F; return 2是指该节点被监控了。        &#125; else &#123; &#x2F;&#x2F; 左右子节点均被监控            return 0; &#x2F;&#x2F; return 0是指该节点没有装摄像头        &#125;    &#125;&#125;;</code></pre><blockquote><p>其中，dfs函数的返回值为当前节点的状态。如果返回值为0，表示当前节点需要安装摄像头；如果返回值为1，表示当前节点不需要安装摄像头，但是它的父节点需要安装摄像头；如果返回值为2，表示当前节点不需要安装摄像头。res为引用类型，表示安装摄像头的数量。</p></blockquote>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个二叉树，我们在树的节点上安装摄像头。&lt;/p&gt;
-&lt;p&gt;节点上的每个摄影头都可以监视&lt;strong&gt;其父对象、自身及其直接子对象。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;计算监控树的所有节点所需的最小摄像头数量。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
     
   </entry>
   
