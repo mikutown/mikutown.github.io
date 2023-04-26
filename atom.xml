@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-25T02:27:22.334Z</updated>
+  <updated>2023-04-26T06:53:13.715Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode1049.最后一块石头的重量II</title>
+    <link href="2023/04/26/leetcode1049-%E6%9C%80%E5%90%8E%E4%B8%80%E5%9D%97%E7%9F%B3%E5%A4%B4%E7%9A%84%E9%87%8D%E9%87%8FII/"/>
+    <id>2023/04/26/leetcode1049-%E6%9C%80%E5%90%8E%E4%B8%80%E5%9D%97%E7%9F%B3%E5%A4%B4%E7%9A%84%E9%87%8D%E9%87%8FII/</id>
+    <published>2023-04-26T06:50:18.000Z</published>
+    <updated>2023-04-26T06:53:13.715Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>有一堆石头，用整数数组 <code>stones</code> 表示。其中 <code>stones[i]</code> 表示第 <code>i</code> 块石头的重量。</p><p>每一回合，从中选出<strong>任意两块石头</strong>，然后将它们一起粉碎。假设石头的重量分别为 <code>x</code> 和 <code>y</code>，且 <code>x &lt;= y</code>。那么粉碎的可能结果如下：</p><ul><li>如果 <code>x == y</code>，那么两块石头都会被完全粉碎；</li><li>如果 <code>x != y</code>，那么重量为 <code>x</code> 的石头将会完全粉碎，而重量为 <code>y</code> 的石头新重量为 <code>y-x</code>。</li></ul><p>最后，<strong>最多只会剩下一块</strong> 石头。返回此石头 <strong>最小的可能重量</strong> 。如果没有石头剩下，就返回 <code>0</code>。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：stones &#x3D; [2,7,4,1,8,1]输出：1解释：组合 2 和 4，得到 2，所以数组转化为 [2,7,1,8,1]，组合 7 和 8，得到 1，所以数组转化为 [2,1,1,1]，组合 2 和 1，得到 1，所以数组转化为 [1,1,1]，组合 1 和 1，得到 0，所以数组转化为 [1]，这就是最优值。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：stones &#x3D; [31,26,33,21,40]输出：5</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= stones.length &lt;= 30</code></li><li><code>1 &lt;= stones[i] &lt;= 100</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>这是一道动态规划问题。我们可以定义一个 dp 数组，其中 dp[i] 表示背包容量为 i 时能够得到的最大价值。这里价值就是石头的重量。</p><p>具体来说，对于每一块石头，我们可以选择将其放入背包中，也可以不放入背包中。如果我们选择将其放入背包中，则可以得到的最大价值为 dp[j-stones[i]]+stones[i]，其中 j-stones[i] 表示剩余背包容量，dp[j-stones[i]] 表示剩余背包容量为 j-stones[i] 时能够得到的最大价值，stones[i] 表示当前石头的重量。</p><p>遍历完所有的石头后，dp[target] 就是能够得到的最大价值，其中 target 是所有石头重量之和的一半（因为我们要得到最终得到的石头的最小可能重量，因此需要将原问题转化为求解容量为 sum&#x2F;2 的背包能够得到的最大价值）。</p><p>最终得到的石头的重量就是 sum - 2*dp[target]，其中 sum 是所有石头的重量之和。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int lastStoneWeightII(vector&lt;int&gt;&amp; stones) &#123;        int sum &#x3D; accumulate(stones.begin(), stones.end(), 0); &#x2F;&#x2F; 计算所有石头重量之和        int target &#x3D; sum &#x2F; 2; &#x2F;&#x2F; 将原问题转化为求解容量为 sum&#x2F;2 的背包能够得到的最大价值        vector&lt;int&gt; dp(target+1, 0); &#x2F;&#x2F; 定义动态规划数组        for(int i&#x3D;0; i&lt;stones.size(); i++) &#123; &#x2F;&#x2F; 遍历每一块石头            for(int j&#x3D;target; j&gt;&#x3D;stones[i]; j--) &#123; &#x2F;&#x2F; 从后往前更新 dp 数组                dp[j] &#x3D; max(dp[j], dp[j-stones[i]]+stones[i]); &#x2F;&#x2F; 更新 dp 数组            &#125;        &#125;        return sum - 2*dp[target]; &#x2F;&#x2F; 返回最终得到的石头的重量    &#125;&#125;;</code></pre><p>在上面的代码中，我们首先使用<code>std::accumulate</code>库函数对石头的重量进行求和，得到所有石头的总重量<code>sum</code>。接着，我们将原问题转化为求解容量为<code>sum/2</code>的背包能够得到的最大价值，因此定义了一个<code>target</code>变量来保存这个值。</p><p>然后，我们定义了一个长度为<code>target+1</code>的<code>dp</code>数组，其中<code>dp[i]</code>表示背包容量为<code>i</code>时能够得到的最大价值。这个数组的初始化值都是0。</p><p>接下来，我们遍历每一块石头，并对每一块石头进行背包问题的动态规划更新。具体来说，对于第<code>i</code>块石头，我们从<code>target</code>向<code>stones[i]</code>遍历，更新所有<code>dp[j]</code>（<code>j&gt;=stones[i]</code>）。更新公式为<code>dp[j] = max(dp[j], dp[j-stones[i]]+stones[i])</code></p><p>这里<code>dp[j-stones[i]]</code>表示在放入第<code>i</code>块石头前剩余的背包容量，因此需要从<code>dp[j-stones[i]]</code>中加上当前石头的重量<code>stones[i]</code>才能得到在放入第<code>i</code>块石头后的最大价值。最后，我们返回最终得到的石头的重量，即<code>sum-2*dp[target]</code>。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;有一堆石头，用整数数组 &lt;code&gt;stones&lt;/code&gt; 表示。其中 &lt;code&gt;stones[i]&lt;/code&gt; 表示第 &lt;code&gt;i&lt;/code&gt; 块石头的重量。&lt;/p&gt;
+&lt;p&gt;每一回合，从中选出&lt;strong&gt;任意两块石头&lt;/strong&gt;，然后将它们一起粉碎。假设石头的重量分别为 &lt;code&gt;x&lt;/code&gt; 和 &lt;code&gt;y&lt;/code&gt;，且 &lt;code&gt;x &amp;lt;= y&lt;/code&gt;。那么粉碎的可能结果如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果 &lt;code&gt;x == y&lt;/code&gt;，那么两块石头都会被完全粉碎；&lt;/li&gt;
+&lt;li&gt;如果 &lt;code&gt;x != y&lt;/code&gt;，那么重量为 &lt;code&gt;x&lt;/code&gt; 的石头将会完全粉碎，而重量为 &lt;code&gt;y&lt;/code&gt; 的石头新重量为 &lt;code&gt;y-x&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;最后，&lt;strong&gt;最多只会剩下一块&lt;/strong&gt; 石头。返回此石头 &lt;strong&gt;最小的可能重量&lt;/strong&gt; 。如果没有石头剩下，就返回 &lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode416.分割等和子集</title>
@@ -453,35 +480,6 @@ F(n) &amp;#x3D; F(n - 1) + F(n - 2)，其中 n &amp;gt; 1&lt;/code&gt;&lt;/pre&g
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;小蓝正在学习一门神奇的语言，这门语言中的单词都是由小写英文字母组 成，有些单词很长，远远超过正常英文单词的长度。小蓝学了很长时间也记不住一些单词，他准备不再完全记忆这些单词，而是根据单词中哪个字母出现得最多来分辨单词。&lt;/p&gt;
 &lt;p&gt;现在，请你帮助小蓝，给了一个单词后，帮助他找到出现最多的字母和这 个字母出现的次数。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="蓝桥杯" scheme="tags/蓝桥杯/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>蓝桥杯真题-门牌制作</title>
-    <link href="2023/04/03/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%9F%E9%A2%98-%E9%97%A8%E7%89%8C%E5%88%B6%E4%BD%9C/"/>
-    <id>2023/04/03/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%9F%E9%A2%98-%E9%97%A8%E7%89%8C%E5%88%B6%E4%BD%9C/</id>
-    <published>2023-04-03T08:29:27.000Z</published>
-    <updated>2023-04-09T06:43:56.826Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>小蓝要为一条街的住户制作门牌号。</p><p>这条街一共有 2020 位住户，门牌号从 1 到 2020 编号。</p><p>小蓝制作门牌的方法是先制作 0 到 9 这几个数字字符，最后根据需要将字符粘贴到门牌上，例如门牌 1017 需要依次粘贴字符 1、0、1、7，即需要 1 个字符 0，2 个字符 1，1 个字符 7。</p><p>请问要制作所有的 1 到 2020 号门牌，总共需要多少个字符 2？</p><p><strong>运行限制</strong></p><ul><li>最大运行时间：1s</li><li>最大运行内存: 128M</li></ul><span id="more"></span><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;using namespace std;int main()&#123;    int result &#x3D; 0; &#x2F;&#x2F; 初始化需要数字2的个数为0    for (int i &#x3D; 1; i &lt;&#x3D; 2020; i++) &#123; &#x2F;&#x2F; 循环，从1到2020        int temp &#x3D; i; &#x2F;&#x2F; 令temp&#x3D;i，方便后续判断字符2个数的操作        while (temp &gt; 0) &#123;            if (temp % 10 &#x3D;&#x3D; 2) &#123; &#x2F;&#x2F; 如果temp中最后一位是2                result++; &#x2F;&#x2F; result自增            &#125;            temp &#x2F;&#x3D; 10; &#x2F;&#x2F; temp&#x2F;&#x3D;10去掉最后一位数字        &#125;    &#125;    printf(&quot;%d&quot;, result);&#x2F;&#x2F; 输出结果    return 0;&#125;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;小蓝要为一条街的住户制作门牌号。&lt;/p&gt;
-&lt;p&gt;这条街一共有 2020 位住户，门牌号从 1 到 2020 编号。&lt;/p&gt;
-&lt;p&gt;小蓝制作门牌的方法是先制作 0 到 9 这几个数字字符，最后根据需要将字符粘贴到门牌上，例如门牌 1017 需要依次粘贴字符 1、0、1、7，即需要 1 个字符 0，2 个字符 1，1 个字符 7。&lt;/p&gt;
-&lt;p&gt;请问要制作所有的 1 到 2020 号门牌，总共需要多少个字符 2？&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;运行限制&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;最大运行时间：1s&lt;/li&gt;
-&lt;li&gt;最大运行内存: 128M&lt;/li&gt;
-&lt;/ul&gt;</summary>
     
     
     
