@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-04-26T06:53:13.715Z</updated>
+  <updated>2023-04-27T06:16:29.454Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode123.买卖股票的最佳时机III</title>
+    <link href="2023/04/27/leetcode123-%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAIII/"/>
+    <id>2023/04/27/leetcode123-%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAIII/</id>
+    <published>2023-04-27T06:13:04.000Z</published>
+    <updated>2023-04-27T06:16:29.454Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个数组，它的第 <code>i</code> 个元素是一支给定的股票在第 <code>i</code> 天的价格。</p><p>设计一个算法来计算你所能获取的最大利润。你最多可以完成 <strong>两笔</strong> 交易。</p><p><strong>注意：</strong>你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p> <span id="more"></span><p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入：prices &#x3D; [3,3,5,0,0,3,1,4]输出：6解释：在第 4 天（股票价格 &#x3D; 0）的时候买入，在第 6 天（股票价格 &#x3D; 3）的时候卖出，这笔交易所能获得利润 &#x3D; 3-0 &#x3D; 3 。     随后，在第 7 天（股票价格 &#x3D; 1）的时候买入，在第 8 天 （股票价格 &#x3D; 4）的时候卖出，这笔交易所能获得利润 &#x3D; 4-1 &#x3D; 3 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：prices &#x3D; [1,2,3,4,5]输出：4解释：在第 1 天（股票价格 &#x3D; 1）的时候买入，在第 5 天 （股票价格 &#x3D; 5）的时候卖出, 这笔交易所能获得利润 &#x3D; 5-1 &#x3D; 4 。        注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。        因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：prices &#x3D; [7,6,4,3,1] 输出：0 解释：在这个情况下, 没有交易完成, 所以最大利润为 0。</code></pre><p><strong>示例 4：</strong></p><pre class="language-none"><code class="language-none">输入：prices &#x3D; [1]输出：0</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= prices.length &lt;= 105</code></li><li><code>0 &lt;= prices[i] &lt;= 105</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>动态规划</li></ol><p>这道题是需要我们计算在最多进行两次买卖的情况下，所能获得的最大利润。我们可以定义四个状态分别为：</p><ul><li><code>buy1</code>表示第一次买入时的最大收益；</li></ul><ul><li><code>sell1</code>表示第一次卖出时的最大收益；</li><li><code>buy2</code>表示第二次买入时的最大收益；</li><li><code>sell2</code>表示第二次卖出时的最大收益。</li></ul><p>对于这四个状态，我们可以使用动态规划算法进行求解。具体地，对于第i天的情况，我们有以下状态转移方程：</p><pre class="language-C++" data-language="C++"><code class="language-C++">buy1 &#x3D; max(buy1, -prices[i]);    &#x2F;&#x2F;第一次买入的最大收益，可以选择不进行或进行sell1 &#x3D; max(sell1, buy1 + prices[i]);  &#x2F;&#x2F;第一次卖出的最大收益，可以选择不进行或进行buy2 &#x3D; max(buy2, sell1 - prices[i]);  &#x2F;&#x2F;第二次买入的最大收益，可以选择不进行或进行sell2 &#x3D; max(sell2, buy2 + prices[i]); &#x2F;&#x2F;第二次卖出的最大收益，可以选择不进行或进行</code></pre><p>其中，<code>buy1</code>和<code>buy2</code>的更新都使用上一次买入的最大收益减去当前股票价格来更新，因为如果当前的股票价格越低，那么买入的收益也就越大。而对于<code>sell1</code>和<code>sell2</code>的更新则使用上一次的买入收益加上当前股票价格来更新，因为如果当前的股票价格越高，那么卖出的收益也就越大。</p><p>最后，我们的最大收益就是第二次卖出时的最大收益<code>sell2</code>。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int maxProfit(vector&lt;int&gt;&amp; prices) &#123;        int buy1 &#x3D; -prices[0], sell1 &#x3D; 0, buy2 &#x3D; -prices[0], sell2 &#x3D; 0;        for(int i &#x3D; 1; i &lt; prices.size(); i++)&#123;            &#x2F;&#x2F; 第一次买入的最大收益，可以选择不进行或进行            buy1 &#x3D; max(buy1, -prices[i]);            &#x2F;&#x2F; 第一次卖出的最大收益，可以选择不进行或进行            sell1 &#x3D; max(sell1, buy1 + prices[i]);            &#x2F;&#x2F; 第二次买入的最大收益，可以选择不进行或进行            buy2 &#x3D; max(buy2, sell1 - prices[i]);            &#x2F;&#x2F; 第二次卖出的最大收益，可以选择不进行或进行            sell2 &#x3D; max(sell2, buy2 + prices[i]);        &#125;        &#x2F;&#x2F; 返回第二次卖出时的最大收益        return sell2;    &#125;&#125;;</code></pre><p>时间复杂度：O(n)，其中n是股票的天数，只需要遍历一遍数组即可求解。</p><p>空间复杂度：O(1)，使用了常数个变量来存储状态。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个数组，它的第 &lt;code&gt;i&lt;/code&gt; 个元素是一支给定的股票在第 &lt;code&gt;i&lt;/code&gt; 天的价格。&lt;/p&gt;
+&lt;p&gt;设计一个算法来计算你所能获取的最大利润。你最多可以完成 &lt;strong&gt;两笔&lt;/strong&gt; 交易。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode1049.最后一块石头的重量II</title>
@@ -465,28 +488,6 @@ F(n) &amp;#x3D; F(n - 1) + F(n - 2)，其中 n &amp;gt; 1&lt;/code&gt;&lt;/pre&g
     <category term="云计算" scheme="tags/云计算/"/>
     
     <category term="工作流调度" scheme="tags/工作流调度/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>蓝桥杯真题-单词分析</title>
-    <link href="2023/04/04/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%9F%E9%A2%98-%E5%8D%95%E8%AF%8D%E5%88%86%E6%9E%90/"/>
-    <id>2023/04/04/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%9F%E9%A2%98-%E5%8D%95%E8%AF%8D%E5%88%86%E6%9E%90/</id>
-    <published>2023-04-04T07:48:17.000Z</published>
-    <updated>2023-04-04T07:52:47.633Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>小蓝正在学习一门神奇的语言，这门语言中的单词都是由小写英文字母组 成，有些单词很长，远远超过正常英文单词的长度。小蓝学了很长时间也记不住一些单词，他准备不再完全记忆这些单词，而是根据单词中哪个字母出现得最多来分辨单词。</p><p>现在，请你帮助小蓝，给了一个单词后，帮助他找到出现最多的字母和这 个字母出现的次数。</p><span id="more"></span><p><strong>输入描述</strong></p><p>输入一行包含一个单词，单词只由小写英文字母组成。</p><p>对于所有的评测用例，输入的单词长度不超过 1000。</p><p><strong>输出描述</strong></p><p>输出两行，第一行包含一个英文字母，表示单词中出现得最多的字母是哪 个。如果有多个字母出现的次数相等，输出字典序最小的那个。</p><p>第二行包含一个整数，表示出现得最多的那个字母在单词中出现的次数。</p><p><strong>输入输出样例</strong></p><p><strong>示例 1</strong></p><blockquote><p>输入</p></blockquote><pre class="language-txt" data-language="txt"><code class="language-txt">lanqiao</code></pre><blockquote><p>输出</p></blockquote><pre class="language-txt" data-language="txt"><code class="language-txt">a2</code></pre><p><strong>示例 2</strong></p><blockquote><p>输入</p></blockquote><pre class="language-txt" data-language="txt"><code class="language-txt">longlonglongistoolong</code></pre><blockquote><p>输出</p></blockquote><pre class="language-txt" data-language="txt"><code class="language-txt">o6</code></pre><h3 id="运行限制"><a href="#运行限制" class="headerlink" title="运行限制"></a>运行限制</h3><ul><li>最大运行时间：1s</li><li>最大运行内存: 256M</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;using namespace std;int main()&#123;    string word; &#x2F;&#x2F; 定义输入的单词变量    cin &gt;&gt; word; &#x2F;&#x2F; 用输入流为其赋值    int cnt[26] &#x3D; &#123;0&#125;; &#x2F;&#x2F; 初始化计数器    int index &#x3D; -1; &#x2F;&#x2F; 初始化计数器所用的下标    for (char s: word) &#123;        index &#x3D; s - &#39;a&#39;; &#x2F;&#x2F; 获取当前字母在计数器中的下标        cnt[index]++; &#x2F;&#x2F; 对应的计数自增1    &#125;    int max &#x3D; -1; &#x2F;&#x2F; 计数器中的最大值    int max_index &#x3D; -1; &#x2F;&#x2F; 计数器中最大值对应的最小下标    for (int i &#x3D; 0; i &lt; 26; i++) &#123;        if (cnt[i] &gt; max) &#123;            max &#x3D; cnt[i]; &#x2F;&#x2F; 最大值迭代            max_index &#x3D; i; &#x2F;&#x2F; 最大值的最小下标迭代，若最大值未更新，下标也不会更新        &#125;    &#125;    char answer &#x3D; &#39;a&#39; + max_index; &#x2F;&#x2F; 得到字母个数最多的字母    cout &lt;&lt; answer &lt;&lt; endl; &#x2F;&#x2F; 输出题目要求的第一行答案    cout &lt;&lt; max &lt;&lt; endl; &#x2F;&#x2F; 输出题目要求的第二行答案    return 0;&#125;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;小蓝正在学习一门神奇的语言，这门语言中的单词都是由小写英文字母组 成，有些单词很长，远远超过正常英文单词的长度。小蓝学了很长时间也记不住一些单词，他准备不再完全记忆这些单词，而是根据单词中哪个字母出现得最多来分辨单词。&lt;/p&gt;
-&lt;p&gt;现在，请你帮助小蓝，给了一个单词后，帮助他找到出现最多的字母和这 个字母出现的次数。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="蓝桥杯" scheme="tags/蓝桥杯/"/>
     
   </entry>
   
