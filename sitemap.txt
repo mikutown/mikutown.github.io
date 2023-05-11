@@ -166,10 +166,10 @@ categories/index.html
 links/index.html
 tags/index.html
 https://leafii.top/
-tags/python/
-tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/
 tags/Linux/
 tags/MySQL/
+tags/python/
+tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/
 tags/Git/
 tags/Go/
 tags/javaWeb/
