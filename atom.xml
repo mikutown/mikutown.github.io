@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-05-11T02:57:25.237Z</updated>
+  <updated>2023-05-12T09:46:16.438Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode84.柱状图中最大的矩形</title>
+    <link href="2023/05/12/leetcode84-%E6%9F%B1%E7%8A%B6%E5%9B%BE%E4%B8%AD%E6%9C%80%E5%A4%A7%E7%9A%84%E7%9F%A9%E5%BD%A2/"/>
+    <id>2023/05/12/leetcode84-%E6%9F%B1%E7%8A%B6%E5%9B%BE%E4%B8%AD%E6%9C%80%E5%A4%A7%E7%9A%84%E7%9F%A9%E5%BD%A2/</id>
+    <published>2023-05-12T09:43:04.000Z</published>
+    <updated>2023-05-12T09:46:16.438Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定 <em>n</em> 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。</p><p>求在该柱状图中，能够勾勒出来的矩形的最大面积。</p><span id="more"></span> <p><strong>示例 1:</strong></p><p><img src="http://cdn.leafii.top/img/histogram.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：heights &#x3D; [2,1,5,6,2,3]输出：10解释：最大的矩形为图中红色区域，面积为 10</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/histogram-1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入： heights &#x3D; [2,4]输出： 4</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= heights.length &lt;=105</code></li><li><code>0 &lt;= heights[i] &lt;= 104</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>解题思路：</p><ol><li>遍历给定的柱状图高度数组 <code>heights</code>，依次处理每个柱子。</li><li>使用一个栈来保存递增序列的索引。栈中的索引对应的柱子高度是递增的。</li><li>对于每个柱子，如果当前高度小于栈顶元素对应的高度，说明找到了栈顶元素的右边界。</li><li>弹出栈顶元素，并计算以栈顶元素为高度的矩形的面积。面积的宽度可以通过当前索引和新的栈顶元素索引之间的距离计算得到。</li><li>更新最大面积值。</li><li>将当前索引入栈，继续下一个柱子的处理。</li><li>遍历完所有柱子后，栈中剩余的索引对应的柱子高度没有右边界，因此以这些柱子高度计算的矩形面积可以直接得到。</li><li>返回最大面积值。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;stack&gt;#include &lt;vector&gt;using namespace std;int largestRectangleArea(vector&lt;int&gt;&amp; heights) &#123;    int n &#x3D; heights.size();    stack&lt;int&gt; st; &#x2F;&#x2F; 使用栈来保存递增序列的索引    int maxArea &#x3D; 0;    for (int i &#x3D; 0; i &lt;&#x3D; n; i++) &#123;        &#x2F;&#x2F; 如果当前高度小于栈顶元素对应的高度，说明找到了栈顶元素的右边界        &#x2F;&#x2F; 计算以栈顶元素为高度的矩形的面积，并更新最大面积        while (!st.empty() &amp;&amp; (i &#x3D;&#x3D; n || heights[i] &lt; heights[st.top()])) &#123;            int h &#x3D; heights[st.top()];            st.pop();            int w &#x3D; st.empty() ? i : (i - st.top() - 1);            maxArea &#x3D; max(maxArea, h * w);        &#125;        &#x2F;&#x2F; 将当前索引入栈        st.push(i);    &#125;    return maxArea;&#125;int main() &#123;    vector&lt;int&gt; heights &#x3D; &#123;2, 1, 5, 6, 2, 3&#125;;    int maxArea &#x3D; largestRectangleArea(heights);    cout &lt;&lt; &quot;最大矩形的面积为：&quot; &lt;&lt; maxArea &lt;&lt; endl;    return 0;&#125;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定 &lt;em&gt;n&lt;/em&gt; 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。&lt;/p&gt;
+&lt;p&gt;求在该柱状图中，能够勾勒出来的矩形的最大面积。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode739.每日温度</title>
@@ -449,29 +471,6 @@
 &lt;p&gt;机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish”）。&lt;/p&gt;
 &lt;p&gt;现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？&lt;/p&gt;
 &lt;p&gt;网格中的障碍物和空位置分别用 &lt;code&gt;1&lt;/code&gt; 和 &lt;code&gt;0&lt;/code&gt; 来表示。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode62.不同路径</title>
-    <link href="2023/04/12/leetcode62-%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84/"/>
-    <id>2023/04/12/leetcode62-%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84/</id>
-    <published>2023-04-12T00:57:03.000Z</published>
-    <updated>2023-04-12T01:21:20.348Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>一个机器人位于一个 <code>m x n</code> 网格的左上角 （起始点在下图中标记为 “Start” ）。</p><p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。</p><p>问总共有多少条不同的路径？</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/robot_maze.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：m &#x3D; 3, n &#x3D; 7输出：28</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：m &#x3D; 3, n &#x3D; 2输出：3解释：从左上角开始，总共有 3 条路径可以到达右下角。1. 向右 -&gt; 向下 -&gt; 向下2. 向下 -&gt; 向下 -&gt; 向右3. 向下 -&gt; 向右 -&gt; 向下</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：m &#x3D; 7, n &#x3D; 3输出：28</code></pre><p><strong>示例 4：</strong></p><pre class="language-none"><code class="language-none">输入：m &#x3D; 3, n &#x3D; 3输出：6</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= m, n &lt;= 100</code></li><li>题目数据保证答案小于等于 <code>2 * 109</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>这是一道比较典型的动态规划问题。我们定义一个二维数组<code>dp[i][j]</code>表示从左上角出发到第i行第j列的格子的不同路径数目。</p><p>根据题目要求，从第一行第一列出发只能向下或向右移动一步，因此<code>dp[0][j]</code>和<code>dp[i][0]</code>的值都为1。</p><p>对于其他的格子，其到达的路径有两种：从上方的格子到达和从左边的格子到达。因此，其不同路径数目为到达其上方格子的路径数目加上到达其左边格子的路径数目之和，即：</p><p><code>dp[i][j] = dp[i-1][j] + dp[i][j-1]</code></p><p>最终答案为<code>dp[m-1][n-1]</code>，即到达右下角的不同路径数目。C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int uniquePaths(int m, int n) &#123;        &#x2F;&#x2F; 定义二维数组dp        vector&lt;vector&lt;int&gt;&gt; dp(m, vector&lt;int&gt;(n, 1));        &#x2F;&#x2F; 对于除第一行第一列外的其他格子，其不同路径数目为到达其上方格子的路径数目加上到达其左边格子的路径数目之和        for (int i &#x3D; 1; i &lt; m; i++) &#123;            for (int j &#x3D; 1; j &lt; n; j++) &#123;                dp[i][j] &#x3D; dp[i-1][j] + dp[i][j-1];            &#125;        &#125;        &#x2F;&#x2F; 返回右下角格子的不同路径数目        return dp[m-1][n-1];    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;一个机器人位于一个 &lt;code&gt;m x n&lt;/code&gt; 网格的左上角 （起始点在下图中标记为 “Start” ）。&lt;/p&gt;
-&lt;p&gt;机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。&lt;/p&gt;
-&lt;p&gt;问总共有多少条不同的路径？&lt;/p&gt;</summary>
     
     
     
