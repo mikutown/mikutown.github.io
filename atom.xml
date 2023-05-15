@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-05-12T09:46:16.438Z</updated>
+  <updated>2023-05-15T10:41:13.437Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,58 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode1925.统计平方和三元组的数目</title>
+    <link href="2023/05/15/leetcode1925-%E7%BB%9F%E8%AE%A1%E5%B9%B3%E6%96%B9%E5%92%8C%E4%B8%89%E5%85%83%E7%BB%84%E7%9A%84%E6%95%B0%E7%9B%AE/"/>
+    <id>2023/05/15/leetcode1925-%E7%BB%9F%E8%AE%A1%E5%B9%B3%E6%96%B9%E5%92%8C%E4%B8%89%E5%85%83%E7%BB%84%E7%9A%84%E6%95%B0%E7%9B%AE/</id>
+    <published>2023-05-15T10:10:26.000Z</published>
+    <updated>2023-05-15T10:41:13.437Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>一个 <strong>平方和三元组</strong> <code>(a,b,c)</code> 指的是满足 <code>a2 + b2 = c2</code> 的 <strong>整数</strong> 三元组 <code>a</code>，<code>b</code> 和 <code>c</code> 。</p><p>给你一个整数 <code>n</code> ，请你返回满足 <code>1 &lt;= a, b, c &lt;= n</code> 的 <strong>平方和三元组</strong> 的数目。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 5输出：2解释：平方和三元组为 (3,4,5) 和 (4,3,5) 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 10输出：4解释：平方和三元组为 (3,4,5)，(4,3,5)，(6,8,10) 和 (8,6,10) 。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= n &lt;= 250</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力枚举</li></ul><p>直接进行枚举即可。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int countTriples(int n) &#123;        int cnt &#x3D; 0;  &#x2F;&#x2F; 计数器，用于记录满足条件的三元组数量        for (int a &#x3D; 1; a &lt;&#x3D; n; a++) &#123;  &#x2F;&#x2F; 遍历a的范围从1到n            for (int b &#x3D; a + 1; b &lt;&#x3D; n; b++) &#123;  &#x2F;&#x2F; 遍历b的范围从a+1到n                for (int c &#x3D; b + 1; c &lt;&#x3D; n; c++) &#123;  &#x2F;&#x2F; 遍历c的范围从b+1到n                    if (a * a + b * b &#x3D;&#x3D; c * c) &#123;  &#x2F;&#x2F; 检查是否满足勾股定理                        cnt +&#x3D; 2;  &#x2F;&#x2F; 满足条件的三元组数量加2                    &#125;                &#125;            &#125;        &#125;        return cnt;  &#x2F;&#x2F; 返回满足条件的三元组数量    &#125;&#125;;</code></pre><ul><li>通过固定C降低时间复杂度</li></ul><p>暴力枚举法的复杂度为O(n^3)，我们可以对其进行一些优化，比如固定c，只保留a和b的循环。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int countTriples(int n) &#123;        int cnt &#x3D; 0;  &#x2F;&#x2F; 计数器，用于记录满足条件的三元组数量        for (int a &#x3D; 1; a &lt;&#x3D; n; a++) &#123;  &#x2F;&#x2F; 遍历a的范围从1到n            for (int b &#x3D; a + 1; b &lt;&#x3D; n; b++) &#123;  &#x2F;&#x2F; 遍历b的范围从a+1到n                int c_square &#x3D; a * a + b * b; &#x2F;&#x2F;  定义c_square&#x3D;a*a+b*b                int c &#x3D; sqrt(c_square); &#x2F;&#x2F; 得到整型的变量c，其值为c_square的平方根                 if (c &lt;&#x3D; n &amp;&amp; c * c &#x3D;&#x3D; c_square) &#123; &#x2F;&#x2F; 因为c是被强制转换成int类型进行存储的，所以不仅要判断c是否小于n还要确定c的平方确实等于c_square                    cnt +&#x3D; 2; &#x2F;&#x2F; 若符合要求，则cnt+&#x3D;2 比如（3，4，5）和（4，3，5）只判断一次，但cnt+&#x3D;2；                &#125;            &#125;        &#125;        return cnt;  &#x2F;&#x2F; 返回满足条件的三元组数量    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;一个 &lt;strong&gt;平方和三元组&lt;/strong&gt; &lt;code&gt;(a,b,c)&lt;/code&gt; 指的是满足 &lt;code&gt;a2 + b2 = c2&lt;/code&gt; 的 &lt;strong&gt;整数&lt;/strong&gt; 三元组 &lt;code&gt;a&lt;/code&gt;，&lt;code&gt;b&lt;/code&gt; 和 &lt;code&gt;c&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;给你一个整数 &lt;code&gt;n&lt;/code&gt; ，请你返回满足 &lt;code&gt;1 &amp;lt;= a, b, c &amp;lt;= n&lt;/code&gt; 的 &lt;strong&gt;平方和三元组&lt;/strong&gt; 的数目。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>leetcode1534.统计好三元组</title>
+    <link href="2023/05/14/leetcode1534-%E7%BB%9F%E8%AE%A1%E5%A5%BD%E4%B8%89%E5%85%83%E7%BB%84/"/>
+    <id>2023/05/14/leetcode1534-%E7%BB%9F%E8%AE%A1%E5%A5%BD%E4%B8%89%E5%85%83%E7%BB%84/</id>
+    <published>2023-05-14T06:52:41.000Z</published>
+    <updated>2023-05-14T06:56:17.370Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数数组 <code>arr</code> ，以及 <code>a</code>、<code>b</code> 、<code>c</code> 三个整数。请你统计其中好三元组的数量。</p><p>如果三元组 <code>(arr[i], arr[j], arr[k])</code> 满足下列全部条件，则认为它是一个 <strong>好三元组</strong> 。</p><ul><li><code>0 &lt;= i &lt; j &lt; k &lt; arr.length</code></li><li><code>|arr[i] - arr[j]| &lt;= a</code></li><li><code>|arr[j] - arr[k]| &lt;= b</code></li><li><code>|arr[i] - arr[k]| &lt;= c</code></li></ul><p>其中 <code>|x|</code> 表示 <code>x</code> 的绝对值。</p><p>返回 <strong>好三元组的数量</strong> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [3,0,1,1,9,7], a &#x3D; 7, b &#x3D; 2, c &#x3D; 3输出：4解释：一共有 4 个好三元组：[(3,0,1), (3,0,1), (3,1,1), (0,1,1)] 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [1,1,2,2,3], a &#x3D; 0, b &#x3D; 0, c &#x3D; 1输出：0解释：不存在满足所有条件的三元组。</code></pre><p><strong>提示：</strong></p><ul><li><code>3 &lt;= arr.length &lt;= 100</code></li><li><code>0 &lt;= arr[i] &lt;= 1000</code></li><li><code>0 &lt;= a, b, c &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力枚举</li></ul><p>直接模拟暴力枚举即可，代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int countGoodTriplets(vector&lt;int&gt;&amp; arr, int a, int b, int c) &#123;        int len &#x3D; arr.size();  &#x2F;&#x2F; 获取数组的长度        int cnt &#x3D; 0;  &#x2F;&#x2F; 计数器，记录符合条件的三元组数量        for (int i &#x3D; 0; i &lt; len - 2; i++) &#123;  &#x2F;&#x2F; 第一个数的索引范围是 [0, len - 3]            for (int j &#x3D; i + 1; j &lt; len - 1; j++) &#123;  &#x2F;&#x2F; 第二个数的索引范围是 [i+1, len - 2]                for (int k &#x3D; j + 1; k &lt; len; k++) &#123;  &#x2F;&#x2F; 第三个数的索引范围是 [j+1, len - 1]                    if (abs(arr[i] - arr[j]) &lt;&#x3D; a &amp;&amp; abs(arr[j] - arr[k]) &lt;&#x3D; b &amp;&amp; abs(arr[i] - arr[k]) &lt;&#x3D; c) &#123;                        &#x2F;&#x2F; 检查三元组的条件：两个数之间的差值都不超过给定的限制                        cnt++;  &#x2F;&#x2F; 符合条件的三元组数量加一                    &#125;                &#125;            &#125;        &#125;        return cnt;  &#x2F;&#x2F; 返回符合条件的三元组数量    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;arr&lt;/code&gt; ，以及 &lt;code&gt;a&lt;/code&gt;、&lt;code&gt;b&lt;/code&gt; 、&lt;code&gt;c&lt;/code&gt; 三个整数。请你统计其中好三元组的数量。&lt;/p&gt;
+&lt;p&gt;如果三元组 &lt;code&gt;(arr[i], arr[j], arr[k])&lt;/code&gt; 满足下列全部条件，则认为它是一个 &lt;strong&gt;好三元组&lt;/strong&gt; 。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;0 &amp;lt;= i &amp;lt; j &amp;lt; k &amp;lt; arr.length&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;|arr[i] - arr[j]| &amp;lt;= a&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;|arr[j] - arr[k]| &amp;lt;= b&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;|arr[i] - arr[k]| &amp;lt;= c&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其中 &lt;code&gt;|x|&lt;/code&gt; 表示 &lt;code&gt;x&lt;/code&gt; 的绝对值。&lt;/p&gt;
+&lt;p&gt;返回 &lt;strong&gt;好三元组的数量&lt;/strong&gt; 。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode84.柱状图中最大的矩形</title>
@@ -419,55 +471,6 @@
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数 &lt;code&gt;n&lt;/code&gt;，请你判断该整数是否是 2 的幂次方。如果是，返回 &lt;code&gt;true&lt;/code&gt; ；否则，返回 &lt;code&gt;false&lt;/code&gt; 。&lt;/p&gt;
 &lt;p&gt;如果存在一个整数 &lt;code&gt;x&lt;/code&gt; 使得 $n &amp;#x3D;&amp;#x3D; 2^x$ ，则认为 &lt;code&gt;n&lt;/code&gt; 是 2 的幂次方。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode342.4的幂</title>
-    <link href="2023/04/16/leetcode342-4%E7%9A%84%E5%B9%82/"/>
-    <id>2023/04/16/leetcode342-4%E7%9A%84%E5%B9%82/</id>
-    <published>2023-04-16T07:35:33.000Z</published>
-    <updated>2023-04-17T01:29:58.995Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个整数，写一个函数来判断它是否是 4 的幂次方。如果是，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p><p>整数 <code>n</code> 是 4 的幂次方需满足：存在整数 <code>x</code> 使得 $n &#x3D;&#x3D; 4^x$</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 16输出：true</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 5输出：false</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 1输出：true</code></pre><p><strong>提示：</strong></p><ul><li>$-2^{31} &lt;&#x3D; n &lt;&#x3D; 2^{31} - 1$</li></ul><p><strong>进阶：</strong>你能不使用循环或者递归来完成本题吗？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>循环</li></ol><p>直接使用循环进行<code>n/=4</code>的操作,到最后n小于3时根据n是否为1来判断原本的n是否为4的幂次</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isPowerOfFour(int n) &#123;        while(n &gt; 3) &#123;            if (n % 4 &#x3D;&#x3D; 0) &#123; &#x2F;&#x2F; 判断n是否是4的整倍数 （在n大于3的情况下）                n &#x2F;&#x3D; 4;            &#125;            else return false; &#x2F;&#x2F; 如果不是直接返回false        &#125;        if (n &#x3D;&#x3D; 1) return true; &#x2F;&#x2F; &#x2F;&#x3D;操作结束后判断n是否为1 or n本来就为1的时候应该直接返回true        return false;    &#125;&#125;;</code></pre><ol start="2"><li>递归</li></ol><p>如题，直接递归就完事了</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isPowerOfFour(int n) &#123;        if (n &#x3D;&#x3D; 1 || n &#x3D;&#x3D; 4) return true; &#x2F;&#x2F; 返回true的条件        else if (n &gt; 4) &#123;            if (n % 4 !&#x3D; 0) return false; &#x2F;&#x2F; 余数不为0 直接返回false            else return isPowerOfFour(n &#x2F; 4); &#x2F;&#x2F; 通过递归完成对n的更新        &#125;        return false;     &#125;&#125;;</code></pre><ol start="3"><li>使用位与运算符和掩码</li></ol><p>首先，我们需要检查n是否为正数，并且它的二进制表示中只有一个1。这是因为4的幂次方的二进制表示中只有一个1。因此，如果n不是正数或者它的二进制表示中有多个1，则它不是4的幂。</p><p>其次，我们需要使用位运算来检查n是否为4的幂。我们可以使用位与运算符（&amp;）和一个掩码来完成此操作。掩码是一个32位整数，它的二进制表示中只有偶数位为1，奇数位为0。如果n是4的幂，则它的二进制表示中的1只能在偶数位上出现。因此，如果我们将n与掩码进行位与运算，结果应该等于n本身。</p><p>最终，如果n既是正数且只有一个1，又是4的幂，则函数返回true；否则，返回false。</p><p>详细的说，当你看到一个整数n时，你需要确定它是否是4的幂次方。一个正整数n是4的幂次方，当且仅当它满足以下两个条件：</p><ol><li>n是正整数，并且它的二进制表示中只有一个1，例如1、4、16等；</li><li>n可以表示为$4^k$的形式，其中k是一个非负整数。</li></ol><p>因此，我们需要找到一种方法来检查n是否满足这两个条件。在不使用循环或递归的前提下，我们可以使用位运算来实现这个目标。</p><p>首先，我们检查n是否为正整数，这可以通过检查n是否大于0来实现。然后，我们需要检查n的二进制表示中只有一个1。如果我们将n减去1，那么所有在原来的二进制表示中为1的位都会变成0，而它后面的所有位都会变成1。例如，如果n的二进制表示为10000，那么n-1的二进制表示为01111。如果我们将n和n-1进行位与运算，结果将为0。因为n的二进制表示中只有一个1，所以n-1的二进制表示中所有的1都位于n的二进制表示中的0的位置上，因此它们不会在位与运算中重叠。如果n的二进制表示中有多个1，则n-1的二进制表示中将有一个以上的1与n的二进制表示中的1重叠，这样位与运算的结果将不为0。</p><p>接下来，我们需要使用位运算来检查n是否可以表示为4的幂。我们知道，4的幂的二进制表示中的1只能出现在偶数位上，例如100、10000、1000000等。因此，我们可以使用一个掩码来将所有奇数位上的位设置为0，而偶数位上的位设置为1。这个掩码可以是0x55555555，它的二进制表示为01010101010101010101010101010101。如果我们将n与这个掩码进行位与运算，结果将为n本身，如果n不能表示为4的幂，则结果将不为n本身。</p><p>最后，如果n既是正整数且只有一个1，又是4的幂，则函数返回true，否则返回false。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isPowerOfFour(int n) &#123;        &#x2F;&#x2F; 检查n是否为正数，且n的二进制表示只有一个1，且n是否为4的幂        return (n &gt; 0) &amp;&amp; ((n &amp; (n - 1)) &#x3D;&#x3D; 0) &amp;&amp; ((n &amp; 0x55555555) &#x3D;&#x3D; n);     &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个整数，写一个函数来判断它是否是 4 的幂次方。如果是，返回 &lt;code&gt;true&lt;/code&gt; ；否则，返回 &lt;code&gt;false&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;整数 &lt;code&gt;n&lt;/code&gt; 是 4 的幂次方需满足：存在整数 &lt;code&gt;x&lt;/code&gt; 使得 $n &amp;#x3D;&amp;#x3D; 4^x$&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode72.编辑距离</title>
-    <link href="2023/04/13/leetcode72-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/"/>
-    <id>2023/04/13/leetcode72-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/</id>
-    <published>2023-04-13T12:06:19.000Z</published>
-    <updated>2023-04-13T12:19:59.086Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你两个单词 <code>word1</code> 和 <code>word2</code>， <em>请返回将 <code>word1</code> 转换成 <code>word2</code> 所使用的最少操作数</em> 。</p><p>你可以对一个单词进行如下三种操作：</p><ul><li>插入一个字符</li><li>删除一个字符</li><li>替换一个字符</li></ul> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：word1 &#x3D; &quot;horse&quot;, word2 &#x3D; &quot;ros&quot;输出：3解释：horse -&gt; rorse (将 &#39;h&#39; 替换为 &#39;r&#39;)rorse -&gt; rose (删除 &#39;r&#39;)rose -&gt; ros (删除 &#39;e&#39;)</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：word1 &#x3D; &quot;intention&quot;, word2 &#x3D; &quot;execution&quot;输出：5解释：intention -&gt; inention (删除 &#39;t&#39;)inention -&gt; enention (将 &#39;i&#39; 替换为 &#39;e&#39;)enention -&gt; exention (将 &#39;n&#39; 替换为 &#39;x&#39;)exention -&gt; exection (将 &#39;n&#39; 替换为 &#39;c&#39;)exection -&gt; execution (插入 &#39;u&#39;)</code></pre><p><strong>提示：</strong></p><ul><li><code>0 &lt;= word1.length, word2.length &lt;= 500</code></li><li><code>word1</code> 和 <code>word2</code> 由小写英文字母组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>这道题要求我们找到从 word1 转换到 word2 所需要的最小操作数，其中每个操作都是插入、删除或替换一个字符。这道题可以使用动态规划来解决。我们可以定义一个 dp 数组，其中 dp[i][j] 表示从 word1 的前 i 个字符转换到 word2 的前 j 个字符所需的最小操作数。</p><p>当 i &#x3D; 0 时，表示 word1 为空，这时要将 word1 转换为 word2 的前 j 个字符，所以最小操作数就是 j。同样地，当 j &#x3D; 0 时，表示 word2 为空，这时要将 word1 转换为空字符串，所以最小操作数就是 i。</p><p>对于任意的 i 和 j，有以下两种情况：</p><ol><li>当 <code>word1[i-1] == word2[j-1] </code>时，不需要进行任何操作，所以 <code>dp[i][j] = dp[i-1][j-1]</code>。</li><li>当 <code>word1[i-1] != word2[j-1] </code>时，有三种操作可以选择，分别为：<ol><li>在 word1 的第 i 个字符后面插入一个和 word2 的第 j 个字符相同的字符，这样就可以让 word1 的前 i 个字符和 word2 的前 j 个字符相等。操作数为 <code>dp[i][j-1] + 1</code>。</li><li>删除 word1 的第 i 个字符，这样就可以让 word1 的前 i-1 个字符和 word2 的前 j 个字符相等。操作数为<code> dp[i-1][j] + 1</code>。</li><li>将 word1 的第 i 个字符替换成和 word2 的第 j 个字符相同的字符，这样就可以让 word1 的前 i 个字符和 word2 的前 j 个字符相等。操作数为 <code>dp[i-1][j-1] + 1</code>。</li></ol></li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int minDistance(string word1, string word2) &#123;        int m &#x3D; word1.size();  &#x2F;&#x2F; 获取 word1 的长度        int n &#x3D; word2.size();  &#x2F;&#x2F; 获取 word2 的长度        vector&lt;vector&lt;int&gt;&gt; dp(m+1, vector&lt;int&gt;(n+1));  &#x2F;&#x2F; 定义一个二维数组 dp，其中 dp[i][j] 表示从 word1 的前 i 个字符转换到 word2 的前 j 个字符所需的最小操作数        for (int i &#x3D; 0; i &lt;&#x3D; m; ++i) &#123;  &#x2F;&#x2F; 当 word2 为空字符串时，需要将 word1 转换为空字符串，所以最小操作数为 i            dp[i][0] &#x3D; i;        &#125;        for (int j &#x3D; 0; j &lt;&#x3D; n; ++j) &#123;  &#x2F;&#x2F; 当 word1 为空字符串时，需要将 word1 转换为 word2 的前 j 个字符，所以最小操作数为 j            dp[0][j] &#x3D; j;        &#125;        for (int i &#x3D; 1; i &lt;&#x3D; m; ++i) &#123;  &#x2F;&#x2F; 从 word1 的第一个字符开始遍历            for (int j &#x3D; 1; j &lt;&#x3D; n; ++j) &#123;  &#x2F;&#x2F; 从 word2 的第一个字符开始遍历                if (word1[i-1] &#x3D;&#x3D; word2[j-1]) &#123;  &#x2F;&#x2F; 如果 word1 的第 i 个字符和 word2 的第 j 个字符相等，不需要进行任何操作                    dp[i][j] &#x3D; dp[i-1][j-1];                &#125; else &#123;  &#x2F;&#x2F; 否则，有三种操作可以选择                    dp[i][j] &#x3D; min(dp[i][j-1], min(dp[i-1][j], dp[i-1][j-1])) + 1;  &#x2F;&#x2F; 分别为插入、删除和替换一个字符，选择操作数最小的那个                &#125;            &#125;        &#125;        return dp[m][n];  &#x2F;&#x2F; 返回最小操作数    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你两个单词 &lt;code&gt;word1&lt;/code&gt; 和 &lt;code&gt;word2&lt;/code&gt;， &lt;em&gt;请返回将 &lt;code&gt;word1&lt;/code&gt; 转换成 &lt;code&gt;word2&lt;/code&gt; 所使用的最少操作数&lt;/em&gt; 。&lt;/p&gt;
-&lt;p&gt;你可以对一个单词进行如下三种操作：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;插入一个字符&lt;/li&gt;
-&lt;li&gt;删除一个字符&lt;/li&gt;
-&lt;li&gt;替换一个字符&lt;/li&gt;
-&lt;/ul&gt;</summary>
     
     
     
