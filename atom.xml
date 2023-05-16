@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-05-15T10:41:13.437Z</updated>
+  <updated>2023-05-16T00:02:54.205Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode845.数组中的最长山脉</title>
+    <link href="2023/05/16/leetcode845-%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E9%95%BF%E5%B1%B1%E8%84%89/"/>
+    <id>2023/05/16/leetcode845-%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E9%95%BF%E5%B1%B1%E8%84%89/</id>
+    <published>2023-05-15T23:54:56.000Z</published>
+    <updated>2023-05-16T00:02:54.205Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>把符合下列属性的数组 <code>arr</code> 称为 <strong>山脉数组</strong> ：</p><ul><li><code>arr.length &gt;= 3</code></li><li>存在下标<code>i（0 &lt; i &lt; arr.length - 1），</code>满足<ul><li><code>arr[0] &lt; arr[1] &lt; ... &lt; arr[i - 1] &lt; arr[i]</code></li><li><code>arr[i] &gt; arr[i + 1] &gt; ... &gt; arr[arr.length - 1]</code></li></ul></li></ul><p>给出一个整数数组 <code>arr</code>，返回最长山脉子数组的长度。如果不存在山脉子数组，返回 <code>0</code> 。</p><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [2,1,4,7,3,2,5]输出：5解释：最长的山脉子数组是 [1,4,7,3,2]，长度为 5。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [2,2,2]输出：0解释：不存在山脉子数组。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= arr.length &lt;= 104</code></li><li><code>0 &lt;= arr[i] &lt;= 104</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>三指针法</li></ul><ol><li>首先，我们可以初始化三个指针：left、right和peak。<ul><li>left指针指向山脉数组的起点，即数组的第一个元素。</li><li>right指针指向山脉数组的终点，即数组的最后一个元素。</li><li>peak指针指向山脉数组的顶峰。</li></ul></li><li>我们可以通过移动right指针来找到山脉数组的终点。当数组的下一个元素比当前元素大的时候，我们可以继续移动right指针。如果下一个元素比当前元素小，我们将找到了山脉数组的终点。</li><li>一旦我们找到了山脉数组的终点，我们需要移动left指针。我们需要找到山脉数组的起点，即数组的第一个元素。我们可以通过移动left指针来找到山脉数组的起点。当数组的下一个元素比当前元素大的时候，我们可以继续移动left指针。</li><li>当我们找到山脉数组的起点和终点后，我们需要更新peak指针的位置。我们可以通过遍历山脉数组的起点到终点之间的元素，找到最大的元素，并更新peak指针的位置。</li><li>最后，我们可以计算山脉数组的长度，即右边界(right)减去左边界(left)再加1。如果山脉数组的长度大于等于3，就返回该长度；否则，返回0。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int longestMountain(vector&lt;int&gt;&amp; A) &#123;        int n &#x3D; A.size();        int left &#x3D; 0, right &#x3D; 0, peak &#x3D; 0;        int longestMountainLength &#x3D; 0;        while (left &lt; n) &#123;            right &#x3D; left;            &#x2F;&#x2F; 找到山脉数组的终点            if (right + 1 &lt; n &amp;&amp; A[right] &lt; A[right + 1]) &#123;                while (right + 1 &lt; n &amp;&amp; A[right] &lt; A[right + 1]) &#123;                    right++;                &#125;                &#x2F;&#x2F; 找到山脉数组的起点                if (right + 1 &lt; n &amp;&amp; A[right] &gt; A[right + 1]) &#123;                    peak &#x3D; right;                    while (peak + 1 &lt; n &amp;&amp; A[peak] &gt; A[peak + 1]) &#123;                        peak++;                    &#125;                    &#x2F;&#x2F; 更新最长山脉的长度                    longestMountainLength &#x3D; max(longestMountainLength, peak - left + 1);                &#125;            &#125;            left &#x3D; max(right, left + 1);        &#125;        return longestMountainLength &gt;&#x3D; 3 ? longestMountainLength : 0;    &#125;&#125;;</code></pre><ul><li>仅用一趟扫描,并仅用O(1)空间复杂度解决问题</li></ul><p>解题思路：</p><ol><li><p>初始化变量：</p><ul><li><code>up</code>：表示上升的长度（山脉的左半边）</li><li><code>down</code>：表示下降的长度（山脉的右半边）</li><li><code>maxLen</code>：表示最长山脉数组的长度</li></ul></li><li><p>从数组的第二个元素开始遍历：</p><ul><li><p>如果当前元素 <code>A[i]</code> 大于前一个元素 <code>A[i-1]</code>，则表示处于上升阶段，递增 <code>up</code> 的值，同时重置 <code>down</code> 的值为0。</p></li><li><p>如果当前元素 </p><pre class="language-none"><code class="language-none">A[i]</code></pre><p> 小于前一个元素 </p><pre class="language-none"><code class="language-none">A[i-1]</code></pre><p>：</p><ul><li>如果 <code>up</code> 大于0，表示已经处于山脉的下降阶段，递增 <code>down</code> 的值。</li><li>如果 <code>up</code> 等于0，表示还没有开始上升阶段，不进行任何操作。</li></ul></li></ul></li><li><p>当 <code>down</code> 大于0时，表示找到了山脉数组的终点，更新 <code>maxLen</code> 的值。然后将指针移动到山脉数组的下一个元素，即 <code>i</code> 加1，并重置 <code>up</code> 和 <code>down</code> 的值为0。</p></li><li><p>最后返回 <code>maxLen</code>，即为最长山脉数组的长度。</p></li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int longestMountain(vector&lt;int&gt;&amp; A) &#123;        int n &#x3D; A.size();        int up &#x3D; 0, down &#x3D; 0;  &#x2F;&#x2F; 上升和下降的长度        int maxLen &#x3D; 0;  &#x2F;&#x2F; 最长山脉数组的长度        for (int i &#x3D; 1; i &lt; n; i++) &#123;            if (A[i] &gt; A[i-1]) &#123;  &#x2F;&#x2F; 上升阶段                if (down &gt; 0) &#123;  &#x2F;&#x2F; 如果之前处于下降阶段，则重置上升和下降长度                    up &#x3D; 0;                    down &#x3D; 0;                &#125;                up++;  &#x2F;&#x2F; 递增上升长度            &#125; else if (A[i] &lt; A[i-1]) &#123;  &#x2F;&#x2F; 下降阶段                if (up &gt; 0) &#123;  &#x2F;&#x2F; 如果之前处于上升阶段                    down++;  &#x2F;&#x2F; 递增下降长度                    maxLen &#x3D; max(maxLen, up + down + 1);  &#x2F;&#x2F; 更新最长山脉数组的长度                &#125;            &#125; else &#123;  &#x2F;&#x2F; 平稳阶段，重置上升和下降长度                up &#x3D; 0;                down &#x3D; 0;            &#125;        &#125;        return maxLen;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;把符合下列属性的数组 &lt;code&gt;arr&lt;/code&gt; 称为 &lt;strong&gt;山脉数组&lt;/strong&gt; ：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;arr.length &amp;gt;= 3&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;存在下标&lt;code&gt;i（0 &amp;lt; i &amp;lt; arr.length - 1），&lt;/code&gt;满足&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;arr[0] &amp;lt; arr[1] &amp;lt; ... &amp;lt; arr[i - 1] &amp;lt; arr[i]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;arr[i] &amp;gt; arr[i + 1] &amp;gt; ... &amp;gt; arr[arr.length - 1]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;给出一个整数数组 &lt;code&gt;arr&lt;/code&gt;，返回最长山脉子数组的长度。如果不存在山脉子数组，返回 &lt;code&gt;0&lt;/code&gt; 。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode1925.统计平方和三元组的数目</title>
@@ -449,28 +479,6 @@
 &lt;li&gt;否则，圈子中最后一名小伙伴赢得游戏。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;给你参与游戏的小伙伴总数 &lt;code&gt;n&lt;/code&gt; ，和一个整数 &lt;code&gt;k&lt;/code&gt; ，返回游戏的获胜者。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode231.2的幂</title>
-    <link href="2023/04/17/leetcode231-2%E7%9A%84%E5%B9%82/"/>
-    <id>2023/04/17/leetcode231-2%E7%9A%84%E5%B9%82/</id>
-    <published>2023-04-17T01:09:01.000Z</published>
-    <updated>2023-04-17T01:33:35.704Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数 <code>n</code>，请你判断该整数是否是 2 的幂次方。如果是，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p><p>如果存在一个整数 <code>x</code> 使得 $n &#x3D;&#x3D; 2^x$ ，则认为 <code>n</code> 是 2 的幂次方。</p><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 1输出：true解释：20 &#x3D; 1</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 16输出：true解释：24 &#x3D; 16</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3输出：false</code></pre><p><strong>示例 4：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 4输出：true</code></pre><p><strong>示例 5：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 5输出：false</code></pre><p><strong>提示：</strong></p><ul><li>$-2{31} &lt;&#x3D; n &lt;&#x3D; 2^{31} - 1$</li></ul><p><strong>进阶：</strong>你能够不使用循环&#x2F;递归解决此问题吗？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>递归</li></ol><p>直接递归就好，注意n为0的情况</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isPowerOfTwo(int n) &#123;        if (n &#x3D;&#x3D; 1) return true; &#x2F;&#x2F; 如果n为1 直接返回true        if (n % 2 !&#x3D; 0 || n &#x3D;&#x3D; 0) return false; &#x2F;&#x2F; 如果n无法被2除尽，或者n为0，则直接返回false        return isPowerOfTwo(n &#x2F; 2); &#x2F;&#x2F; 否则返回递归的调用函数后的返回值    &#125;&#125;;</code></pre><ol start="2"><li>循环</li></ol><p>直接循环就行，简单易懂</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isPowerOfTwo(int n) &#123;        while (n &gt;&#x3D; 2) &#123;            if (n % 2 &#x3D;&#x3D; 0) n &#x2F;&#x3D; 2;            else return false; &#x2F;&#x2F; 如果n无法被2除尽，则直接返回false        &#125;        if (n &#x3D;&#x3D; 1) return true; &#x2F;&#x2F; 如果n为1 直接返回true        return false;    &#125;&#125;;</code></pre><ol start="3"><li>使用位与运算符和掩码</li></ol><p>在这个题里面只需要检测n为正数且n的二进制里面只有一个1存在即可;</p><p>首先，我们检查n是否为正整数，这可以通过检查n是否大于0来实现。然后，我们需要检查n的二进制表示中只有一个1。如果我们将n减去1，那么所有在原来的二进制表示中为1的位都会变成0，而它后面的所有位都会变成1。例如，如果n的二进制表示为10000，那么n-1的二进制表示为01111。如果我们将n和n-1进行位与运算，结果将为0。因为n的二进制表示中只有一个1，所以n-1的二进制表示中所有的1都位于n的二进制表示中的0的位置上，因此它们不会在位与运算中重叠。如果n的二进制表示中有多个1，则n-1的二进制表示中将有一个以上的1与n的二进制表示中的1重叠，这样位与运算的结果将不为0。</p><p>代码如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isPowerOfTwo(int n) &#123;        return ((n &gt; 0) &amp;&amp; (n &amp; (n - 1)) &#x3D;&#x3D; 0); &#x2F;&#x2F; 检查n是否为正数，且n的二进制表示只有一个1    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数 &lt;code&gt;n&lt;/code&gt;，请你判断该整数是否是 2 的幂次方。如果是，返回 &lt;code&gt;true&lt;/code&gt; ；否则，返回 &lt;code&gt;false&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;如果存在一个整数 &lt;code&gt;x&lt;/code&gt; 使得 $n &amp;#x3D;&amp;#x3D; 2^x$ ，则认为 &lt;code&gt;n&lt;/code&gt; 是 2 的幂次方。&lt;/p&gt;</summary>
     
     
     

@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Leafii"><meta name="copyright" content="Leafii"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>leetcode845.数组中的最长山脉 | LeafiiのBlog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><script src="https://fastly.jsdelivr.net/npm/@unocss/runtime/mini.global.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="../../../../favicon.ico"><link rel="mask-icon" href="../../../../favicon.ico" color="#0078E7"><link rel="preload" href="../../../../css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="../../../../js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"leafii.top","root":"/","title":["Leafii","の","博","客"],"version":"1.9.3","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"fireworks":{"colors":null},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="../../../../css/hexo-theme-yun.css"><script src="../../../../js/hexo-theme-yun.js" type="module"></script><link rel="alternate" href="../../../../atom.xml" title="LeafiiのBlog" type="application/atom+xml"><meta name="description" content="题目把符合下列属性的数组 arr 称为 山脉数组 ：  arr.length &gt;&#x3D; 3 存在下标i（0 &lt; i &lt; arr.length - 1），满足 arr[0] &lt; arr[1] &lt; ... &lt; arr[i - 1] &lt; arr[i] arr[i] &gt; arr[i + 1] &gt; ... &gt; arr[arr.length - 1]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode845.数组中的最长山脉">
+<meta property="og:url" content="2023/05/16/leetcode845-%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E9%95%BF%E5%B1%B1%E8%84%89/index.html">
+<meta property="og:site_name" content="LeafiiのBlog">
+<meta property="og:description" content="题目把符合下列属性的数组 arr 称为 山脉数组 ：  arr.length &gt;&#x3D; 3 存在下标i（0 &lt; i &lt; arr.length - 1），满足 arr[0] &lt; arr[1] &lt; ... &lt; arr[i - 1] &lt; arr[i] arr[i] &gt; arr[i + 1] &gt; ... &gt; arr[arr.length - 1]">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-15T23:54:56.000Z">
+<meta property="article:modified_time" content="2023-05-16T00:02:54.205Z">
+<meta property="article:author" content="Leafii">
+<meta property="article:tag" content="leetcode">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head><body><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="../../../../js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="../../../../js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="../../../../about/" title="Leafii"><img width="96" loading="lazy" src="../../../../images/avatar.jpg" alt="Leafii"></a><div class="site-author-name"><a href="../../../../about/">Leafii</a></div><a class="site-name" href="../../../../about/site.html">LeafiiのBlog</a><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="../../../../index.html" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="../../../../archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">165</span></a></div><div class="site-state-item"><a href="../../../../categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">0</span></a></div><div class="site-state-item"><a href="../../../../tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">32</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="主题文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/mikutown" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:yunsenye@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=299583310" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="../../../../links/" title="友情链接" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-genderless-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E7%AD%94"><span class="toc-number">2.</span> <span class="toc-text">解答</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https:/leafii.top"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Leafii"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="LeafiiのBlog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">leetcode845.数组中的最长山脉</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2023-05-16 07:54:56" itemprop="dateCreated datePublished" datetime="2023-05-16T07:54:56+08:00">2023-05-16</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">1.2k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">5m</span></span></span><div class="post-classify"><span class="post-tag"><a class="tag-item" href="../../../../tags/leetcode/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">leetcode</span></a><a class="tag-item" href="../../../../tags/%E7%AE%97%E6%B3%95/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">算法</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>把符合下列属性的数组 <code>arr</code> 称为 <strong>山脉数组</strong> ：</p>
+<ul>
+<li><code>arr.length &gt;= 3</code></li>
+<li>存在下标<code>i（0 &lt; i &lt; arr.length - 1），</code>满足<ul>
+<li><code>arr[0] &lt; arr[1] &lt; ... &lt; arr[i - 1] &lt; arr[i]</code></li>
+<li><code>arr[i] &gt; arr[i + 1] &gt; ... &gt; arr[arr.length - 1]</code></li>
+</ul>
+</li>
+</ul>
+<p>给出一个整数数组 <code>arr</code>，返回最长山脉子数组的长度。如果不存在山脉子数组，返回 <code>0</code> 。</p>
+<span id="more"></span> 
+
+<p><strong>示例 1：</strong></p>
+<pre class="language-none"><code class="language-none">输入：arr &#x3D; [2,1,4,7,3,2,5]
+输出：5
+解释：最长的山脉子数组是 [1,4,7,3,2]，长度为 5。</code></pre>
+
+<p><strong>示例 2：</strong></p>
+<pre class="language-none"><code class="language-none">输入：arr &#x3D; [2,2,2]
+输出：0
+解释：不存在山脉子数组。</code></pre>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= arr.length &lt;= 104</code></li>
+<li><code>0 &lt;= arr[i] &lt;= 104</code></li>
+</ul>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul>
+<li>三指针法</li>
+</ul>
+<ol>
+<li>首先，我们可以初始化三个指针：left、right和peak。<ul>
+<li>left指针指向山脉数组的起点，即数组的第一个元素。</li>
+<li>right指针指向山脉数组的终点，即数组的最后一个元素。</li>
+<li>peak指针指向山脉数组的顶峰。</li>
+</ul>
+</li>
+<li>我们可以通过移动right指针来找到山脉数组的终点。当数组的下一个元素比当前元素大的时候，我们可以继续移动right指针。如果下一个元素比当前元素小，我们将找到了山脉数组的终点。</li>
+<li>一旦我们找到了山脉数组的终点，我们需要移动left指针。我们需要找到山脉数组的起点，即数组的第一个元素。我们可以通过移动left指针来找到山脉数组的起点。当数组的下一个元素比当前元素大的时候，我们可以继续移动left指针。</li>
+<li>当我们找到山脉数组的起点和终点后，我们需要更新peak指针的位置。我们可以通过遍历山脉数组的起点到终点之间的元素，找到最大的元素，并更新peak指针的位置。</li>
+<li>最后，我们可以计算山脉数组的长度，即右边界(right)减去左边界(left)再加1。如果山脉数组的长度大于等于3，就返回该长度；否则，返回0。</li>
+</ol>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int longestMountain(vector&lt;int&gt;&amp; A) &#123;
+        int n &#x3D; A.size();
+        int left &#x3D; 0, right &#x3D; 0, peak &#x3D; 0;
+        int longestMountainLength &#x3D; 0;
+
+        while (left &lt; n) &#123;
+            right &#x3D; left;
+            &#x2F;&#x2F; 找到山脉数组的终点
+            if (right + 1 &lt; n &amp;&amp; A[right] &lt; A[right + 1]) &#123;
+                while (right + 1 &lt; n &amp;&amp; A[right] &lt; A[right + 1]) &#123;
+                    right++;
+                &#125;
+                &#x2F;&#x2F; 找到山脉数组的起点
+                if (right + 1 &lt; n &amp;&amp; A[right] &gt; A[right + 1]) &#123;
+                    peak &#x3D; right;
+                    while (peak + 1 &lt; n &amp;&amp; A[peak] &gt; A[peak + 1]) &#123;
+                        peak++;
+                    &#125;
+                    &#x2F;&#x2F; 更新最长山脉的长度
+                    longestMountainLength &#x3D; max(longestMountainLength, peak - left + 1);
+                &#125;
+            &#125;
+            left &#x3D; max(right, left + 1);
+        &#125;
+
+        return longestMountainLength &gt;&#x3D; 3 ? longestMountainLength : 0;
+    &#125;
+&#125;;</code></pre>
+
+<ul>
+<li>仅用一趟扫描,并仅用O(1)空间复杂度解决问题</li>
+</ul>
+<p>解题思路：</p>
+<ol>
+<li><p>初始化变量：</p>
+<ul>
+<li><code>up</code>：表示上升的长度（山脉的左半边）</li>
+<li><code>down</code>：表示下降的长度（山脉的右半边）</li>
+<li><code>maxLen</code>：表示最长山脉数组的长度</li>
+</ul>
+</li>
+<li><p>从数组的第二个元素开始遍历：</p>
+<ul>
+<li><p>如果当前元素 <code>A[i]</code> 大于前一个元素 <code>A[i-1]</code>，则表示处于上升阶段，递增 <code>up</code> 的值，同时重置 <code>down</code> 的值为0。</p>
+</li>
+<li><p>如果当前元素 </p>
+<pre class="language-none"><code class="language-none">A[i]</code></pre>
+
+<p> 小于前一个元素 </p>
+<pre class="language-none"><code class="language-none">A[i-1]</code></pre>
+
+<p>：</p>
+<ul>
+<li>如果 <code>up</code> 大于0，表示已经处于山脉的下降阶段，递增 <code>down</code> 的值。</li>
+<li>如果 <code>up</code> 等于0，表示还没有开始上升阶段，不进行任何操作。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>当 <code>down</code> 大于0时，表示找到了山脉数组的终点，更新 <code>maxLen</code> 的值。然后将指针移动到山脉数组的下一个元素，即 <code>i</code> 加1，并重置 <code>up</code> 和 <code>down</code> 的值为0。</p>
+</li>
+<li><p>最后返回 <code>maxLen</code>，即为最长山脉数组的长度。</p>
+</li>
+</ol>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    int longestMountain(vector&lt;int&gt;&amp; A) &#123;
+        int n &#x3D; A.size();
+        int up &#x3D; 0, down &#x3D; 0;  &#x2F;&#x2F; 上升和下降的长度
+        int maxLen &#x3D; 0;  &#x2F;&#x2F; 最长山脉数组的长度
+
+        for (int i &#x3D; 1; i &lt; n; i++) &#123;
+            if (A[i] &gt; A[i-1]) &#123;  &#x2F;&#x2F; 上升阶段
+                if (down &gt; 0) &#123;  &#x2F;&#x2F; 如果之前处于下降阶段，则重置上升和下降长度
+                    up &#x3D; 0;
+                    down &#x3D; 0;
+                &#125;
+                up++;  &#x2F;&#x2F; 递增上升长度
+            &#125; else if (A[i] &lt; A[i-1]) &#123;  &#x2F;&#x2F; 下降阶段
+                if (up &gt; 0) &#123;  &#x2F;&#x2F; 如果之前处于上升阶段
+                    down++;  &#x2F;&#x2F; 递增下降长度
+                    maxLen &#x3D; max(maxLen, up + down + 1);  &#x2F;&#x2F; 更新最长山脉数组的长度
+                &#125;
+            &#125; else &#123;  &#x2F;&#x2F; 平稳阶段，重置上升和下降长度
+                up &#x3D; 0;
+                down &#x3D; 0;
+            &#125;
+        &#125;
+
+        return maxLen;
+    &#125;
+
+&#125;;</code></pre>
+
+
+
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>Leafii</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="2023/05/16/leetcode845-数组中的最长山脉/" title="leetcode845.数组中的最长山脉">2023/05/16/leetcode845-数组中的最长山脉/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="../../15/leetcode1925-%E7%BB%9F%E8%AE%A1%E5%B9%B3%E6%96%B9%E5%92%8C%E4%B8%89%E5%85%83%E7%BB%84%E7%9A%84%E6%95%B0%E7%9B%AE/" rel="next" title="leetcode1925.统计平方和三元组的数目"><span class="post-nav-text">leetcode1925.统计平方和三元组的数目</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2023 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> Leafii</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.2.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.9.3</span></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="../../../../js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div id="local-search-result"></div></div><script>function initMourn() {
+  const date = new Date();
+  const today = (date.getMonth() + 1) + "-" + date.getDate()
+  const mourn_days = ["4-4","9-18"]
+  if (mourn_days.includes(today)) {
+    document.documentElement.style.filter = "grayscale(1)";
+  }
+}
+initMourn();</script></div></body></html>
