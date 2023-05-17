@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-05-16T00:02:54.205Z</updated>
+  <updated>2023-05-17T05:26:05.938Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode1291.顺次数</title>
+    <link href="2023/05/17/leetcode1291-%E9%A1%BA%E6%AC%A1%E6%95%B0/"/>
+    <id>2023/05/17/leetcode1291-%E9%A1%BA%E6%AC%A1%E6%95%B0/</id>
+    <published>2023-05-17T05:24:23.000Z</published>
+    <updated>2023-05-17T05:26:05.938Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>我们定义「顺次数」为：每一位上的数字都比前一位上的数字大 <code>1</code> 的整数。</p><p>请你返回由 <code>[low, high]</code> 范围内所有顺次数组成的 <strong>有序</strong> 列表（从小到大排序）。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输出：low &#x3D; 100, high &#x3D; 300输出：[123,234]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输出：low &#x3D; 1000, high &#x3D; 13000输出：[1234,2345,3456,4567,5678,6789,12345]</code></pre><p><strong>提示：</strong></p><ul><li><code>10 &lt;= low &lt;= high &lt;= 10^9</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>直接生成符合条件的数字</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; sequentialDigits(int low, int high) &#123;        vector&lt;int&gt; result; &#x2F;&#x2F; 存储符合条件的顺次数结果的向量        for (int i &#x3D; 1; i &lt;&#x3D; 9; i++) &#123;            int num &#x3D; i; &#x2F;&#x2F; 初始化当前数字为起始位            for (int j &#x3D; i + 1; j &lt;&#x3D; 9; j++) &#123;                num &#x3D; num * 10 + j; &#x2F;&#x2F; 逐位增加数字                if (num &gt;&#x3D; low &amp;&amp; num &lt;&#x3D; high) &#123;                    result.push_back(num); &#x2F;&#x2F; 如果生成的数字在给定范围内，则添加到结果向量中                &#125;            &#125;        &#125;        sort(result.begin(), result.end()); &#x2F;&#x2F; 对结果向量进行排序        return result; &#x2F;&#x2F; 返回最终的结果向量    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;我们定义「顺次数」为：每一位上的数字都比前一位上的数字大 &lt;code&gt;1&lt;/code&gt; 的整数。&lt;/p&gt;
+&lt;p&gt;请你返回由 &lt;code&gt;[low, high]&lt;/code&gt; 范围内所有顺次数组成的 &lt;strong&gt;有序&lt;/strong&gt; 列表（从小到大排序）。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode845.数组中的最长山脉</title>
@@ -449,36 +471,6 @@
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; 。玩家 1 和玩家 2 基于这个数组设计了一个游戏。&lt;/p&gt;
 &lt;p&gt;玩家 1 和玩家 2 轮流进行自己的回合，玩家 1 先手。开始时，两个玩家的初始分值都是 &lt;code&gt;0&lt;/code&gt; 。每一回合，玩家从数组的任意一端取一个数字（即，&lt;code&gt;nums[0]&lt;/code&gt; 或 &lt;code&gt;nums[nums.length - 1]&lt;/code&gt;），取到的数字将会从数组中移除（数组长度减 &lt;code&gt;1&lt;/code&gt; ）。玩家选中的数字将会加到他的得分上。当数组中没有剩余数字可取时，游戏结束。&lt;/p&gt;
 &lt;p&gt;如果玩家 1 能成为赢家，返回 &lt;code&gt;true&lt;/code&gt; 。如果两个玩家得分相等，同样认为玩家 1 是游戏的赢家，也返回 &lt;code&gt;true&lt;/code&gt; 。你可以假设每个玩家的玩法都会使他的分数最大化。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode1823.找出游戏的获胜者</title>
-    <link href="2023/04/18/leetcode1823-%E6%89%BE%E5%87%BA%E6%B8%B8%E6%88%8F%E7%9A%84%E8%8E%B7%E8%83%9C%E8%80%85/"/>
-    <id>2023/04/18/leetcode1823-%E6%89%BE%E5%87%BA%E6%B8%B8%E6%88%8F%E7%9A%84%E8%8E%B7%E8%83%9C%E8%80%85/</id>
-    <published>2023-04-18T03:49:15.000Z</published>
-    <updated>2023-04-18T04:12:22.999Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>共有 <code>n</code> 名小伙伴一起做游戏。小伙伴们围成一圈，按 <strong>顺时针顺序</strong> 从 <code>1</code> 到 <code>n</code> 编号。确切地说，从第 <code>i</code> 名小伙伴顺时针移动一位会到达第 <code>(i+1)</code> 名小伙伴的位置，其中 <code>1 &lt;= i &lt; n</code> ，从第 <code>n</code> 名小伙伴顺时针移动一位会回到第 <code>1</code> 名小伙伴的位置。</p><p>游戏遵循如下规则：</p><ol><li>从第 <code>1</code> 名小伙伴所在位置 <strong>开始</strong> 。</li><li>沿着顺时针方向数 <code>k</code> 名小伙伴，计数时需要 <strong>包含</strong> 起始时的那位小伙伴。逐个绕圈进行计数，一些小伙伴可能会被数过不止一次。</li><li>你数到的最后一名小伙伴需要离开圈子，并视作输掉游戏。</li><li>如果圈子中仍然有不止一名小伙伴，从刚刚输掉的小伙伴的 <strong>顺时针下一位</strong> 小伙伴 <strong>开始</strong>，回到步骤 <code>2</code> 继续执行。</li><li>否则，圈子中最后一名小伙伴赢得游戏。</li></ol><p>给你参与游戏的小伙伴总数 <code>n</code> ，和一个整数 <code>k</code> ，返回游戏的获胜者。</p><span id="more"></span> <p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/ic234-q2-ex11.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 5, k &#x3D; 2输出：3解释：游戏运行步骤如下：1) 从小伙伴 1 开始。2) 顺时针数 2 名小伙伴，也就是小伙伴 1 和 2 。3) 小伙伴 2 离开圈子。下一次从小伙伴 3 开始。4) 顺时针数 2 名小伙伴，也就是小伙伴 3 和 4 。5) 小伙伴 4 离开圈子。下一次从小伙伴 5 开始。6) 顺时针数 2 名小伙伴，也就是小伙伴 5 和 1 。7) 小伙伴 1 离开圈子。下一次从小伙伴 3 开始。8) 顺时针数 2 名小伙伴，也就是小伙伴 3 和 5 。9) 小伙伴 5 离开圈子。只剩下小伙伴 3 。所以小伙伴 3 是游戏的获胜者。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 6, k &#x3D; 5输出：1解释：小伙伴离开圈子的顺序：5、4、6、2、3 。小伙伴 1 是游戏的获胜者。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= k &lt;= n &lt;= 500</code></li></ul><p><strong>进阶：</strong>你能否使用线性时间复杂度和常数空间复杂度解决此问题？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>约瑟夫问题求解</li></ul><p>首先我们需要确定递推公式，假设上一轮淘汰的是第 m 个人，那么本轮淘汰的是第 $(m+k)% n$ 个人，所以我们可以得到递推公式：$f(n, k) &#x3D; (f(n-1, k)+k) % n$，其中$ f(n, k) $表示 n 个人中最后剩下的人的编号。</p><p>当只有一个人的时候，那么这个人一定是胜者，因此我们可以得到初始值：f(1, k) &#x3D; 0。</p><p>最后，我们可以通过递推得到 f(n, k) 的值，即为最后的胜者的编号。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int findTheWinner(int n, int k) &#123;        int ans &#x3D; 0;  &#x2F;&#x2F; 最后胜者的编号        for (int i &#x3D; 2; i &lt;&#x3D; n; i++) &#123;  &#x2F;&#x2F; 从第二个人开始进行游戏            ans &#x3D; (ans + k) % i;  &#x2F;&#x2F; 计算本轮淘汰的人的编号        &#125;        return ans + 1;  &#x2F;&#x2F; 将编号从 0-based 转换为 1-based 并返回    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;共有 &lt;code&gt;n&lt;/code&gt; 名小伙伴一起做游戏。小伙伴们围成一圈，按 &lt;strong&gt;顺时针顺序&lt;/strong&gt; 从 &lt;code&gt;1&lt;/code&gt; 到 &lt;code&gt;n&lt;/code&gt; 编号。确切地说，从第 &lt;code&gt;i&lt;/code&gt; 名小伙伴顺时针移动一位会到达第 &lt;code&gt;(i+1)&lt;/code&gt; 名小伙伴的位置，其中 &lt;code&gt;1 &amp;lt;= i &amp;lt; n&lt;/code&gt; ，从第 &lt;code&gt;n&lt;/code&gt; 名小伙伴顺时针移动一位会回到第 &lt;code&gt;1&lt;/code&gt; 名小伙伴的位置。&lt;/p&gt;
-&lt;p&gt;游戏遵循如下规则：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;从第 &lt;code&gt;1&lt;/code&gt; 名小伙伴所在位置 &lt;strong&gt;开始&lt;/strong&gt; 。&lt;/li&gt;
-&lt;li&gt;沿着顺时针方向数 &lt;code&gt;k&lt;/code&gt; 名小伙伴，计数时需要 &lt;strong&gt;包含&lt;/strong&gt; 起始时的那位小伙伴。逐个绕圈进行计数，一些小伙伴可能会被数过不止一次。&lt;/li&gt;
-&lt;li&gt;你数到的最后一名小伙伴需要离开圈子，并视作输掉游戏。&lt;/li&gt;
-&lt;li&gt;如果圈子中仍然有不止一名小伙伴，从刚刚输掉的小伙伴的 &lt;strong&gt;顺时针下一位&lt;/strong&gt; 小伙伴 &lt;strong&gt;开始&lt;/strong&gt;，回到步骤 &lt;code&gt;2&lt;/code&gt; 继续执行。&lt;/li&gt;
-&lt;li&gt;否则，圈子中最后一名小伙伴赢得游戏。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;给你参与游戏的小伙伴总数 &lt;code&gt;n&lt;/code&gt; ，和一个整数 &lt;code&gt;k&lt;/code&gt; ，返回游戏的获胜者。&lt;/p&gt;</summary>
     
     
     
