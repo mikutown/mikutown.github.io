@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-05-17T05:26:05.938Z</updated>
+  <updated>2023-05-19T09:45:56.607Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode906.超级回文数</title>
+    <link href="2023/05/19/leetcode906-%E8%B6%85%E7%BA%A7%E5%9B%9E%E6%96%87%E6%95%B0/"/>
+    <id>2023/05/19/leetcode906-%E8%B6%85%E7%BA%A7%E5%9B%9E%E6%96%87%E6%95%B0/</id>
+    <published>2023-05-19T09:43:18.000Z</published>
+    <updated>2023-05-19T09:45:56.607Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>如果一个正整数自身是回文数，而且它也是一个回文数的平方，那么我们称这个数为超级回文数。</p><p>现在，给定两个正整数 <code>L</code> 和 <code>R</code> （以字符串形式表示），返回包含在范围 <code>[L, R]</code> 中的超级回文数的数目。</p> <span id="more"></span><p><strong>示例：</strong></p><pre class="language-none"><code class="language-none">输入：L &#x3D; &quot;4&quot;, R &#x3D; &quot;1000&quot;输出：4解释：4，9，121，以及 484 是超级回文数。注意 676 不是一个超级回文数： 26 * 26 &#x3D; 676，但是 26 不是回文数。</code></pre><p><strong>提示：</strong></p><ol><li><code>1 &lt;= len(L) &lt;= 18</code></li><li><code>1 &lt;= len(R) &lt;= 18</code></li><li><code>L</code> 和 <code>R</code> 是表示 <code>[1, 10^18)</code> 范围的整数的字符串。</li><li><code>int(L) &lt;= int(R)</code></li></ol><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>直接求解</li></ul><ol><li>首先，将输入的左右边界转换为长整型。</li><li>然后，利用两个循环来生成所有可能的回文数：<ul><li>第一个循环从1到9，将每个数字作为回文数的中心，生成回文数。</li><li>第二个循环从1到9999，将每个数字作为回文数的前半部分，并生成回文数的后半部分。</li></ul></li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int superpalindromesInRange(string left, string right) &#123;        long long leftVal &#x3D; stoll(left); &#x2F;&#x2F; 将左边界转换为长整型        long long rightVal &#x3D; stoll(right); &#x2F;&#x2F; 将右边界转换为长整型        int count &#x3D; 0;        &#x2F;&#x2F; 第一部分：生成所有可能的回文数的前半部分        for (int i &#x3D; 1; i &lt;&#x3D; 9; ++i) &#123;            generatePalindromes(to_string(i), leftVal, rightVal, count); &#x2F;&#x2F; 以i为中心，生成回文数        &#125;                &#x2F;&#x2F; 第二部分：生成所有可能的回文数的中间部分        for (int i &#x3D; 1; i &lt;&#x3D; 9999; ++i) &#123;            string leftPart &#x3D; to_string(i);            string rightPart &#x3D; to_string(i);            reverse(rightPart.begin(), rightPart.end()); &#x2F;&#x2F; 反转右半部分                        generatePalindromes(leftPart + rightPart, leftVal, rightVal, count); &#x2F;&#x2F; 以i为中心，生成回文数            for (int j &#x3D; 0; j &lt;&#x3D; 9; ++j) &#123;                generatePalindromes(leftPart + to_string(j) + rightPart, leftVal, rightVal, count); &#x2F;&#x2F; 以i为中心，生成回文数            &#125;        &#125;                return count;    &#125;    private:    &#x2F;&#x2F; 生成回文数并判断是否为超级回文数    void generatePalindromes(string str, long long leftVal, long long rightVal, int&amp; count) &#123;        long long num &#x3D; stoll(str);        num *&#x3D; num; &#x2F;&#x2F; 平方得到回文数                if (num &gt; rightVal) &#123;            return;        &#125;                if (num &gt;&#x3D; leftVal &amp;&amp; isPalindrome(to_string(num))) &#123;            ++count;        &#125;    &#125;        &#x2F;&#x2F; 判断是否为回文数    bool isPalindrome(string str) &#123;        int left &#x3D; 0;        int right &#x3D; str.length() - 1;                while (left &lt; right) &#123;            if (str[left] !&#x3D; str[right]) &#123;                return false;            &#125;                        ++left;            --right;        &#125;                return true;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;如果一个正整数自身是回文数，而且它也是一个回文数的平方，那么我们称这个数为超级回文数。&lt;/p&gt;
+&lt;p&gt;现在，给定两个正整数 &lt;code&gt;L&lt;/code&gt; 和 &lt;code&gt;R&lt;/code&gt; （以字符串形式表示），返回包含在范围 &lt;code&gt;[L, R]&lt;/code&gt; 中的超级回文数的数目。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode1291.顺次数</title>
@@ -455,29 +477,6 @@
     <category term="云计算" scheme="tags/云计算/"/>
     
     <category term="工作流调度" scheme="tags/工作流调度/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode486.预测赢家</title>
-    <link href="2023/04/19/leetcode486-%E9%A2%84%E6%B5%8B%E8%B5%A2%E5%AE%B6/"/>
-    <id>2023/04/19/leetcode486-%E9%A2%84%E6%B5%8B%E8%B5%A2%E5%AE%B6/</id>
-    <published>2023-04-19T06:44:54.000Z</published>
-    <updated>2023-04-19T07:00:57.166Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数数组 <code>nums</code> 。玩家 1 和玩家 2 基于这个数组设计了一个游戏。</p><p>玩家 1 和玩家 2 轮流进行自己的回合，玩家 1 先手。开始时，两个玩家的初始分值都是 <code>0</code> 。每一回合，玩家从数组的任意一端取一个数字（即，<code>nums[0]</code> 或 <code>nums[nums.length - 1]</code>），取到的数字将会从数组中移除（数组长度减 <code>1</code> ）。玩家选中的数字将会加到他的得分上。当数组中没有剩余数字可取时，游戏结束。</p><p>如果玩家 1 能成为赢家，返回 <code>true</code> 。如果两个玩家得分相等，同样认为玩家 1 是游戏的赢家，也返回 <code>true</code> 。你可以假设每个玩家的玩法都会使他的分数最大化。</p><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [1,5,2]输出：false解释：一开始，玩家 1 可以从 1 和 2 中进行选择。如果他选择 2（或者 1 ），那么玩家 2 可以从 1（或者 2 ）和 5 中进行选择。如果玩家 2 选择了 5 ，那么玩家 1 则只剩下 1（或者 2 ）可选。 所以，玩家 1 的最终分数为 1 + 2 &#x3D; 3，而玩家 2 为 5 。因此，玩家 1 永远不会成为赢家，返回 false 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [1,5,233,7]输出：true解释：玩家 1 一开始选择 1 。然后玩家 2 必须从 5 和 7 中进行选择。无论玩家 2 选择了哪个，玩家 1 都可以选择 233 。最终，玩家 1（234 分）比玩家 2（12 分）获得更多的分数，所以返回 true，表示玩家 1 可以成为赢家。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 20</code></li><li><code>0 &lt;= nums[i] &lt;= 107</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>首先，我们可以把这个问题看成是两个玩家在一堆石头上进行取石子游戏。每个玩家都可以在任何时候从石堆中取出一些石头，但是每次取石头的数量不能超过石堆中剩余石头的数量。游戏的规则是先手玩家必须先取，然后轮流取石头，直到石堆为空。每个石头的价值都不同，每个玩家在取石头时可以获得相应的价值。</p><p>我们可以用动态规划来解决这个问题。假设nums数组的长度为n，<code>dp[i][j]</code>表示在<code>nums[i...j]</code>范围内，先手玩家能获得的最大分数，那么先手玩家最终获胜的条件是<code>dp[0][n-1]</code>不小于nums中所有数之和的一半。</p><p>接下来考虑如何计算dp数组。首先，我们可以很容易地得出当区间长度为1时，<code>dp[i][i]</code>的值就是<code>nums[i]</code>。这是因为当只有一个数时，先手玩家必定获胜，得分为该数。</p><p>接下来，我们需要考虑更长的区间。假设当前处理的区间长度为len，则可以枚举区间左端点i，然后通过递推式来计算<code>dp[i][j]</code>。对于区间<code>[i,j]</code>，先手玩家可以选择<code>i</code>或<code>j</code>作为自己的选择，那么后手玩家就会在<code>[i+1, j]</code>或<code>[i, j-1]</code>区间内变成先手玩家。这样转化后的问题就可以通过<code>dp</code>数组的计算得到解决。</p><p>具体地，假设先手玩家选择了左端点i，那么后手玩家就会在<code>[i+1, j]</code>区间内变成先手玩家，此时先手玩家能获得的最大分数就是<code>nums[i]</code>加上区间<code>[i+2,j]</code>或区间<code>[i+1,j-1]</code>内先手玩家能获得的最大分数的最小值，即：</p><pre class="language-C++" data-language="C++"><code class="language-C++">left &#x3D; nums[i] + min(dp[i+2][j], dp[i+1][j-1])</code></pre><p>同样地，假设先手玩家选择了右端点<code>j</code>，那么后手玩家就会在<code>[i, j-1]</code>区间内变成先手玩家，此时先手玩家能获得的最大分数就是<code>nums[j]</code>加上区间<code>[i,j-2]</code>或区间<code>[i+1,j-1]</code>内先手玩家能获得的最大分数的最小值，即：</p><pre class="language-C++" data-language="C++"><code class="language-C++">right &#x3D; nums[j] + min(dp[i][j-2], dp[i+1][j-1])</code></pre><p>由于先手玩家和后手玩家的取石头顺序是交替进行的，因此先手玩家和后手玩家在不同的区间上作为先手玩家和后手玩家的情况应该分别考虑。最终，<code>dp[i][j]</code>的值就是left和right中的较大值，即：</p><pre class="language-C++" data-language="C++"><code class="language-C++">dp[i][j] &#x3D; max(left, right)</code></pre><p>最终的答案就是<code>dp[0][n-1]</code>是否大于等于<code>nums</code>中所有数之和的一半。</p><p>代码实现时，我们可以使用二维数组<code>dp</code>来保存先手玩家能获得的最大分数，然后用双重循环来枚举区间长度和区间左端点，并使用上述递推式来计算<code>dp</code>数组中的每个元素。最后，比较<code>dp[0][n-1]</code>和<code>nums</code>中所有数之和的一半即可得到答案。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool PredictTheWinner(vector&lt;int&gt;&amp; nums) &#123;        int n &#x3D; nums.size();        vector&lt;vector&lt;int&gt;&gt; dp(n, vector&lt;int&gt;(n)); &#x2F;&#x2F; 定义二维dp数组，dp[i][j]表示当剩下的数是nums[i..j]时，先手玩家比后手玩家多得的最大分数。        &#x2F;&#x2F; 处理区间长度为1的情况        for (int i &#x3D; 0; i &lt; n; i++) &#123;            dp[i][i] &#x3D; nums[i]; &#x2F;&#x2F; 当剩下的数只有一个时，先手玩家只能取这个数，并且得分就是这个数本身。        &#125;        &#x2F;&#x2F; 处理更长的区间        for (int len &#x3D; 2; len &lt;&#x3D; n; len++) &#123; &#x2F;&#x2F; 枚举区间长度            for (int i &#x3D; 0; i &lt;&#x3D; n - len; i++) &#123; &#x2F;&#x2F; 枚举区间左端点                int j &#x3D; i + len - 1; &#x2F;&#x2F; 区间右端点                int left &#x3D; nums[i] + min(i+2 &lt;&#x3D; j ? dp[i+2][j] : 0, i+1 &lt;&#x3D; j-1 ? dp[i+1][j-1] : 0); &#x2F;&#x2F; 先手玩家取nums[i]后，后手玩家就成为了先手玩家，接下来剩下的数就是nums[i+1..j]，此时先手玩家能得到的最大分数是dp[i+1][j]。如果先手玩家取nums[i]后，后手玩家也取了一个数，那么接下来剩下的数就是nums[i+2..j]，此时先手玩家能得到的最大分数是dp[i+2][j]。由于后手玩家也是聪明的，他肯定会选择让先手玩家得到更少的分数，因此先手玩家能得到的最大分数就是nums[i]加上min(dp[i+2][j], dp[i+1][j-1])。同理，我们也可以计算出先手玩家取nums[j]时能得到的最大分数right。                int right &#x3D; nums[j] + min(i &lt;&#x3D; j-2 ? dp[i][j-2] : 0, i+1 &lt;&#x3D; j-1 ? dp[i+1][j-1] : 0);                dp[i][j] &#x3D; max(left, right); &#x2F;&#x2F; 取left和right的较大值，表示先手玩家在nums[i..j]这个区间内能得到的最大分数。            &#125;        &#125;        &#x2F;&#x2F; 判断先手玩家是否能获胜        return dp[0][n-1] &gt;&#x3D; accumulate(nums.begin(), nums.end(), 0) &#x2F; 2.0; &#x2F;&#x2F; 如果先手玩家能得到的最大分数不小于nums中所有数之和的一半，那么先手玩家就能获胜。    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; 。玩家 1 和玩家 2 基于这个数组设计了一个游戏。&lt;/p&gt;
-&lt;p&gt;玩家 1 和玩家 2 轮流进行自己的回合，玩家 1 先手。开始时，两个玩家的初始分值都是 &lt;code&gt;0&lt;/code&gt; 。每一回合，玩家从数组的任意一端取一个数字（即，&lt;code&gt;nums[0]&lt;/code&gt; 或 &lt;code&gt;nums[nums.length - 1]&lt;/code&gt;），取到的数字将会从数组中移除（数组长度减 &lt;code&gt;1&lt;/code&gt; ）。玩家选中的数字将会加到他的得分上。当数组中没有剩余数字可取时，游戏结束。&lt;/p&gt;
-&lt;p&gt;如果玩家 1 能成为赢家，返回 &lt;code&gt;true&lt;/code&gt; 。如果两个玩家得分相等，同样认为玩家 1 是游戏的赢家，也返回 &lt;code&gt;true&lt;/code&gt; 。你可以假设每个玩家的玩法都会使他的分数最大化。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
     
   </entry>
   
