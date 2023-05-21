@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-05-20T08:53:08.938Z</updated>
+  <updated>2023-05-21T07:26:06.451Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode1207.独一无二的出现次数</title>
+    <link href="2023/05/21/leetcode1207-%E7%8B%AC%E4%B8%80%E6%97%A0%E4%BA%8C%E7%9A%84%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0/"/>
+    <id>2023/05/21/leetcode1207-%E7%8B%AC%E4%B8%80%E6%97%A0%E4%BA%8C%E7%9A%84%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0/</id>
+    <published>2023-05-21T07:23:35.000Z</published>
+    <updated>2023-05-21T07:26:06.451Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数数组 <code>arr</code>，请你帮忙统计数组中每个数的出现次数。</p><p>如果每个数的出现次数都是独一无二的，就返回 <code>true</code>；否则返回 <code>false</code>。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [1,2,2,1,1,3]输出：true解释：在该数组中，1 出现了 3 次，2 出现了 2 次，3 只出现了 1 次。没有两个数的出现次数相同。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [1,2]输出：false</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [-3,0,1,-3,1,1,1,-3,10,0]输出：true</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= arr.length &lt;= 1000</code></li><li><code>-1000 &lt;= arr[i] &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>解题思路： 该问题要求判断给定数组中各个元素出现的频率是否唯一。</p><p>我们可以使用两个数据结构来解决这个问题：</p><ol><li><code>unordered_map&lt;int, int&gt;</code>：用于记录每个元素出现的频率。</li><li><code>unordered_set&lt;int&gt;</code>：用于记录已经出现过的频率。</li></ol><p>我们首先遍历数组，统计每个元素出现的频率并存储在<code>frequencyMap</code>中。然后，我们遍历<code>frequencyMap</code>，对于每个出现的频率，如果该频率已经在<code>occurrenceSet</code>中存在，则说明出现的频率不是唯一的，我们返回false。否则，将该频率添加到<code>occurrenceSet</code>中。最后，如果所有频率都是唯一的，则返回true。</p><p>在示例代码中，我们使用了一个测试用例<code>arr = &#123;1, 2, 2, 1, 1, 3&#125;</code>进行验证，输出结果为<code>true</code>，说明给定数组中各个元素的频率是唯一的。</p><p>请注意，示例代码中使用了C++标准库中的<code>unordered_map</code>和<code>unordered_set</code>来实现哈希表和哈希集合的功能。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool uniqueOccurrences(vector&lt;int&gt;&amp; arr) &#123;        unordered_map&lt;int, int&gt; frequencyMap; &#x2F;&#x2F; 存储每个元素出现的频率        unordered_set&lt;int&gt; occurrenceSet; &#x2F;&#x2F; 存储出现的频率值        &#x2F;&#x2F; 计算每个元素出现的频率        for (int num : arr) &#123;            frequencyMap[num]++;        &#125;        &#x2F;&#x2F; 检查频率是否是唯一的        for (auto it &#x3D; frequencyMap.begin(); it !&#x3D; frequencyMap.end(); ++it) &#123;            int occurrence &#x3D; it-&gt;second;            &#x2F;&#x2F; 如果出现的频率已经存在，返回false            if (occurrenceSet.count(occurrence) &gt; 0) &#123;                return false;            &#125;            &#x2F;&#x2F; 将出现的频率添加到集合中            occurrenceSet.insert(occurrence);        &#125;        &#x2F;&#x2F; 所有频率都是唯一的，返回true        return true;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;arr&lt;/code&gt;，请你帮忙统计数组中每个数的出现次数。&lt;/p&gt;
+&lt;p&gt;如果每个数的出现次数都是独一无二的，就返回 &lt;code&gt;true&lt;/code&gt;；否则返回 &lt;code&gt;false&lt;/code&gt;。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode1365.有多少小于当前数字的数字</title>
@@ -447,28 +469,6 @@
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个非负整数 &lt;em&gt;&lt;code&gt;numRows&lt;/code&gt;，&lt;/em&gt;生成「杨辉三角」的前 &lt;em&gt;&lt;code&gt;numRows&lt;/code&gt;&lt;/em&gt; 行。&lt;/p&gt;
 &lt;p&gt;在「杨辉三角」中，每个数是它左上方和右上方的数的和。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode224.基本计算器</title>
-    <link href="2023/04/19/leetcode224-%E5%9F%BA%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%99%A8/"/>
-    <id>2023/04/19/leetcode224-%E5%9F%BA%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%99%A8/</id>
-    <published>2023-04-19T14:40:16.000Z</published>
-    <updated>2023-04-20T02:08:21.251Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个字符串表达式 <code>s</code> ，请你实现一个基本计算器来计算并返回它的值。</p><p>注意:不允许使用任何将字符串作为数学表达式计算的内置函数，比如 <code>eval()</code> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;1 + 1&quot;输出：2</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot; 2-1 + 2 &quot;输出：3</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;(1+(4+5+2)-3)+(6+8)&quot;输出：23</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 3 * 105</code></li><li><code>s</code> 由数字、<code>&#39;+&#39;</code>、<code>&#39;-&#39;</code>、<code>&#39;(&#39;</code>、<code>&#39;)&#39;</code>、和 <code>&#39; &#39;</code> 组成</li><li><code>s</code> 表示一个有效的表达式</li><li>‘+’ 不能用作一元运算(例如， “+1” 和 <code>&quot;+(2 + 3)&quot;</code> 无效)</li><li>‘-‘ 可以用作一元运算(即 “-1” 和 <code>&quot;-(2 + 3)&quot;</code> 是有效的)</li><li>输入中不存在两个连续的操作符</li><li>每个数字和运行的计算将适合于一个有符号的 32位 整数</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>题目要求实现一个计算器，计算一个字符串表达式的值。因为表达式中可能会存在括号，为了方便计算，可以使用递归的方法来实现。当遇到左括号时，递归调用自身来计算括号内的表达式值，当遇到右括号时，返回计算结果。当遇到加号或减号时，记录当前的操作符。当遇到数字时，记录当前的数值，并根据之前的操作符进行相应的计算。</p><p>具体步骤如下：</p><ol><li>定义一个辅助栈，用于存储之前的操作符和数字；</li><li>遍历表达式字符串，遇到数字时记录下来，遇到左括号时递归调用自身，遇到右括号时返回计算结果；</li><li>遇到加号或减号时，记录当前的操作符，遇到其他字符时忽略；</li><li>当遇到表达式字符串的末尾时，将栈中剩余的数字和操作符进行计算，并返回最终结果。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int calculate(string s) &#123;        stack&lt;int&gt; st;  &#x2F;&#x2F; 定义一个辅助栈，用于存储之前的操作符和数字        int num &#x3D; 0;  &#x2F;&#x2F; 用于记录当前的数值        int res &#x3D; 0;  &#x2F;&#x2F; 用于记录最终结果        int sign &#x3D; 1;  &#x2F;&#x2F; 用于记录当前的操作符，1表示加号，-1表示减号        for (int i &#x3D; 0; i &lt; s.size(); i++) &#123;            if (isdigit(s[i])) &#123;  &#x2F;&#x2F; 如果当前字符是数字                num &#x3D; num * 10 + (s[i] - &#39;0&#39;);  &#x2F;&#x2F; 记录当前的数值            &#125; else if (s[i] &#x3D;&#x3D; &#39;(&#39;) &#123;  &#x2F;&#x2F; 如果当前字符是左括号                int j &#x3D; i, cnt &#x3D; 0;                for (; i &lt; s.size(); i++) &#123;                    if (s[i] &#x3D;&#x3D; &#39;(&#39;) cnt++;                    if (s[i] &#x3D;&#x3D; &#39;)&#39;) cnt--;                    if (cnt &#x3D;&#x3D; 0) break;                &#125;                num &#x3D; calculate(s.substr(j + 1, i - j - 1));  &#x2F;&#x2F; 递归调用自身计算括号内的表达式值            &#125;            if (s[i] &#x3D;&#x3D; &#39;+&#39; || s[i] &#x3D;&#x3D; &#39;-&#39; || i &#x3D;&#x3D; s.size() - 1) &#123;  &#x2F;&#x2F; 如果当前字符是加号或减号，或者已经遍历到表达式字符串的末尾                if (s[i] &#x3D;&#x3D; &#39;+&#39;) &#123;                    st.push(sign * num);  &#x2F;&#x2F; 将之前记录的数值乘上当前的操作符，并压入栈中                    sign &#x3D; 1;  &#x2F;&#x2F; 更新操作符为加号                &#125; else if (s[i] &#x3D;&#x3D; &#39;-&#39;) &#123;                    st.push(sign * num);  &#x2F;&#x2F; 将之前记录的数值乘上当前的操作符，并压入栈中                    sign &#x3D; -1;  &#x2F;&#x2F; 更新操作符为减号                &#125; else if (s[i] &#x3D;&#x3D; &#39;)&#39; || i &#x3D;&#x3D; s.size() - 1) &#123;                    st.push(sign * num);  &#x2F;&#x2F; 将最后一个数值乘上当前的操作符，并压入栈中                    int tmp &#x3D; 0;                    while (!st.empty()) &#123;  &#x2F;&#x2F; 从栈中取出数字和操作符进行计算，直到栈为空                        tmp +&#x3D; st.top();                        st.pop();                    &#125;                    res &#x3D; tmp;  &#x2F;&#x2F; 更新最终结果                &#125;                num &#x3D; 0;  &#x2F;&#x2F; 清空当前的数值            &#125;        &#125;        return res;  &#x2F;&#x2F; 返回最终结果    &#125;&#125;;</code></pre><blockquote><p>上述代码使用了一个栈来存储之前的数字和操作符，用于最后的计算。遇到左括号时，递归调用自身计算括号内的表达式值。遇到加号或减号时，记录当前的操作符和数字，当遇到右括号或表达式字符串的末尾时，将栈中剩余的数字和操作符进行计算，得到最终结果。</p></blockquote><p>需要注意的是，在遇到左括号时，需要找到对应的右括号位置，才能正确地计算括号内的表达式值。这里使用了一个变量cnt来记录遍历到的左括号数量和右括号数量的差值，当cnt为0时，说明找到了对应的右括号。</p><p>另外，需要注意的是，当遍历到表达式字符串的末尾时，也需要将之前记录的数字和操作符进行计算，得到最终结果。因此，在遍历完表达式字符串后，还需要进行一次栈中剩余数字和操作符的计算，以得到最终结果。</p><p>最后，需要注意对于操作数可能有多个位数的情况，需要在遍历字符串时将多位数字组合成一个完整的数值。这里使用了一个变量num来记录当前的数值，每次遍历到数字时，将其乘以10并加上当前位的数值即可。</p><p>综上所述，上述代码实现了一个简单的基本计算器，可以计算表达式中的加减法和括号，并返回最终结果。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个字符串表达式 &lt;code&gt;s&lt;/code&gt; ，请你实现一个基本计算器来计算并返回它的值。&lt;/p&gt;
-&lt;p&gt;注意:不允许使用任何将字符串作为数学表达式计算的内置函数，比如 &lt;code&gt;eval()&lt;/code&gt; 。&lt;/p&gt;</summary>
     
     
     
