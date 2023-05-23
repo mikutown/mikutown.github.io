@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-05-22T08:11:34.895Z</updated>
+  <updated>2023-05-23T11:04:16.584Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode518.零钱兑换II</title>
+    <link href="2023/05/23/leetcode518-%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2II/"/>
+    <id>2023/05/23/leetcode518-%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2II/</id>
+    <published>2023-05-23T11:02:09.000Z</published>
+    <updated>2023-05-23T11:04:16.584Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数数组 <code>coins</code> 表示不同面额的硬币，另给一个整数 <code>amount</code> 表示总金额。</p><p>请你计算并返回可以凑成总金额的硬币组合数。如果任何硬币组合都无法凑出总金额，返回 <code>0</code> 。</p><p>假设每一种面额的硬币有无限个。 </p><p>题目数据保证结果符合 32 位带符号整数。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：amount &#x3D; 5, coins &#x3D; [1, 2, 5]输出：4解释：有四种方式可以凑成总金额：5&#x3D;55&#x3D;2+2+15&#x3D;2+1+1+15&#x3D;1+1+1+1+1</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：amount &#x3D; 3, coins &#x3D; [2]输出：0解释：只用面额 2 的硬币不能凑成总金额 3 。</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：amount &#x3D; 10, coins &#x3D; [10] 输出：1</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= coins.length &lt;= 300</code></li><li><code>1 &lt;= coins[i] &lt;= 5000</code></li><li><code>coins</code> 中的所有值 <strong>互不相同</strong></li><li><code>0 &lt;= amount &lt;= 5000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>动态规划</li></ol><p>在这个解答中，我们使用动态规划来解决问题。我们定义一个长度为amount+1的dp数组，其中dp[i]表示凑成金额i所需的硬币组合数。</p><p>我们初始化dp[0]为1，表示凑成金额0的组合数为1（不选择任何硬币）。然后，我们遍历硬币数组coins，对于每个硬币coin，我们从coin遍历到amount，更新dp数组的值。对于每个金额i，我们考虑是否选择硬币coin，如果选择，则组合数增加dp[i-coin]，因为我们只需要找出剩余金额i-coin的组合数即可。</p><p>最终，dp[amount]即为所需的结果，即凑成金额amount的组合数。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int change(int amount, vector&lt;int&gt;&amp; coins) &#123;        vector&lt;int&gt; dp(amount + 1, 0); &#x2F;&#x2F; 创建长度为amount+1的dp数组，初始值为0        dp[0] &#x3D; 1; &#x2F;&#x2F; 凑成金额0的组合数为1（不选择任何硬币）                for (int coin : coins) &#123; &#x2F;&#x2F; 遍历硬币数组            for (int i &#x3D; coin; i &lt;&#x3D; amount; i++) &#123; &#x2F;&#x2F; 从硬币coin遍历到amount                dp[i] +&#x3D; dp[i - coin]; &#x2F;&#x2F; 更新组合数            &#125;        &#125;                return dp[amount]; &#x2F;&#x2F; 返回凑成金额amount的组合数    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;coins&lt;/code&gt; 表示不同面额的硬币，另给一个整数 &lt;code&gt;amount&lt;/code&gt; 表示总金额。&lt;/p&gt;
+&lt;p&gt;请你计算并返回可以凑成总金额的硬币组合数。如果任何硬币组合都无法凑出总金额，返回 &lt;code&gt;0&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;假设每一种面额的硬币有无限个。 &lt;/p&gt;
+&lt;p&gt;题目数据保证结果符合 32 位带符号整数。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="动态规划" scheme="tags/动态规划/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode322.零钱兑换</title>
@@ -457,28 +483,6 @@
     <category term="云计算" scheme="tags/云计算/"/>
     
     <category term="工作流调度" scheme="tags/工作流调度/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode119.杨辉三角II</title>
-    <link href="2023/04/24/leetcode119-%E6%9D%A8%E8%BE%89%E4%B8%89%E8%A7%92II/"/>
-    <id>2023/04/24/leetcode119-%E6%9D%A8%E8%BE%89%E4%B8%89%E8%A7%92II/</id>
-    <published>2023-04-24T05:27:41.000Z</published>
-    <updated>2023-04-24T05:38:24.759Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个非负索引 <code>rowIndex</code>，返回「杨辉三角」的第 <code>rowIndex</code> 行。</p><p>在「杨辉三角」中，每个数是它左上方和右上方的数的和。</p><span id="more"></span><p><img src="http://cdn.leafii.top/img/1626927345-DZmfxB-PascalTriangleAnimated2-20230424132835008.gif" alt="img" loading="lazy"></p><p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入: rowIndex &#x3D; 3输出: [1,3,3,1]</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: rowIndex &#x3D; 0输出: [1]</code></pre><p><strong>示例 3:</strong></p><pre class="language-none"><code class="language-none">输入: rowIndex &#x3D; 1输出: [1,1]</code></pre><p><strong>提示:</strong></p><ul><li><code>0 &lt;= rowIndex &lt;= 33</code></li></ul><p><strong>进阶：</strong></p><p>你可以优化你的算法到 <code>*O*(*rowIndex*)</code> 空间复杂度吗？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>得到33行的所有结果，再按照要求返回对应的行的数组</li></ul><p>得到33行的结果的代码可以直接从leetcode118里复制粘贴，最后只需要修改一下return的值就行，需要返回的是result数组里需要的那一行的结果数组。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; getRow(int rowIndex) &#123;        vector&lt;vector&lt;int&gt;&gt; results; &#x2F;&#x2F; 初始化结果数组        for (int i &#x3D; 0; i &lt; 34; i++) &#123; &#x2F;&#x2F; 按行进行遍历            &#x2F;&#x2F; i是当前行号            vector&lt;int &gt; temp_arr(i+1, 1); &#x2F;&#x2F; 初始化temp_arr数组用于暂时存储每行的数字            for (int j &#x3D; 0; j &lt;&#x3D; i; j++) &#123; &#x2F;&#x2F; 每行的元素等于每行的行号，行号从0开始，所以j &lt;&#x3D; i                int temp &#x3D; -1; &#x2F;&#x2F; 用temp存储一行里单个元素的临时值                if (j &#x3D;&#x3D; 0 || j &#x3D;&#x3D; i || i &#x3D;&#x3D; 1) &#123; &#x2F;&#x2F; 如果遍历到了这一行的第一个元素或者最后一个元素，或者现在在遍历第一行                     continue; &#x2F;&#x2F; 此时无需赋值，因为temp_arr在初始化的时候给所有元素都是1的值                &#125;                else &#123;                    temp_arr[j] &#x3D; results[i-1][j-1] + results[i-1][j]; &#x2F;&#x2F; 否则该行元素就是它左上方和右上方的数的和                &#125;            &#125;            results.push_back(temp_arr); &#x2F;&#x2F; 将遍历完这一行的结果push进最终的结果数组        &#125;        return results[rowIndex];&#x2F;&#x2F; 返回结果数组    &#125;&#125;;</code></pre><ul><li>空间复杂度优化</li></ul><p>本题要求生成杨辉三角的第 <code>rowIndex</code> 行，其中第 <code>i</code> 行有 <code>i+1</code> 个数，即第一行有 1 个数，第二行有 2 个数，第三行有 3 个数，以此类推。</p><p>因为杨辉三角的每一行只依赖于上一行的值，所以我们可以只存储上一行的值，不断地更新，直到得到第 <code>rowIndex</code> 行为止。</p><p>我们可以用一个一维数组来存储上一行的值，并不断地更新数组中的值，最终得到第 <code>rowIndex</code> 行的值。在更新的过程中，我们需要注意到数组的下标从 0 开始，而杨辉三角每一行的第一个数和最后一个数都是 1，所以我们需要在数组的第一个位置和最后一个位置都赋值为 1。</p><p>由于本题要求空间复杂度为 <code>O(rowIndex)</code>，因此我们不能开辟二维数组。在更新数组中的值时，我们需要用到上一行中前面的数和当前行中前面的数，因此我们需要用一个变量 <code>pre</code> 来存储上一行中前面的数，并在更新数组中的值时更新 <code>pre</code> 的值。</p><p>时间复杂度为 <code>O(rowIndex^2)</code>，空间复杂度为 <code>O(rowIndex)</code>。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; getRow(int rowIndex) &#123;        vector&lt;int&gt; res(rowIndex + 1, 1);  &#x2F;&#x2F; 初始化结果数组为全 1        for (int i &#x3D; 2; i &lt;&#x3D; rowIndex; ++i) &#123;  &#x2F;&#x2F; 从第 2 行开始更新            int pre &#x3D; res[0];  &#x2F;&#x2F; 存储上一行前面的数            for (int j &#x3D; 1; j &lt; i; ++j) &#123;                int temp &#x3D; res[j];  &#x2F;&#x2F; 保存当前位置的值                res[j] +&#x3D; pre;  &#x2F;&#x2F; 更新当前位置的值                pre &#x3D; temp;  &#x2F;&#x2F; 更新 pre            &#125;        &#125;        return res;    &#125;&#125;;</code></pre><p>在上述代码中，我们用 <code>res</code> 数组存储上一行的值，并初始化为全 1。然后从第 2 行开始更新，用变量 <code>pre</code> 存储上一行前面的数，并在更新数组中的值时更新 <code>pre</code> 的值。最终返回更新后的结果数组即可。</p><p>由于题目要求返回的是第 <code>rowIndex</code> 行，因此数组的大小应该为 <code>rowIndex + 1</code>。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个非负索引 &lt;code&gt;rowIndex&lt;/code&gt;，返回「杨辉三角」的第 &lt;code&gt;rowIndex&lt;/code&gt; 行。&lt;/p&gt;
-&lt;p&gt;在「杨辉三角」中，每个数是它左上方和右上方的数的和。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
     
   </entry>
   
