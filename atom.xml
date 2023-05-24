@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-05-23T11:04:16.584Z</updated>
+  <updated>2023-05-24T08:54:54.618Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode188.买卖股票的最佳时机IV</title>
+    <link href="2023/05/24/leetcode188-%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAIV/"/>
+    <id>2023/05/24/leetcode188-%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BAIV/</id>
+    <published>2023-05-24T08:54:22.000Z</published>
+    <updated>2023-05-24T08:54:54.618Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个整数数组 <code>prices</code> ，它的第 <code>i</code> 个元素 <code>prices[i]</code> 是一支给定的股票在第 <code>i</code> 天的价格，和一个整型 <code>k</code> 。</p><p>设计一个算法来计算你所能获取的最大利润。你最多可以完成 <code>k</code> 笔交易。也就是说，你最多可以买 <code>k</code> 次，卖 <code>k</code> 次。</p><p><strong>注意：</strong>你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：k &#x3D; 2, prices &#x3D; [2,4,1]输出：2解释：在第 1 天 (股票价格 &#x3D; 2) 的时候买入，在第 2 天 (股票价格 &#x3D; 4) 的时候卖出，这笔交易所能获得利润 &#x3D; 4-2 &#x3D; 2 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：k &#x3D; 2, prices &#x3D; [3,2,6,5,0,3]输出：7解释：在第 2 天 (股票价格 &#x3D; 2) 的时候买入，在第 3 天 (股票价格 &#x3D; 6) 的时候卖出, 这笔交易所能获得利润 &#x3D; 6-2 &#x3D; 4 。     随后，在第 5 天 (股票价格 &#x3D; 0) 的时候买入，在第 6 天 (股票价格 &#x3D; 3) 的时候卖出, 这笔交易所能获得利润 &#x3D; 3-0 &#x3D; 3 。</code></pre><p><strong>提示：</strong></p><ul><li><code>0 &lt;= k &lt;= 100</code></li><li><code>0 &lt;= prices.length &lt;= 1000</code></li><li><code>0 &lt;= prices[i] &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>使用buy和sale数组进行动态规划，buy[i] 表示进行第 i 次买入操作后的最大利润（初始值为第一天的股票价格的相反数），sale[i] 表示进行第 i 次卖出操作后的最大利润，代码如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int maxProfit(int k, vector&lt;int&gt;&amp; prices) &#123;        int n &#x3D; prices.size();        vector&lt;int&gt; buy(k, -prices[0]); &#x2F;&#x2F; 定义买入的数组，buy[i] 表示进行第 i 次买入操作后的最大利润（初始值为第一天的股票价格的相反数）        vector&lt;int&gt; sale(k); &#x2F;&#x2F; 定义卖出的数组，sale[i] 表示进行第 i 次卖出操作后的最大利润        for(int i &#x3D; 1; i &lt; n; ++i) &#123;            buy[0] &#x3D; max(buy[0], -prices[i]); &#x2F;&#x2F; 更新第一次买入的最大利润，取当前买入的最大利润和前一天的最大利润中较大的值            sale[0] &#x3D; max(sale[0], prices[i] + buy[0]); &#x2F;&#x2F; 更新第一次卖出的最大利润，取当前卖出的最大利润和前一天的最大利润加上当前股票价格的较大值            for(int j &#x3D; 1; j &lt; k; ++j) &#123;                buy[j] &#x3D; max(buy[j], sale[j - 1] - prices[i]); &#x2F;&#x2F; 更新第 j 次买入的最大利润，取当前买入的最大利润和前一次卖出的最大利润减去当前股票价格的较大值                sale[j] &#x3D; max(sale[j], buy[j] + prices[i]); &#x2F;&#x2F; 更新第 j 次卖出的最大利润，取当前卖出的最大利润和当前买入的最大利润加上当前股票价格的较大值            &#125;        &#125;        return sale[k - 1]; &#x2F;&#x2F; 返回最后一次卖出的最大利润    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个整数数组 &lt;code&gt;prices&lt;/code&gt; ，它的第 &lt;code&gt;i&lt;/code&gt; 个元素 &lt;code&gt;prices[i]&lt;/code&gt; 是一支给定的股票在第 &lt;code&gt;i&lt;/code&gt; 天的价格，和一个整型 &lt;code&gt;k&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;设计一个算法来计算你所能获取的最大利润。你最多可以完成 &lt;code&gt;k&lt;/code&gt; 笔交易。也就是说，你最多可以买 &lt;code&gt;k&lt;/code&gt; 次，卖 &lt;code&gt;k&lt;/code&gt; 次。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="动态规划" scheme="tags/动态规划/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode518.零钱兑换II</title>
@@ -460,29 +485,6 @@
     <category term="leetcode" scheme="tags/leetcode/"/>
     
     <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WorkflowSim：用于在分布式环境中模拟科学工作流程的工具包</title>
-    <link href="2023/04/24/WorkflowSim%EF%BC%9A%E7%94%A8%E4%BA%8E%E5%9C%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E6%A8%A1%E6%8B%9F%E7%A7%91%E5%AD%A6%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E7%9A%84%E5%B7%A5%E5%85%B7%E5%8C%85/"/>
-    <id>2023/04/24/WorkflowSim%EF%BC%9A%E7%94%A8%E4%BA%8E%E5%9C%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E6%A8%A1%E6%8B%9F%E7%A7%91%E5%AD%A6%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E7%9A%84%E5%B7%A5%E5%85%B7%E5%8C%85/</id>
-    <published>2023-04-24T10:33:26.000Z</published>
-    <updated>2023-04-25T02:38:45.797Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="WorkflowSim-A-Toolkit-for-Simulating-Scientific-Workflows-in-Distributed-Environments"><a href="#WorkflowSim-A-Toolkit-for-Simulating-Scientific-Workflows-in-Distributed-Environments" class="headerlink" title="WorkflowSim: A Toolkit for Simulating Scientific Workflows in Distributed Environments"></a>WorkflowSim: A Toolkit for Simulating Scientific Workflows in Distributed Environments</h2><h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>现有的工作流模拟器无法提供一个考虑异构系统开销和失败的框架，也缺少对广泛使用的工作流优化技术（如任务聚合）的支持。因此我们引入了WorkflowSim。在扩展CloudSim的基础上提供了更高层的工作流管理。我们还通过实验证明了忽视系统开销和故障会导致预测工作流时间的极大不准确。在两个研究领域中我们进一步验证了WorkflowSim在促进科学研究方面的价值。</p><span id="more"></span><h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>首先介绍了科学工作流，然后说对于科学工作流工作的验证如果放在真实环境中验证有很多缺点，而基于模拟的验证有很多好处，比如降低实验步骤的复杂度并且通过在可重复和受控的环境中测试他们的应用程序，在工作流执行中节省了大量精力。</p><p>因此一个能够准确模拟的工作流调度模拟框架是非常需要的。易购分布式系统使开销也五花八门，考虑到全面的系统开销在工作流的运行时间中起到的重要作用，需要对这些工作流开销进行分类，这有助于提高模拟器的精确度（相较于不考虑开小的模拟器）。</p><p>此外，很多研究者已经强调了容错设计的重要性并认为现代分布式系统中的错误率不应该被忽视，我们需要一个支持随机以及分层故障的模拟器来促进相关方面的研究。</p><p>最后，工作流研究的进展还需要一个能够支持广泛接受的工作流特征和优化技术的通用框架。现有的模拟器，如 CloudSim&#x2F;GridSim[12] 无法提供细粒度的工作流模拟。</p><p>据我们所知，当前的分布式系统模拟器都不支持这些丰富的特性和技术。在本文中，我们介绍了我们在模拟满足这些要求的科学工作流程方面的早期工作。我们以任务聚类为例评估 WorkflowSim 的性能。我们进一步表明，WorkflowSim 有望为容错集群和开销鲁棒性研究等研究领域提供评估平台。</p><h3 id="Related-work"><a href="#Related-work" class="headerlink" title="Related work"></a>Related work</h3><p>在我们的设计中，我们在 CloudSim 现有的工作流调度层之上添加了多个层，包括 Workflow Mapper、Workflow Engine、Clustering Engine、Failure Generator、Failure Monitor 等。我们将解释这些层的细节在第三节。</p><p>CloudSim只支持单工作流，并没有考虑工作流的任务依赖关系，也没有对故障和开销进行分析。WorkflowSim 扩展了 CloudSim 以满足这些新要求。</p><p>其他模拟器是专门为工作流管理的一些理想方面（例如工作流调度）而设计的，但这种简化与不断变化的分布式计算世界和新工作流管理技术的发展不匹配。</p><p>因此，与其针对特定领域的工作流进行模拟，WorkflowSim 试图提取各种工作流系统公开的共同特征，并支持广泛使用的工作流管理技术。WorkflowSim 不仅支持调度技术的评估，还考虑了各种任务调度&#x2F;执行开销和故障。</p><p>在任务聚合方面，论文的聚合策略是静态的并且没有考虑动态的资源特征，他也没考虑到一些开销，这些开销包含在我们的模型中，其值是根据实际执行轨迹估算的。</p><p>故障分析和建模呈现系统特征，例如错误和故障分布以及危险率。在所有故障中，我们重点关注暂时性故障，因为预计它们比永久性故障更普遍。基于这些工作，我们模拟了两层（任务&#x2F;工作）的故障，并为用户提供了一个接口开发容错算法</p><h3 id="Models-and-Features"><a href="#Models-and-Features" class="headerlink" title="Models and Features"></a>Models and Features</h3><p>如图 1 所示，准备和执行工作流涉及多个组件层。工作流管理系统 (WMS) 的模型类似于 Pegasus WMS [17]，它包含： 一个工作流映射器，用于将抽象工作流映射到依赖于执行站点的具体工作流；一个工作流引擎来处理数据依赖；和一个工作流调度程序，用于将作业与资源相匹配。其他组件包括将小任务合并到大作业中的集群引擎、跟踪任务&#x2F;作业执行历史的 Provenance 收集器以及将用户工作流划分为多个子工作流的工作流分区器。</p><p><img src="http://cdn.leafii.top/img/image-20230424175929354.png" alt="image-20230424175929354" loading="lazy"></p><h4 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h4><h5 id="Workflow-Mapper"><a href="#Workflow-Mapper" class="headerlink" title="Workflow Mapper"></a>Workflow Mapper</h5><p>我们将工作流建模为有向无环图 (DAG)，其中作业代表用户要执行的计算，有向边代表作业之间的数据或控制流依赖关系.Workflow Mapper 用于导入 XML 格式的 DAG 文件和文件大小等其他元数据信息。Workflow Mapper 创建任务列表并将这些任务分配给执行站点。任务是用户想要执行的程序&#x2F;活动。</p><h5 id="Clustering-Engine"><a href="#Clustering-Engine" class="headerlink" title="Clustering Engine"></a>Clustering Engine</h5><p>我们将任务定义为用户想要执行的程序。 作业是执行系统看到的一个原子单元，它包含多个顺序或并行执行的任务。Clustering Engine将任务合并到作业中，以减少调度开销。</p><p><img src="http://cdn.leafii.top/img/image-20230424180131785.png" alt="image-20230424180131785" loading="lazy"></p><h5 id="Workflow-Engine"><a href="#Workflow-Engine" class="headerlink" title="Workflow Engine"></a>Workflow Engine</h5><p>Workflow Engine根据作业的依赖关系管理作业，以确保只有在其所有父作业都成功完成后才能发布作业。Workflow Engine 只会向 Scheduler 释放空闲作业。我们使用 DAGMan作为工作流引擎。</p><h5 id="Workflow-Scheduler-and-Job-Execution"><a href="#Workflow-Scheduler-and-Job-Execution" class="headerlink" title="Workflow Scheduler and Job Execution"></a>Workflow Scheduler and Job Execution</h5><p>Workflow Scheduler 用于根据用户选择的标准（MaxMin [2]、MinMin [1] 和许多其他试探法）将作业与工作节点匹配。 CloudSim 已经支持静态调度算法，我们添加了对动态工作流算法的支持。WorkflowSim 依靠 CloudSim 提供准确可靠的作业级执行模型，例如分时模型和空间共享模型。但是WorkflowSim引入了不同层次的开销和故障，提高了仿真的准确性.</p><p>为了关联和协调这些层，我们采用了基于事件的方法，其中每个组件维护一个消息队列。图 3 显示了具有两个执行站点的简单配置，每个执行站点都有两个节点。</p><p><img src="http://cdn.leafii.top/img/image-20230424180421142.png" alt="image-20230424180421142" loading="lazy"></p><h4 id="Layered-Overhead"><a href="#Layered-Overhead" class="headerlink" title="Layered Overhead"></a>Layered Overhead</h4><p>基于我们之前对工作流开销的研究，我们将分层开销添加到工作流模拟中。我们将工作流开销分为以下五类。</p><ul><li>Workflow Engine Delay测量作业的最后一个父作业完成与作业提交到本地队列的时间之间的时间。Workflow Engine Delay反映了工作流引擎（在我们的例子中是 DAGMan）的效率。</li><li>Queue Delay定义为工作流引擎向本地队列提交作业与本地调度程序看到作业运行（可能在远程资源上）之间的时间。它反映了工作流调度程序（例如，Condor [19]）执行作业的效率以及执行作业的资源可用性。</li><li>Postscript Delay and Prescript Delay是在某些执行系统下执行作业前后执行轻量级脚本所花费的时间。Prescripts 通常用于创建作业执行目录。Postscript在作业的计算部分完成后检查作业的退出代码。</li><li>Data Transfer Delay当数据在节点之间传输时发生。它包括三种不同类型的过程：staging data in, cleaning up, and staging data out.</li><li>Clustering Delay衡量的是实际任务运行时间的总和与工作流调度程序看到的作业运行时间之间的差异</li></ul><p>我们指出有必要考虑开销的分配，而不是简单地在作业执行后添加一个恒定的延迟。我们以工作流引擎延迟为例来说明对开销进行适当建模的必要性。</p><p><img src="http://cdn.leafii.top/img/image-20230424180933926.png" alt="image-20230424180933926" loading="lazy"></p><p>图 4 显示了 Montage 8 度工作流中开销和运行时间的真实轨迹（对于缩放问题，我们仅显示 mProjectPP 级别中的前 15 个作业）。我们可以看到，工作流引擎延迟在每五个作业后稳定增加。我们将这种工作流开销的特殊性称为循环递增。因此，在每次作业执行后简单地添加一个恒定的延迟忽略了它对性能的潜在影响。出于这个原因，我们采用基于消息队列的方法并迭代检查 WorkflowSim 中的消息队列。</p><p>图 6 显示了 mProjectPP、mDiffFit 和 mBackground 的 Clustering Delay 的平均值。很明显，随着k（每个水平级别的最大作业数）的增加，集群中的任务越来越少，因此每个作业的集群延迟减少。</p><p><img src="http://cdn.leafii.top/img/image-20230424201616337.png" alt="image-20230424201616337" loading="lazy"></p><p>根据等式1，<img src="http://cdn.leafii.top/img/image-20230424181348922.png" alt="image-20230424181348922" loading="lazy"></p><p>如果已知k&#x3D;j时的延迟，反比例模型可以直接估计k&#x3D;i时的延迟。因此，只要我们收集到一个聚类案例，我们就可以预测所有的聚类案例。</p><h4 id="Layered-Failures-and-Job-Retry"><a href="#Layered-Failures-and-Job-Retry" class="headerlink" title="Layered Failures and Job Retry"></a>Layered Failures and Job Retry</h4><p>在工作流执行期间的不同时间可能会发生故障。与任务和作业的定义一致，我们将瞬态故障分为两类：任务故障和作业故障。如果暂时性故障影响任务的计算（任务失败），作业中的其他任务不一定失败。如果暂时性故障影响集群作业（作业失败），则其所有任务都会失败。我们添加了两个组件来响应故障模拟：</p><ul><li>Failure Generator被引入以在每个执行站点注入任务&#x2F;作业失败。每个作业执行后，Failure Generator 根据用户指定的分布和平均失败率随机生成任务&#x2F;作业失败。</li><li>Failure Monitor收集故障记录并将它们返回给工作流管理系统，以便它可以动态调整调度策略。</li></ul><p>我们还修改了其他组件以支持容错优化。在容易出现故障的环境中，有多种方法可以提高工作流性能。</p><ol><li>当计算不成功时，可以简单地重试整个作业或仅重试该作业的失败部分。此功能被添加到 Workflow Scheduler，它检查作业的状态并根据用户选择的策略采取行动。</li><li>Reclustering是我们提出的一种技术，它试图根据检测到的故障率来调整任务聚类策略。</li></ol><h3 id="VALIDATION"><a href="#VALIDATION" class="headerlink" title="VALIDATION"></a>VALIDATION</h3><p>我们以任务聚类为例说明在工作流模拟中引入开销overheads的必要性。目标是比较工作流的模拟整体运行时间，以防作业运行时间和系统开销的信息已知并从先前的跟踪中提取。</p><h3 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h3><p>在Application部分，作者介绍了如何使用WorkflowSim进行科学工作流研究。他们提到，WorkflowSim提供了一种灵活的框架，可以轻松地模拟各种科学工作流应用程序，并支持各种优化技术，例如任务聚类和容错性。 作者还列举了一些使用WorkflowSim进行研究的实际应用案例，包括生物信息学、气象预测、天文学和地震模拟等领域。他们指出，WorkflowSim可以帮助研究人员更好地理解和优化这些复杂的科学工作流应用程序，并提高其性能和效率。 </p><h3 id="Conclusion-and-future-work"><a href="#Conclusion-and-future-work" class="headerlink" title="Conclusion and future work"></a>Conclusion and future work</h3><p>在Conclusion and Future Work部分，作者总结了他们的研究成果，并提出了未来的研究方向。作者指出，WorkflowSim是一个可靠且有效的工作流仿真器，可以用于各种科学工作流应用程序中，并支持各种优化技术。 作者还提到，未来的研究方向包括进一步改进WorkflowSim的性能和功能，例如增加对容错性和动态资源管理的支持。此外，作者还计划将WorkflowSim扩展到更广泛的应用领域，并与其他工作流引擎进行比较。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;WorkflowSim-A-Toolkit-for-Simulating-Scientific-Workflows-in-Distributed-Environments&quot;&gt;&lt;a href=&quot;#WorkflowSim-A-Toolkit-for-Simulating-Scientific-Workflows-in-Distributed-Environments&quot; class=&quot;headerlink&quot; title=&quot;WorkflowSim: A Toolkit for Simulating Scientific Workflows in Distributed Environments&quot;&gt;&lt;/a&gt;WorkflowSim: A Toolkit for Simulating Scientific Workflows in Distributed Environments&lt;/h2&gt;&lt;h3 id=&quot;Abstract&quot;&gt;&lt;a href=&quot;#Abstract&quot; class=&quot;headerlink&quot; title=&quot;Abstract&quot;&gt;&lt;/a&gt;Abstract&lt;/h3&gt;&lt;p&gt;现有的工作流模拟器无法提供一个考虑异构系统开销和失败的框架，也缺少对广泛使用的工作流优化技术（如任务聚合）的支持。因此我们引入了WorkflowSim。在扩展CloudSim的基础上提供了更高层的工作流管理。我们还通过实验证明了忽视系统开销和故障会导致预测工作流时间的极大不准确。在两个研究领域中我们进一步验证了WorkflowSim在促进科学研究方面的价值。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="容错" scheme="tags/容错/"/>
-    
-    <category term="云计算" scheme="tags/云计算/"/>
-    
-    <category term="工作流调度" scheme="tags/工作流调度/"/>
     
   </entry>
   
