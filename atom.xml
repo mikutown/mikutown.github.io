@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-05-24T08:54:54.618Z</updated>
+  <updated>2023-05-29T07:13:35.122Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode700.二叉搜索树中的搜索</title>
+    <link href="2023/05/29/leetcode700-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%90%9C%E7%B4%A2/"/>
+    <id>2023/05/29/leetcode700-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%90%9C%E7%B4%A2/</id>
+    <published>2023-05-29T07:09:15.000Z</published>
+    <updated>2023-05-29T07:13:35.122Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定二叉搜索树（BST）的根节点 <code>root</code> 和一个整数值 <code>val</code>。</p><p>你需要在 BST 中找到节点值等于 <code>val</code> 的节点。 返回以该节点为根的子树。 如果节点不存在，则返回 <code>null</code> 。</p><span id="more"></span> <p><strong>示例 1:</strong></p><p><img src="http://cdn.leafii.top/img/tree1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [4,2,7,1,3], val &#x3D; 2输出：[2,1,3]</code></pre><p><strong>示例 2:</strong></p><p><img src="http://cdn.leafii.top/img/tree2.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [4,2,7,1,3], val &#x3D; 5输出：[]</code></pre><p><strong>提示：</strong></p><ul><li>数中节点数在 <code>[1, 5000]</code> 范围内</li><li><code>1 &lt;= Node.val &lt;= 107</code></li><li><code>root</code> 是二叉搜索树</li><li><code>1 &lt;= val &lt;= 107</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>直接搜索</li></ul><p>在二叉搜索树中，每个节点的值大于其左子树中的所有节点的值，小于其右子树中的所有节点的值，因此可以利用这个性质进行查找操作。你的方法通过迭代方式在二叉搜索树中查找给定值，并返回匹配的节点指针。这种查找方式通常称为”二叉搜索树的查找”或”BST查找”。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    TreeNode* searchBST(TreeNode* root, int val) &#123;        while (root !&#x3D; nullptr) &#123; &#x2F;&#x2F; 在root非空的情况下进行循环            if (val &#x3D;&#x3D; root-&gt;val) &#123;                return root; &#x2F;&#x2F; 如果值匹配就直接返回root            &#125;            else if (val &gt; root-&gt;val) &#123;                root &#x3D; root-&gt;right; &#x2F;&#x2F; 如果值大于root现有的值，它的目标节点只有可能在他的右子树            &#125;            else &#123;                root &#x3D; root-&gt;left; &#x2F;&#x2F; 如果值小于root现有的值，它的目标节点只有可能在他的左子树            &#125;        &#125;        return nullptr; &#x2F;&#x2F; 如果root为空（不管是现有的root还是迭代后的root） 就直接返回nullptr    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定二叉搜索树（BST）的根节点 &lt;code&gt;root&lt;/code&gt; 和一个整数值 &lt;code&gt;val&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;你需要在 BST 中找到节点值等于 &lt;code&gt;val&lt;/code&gt; 的节点。 返回以该节点为根的子树。 如果节点不存在，则返回 &lt;code&gt;null&lt;/code&gt; 。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="二叉树" scheme="tags/二叉树/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode188.买卖股票的最佳时机IV</title>
@@ -457,27 +481,6 @@
 &lt;li&gt;如果 &lt;code&gt;x != y&lt;/code&gt;，那么重量为 &lt;code&gt;x&lt;/code&gt; 的石头将会完全粉碎，而重量为 &lt;code&gt;y&lt;/code&gt; 的石头新重量为 &lt;code&gt;y-x&lt;/code&gt;。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;最后，&lt;strong&gt;最多只会剩下一块&lt;/strong&gt; 石头。返回此石头 &lt;strong&gt;最小的可能重量&lt;/strong&gt; 。如果没有石头剩下，就返回 &lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode416.分割等和子集</title>
-    <link href="2023/04/25/leetcode416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86/"/>
-    <id>2023/04/25/leetcode416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86/</id>
-    <published>2023-04-25T02:19:47.000Z</published>
-    <updated>2023-04-25T02:27:22.334Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p> <span id="more"></span><p>示例 1：</p><p>输入：nums &#x3D; [1,5,11,5]<br>输出：true<br>解释：数组可以分割成 [1, 5, 5] 和 [11] 。<br>示例 2：</p><p>输入：nums &#x3D; [1,2,3,5]<br>输出：false<br>解释：数组不能分割成两个元素和相等的子集。</p><p>提示：</p><p>1 &lt;&#x3D; nums.length &lt;&#x3D; 200<br>1 &lt;&#x3D; nums[i] &lt;&#x3D; 100</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>这个解法使用了动态规划。具体来说，我们首先计算数组中所有数字的总和。如果总和是奇数，那么无法分成等和子集，直接返回 false。否则，我们就要找到一个子集，使得它的和等于总和的一半，也就是说，我们要在数组中选择一些数字，使得它们的和等于 target。</p><p>我们使用 dp 数组来记录 target 是否可以被分成等和子集。dp[i] 表示 target 为 i 时的情况，dp[i] &#x3D; true 表示 target 可以被分成等和子集，否则为 false。</p><p>对于每一个数字 num，我们遍历 dp 数组的范围是 [target, num]，并且更新状态。具体来说，如果 dp[i - num] 为 true，那么 dp[i] 也为 true，因为我们可以在 dp[i - num] 的基础上加上 num 得到 dp[i]。最后，我们返回 dp[target]，判断是否可以分成等和子集。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool canPartition(vector&lt;int&gt;&amp; nums) &#123;        int sum &#x3D; 0;        for (int num : nums) &#123;            sum +&#x3D; num;        &#125;        if (sum % 2 !&#x3D; 0) &#123;  &#x2F;&#x2F; 如果总和是奇数，无法分成等和子集            return false;        &#125;        int target &#x3D; sum &#x2F; 2;        vector&lt;bool&gt; dp(target + 1, false);  &#x2F;&#x2F; 创建一个长度为target+1的vector        dp[0] &#x3D; true;  &#x2F;&#x2F; target为0的情况是可以满足的        for (int num : nums) &#123;            for (int i &#x3D; target; i &gt;&#x3D; num; i--) &#123;  &#x2F;&#x2F; 遍历可选数字的范围是[target, num]                dp[i] &#x3D; dp[i] || dp[i - num];  &#x2F;&#x2F; 状态转移方程            &#125;        &#125;        return dp[target];  &#x2F;&#x2F; 返回target是否可以被分成等和子集    &#125;&#125;;</code></pre><blockquote><p><code> dp[i] = dp[i] || dp[i - num];</code>是一个状态转移方程，表示当前状态 dp[i] 是否可以被满足。dp[i] 初始值为 false，如果 dp[i - num] 为 true，也就是说前面已经找到了一组数字使得它们的和等于 i - num，那么我们只需要在这个基础上再加上 num，就可以得到一组数字使得它们的和等于 i，于是我们可以将 dp[i] 设置为 true。</p><p>这里使用了逻辑或运算符（<code>||</code>），如果 dp[i] 本来就是 true，那么 dp[i] 的值不会改变，因为或运算符的两个操作数有一个为 true，结果就是 true。如果 dp[i - num] 为 false，那么 dp[i] 仍然是 false。</p></blockquote>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。&lt;/p&gt;</summary>
     
     
     
