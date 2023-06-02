@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-06-01T01:59:02.178Z</updated>
+  <updated>2023-06-02T10:15:07.416Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode297.二叉树的序列化与反序列化</title>
+    <link href="2023/06/02/leetcode297-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    <id>2023/06/02/leetcode297-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</id>
+    <published>2023-06-02T10:13:21.000Z</published>
+    <updated>2023-06-02T10:15:07.416Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。</p><p>请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 &#x2F; 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。</p><p><strong>提示:</strong> 输入输出格式与 LeetCode 目前使用的方式一致，详情请参阅 <a href="https://support.leetcode.cn/hc/kb/article/1567641/">LeetCode 序列化二叉树的格式</a>。你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。</p><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/serdeser.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2,3,null,null,4,5]输出：[1,2,3,null,null,4,5]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; []输出：[]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1]输出：[1]</code></pre><p><strong>示例 4：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2]输出：[1,2]</code></pre><p><strong>提示：</strong></p><ul><li>树中结点数在范围 <code>[0, 104]</code> 内</li><li><code>-1000 &lt;= Node.val &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>层序遍历序列化</li></ul><p>解题思路：</p><p>对于序列化操作，我们使用层序遍历将二叉树转化为字符串。使用队列辅助遍历，从根节点开始，依次处理每个节点，若节点为空则用字符串”null”表示，否则将节点值转化为字符串，并将其左右子节点加入队列。最后去掉最后一个多余的分隔符”,”并返回结果字符串。</p><p>对于反序列化操作，我们使用stringstream来分割字符串，并依次处理每个节点。首先根据第一个值创建根节点，并加入队列。然后依次处理队列中的节点，每次从字符串中读取两个值，分别表示当前节点的左右子节点的值。若值为”null”，则表示该节点为空，否则创建相应的节点，并加入队列。重复上述过程直到队列为空。最后返回根节点即可。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Codec &#123;public:    &#x2F;&#x2F; Encodes a tree to a single string.    string serialize(TreeNode* root) &#123;        if (root &#x3D;&#x3D; nullptr) &#123;            return &quot;null&quot;;        &#125;                &#x2F;&#x2F; 使用层序遍历将二叉树转化为字符串        string result;        queue&lt;TreeNode*&gt; q;        q.push(root);                while (!q.empty()) &#123;            TreeNode* node &#x3D; q.front();            q.pop();                        if (node !&#x3D; nullptr) &#123;                &#x2F;&#x2F; 非空节点，将节点值转化为字符串                result +&#x3D; to_string(node-&gt;val);                                &#x2F;&#x2F; 将左右子节点加入队列                q.push(node-&gt;left);                q.push(node-&gt;right);            &#125; else &#123;                &#x2F;&#x2F; 空节点，用&quot;null&quot;表示                result +&#x3D; &quot;null&quot;;            &#125;                        &#x2F;&#x2F; 每个节点值后面加上分隔符&quot;,&quot;            result +&#x3D; &quot;,&quot;;        &#125;                &#x2F;&#x2F; 去掉最后一个多余的分隔符&quot;,&quot;        result.pop_back();                return result;    &#125;    &#x2F;&#x2F; Decodes your encoded data to tree.    TreeNode* deserialize(string data) &#123;        if (data &#x3D;&#x3D; &quot;null&quot;) &#123;            return nullptr;        &#125;                &#x2F;&#x2F; 使用stringstream分割字符串        stringstream ss(data);        string item;        queue&lt;TreeNode*&gt; q;                &#x2F;&#x2F; 获取根节点值        getline(ss, item, &#39;,&#39;);        int rootVal &#x3D; stoi(item);        TreeNode* root &#x3D; new TreeNode(rootVal);        q.push(root);                while (!q.empty()) &#123;            TreeNode* node &#x3D; q.front();            q.pop();                        &#x2F;&#x2F; 依次获取当前节点的左右子节点值            &#x2F;&#x2F; 并创建相应的节点            &#x2F;&#x2F; 左右子节点值为&quot;null&quot;时表示为空节点            getline(ss, item, &#39;,&#39;);            if (item !&#x3D; &quot;null&quot;) &#123;                int leftVal &#x3D; stoi(item);                TreeNode* leftNode &#x3D; new TreeNode(leftVal);                node-&gt;left &#x3D; leftNode;                q.push(leftNode);            &#125;                        getline(ss, item, &#39;,&#39;);            if (item !&#x3D; &quot;null&quot;) &#123;                int rightVal &#x3D; stoi(item);                TreeNode* rightNode &#x3D; new TreeNode(rightVal);                node-&gt;right &#x3D; rightNode;                q.push(rightNode);            &#125;        &#125;                return root;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机</summary>
+      
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="二叉树" scheme="tags/二叉树/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode236.二叉树的最近公共祖先</title>
@@ -463,30 +489,6 @@
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个循环数组 &lt;code&gt;nums&lt;/code&gt; （ &lt;code&gt;nums[nums.length - 1]&lt;/code&gt; 的下一个元素是 &lt;code&gt;nums[0]&lt;/code&gt; ），返回 &lt;em&gt;&lt;code&gt;nums&lt;/code&gt; 中每个元素的 &lt;strong&gt;下一个更大元素&lt;/strong&gt;&lt;/em&gt; 。&lt;/p&gt;
 &lt;p&gt;数字 &lt;code&gt;x&lt;/code&gt; 的 &lt;strong&gt;下一个更大的元素&lt;/strong&gt; 是按数组遍历顺序，这个数字之后的第一个比它更大的数，这意味着你应该循环地搜索它的下一个更大的数。如果不存在，则输出 &lt;code&gt;-1&lt;/code&gt; 。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode496.下一个更大元素I</title>
-    <link href="2023/05/09/leetcode496-%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E5%85%83%E7%B4%A0I/"/>
-    <id>2023/05/09/leetcode496-%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E5%85%83%E7%B4%A0I/</id>
-    <published>2023-05-09T12:35:51.000Z</published>
-    <updated>2023-05-09T12:41:44.848Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><code>nums1</code> 中数字 <code>x</code> 的 <strong>下一个更大元素</strong> 是指 <code>x</code> 在 <code>nums2</code> 中对应位置 <strong>右侧</strong> 的 <strong>第一个</strong> 比 <code>x</code> 大的元素。</p><p>给你两个 <strong>没有重复元素</strong> 的数组 <code>nums1</code> 和 <code>nums2</code> ，下标从 <strong>0</strong> 开始计数，其中<code>nums1</code> 是 <code>nums2</code> 的子集。</p><p>对于每个 <code>0 &lt;= i &lt; nums1.length</code> ，找出满足 <code>nums1[i] == nums2[j]</code> 的下标 <code>j</code> ，并且在 <code>nums2</code> 确定 <code>nums2[j]</code> 的 <strong>下一个更大元素</strong> 。如果不存在下一个更大元素，那么本次查询的答案是 <code>-1</code> 。</p><p>返回一个长度为 <code>nums1.length</code> 的数组 <code>ans</code> 作为答案，满足 <code>ans[i]</code> 是如上所述的 <strong>下一个更大元素</strong> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums1 &#x3D; [4,1,2], nums2 &#x3D; [1,3,4,2].输出：[-1,3,-1]解释：nums1 中每个值的下一个更大元素如下所述：- 4 ，用加粗斜体标识，nums2 &#x3D; [1,3,4,2]。不存在下一个更大元素，所以答案是 -1 。- 1 ，用加粗斜体标识，nums2 &#x3D; [1,3,4,2]。下一个更大元素是 3 。- 2 ，用加粗斜体标识，nums2 &#x3D; [1,3,4,2]。不存在下一个更大元素，所以答案是 -1 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums1 &#x3D; [2,4], nums2 &#x3D; [1,2,3,4].输出：[3,-1]解释：nums1 中每个值的下一个更大元素如下所述：- 2 ，用加粗斜体标识，nums2 &#x3D; [1,2,3,4]。下一个更大元素是 3 。- 4 ，用加粗斜体标识，nums2 &#x3D; [1,2,3,4]。不存在下一个更大元素，所以答案是 -1 。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums1.length &lt;= nums2.length &lt;= 1000</code></li><li><code>0 &lt;= nums1[i], nums2[i] &lt;= 104</code></li><li><code>nums1</code>和<code>nums2</code>中所有整数 <strong>互不相同</strong></li><li><code>nums1</code> 中的所有整数同样出现在 <code>nums2</code> 中</li></ul><p><strong>进阶：</strong>你可以设计一个时间复杂度为 <code>O(nums1.length + nums2.length)</code> 的解决方案吗？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力实现</li></ul><p>直接模拟实现</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; nextGreaterElement(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        vector&lt;int&gt; answers;        map&lt;int,int&gt; m;&#x2F;&#x2F; m用于存储nums2数组中每个元素的下标值        for (int i &#x3D; 0; i &lt; nums2.size(); i++) &#123;            m[nums2[i]] &#x3D; i;        &#125;        for (int i &#x3D; 0; i &lt; nums1.size(); i++)&#123;            int index &#x3D; m[nums1[i]]; &#x2F;&#x2F; 获取nums1的元素在nums2的下标值            int answer &#x3D; -1;            int temp &#x3D; nums1[i];            if (index &#x3D;&#x3D; nums2.size() - 1) answer &#x3D; -1;            else &#123;                while (index &lt; nums2.size()) &#123;                    if(index+1 &lt; nums2.size() &amp;&amp; nums2[index+1] &gt; temp) &#123;                        answer &#x3D; nums2[index+1];                        break;                    &#125;                    else &#123;                        index++;                    &#125;                &#125;            &#125;            answers.push_back(answer);        &#125;        return answers;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;code&gt;nums1&lt;/code&gt; 中数字 &lt;code&gt;x&lt;/code&gt; 的 &lt;strong&gt;下一个更大元素&lt;/strong&gt; 是指 &lt;code&gt;x&lt;/code&gt; 在 &lt;code&gt;nums2&lt;/code&gt; 中对应位置 &lt;strong&gt;右侧&lt;/strong&gt; 的 &lt;strong&gt;第一个&lt;/strong&gt; 比 &lt;code&gt;x&lt;/code&gt; 大的元素。&lt;/p&gt;
-&lt;p&gt;给你两个 &lt;strong&gt;没有重复元素&lt;/strong&gt; 的数组 &lt;code&gt;nums1&lt;/code&gt; 和 &lt;code&gt;nums2&lt;/code&gt; ，下标从 &lt;strong&gt;0&lt;/strong&gt; 开始计数，其中&lt;code&gt;nums1&lt;/code&gt; 是 &lt;code&gt;nums2&lt;/code&gt; 的子集。&lt;/p&gt;
-&lt;p&gt;对于每个 &lt;code&gt;0 &amp;lt;= i &amp;lt; nums1.length&lt;/code&gt; ，找出满足 &lt;code&gt;nums1[i] == nums2[j]&lt;/code&gt; 的下标 &lt;code&gt;j&lt;/code&gt; ，并且在 &lt;code&gt;nums2&lt;/code&gt; 确定 &lt;code&gt;nums2[j]&lt;/code&gt; 的 &lt;strong&gt;下一个更大元素&lt;/strong&gt; 。如果不存在下一个更大元素，那么本次查询的答案是 &lt;code&gt;-1&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;返回一个长度为 &lt;code&gt;nums1.length&lt;/code&gt; 的数组 &lt;code&gt;ans&lt;/code&gt; 作为答案，满足 &lt;code&gt;ans[i]&lt;/code&gt; 是如上所述的 &lt;strong&gt;下一个更大元素&lt;/strong&gt; 。&lt;/p&gt;</summary>
     
     
     

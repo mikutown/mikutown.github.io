@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Leafii"><meta name="copyright" content="Leafii"><meta name="generator" content="Hexo 6.2.0"><meta name="theme" content="hexo-theme-yun"><title>leetcode297.二叉树的序列化与反序列化 | LeafiiのBlog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.3.3/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><script src="https://fastly.jsdelivr.net/npm/@unocss/runtime/mini.global.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/png" href="../../../../favicon.ico"><link rel="mask-icon" href="../../../../favicon.ico" color="#0078E7"><link rel="preload" href="../../../../css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="../../../../js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"leafii.top","root":"/","title":["Leafii","の","博","客"],"version":"1.9.3","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"fireworks":{"colors":null},"vendors":{"darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="../../../../css/hexo-theme-yun.css"><script src="../../../../js/hexo-theme-yun.js" type="module"></script><link rel="alternate" href="../../../../atom.xml" title="LeafiiのBlog" type="application/atom+xml"><meta name="description" content="题目序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。 请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 &#x2F; 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。 提示: 输入输出格式与 Lee">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode297.二叉树的序列化与反序列化">
+<meta property="og:url" content="2023/06/02/leetcode297-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="LeafiiのBlog">
+<meta property="og:description" content="题目序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。 请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 &#x2F; 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。 提示: 输入输出格式与 Lee">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.leafii.top/img/serdeser.jpg">
+<meta property="article:published_time" content="2023-06-02T10:13:21.000Z">
+<meta property="article:modified_time" content="2023-06-02T10:15:07.416Z">
+<meta property="article:author" content="Leafii">
+<meta property="article:tag" content="leetcode">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="二叉树">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.leafii.top/img/serdeser.jpg"><script>(function() {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head><body><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="../../../../js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="../../../../js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="../../../../about/" title="Leafii"><img width="96" loading="lazy" src="../../../../images/avatar.jpg" alt="Leafii"></a><div class="site-author-name"><a href="../../../../about/">Leafii</a></div><a class="site-name" href="../../../../about/site.html">LeafiiのBlog</a><sub class="site-subtitle"></sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="../../../../index.html" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="../../../../archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">178</span></a></div><div class="site-state-item"><a href="../../../../categories/" title="分类"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">0</span></a></div><div class="site-state-item"><a href="../../../../tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">34</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="主题文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="/atom.xml" title="RSS" target="_blank" style="color:orange"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-rss-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/mikutown" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:yunsenye@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=299583310" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="../../../../links/" title="友情链接" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-genderless-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E7%AD%94"><span class="toc-number">2.</span> <span class="toc-text">解答</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="https:/leafii.top"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Leafii"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="LeafiiのBlog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">leetcode297.二叉树的序列化与反序列化</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2023-06-02 18:13:21" itemprop="dateCreated datePublished" datetime="2023-06-02T18:13:21+08:00">2023-06-02</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">934</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">3m</span></span></span><div class="post-classify"><span class="post-tag"><a class="tag-item" href="../../../../tags/leetcode/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">leetcode</span></a><a class="tag-item" href="../../../../tags/%E7%AE%97%E6%B3%95/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">算法</span></a><a class="tag-item" href="../../../../tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">二叉树</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。</p>
+<p>请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 &#x2F; 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。</p>
+<p><strong>提示:</strong> 输入输出格式与 LeetCode 目前使用的方式一致，详情请参阅 <a target="_blank" rel="noopener" href="https://support.leetcode.cn/hc/kb/article/1567641/">LeetCode 序列化二叉树的格式</a>。你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="http://cdn.leafii.top/img/serdeser.jpg" alt="img" loading="lazy"></p>
+<pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2,3,null,null,4,5]
+输出：[1,2,3,null,null,4,5]</code></pre>
+
+<p><strong>示例 2：</strong></p>
+<pre class="language-none"><code class="language-none">输入：root &#x3D; []
+输出：[]</code></pre>
+
+<p><strong>示例 3：</strong></p>
+<pre class="language-none"><code class="language-none">输入：root &#x3D; [1]
+输出：[1]</code></pre>
+
+<p><strong>示例 4：</strong></p>
+<pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2]
+输出：[1,2]</code></pre>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>树中结点数在范围 <code>[0, 104]</code> 内</li>
+<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
+</ul>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul>
+<li>层序遍历序列化</li>
+</ul>
+<p>解题思路：</p>
+<p>对于序列化操作，我们使用层序遍历将二叉树转化为字符串。使用队列辅助遍历，从根节点开始，依次处理每个节点，若节点为空则用字符串”null”表示，否则将节点值转化为字符串，并将其左右子节点加入队列。最后去掉最后一个多余的分隔符”,”并返回结果字符串。</p>
+<p>对于反序列化操作，我们使用stringstream来分割字符串，并依次处理每个节点。首先根据第一个值创建根节点，并加入队列。然后依次处理队列中的节点，每次从字符串中读取两个值，分别表示当前节点的左右子节点的值。若值为”null”，则表示该节点为空，否则创建相应的节点，并加入队列。重复上述过程直到队列为空。最后返回根节点即可。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Codec &#123;
+public:
+    &#x2F;&#x2F; Encodes a tree to a single string.
+    string serialize(TreeNode* root) &#123;
+        if (root &#x3D;&#x3D; nullptr) &#123;
+            return &quot;null&quot;;
+        &#125;
+        
+        &#x2F;&#x2F; 使用层序遍历将二叉树转化为字符串
+        string result;
+        queue&lt;TreeNode*&gt; q;
+        q.push(root);
+        
+        while (!q.empty()) &#123;
+            TreeNode* node &#x3D; q.front();
+            q.pop();
+            
+            if (node !&#x3D; nullptr) &#123;
+                &#x2F;&#x2F; 非空节点，将节点值转化为字符串
+                result +&#x3D; to_string(node-&gt;val);
+                
+                &#x2F;&#x2F; 将左右子节点加入队列
+                q.push(node-&gt;left);
+                q.push(node-&gt;right);
+            &#125; else &#123;
+                &#x2F;&#x2F; 空节点，用&quot;null&quot;表示
+                result +&#x3D; &quot;null&quot;;
+            &#125;
+            
+            &#x2F;&#x2F; 每个节点值后面加上分隔符&quot;,&quot;
+            result +&#x3D; &quot;,&quot;;
+        &#125;
+        
+        &#x2F;&#x2F; 去掉最后一个多余的分隔符&quot;,&quot;
+        result.pop_back();
+        
+        return result;
+    &#125;
+
+    &#x2F;&#x2F; Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) &#123;
+        if (data &#x3D;&#x3D; &quot;null&quot;) &#123;
+            return nullptr;
+        &#125;
+        
+        &#x2F;&#x2F; 使用stringstream分割字符串
+        stringstream ss(data);
+        string item;
+        queue&lt;TreeNode*&gt; q;
+        
+        &#x2F;&#x2F; 获取根节点值
+        getline(ss, item, &#39;,&#39;);
+        int rootVal &#x3D; stoi(item);
+        TreeNode* root &#x3D; new TreeNode(rootVal);
+        q.push(root);
+        
+        while (!q.empty()) &#123;
+            TreeNode* node &#x3D; q.front();
+            q.pop();
+            
+            &#x2F;&#x2F; 依次获取当前节点的左右子节点值
+            &#x2F;&#x2F; 并创建相应的节点
+            &#x2F;&#x2F; 左右子节点值为&quot;null&quot;时表示为空节点
+            getline(ss, item, &#39;,&#39;);
+            if (item !&#x3D; &quot;null&quot;) &#123;
+                int leftVal &#x3D; stoi(item);
+                TreeNode* leftNode &#x3D; new TreeNode(leftVal);
+                node-&gt;left &#x3D; leftNode;
+                q.push(leftNode);
+            &#125;
+            
+            getline(ss, item, &#39;,&#39;);
+            if (item !&#x3D; &quot;null&quot;) &#123;
+                int rightVal &#x3D; stoi(item);
+                TreeNode* rightNode &#x3D; new TreeNode(rightVal);
+                node-&gt;right &#x3D; rightNode;
+                q.push(rightNode);
+            &#125;
+        &#125;
+        
+        return root;
+    &#125;
+&#125;;
+</code></pre>
+
+</div></section><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>Leafii</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="2023/06/02/leetcode297-二叉树的序列化与反序列化/" title="leetcode297.二叉树的序列化与反序列化">2023/06/02/leetcode297-二叉树的序列化与反序列化/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="../../01/leetcode236-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/" rel="next" title="leetcode236.二叉树的最近公共祖先"><span class="post-nav-text">leetcode236.二叉树的最近公共祖先</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2023 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> Leafii</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.2.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.9.3</span></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="../../../../js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="搜索..." value=""></div><div id="local-search-result"></div></div><script>function initMourn() {
+  const date = new Date();
+  const today = (date.getMonth() + 1) + "-" + date.getDate()
+  const mourn_days = ["4-4","9-18"]
+  if (mourn_days.includes(today)) {
+    document.documentElement.style.filter = "grayscale(1)";
+  }
+}
+initMourn();</script></div></body></html>
