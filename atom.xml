@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-06-02T10:29:32.233Z</updated>
+  <updated>2023-06-05T08:30:38.327Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode107.二叉树的层序遍历II</title>
+    <link href="2023/06/05/leetcode107-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86II/"/>
+    <id>2023/06/05/leetcode107-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86II/</id>
+    <published>2023-06-05T08:22:14.000Z</published>
+    <updated>2023-06-05T08:30:38.327Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你二叉树的根节点 <code>root</code> ，返回其节点值 <strong>自底向上的层序遍历</strong> 。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）</p><span id="more"></span> <p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/tree1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [3,9,20,null,null,15,7]输出：[[15,7],[9,20],[3]]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1]输出：[[1]]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; []输出：[]</code></pre><p><strong>提示：</strong></p><ul><li>树中节点数目在范围 <code>[0, 2000]</code> 内</li><li><code>-1000 &lt;= Node.val &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>使用了层次遍历的思想，利用队列实现。具体解题思路如下：</p><ol><li>首先定义树的节点结构 <code>TreeNode</code>，包含节点值 <code>val</code>、左子节点指针 <code>left</code> 和右子节点指针 <code>right</code>。</li><li>定义一个函数 <code>levelOrderBottom</code>，该函数接受树的根节点 <code>root</code>，并返回层次遍历的结果。</li><li>在 <code>levelOrderBottom</code> 函数中，首先创建一个空的二维向量 <code>result</code>，用于保存最终的结果。</li><li>若根节点为空，直接返回空的结果向量 <code>result</code>。</li><li>创建一个队列 <code>q</code>，将根节点 <code>root</code> 入队。</li><li>进入循环，直到队列为空：<ul><li>获取当前层的节点数量 <code>levelSize</code>，这是为了在遍历当前层时，仅遍历当前层的节点。</li><li>创建一个空的向量 <code>level</code>，用于保存当前层的节点值。</li><li>进入内层循环，遍历当前层的节点：<ul><li>取出队首节点 <code>node</code>。</li><li>弹出队首节点。</li><li>将节点值 <code>node-&gt;val</code> 添加到当前层的结果向量 <code>level</code> 中。</li><li>若节点的左子节点不为空，将左子节点入队。</li><li>若节点的右子节点不为空，将右子节点入队。</li></ul></li><li>将当前层的结果向量 <code>level</code> 插入到结果向量 <code>result</code> 的开头，这是为了保持结果的逆序。</li></ul></li><li>循环结束后，返回结果向量 <code>result</code>。</li><li>在 <code>main</code> 函数中，创建一个测试用例 <code>[3,9,20,null,null,15,7]</code> 的树。</li><li>调用 <code>levelOrderBottom</code> 函数，获取层次遍历的结果，并输出结果。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrderBottom(TreeNode* root) &#123;        vector&lt;vector&lt;int&gt;&gt; result; &#x2F;&#x2F; 保存最终的结果        if (root &#x3D;&#x3D; NULL) &#123;            return result;        &#125;        queue&lt;TreeNode*&gt; q; &#x2F;&#x2F; 创建一个队列，用于层次遍历        q.push(root); &#x2F;&#x2F; 将根节点入队        while (!q.empty()) &#123;            int levelSize &#x3D; q.size(); &#x2F;&#x2F; 当前层的节点数量            vector&lt;int&gt; level; &#x2F;&#x2F; 保存当前层的节点值            for (int i &#x3D; 0; i &lt; levelSize; i++) &#123;                TreeNode* node &#x3D; q.front(); &#x2F;&#x2F; 取出队首节点                q.pop(); &#x2F;&#x2F; 弹出队首节点                level.push_back(node-&gt;val); &#x2F;&#x2F; 将节点值保存到当前层的结果中                if (node-&gt;left !&#x3D; NULL) &#123;                    q.push(node-&gt;left); &#x2F;&#x2F; 将左子节点入队                &#125;                if (node-&gt;right !&#x3D; NULL) &#123;                    q.push(node-&gt;right); &#x2F;&#x2F; 将右子节点入队                &#125;            &#125;            result.insert(result.begin(), level); &#x2F;&#x2F; 将当前层的结果插入到结果向量的开头        &#125;        return result;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你二叉树的根节点 &lt;code&gt;root&lt;/code&gt; ，返回其节点值 &lt;strong&gt;自底向上的层序遍历&lt;/strong&gt; 。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="二叉树" scheme="tags/二叉树/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode297.二叉树的序列化与反序列化</title>
@@ -466,28 +489,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个整数数组 &lt;code&gt;temperatures&lt;/code&gt; ，表示每天的温度，返回一个数组 &lt;code&gt;answer&lt;/code&gt; ，其中 &lt;code&gt;answer[i]&lt;/code&gt; 是指对于第 &lt;code&gt;i&lt;/code&gt; 天，下一个更高温度出现在几天后。如果气温在这之后都不会升高，请在该位置用 &lt;code&gt;0&lt;/code&gt; 来代替。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode503.下一个更大元素II</title>
-    <link href="2023/05/10/leetcode503-%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E5%85%83%E7%B4%A0II/"/>
-    <id>2023/05/10/leetcode503-%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E5%85%83%E7%B4%A0II/</id>
-    <published>2023-05-10T01:36:21.000Z</published>
-    <updated>2023-05-10T01:38:08.043Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个循环数组 <code>nums</code> （ <code>nums[nums.length - 1]</code> 的下一个元素是 <code>nums[0]</code> ），返回 <em><code>nums</code> 中每个元素的 <strong>下一个更大元素</strong></em> 。</p><p>数字 <code>x</code> 的 <strong>下一个更大的元素</strong> 是按数组遍历顺序，这个数字之后的第一个比它更大的数，这意味着你应该循环地搜索它的下一个更大的数。如果不存在，则输出 <code>-1</code> 。</p> <span id="more"></span><p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入: nums &#x3D; [1,2,1]输出: [2,-1,2]解释: 第一个 1 的下一个更大的数是 2；数字 2 找不到下一个更大的数； 第二个 1 的下一个最大的数需要循环搜索，结果也是 2。</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: nums &#x3D; [1,2,3,4,3]输出: [2,3,4,-1,4]</code></pre><p><strong>提示:</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 104</code></li><li><code>-109 &lt;= nums[i] &lt;= 109</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><p>直接进行循环遍历判断即可。C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; nextGreaterElements(vector&lt;int&gt;&amp; nums) &#123;        int len &#x3D; nums.size();        vector&lt;int&gt; answers;        for (int i &#x3D; 0; i &lt; len; i++) &#123;            int temp &#x3D; nums[i]; &#x2F;&#x2F; 保存当前需要判断的值            int temp_index &#x3D; i; &#x2F;&#x2F; 保存当前需要判断的值的索引            int answer &#x3D; -1; &#x2F;&#x2F; 初始化answer元素            for (int j &#x3D; (i + 1) % len; j !&#x3D; temp_index; j &#x3D; (j + 1) % len) &#123;                if (nums[j] &gt; temp) &#123;                    answer &#x3D; nums[j]; &#x2F;&#x2F;找到第一个比temp大的元素，将其赋值给answer 并跳出当前for循环                    break;                &#125;            &#125;            answers.push_back(answer); &#x2F;&#x2F; 将answer放进答案数组中        &#125;        return answers; &#x2F;&#x2F; 返回答案数组    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个循环数组 &lt;code&gt;nums&lt;/code&gt; （ &lt;code&gt;nums[nums.length - 1]&lt;/code&gt; 的下一个元素是 &lt;code&gt;nums[0]&lt;/code&gt; ），返回 &lt;em&gt;&lt;code&gt;nums&lt;/code&gt; 中每个元素的 &lt;strong&gt;下一个更大元素&lt;/strong&gt;&lt;/em&gt; 。&lt;/p&gt;
-&lt;p&gt;数字 &lt;code&gt;x&lt;/code&gt; 的 &lt;strong&gt;下一个更大的元素&lt;/strong&gt; 是按数组遍历顺序，这个数字之后的第一个比它更大的数，这意味着你应该循环地搜索它的下一个更大的数。如果不存在，则输出 &lt;code&gt;-1&lt;/code&gt; 。&lt;/p&gt;</summary>
     
     
     
