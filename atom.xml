@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-06-05T08:30:38.327Z</updated>
+  <updated>2023-06-08T06:54:04.784Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode987.二叉树的垂序遍历</title>
+    <link href="2023/06/08/leetcode987-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%9E%82%E5%BA%8F%E9%81%8D%E5%8E%86/"/>
+    <id>2023/06/08/leetcode987-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%9E%82%E5%BA%8F%E9%81%8D%E5%8E%86/</id>
+    <published>2023-06-08T06:47:33.000Z</published>
+    <updated>2023-06-08T06:54:04.784Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你二叉树的根结点 <code>root</code> ，请你设计算法计算二叉树的 <strong>垂序遍历</strong> 序列。</p><p>对位于 <code>(row, col)</code> 的每个结点而言，其左右子结点分别位于 <code>(row + 1, col - 1)</code> 和 <code>(row + 1, col + 1)</code> 。树的根结点位于 <code>(0, 0)</code> 。</p><p>二叉树的 <strong>垂序遍历</strong> 从最左边的列开始直到最右边的列结束，按列索引每一列上的所有结点，形成一个按出现位置从上到下排序的有序列表。如果同行同列上有多个结点，则按结点的值从小到大进行排序。</p><p>返回二叉树的 <strong>垂序遍历</strong> 序列。</p><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/vtree1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [3,9,20,null,null,15,7]输出：[[9],[3,15],[20],[7]]解释：列 -1 ：只有结点 9 在此列中。列  0 ：只有结点 3 和 15 在此列中，按从上到下顺序。列  1 ：只有结点 20 在此列中。列  2 ：只有结点 7 在此列中。</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/vtree2.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2,3,4,5,6,7]输出：[[4],[2],[1,5,6],[3],[7]]解释：列 -2 ：只有结点 4 在此列中。列 -1 ：只有结点 2 在此列中。列  0 ：结点 1 、5 和 6 都在此列中。          1 在上面，所以它出现在前面。          5 和 6 位置都是 (2, 0) ，所以按值从小到大排序，5 在 6 的前面。列  1 ：只有结点 3 在此列中。列  2 ：只有结点 7 在此列中。</code></pre><p><strong>示例 3：</strong></p><p><img src="http://cdn.leafii.top/img/vtree3.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2,3,4,6,5,7]输出：[[4],[2],[1,5,6],[3],[7]]解释：这个示例实际上与示例 2 完全相同，只是结点 5 和 6 在树中的位置发生了交换。因为 5 和 6 的位置仍然相同，所以答案保持不变，仍然按值从小到大排序。</code></pre><p><strong>提示：</strong></p><ul><li>树中结点数目总数在范围 <code>[1, 1000]</code> 内</li><li><code>0 &lt;= Node.val &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>解题思路如下：</p><ol><li>编写了一个辅助函数 <code>verticalTraversalHelper</code>，用于递归处理二叉树。该函数的参数包括当前结点 <code>root</code>、当前结点所在的列数 <code>x</code>、当前结点所在的行数 <code>y</code>，以及一个用于存储结点值的 <code>map</code> 结构 <code>nodes</code>。在该函数中，首先判断当前结点是否为空，若为空则直接返回；否则，将当前结点的值添加到 <code>nodes</code> 结构中对应的列和行中，并递归调用该函数处理左右子树，列数 <code>x</code> 根据左右移动。</li><li>定义了主函数 <code>verticalTraversal</code>，用于实现按照列的顺序遍历二叉树。在该函数中，首先定义了一个二维数组 <code>result</code>，用于存储最终结果。然后判断根结点是否为空，若为空则直接返回空数组。接下来使用 <code>map</code> 结构 <code>nodes</code> 来存储每一列的结点值，其中 key 为列数，value 为行数和结点值的映射。</li><li>调用辅助函数 <code>verticalTraversalHelper</code> 处理二叉树，将结点按照列的顺序分组，存储在 <code>nodes</code> 结构中。</li><li>使用队列 <code>columns</code> 对列数进行排序，然后按照列数从小到大遍历结点值，并将其添加到结果数组 <code>result</code> 中。在遍历过程中，首先从队列中取出一个列数 <code>col</code>，然后使用优先队列 <code>pq</code> 对该列的行数和结点值进行排序。将当前列的结点值按照行数加入优先队列。</li><li>将优先队列中的结点值按照行数顺序取出，存储在一个临时数组 <code>colValues</code> 中。</li><li>将 <code>colValues</code> 数组添加到结果数组 <code>result</code> 中。</li><li>最后返回结果数组 <code>result</code>。</li><li>在 <code>main</code> 函数中，创建了一个测试二叉树，并调用 <code>verticalTraversal</code> 函数进行遍历，然后打印结果。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    &#x2F;&#x2F; 辅助函数，用于将二叉树的结点按照列的顺序进行分组    void verticalTraversalHelper(TreeNode *root, int x, int y, map&lt;int, map&lt;int, vector&lt;int&gt;&gt;&gt; &amp;nodes) &#123;        if (!root)            return;        &#x2F;&#x2F; 在对应的列和行中添加当前结点的值        nodes[x][y].push_back(root-&gt;val);        &#x2F;&#x2F; 递归处理左子树和右子树，列数x根据左右移动        verticalTraversalHelper(root-&gt;left, x - 1, y + 1, nodes);        verticalTraversalHelper(root-&gt;right, x + 1, y + 1, nodes);    &#125;    &#x2F;&#x2F; 主函数，返回按照列的顺序遍历的结点值的二维数组    vector&lt;vector&lt;int&gt;&gt; verticalTraversal(TreeNode *root) &#123;        &#x2F;&#x2F; 存储结点值的二维数组        vector&lt;vector&lt;int&gt;&gt; result;        &#x2F;&#x2F; 如果根结点为空，直接返回空数组        if (!root)            return result;        &#x2F;&#x2F; 使用map来存储每一列的结点值，key为列数，value为行数和结点值的映射        map&lt;int, map&lt;int, vector&lt;int&gt;&gt;&gt; nodes;        &#x2F;&#x2F; 递归处理二叉树，将结点按照列的顺序分组        verticalTraversalHelper(root, 0, 0, nodes);        &#x2F;&#x2F; 使用队列对列数进行排序        queue&lt;int&gt; columns;        for (auto &amp;node : nodes)            columns.push(node.first);        &#x2F;&#x2F; 按照列数从小到大遍历结点值，并添加到结果数组中        while (!columns.empty()) &#123;            int col &#x3D; columns.front();            columns.pop();            &#x2F;&#x2F; 使用优先队列对行数和结点值进行排序            priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, greater&lt;pair&lt;int, int&gt;&gt;&gt; pq;            &#x2F;&#x2F; 将当前列的结点值按照行数加入优先队列            for (auto &amp;node : nodes[col]) &#123;                int row &#x3D; node.first;                for (int val : node.second) &#123;                    pq.push(&#123;row, val&#125;);                &#125;            &#125;            &#x2F;&#x2F; 将当前列的结点值按照行数顺序添加到结果数组中            vector&lt;int&gt; colValues;            while (!pq.empty()) &#123;                colValues.push_back(pq.top().second);                pq.pop();            &#125;            result.push_back(colValues);        &#125;        return result;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你二叉树的根结点 &lt;code&gt;root&lt;/code&gt; ，请你设计算法计算二叉树的 &lt;strong&gt;垂序遍历&lt;/strong&gt; 序列。&lt;/p</summary>
+      
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="二叉树" scheme="tags/二叉树/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode107.二叉树的层序遍历II</title>
@@ -475,27 +501,6 @@
     <category term="知识图谱" scheme="tags/知识图谱/"/>
     
     <category term="车间调度" scheme="tags/车间调度/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode739.每日温度</title>
-    <link href="2023/05/11/leetcode739-%E6%AF%8F%E6%97%A5%E6%B8%A9%E5%BA%A6/"/>
-    <id>2023/05/11/leetcode739-%E6%AF%8F%E6%97%A5%E6%B8%A9%E5%BA%A6/</id>
-    <published>2023-05-11T01:07:07.000Z</published>
-    <updated>2023-05-11T02:57:25.237Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个整数数组 <code>temperatures</code> ，表示每天的温度，返回一个数组 <code>answer</code> ，其中 <code>answer[i]</code> 是指对于第 <code>i</code> 天，下一个更高温度出现在几天后。如果气温在这之后都不会升高，请在该位置用 <code>0</code> 来代替。</p> <span id="more"></span><p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入: temperatures &#x3D; [73,74,75,71,69,72,76,73]输出: [1,1,4,2,1,1,0,0]</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: temperatures &#x3D; [30,40,50,60]输出: [1,1,1,0]</code></pre><p><strong>示例 3:</strong></p><pre class="language-none"><code class="language-none">输入: temperatures &#x3D; [30,60,90]输出: [1,1,0]</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= temperatures.length &lt;= 105</code></li><li><code>30 &lt;= temperatures[i] &lt;= 100</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>单调栈</li></ul><p>解本题的第一种解题思路是直接进行暴力模拟。但是本文的样例中，若数组的长度很长而且元素都是同一个值，会导致超出时间限制，因此我们必须考虑使用其他的数据结构帮助我们进行解题。本体可以使用栈的数据结构帮助我们解题，思路如下：首先初始化答案数组为全0，数组的长度为temperatures数组的长度，栈中的元素是尚未找到下一个更高温度的索引。遍历温度列表时，如果当前温度大于栈顶索引对应的温度，说明栈顶索引对应的温度已经找到了下一个更高温度，可以计算出答案并更新结果数组。通过这种方法，可以在一次遍历中完成计算，时间复杂度为 O(n)，满足时间限制。C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; dailyTemperatures(vector&lt;int&gt;&amp; temperatures) &#123;        int len &#x3D; temperatures.size();        vector&lt;int&gt; answers(len, 0); &#x2F;&#x2F; 储存答案数组        stack&lt;int&gt; stk; &#x2F;&#x2F; 单调栈        for (int i &#x3D; 0; i &lt; len; i++) &#123;            while (!stk.empty() &amp;&amp; temperatures[stk.top()] &lt; temperatures[i]) &#123; &#x2F;&#x2F; 当当前温度高于栈顶索引的温度时                answers[stk.top()] &#x3D; i - stk.top(); &#x2F;&#x2F; 更新对应索引的answer                stk.pop(); &#x2F;&#x2F; 较低的温度的索引出栈            &#125;            stk.push(i); &#x2F;&#x2F; 较高的温度索引入栈        &#125;        return answers; &#x2F;&#x2F; 返回答案数组    &#125;&#125;;</code></pre><p>当给定输入 temperatures &#x3D; [73, 74, 75, 71, 69, 72, 76, 73]，我们可以逐步执行优化后的代码来帮助您理解它的工作原理：</p><ol><li>初始化空栈和答案数组：stk &#x3D; []，answers &#x3D; [0, 0, 0, 0, 0, 0, 0, 0]。</li><li>遍历温度列表：<ul><li>对于第一个温度 73：<ul><li>栈为空，将索引 0 压入栈。</li></ul></li><li>对于第二个温度 74：<ul><li>栈顶索引对应的温度是 73，74 &gt; 73，可以计算答案 answers[0] &#x3D; 1。</li><li>弹出栈顶索引 0，将索引 1 压入栈。</li></ul></li><li>对于第三个温度 75：<ul><li>栈顶索引对应的温度是 74，75 &gt; 74，可以计算答案 answers[1] &#x3D; 1。</li><li>弹出栈顶索引 1，将索引 2 压入栈。</li></ul></li><li>对于第四个温度 71：<ul><li>栈顶索引对应的温度是 75，71 &lt; 75，将索引 3 压入栈。</li></ul></li><li>对于第五个温度 69：<ul><li>栈顶索引对应的温度是 71，69 &lt; 71，将索引 4 压入栈。</li></ul></li><li>对于第六个温度 72：<ul><li>栈顶索引对应的温度是 69，72 &gt; 69，可以计算答案 answers[4] &#x3D; 2。</li><li>弹出栈顶索引 4，将索引 5 压入栈。</li></ul></li><li>对于第七个温度 76：<ul><li>栈顶索引对应的温度是 72，76 &gt; 72，可以计算答案 answers[5] &#x3D; 1。</li><li>弹出栈顶索引 5，将索引 6 压入栈。</li></ul></li><li>对于最后一个温度 73：<ul><li>栈顶索引对应的温度是 76，73 &lt; 76，将索引 7 压入栈。</li></ul></li></ul></li><li>完成遍历后，栈中剩余的索引对应的答案无法计算，因为它们没有找到下一个更高温度。因此，答案数组中仍然为0。</li></ol><p>最终的答案数组为 [1, 1, 4, 2, 1, 1, 0, 0]，它表示每个温度需要等待的天数，直到出现更高的温度。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个整数数组 &lt;code&gt;temperatures&lt;/code&gt; ，表示每天的温度，返回一个数组 &lt;code&gt;answer&lt;/code&gt; ，其中 &lt;code&gt;answer[i]&lt;/code&gt; 是指对于第 &lt;code&gt;i&lt;/code&gt; 天，下一个更高温度出现在几天后。如果气温在这之后都不会升高，请在该位置用 &lt;code&gt;0&lt;/code&gt; 来代替。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
     
   </entry>
   
