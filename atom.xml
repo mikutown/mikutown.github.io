@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-06-28T02:15:06.489Z</updated>
+  <updated>2023-06-29T09:16:54.172Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,58 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode701.二叉搜索树中的插入操作</title>
+    <link href="2023/06/29/leetcode701-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C/"/>
+    <id>2023/06/29/leetcode701-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C/</id>
+    <published>2023-06-29T09:06:58.000Z</published>
+    <updated>2023-06-29T09:16:54.172Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定二叉搜索树（BST）的根节点 <code>root</code> 和要插入树中的值 <code>value</code> ，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 <strong>保证</strong> ，新值和原始二叉搜索树中的任意节点值都不同。</p><p><strong>注意</strong>，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 <strong>任意有效的结果</strong> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="https://assets.leetcode.com/uploads/2020/10/05/insertbst.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [4,2,7,1,3], val &#x3D; 5输出：[4,2,7,1,3,5]解释：另一个满足题目要求可以通过的树是：</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [40,20,60,10,30,50,70], val &#x3D; 25输出：[40,20,60,10,30,50,70,null,null,25]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [4,2,7,1,3,null,null,null,null,null,null], val &#x3D; 5输出：[4,2,7,1,3,5]</code></pre><p><strong>提示：</strong></p><ul><li>树中的节点数将在 <code>[0, 104]</code>的范围内。</li><li><code>-108 &lt;= Node.val &lt;= 108</code></li><li>所有值 <code>Node.val</code> 是 <strong>独一无二</strong> 的。</li><li><code>-108 &lt;= val &lt;= 108</code></li><li><strong>保证</strong> <code>val</code> 在原始BST中不存在。</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>见代码</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    TreeNode* insertIntoBST(TreeNode* root, int val) &#123;        if (root &#x3D;&#x3D; nullptr) &#123;            &#x2F;&#x2F; 当前节点为空，创建一个新节点并赋值            return new TreeNode(val);        &#125;        if (val &lt; root-&gt;val) &#123;            &#x2F;&#x2F; 要插入的值小于当前节点的值，向左子树递归插入            root-&gt;left &#x3D; insertIntoBST(root-&gt;left, val);        &#125; else &#123;            &#x2F;&#x2F; 要插入的值大于等于当前节点的值，向右子树递归插入            root-&gt;right &#x3D; insertIntoBST(root-&gt;right, val);        &#125;        return root;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定二叉搜索树（BST）的根节点 &lt;code&gt;root&lt;/code&gt; 和要插入树中的值 &lt;code&gt;value&lt;/code&gt; ，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 &lt;strong&gt;保证&lt;/strong&gt; ，新值和原始二叉搜索树中的任意节点值都不同。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 &lt;strong&gt;任意有效的结果&lt;/strong&gt; 。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="二叉树" scheme="tags/二叉树/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>leetcode450.删除二叉树中的节点</title>
+    <link href="2023/06/29/leetcode450-%E5%88%A0%E9%99%A4%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9/"/>
+    <id>2023/06/29/leetcode450-%E5%88%A0%E9%99%A4%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9/</id>
+    <published>2023-06-29T09:06:41.000Z</published>
+    <updated>2023-06-29T09:11:20.477Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个二叉搜索树的根节点 <strong>root</strong> 和一个值 <strong>key</strong>，删除二叉搜索树中的 <strong>key</strong> 对应的节点，并保证二叉搜索树的性质不变。返回二叉搜索树（有可能被更新）的根节点的引用。</p><p>一般来说，删除节点可分为两个步骤：</p><ol><li>首先找到需要删除的节点；</li><li>如果找到了，删除它。</li></ol> <span id="more"></span><p><strong>示例 1:</strong></p><p><img src="https://assets.leetcode.com/uploads/2020/09/04/del_node_1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [5,3,6,2,4,null,7], key &#x3D; 3输出：[5,4,6,2,null,null,7]解释：给定需要删除的节点值是 3，所以我们首先找到 3 这个节点，然后删除它。一个正确的答案是 [5,4,6,2,null,null,7], 如下图所示。另一个正确答案是 [5,2,6,null,4,null,7]。</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: root &#x3D; [5,3,6,2,4,null,7], key &#x3D; 0输出: [5,3,6,2,4,null,7]解释: 二叉树不包含值为 0 的节点</code></pre><p><strong>示例 3:</strong></p><pre class="language-none"><code class="language-none">输入: root &#x3D; [], key &#x3D; 0输出: []</code></pre><p><strong>提示:</strong></p><ul><li>节点数的范围 <code>[0, 104]</code>.</li><li><code>-105 &lt;= Node.val &lt;= 105</code></li><li>节点值唯一</li><li><code>root</code> 是合法的二叉搜索树</li><li><code>-105 &lt;= key &lt;= 105</code></li></ul><p><strong>进阶：</strong> 要求算法时间复杂度为 O(h)，h 为树的高度。</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>直接上代码：</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    TreeNode* deleteNode(TreeNode* root, int key) &#123;        if (root &#x3D;&#x3D; nullptr) &#123;            return nullptr;        &#125;        if (root-&gt;val &#x3D;&#x3D; key) &#123;            &#x2F;&#x2F; 当前节点需要删除            if (root-&gt;left &#x3D;&#x3D; nullptr) &#123;                &#x2F;&#x2F; 没有左子树，返回右子树                return root-&gt;right;            &#125; else if (root-&gt;right &#x3D;&#x3D; nullptr) &#123;                &#x2F;&#x2F; 没有右子树，返回左子树                return root-&gt;left;            &#125; else &#123;                &#x2F;&#x2F; 左右子树都存在，找到右子树中的最小节点                TreeNode* minNode &#x3D; findMin(root-&gt;right);                &#x2F;&#x2F; 将最小节点的值赋给当前节点                root-&gt;val &#x3D; minNode-&gt;val;                &#x2F;&#x2F; 在右子树中递归删除最小节点                root-&gt;right &#x3D; deleteNode(root-&gt;right, minNode-&gt;val);            &#125;        &#125; else if (root-&gt;val &gt; key) &#123;            &#x2F;&#x2F; 要删除的值小于当前节点的值，递归在左子树中删除            root-&gt;left &#x3D; deleteNode(root-&gt;left, key);        &#125; else &#123;            &#x2F;&#x2F; 要删除的值大于当前节点的值，递归在右子树中删除            root-&gt;right &#x3D; deleteNode(root-&gt;right, key);        &#125;        return root;    &#125;private:    &#x2F;&#x2F; 在二叉搜索树中找到最小节点    TreeNode* findMin(TreeNode* node) &#123;        while (node-&gt;left !&#x3D; nullptr) &#123;            node &#x3D; node-&gt;left;        &#125;        return node;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个二叉搜索树的根节点 &lt;strong&gt;root&lt;/strong&gt; 和一个值 &lt;strong&gt;key&lt;/strong&gt;，删除二叉搜索树中的 &lt;strong&gt;key&lt;/strong&gt; 对应的节点，并保证二叉搜索树的性质不变。返回二叉搜索树（有可能被更新）的根节点的引用。&lt;/p&gt;
+&lt;p&gt;一般来说，删除节点可分为两个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先找到需要删除的节点；&lt;/li&gt;
+&lt;li&gt;如果找到了，删除它。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="二叉树" scheme="tags/二叉树/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode226.翻转二叉树</title>
@@ -439,50 +491,6 @@
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个数组 &lt;code&gt;nums&lt;/code&gt;，对于其中每个元素 &lt;code&gt;nums[i]&lt;/code&gt;，请你统计数组中比它小的所有数字的数目。&lt;/p&gt;
 &lt;p&gt;换而言之，对于每个 &lt;code&gt;nums[i]&lt;/code&gt; 你必须计算出有效的 &lt;code&gt;j&lt;/code&gt; 的数量，其中 &lt;code&gt;j&lt;/code&gt; 满足 &lt;code&gt;j != i&lt;/code&gt; &lt;strong&gt;且&lt;/strong&gt; &lt;code&gt;nums[j] &amp;lt; nums[i]&lt;/code&gt; 。&lt;/p&gt;
 &lt;p&gt;以数组形式返回答案。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode906.超级回文数</title>
-    <link href="2023/05/19/leetcode906-%E8%B6%85%E7%BA%A7%E5%9B%9E%E6%96%87%E6%95%B0/"/>
-    <id>2023/05/19/leetcode906-%E8%B6%85%E7%BA%A7%E5%9B%9E%E6%96%87%E6%95%B0/</id>
-    <published>2023-05-19T09:43:18.000Z</published>
-    <updated>2023-05-19T09:45:56.607Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>如果一个正整数自身是回文数，而且它也是一个回文数的平方，那么我们称这个数为超级回文数。</p><p>现在，给定两个正整数 <code>L</code> 和 <code>R</code> （以字符串形式表示），返回包含在范围 <code>[L, R]</code> 中的超级回文数的数目。</p> <span id="more"></span><p><strong>示例：</strong></p><pre class="language-none"><code class="language-none">输入：L &#x3D; &quot;4&quot;, R &#x3D; &quot;1000&quot;输出：4解释：4，9，121，以及 484 是超级回文数。注意 676 不是一个超级回文数： 26 * 26 &#x3D; 676，但是 26 不是回文数。</code></pre><p><strong>提示：</strong></p><ol><li><code>1 &lt;= len(L) &lt;= 18</code></li><li><code>1 &lt;= len(R) &lt;= 18</code></li><li><code>L</code> 和 <code>R</code> 是表示 <code>[1, 10^18)</code> 范围的整数的字符串。</li><li><code>int(L) &lt;= int(R)</code></li></ol><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>直接求解</li></ul><ol><li>首先，将输入的左右边界转换为长整型。</li><li>然后，利用两个循环来生成所有可能的回文数：<ul><li>第一个循环从1到9，将每个数字作为回文数的中心，生成回文数。</li><li>第二个循环从1到9999，将每个数字作为回文数的前半部分，并生成回文数的后半部分。</li></ul></li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int superpalindromesInRange(string left, string right) &#123;        long long leftVal &#x3D; stoll(left); &#x2F;&#x2F; 将左边界转换为长整型        long long rightVal &#x3D; stoll(right); &#x2F;&#x2F; 将右边界转换为长整型        int count &#x3D; 0;        &#x2F;&#x2F; 第一部分：生成所有可能的回文数的前半部分        for (int i &#x3D; 1; i &lt;&#x3D; 9; ++i) &#123;            generatePalindromes(to_string(i), leftVal, rightVal, count); &#x2F;&#x2F; 以i为中心，生成回文数        &#125;                &#x2F;&#x2F; 第二部分：生成所有可能的回文数的中间部分        for (int i &#x3D; 1; i &lt;&#x3D; 9999; ++i) &#123;            string leftPart &#x3D; to_string(i);            string rightPart &#x3D; to_string(i);            reverse(rightPart.begin(), rightPart.end()); &#x2F;&#x2F; 反转右半部分                        generatePalindromes(leftPart + rightPart, leftVal, rightVal, count); &#x2F;&#x2F; 以i为中心，生成回文数            for (int j &#x3D; 0; j &lt;&#x3D; 9; ++j) &#123;                generatePalindromes(leftPart + to_string(j) + rightPart, leftVal, rightVal, count); &#x2F;&#x2F; 以i为中心，生成回文数            &#125;        &#125;                return count;    &#125;    private:    &#x2F;&#x2F; 生成回文数并判断是否为超级回文数    void generatePalindromes(string str, long long leftVal, long long rightVal, int&amp; count) &#123;        long long num &#x3D; stoll(str);        num *&#x3D; num; &#x2F;&#x2F; 平方得到回文数                if (num &gt; rightVal) &#123;            return;        &#125;                if (num &gt;&#x3D; leftVal &amp;&amp; isPalindrome(to_string(num))) &#123;            ++count;        &#125;    &#125;        &#x2F;&#x2F; 判断是否为回文数    bool isPalindrome(string str) &#123;        int left &#x3D; 0;        int right &#x3D; str.length() - 1;                while (left &lt; right) &#123;            if (str[left] !&#x3D; str[right]) &#123;                return false;            &#125;                        ++left;            --right;        &#125;                return true;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;如果一个正整数自身是回文数，而且它也是一个回文数的平方，那么我们称这个数为超级回文数。&lt;/p&gt;
-&lt;p&gt;现在，给定两个正整数 &lt;code&gt;L&lt;/code&gt; 和 &lt;code&gt;R&lt;/code&gt; （以字符串形式表示），返回包含在范围 &lt;code&gt;[L, R]&lt;/code&gt; 中的超级回文数的数目。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode1291.顺次数</title>
-    <link href="2023/05/17/leetcode1291-%E9%A1%BA%E6%AC%A1%E6%95%B0/"/>
-    <id>2023/05/17/leetcode1291-%E9%A1%BA%E6%AC%A1%E6%95%B0/</id>
-    <published>2023-05-17T05:24:23.000Z</published>
-    <updated>2023-05-17T05:26:05.938Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>我们定义「顺次数」为：每一位上的数字都比前一位上的数字大 <code>1</code> 的整数。</p><p>请你返回由 <code>[low, high]</code> 范围内所有顺次数组成的 <strong>有序</strong> 列表（从小到大排序）。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输出：low &#x3D; 100, high &#x3D; 300输出：[123,234]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输出：low &#x3D; 1000, high &#x3D; 13000输出：[1234,2345,3456,4567,5678,6789,12345]</code></pre><p><strong>提示：</strong></p><ul><li><code>10 &lt;= low &lt;= high &lt;= 10^9</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>直接生成符合条件的数字</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; sequentialDigits(int low, int high) &#123;        vector&lt;int&gt; result; &#x2F;&#x2F; 存储符合条件的顺次数结果的向量        for (int i &#x3D; 1; i &lt;&#x3D; 9; i++) &#123;            int num &#x3D; i; &#x2F;&#x2F; 初始化当前数字为起始位            for (int j &#x3D; i + 1; j &lt;&#x3D; 9; j++) &#123;                num &#x3D; num * 10 + j; &#x2F;&#x2F; 逐位增加数字                if (num &gt;&#x3D; low &amp;&amp; num &lt;&#x3D; high) &#123;                    result.push_back(num); &#x2F;&#x2F; 如果生成的数字在给定范围内，则添加到结果向量中                &#125;            &#125;        &#125;        sort(result.begin(), result.end()); &#x2F;&#x2F; 对结果向量进行排序        return result; &#x2F;&#x2F; 返回最终的结果向量    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;我们定义「顺次数」为：每一位上的数字都比前一位上的数字大 &lt;code&gt;1&lt;/code&gt; 的整数。&lt;/p&gt;
-&lt;p&gt;请你返回由 &lt;code&gt;[low, high]&lt;/code&gt; 范围内所有顺次数组成的 &lt;strong&gt;有序&lt;/strong&gt; 列表（从小到大排序）。&lt;/p&gt;</summary>
     
     
     
