@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-07-21T01:26:26.514Z</updated>
+  <updated>2023-07-24T03:39:27.990Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode590.N叉树的后序遍历</title>
+    <link href="2023/07/24/leetcode590-N%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/"/>
+    <id>2023/07/24/leetcode590-N%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/</id>
+    <published>2023-07-24T03:22:59.000Z</published>
+    <updated>2023-07-24T03:39:27.990Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个 n 叉树的根节点 <code>root</code> ，返回 <em>其节点值的 <strong>后序遍历</strong></em> 。</p><p>n 叉树 在输入中按层序遍历进行序列化表示，每组子节点由空值 <code>null</code> 分隔（请参见示例）。</p><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/narytreeexample.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,null,3,2,4,null,5,6]输出：[5,6,3,2,4,1]</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/sample_4_964.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]输出：[2,6,14,11,7,3,12,8,4,13,9,10,5,1]</code></pre><p><strong>提示：</strong></p><ul><li>节点总数在范围 <code>[0, 104]</code> 内</li><li><code>0 &lt;= Node.val &lt;= 104</code></li><li>n 叉树的高度小于或等于 <code>1000</code></li></ul><p><strong>进阶：</strong>递归法很简单，你可以使用迭代法完成此题吗?</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>递归法</li></ul><p>直接上代码。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;*&#x2F;&#x2F; Definition for a Node.class Node &#123;public:    int val;    vector&lt;Node*&gt; children;    Node() &#123;&#125;    Node(int _val) &#123;        val &#x3D; _val;    &#125;    Node(int _val, vector&lt;Node*&gt; _children) &#123;        val &#x3D; _val;        children &#x3D; _children;    &#125;&#125;;*&#x2F;class Solution &#123;public:    vector&lt;int&gt; postorder(Node* root) &#123;        vector&lt;int&gt; result;        if (!root) return result;                postorderHelper(root, result);        return result;    &#125;        &#x2F;&#x2F; 后序遍历辅助函数    void postorderHelper(Node* node, vector&lt;int&gt;&amp; result) &#123;        if (!node) return;                for (Node* child : node-&gt;children) &#123;            postorderHelper(child, result);        &#125;                result.push_back(node-&gt;val);    &#125;&#125;;</code></pre><ul><li>迭代法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;*&#x2F;&#x2F; Definition for a Node.class Node &#123;public:    int val;    vector&lt;Node*&gt; children;    Node() &#123;&#125;    Node(int _val) &#123;        val &#x3D; _val;    &#125;    Node(int _val, vector&lt;Node*&gt; _children) &#123;        val &#x3D; _val;        children &#x3D; _children;    &#125;&#125;;*&#x2F;class Solution &#123;public:    vector&lt;int&gt; postorder(Node* root) &#123;        vector&lt;int&gt; result;        if (root &#x3D;&#x3D; NULL) return result;        stack&lt;Node*&gt; st;        st.push(root);        while (!st.empty()) &#123;            Node* node &#x3D; st.top();            st.pop();            result.push_back(node-&gt;val);            for (int i &#x3D; 0; i &lt; node-&gt;children.size(); i++) &#123; &#x2F;&#x2F; 相对于前序遍历，这里反过来                if (node-&gt;children[i] !&#x3D; NULL) &#123;                    st.push(node-&gt;children[i]);                &#125;            &#125;        &#125;        reverse(result.begin(), result.end()); &#x2F;&#x2F; 反转数组        return result;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个 n 叉树的根节点 &lt;code&gt;root&lt;/code&gt; ，返回 &lt;em&gt;其节点值的 &lt;strong&gt;后序遍历&lt;/strong&gt;&lt;/e</summary>
+      
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode980.不同路径III</title>
@@ -462,30 +486,6 @@
 &lt;p&gt;想象一下，当你将其中一棵覆盖到另一棵之上时，两棵树上的一些节点将会重叠（而另一些不会）。你需要将这两棵树合并成一棵新二叉树。合并的规则是：如果两个节点重叠，那么将这两个节点的值相加作为合并后节点的新值；否则，&lt;strong&gt;不为&lt;/strong&gt; null 的节点将直接作为新二叉树的节点。&lt;/p&gt;
 &lt;p&gt;返回合并后的二叉树。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意:&lt;/strong&gt; 合并过程必须从两个树的根节点开始。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="二叉树" scheme="tags/二叉树/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode700.二叉搜索树中的搜索</title>
-    <link href="2023/05/29/leetcode700-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%90%9C%E7%B4%A2/"/>
-    <id>2023/05/29/leetcode700-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%90%9C%E7%B4%A2/</id>
-    <published>2023-05-29T07:09:15.000Z</published>
-    <updated>2023-05-29T07:13:35.122Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定二叉搜索树（BST）的根节点 <code>root</code> 和一个整数值 <code>val</code>。</p><p>你需要在 BST 中找到节点值等于 <code>val</code> 的节点。 返回以该节点为根的子树。 如果节点不存在，则返回 <code>null</code> 。</p><span id="more"></span> <p><strong>示例 1:</strong></p><p><img src="http://cdn.leafii.top/img/tree1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [4,2,7,1,3], val &#x3D; 2输出：[2,1,3]</code></pre><p><strong>示例 2:</strong></p><p><img src="http://cdn.leafii.top/img/tree2.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [4,2,7,1,3], val &#x3D; 5输出：[]</code></pre><p><strong>提示：</strong></p><ul><li>数中节点数在 <code>[1, 5000]</code> 范围内</li><li><code>1 &lt;= Node.val &lt;= 107</code></li><li><code>root</code> 是二叉搜索树</li><li><code>1 &lt;= val &lt;= 107</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>直接搜索</li></ul><p>在二叉搜索树中，每个节点的值大于其左子树中的所有节点的值，小于其右子树中的所有节点的值，因此可以利用这个性质进行查找操作。你的方法通过迭代方式在二叉搜索树中查找给定值，并返回匹配的节点指针。这种查找方式通常称为”二叉搜索树的查找”或”BST查找”。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    TreeNode* searchBST(TreeNode* root, int val) &#123;        while (root !&#x3D; nullptr) &#123; &#x2F;&#x2F; 在root非空的情况下进行循环            if (val &#x3D;&#x3D; root-&gt;val) &#123;                return root; &#x2F;&#x2F; 如果值匹配就直接返回root            &#125;            else if (val &gt; root-&gt;val) &#123;                root &#x3D; root-&gt;right; &#x2F;&#x2F; 如果值大于root现有的值，它的目标节点只有可能在他的右子树            &#125;            else &#123;                root &#x3D; root-&gt;left; &#x2F;&#x2F; 如果值小于root现有的值，它的目标节点只有可能在他的左子树            &#125;        &#125;        return nullptr; &#x2F;&#x2F; 如果root为空（不管是现有的root还是迭代后的root） 就直接返回nullptr    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定二叉搜索树（BST）的根节点 &lt;code&gt;root&lt;/code&gt; 和一个整数值 &lt;code&gt;val&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;你需要在 BST 中找到节点值等于 &lt;code&gt;val&lt;/code&gt; 的节点。 返回以该节点为根的子树。 如果节点不存在，则返回 &lt;code&gt;null&lt;/code&gt; 。&lt;/p&gt;</summary>
     
     
     
