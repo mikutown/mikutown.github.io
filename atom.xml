@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-07-28T10:41:04.347Z</updated>
+  <updated>2023-08-02T01:27:05.328Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,71 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode139.单词拆分</title>
+    <link href="2023/08/02/leetcode139-%E5%8D%95%E8%AF%8D%E6%8B%86%E5%88%86/"/>
+    <id>2023/08/02/leetcode139-%E5%8D%95%E8%AF%8D%E6%8B%86%E5%88%86/</id>
+    <published>2023-08-02T01:25:01.000Z</published>
+    <updated>2023-08-02T01:27:05.328Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个字符串 <code>s</code> 和一个字符串列表 <code>wordDict</code> 作为字典。请你判断是否可以利用字典中出现的单词拼接出 <code>s</code> 。</p><p><strong>注意：</strong>不要求字典中出现的单词全部都使用，并且字典中的单词可以重复使用。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入: s &#x3D; &quot;leetcode&quot;, wordDict &#x3D; [&quot;leet&quot;, &quot;code&quot;]输出: true解释: 返回 true 因为 &quot;leetcode&quot; 可以由 &quot;leet&quot; 和 &quot;code&quot; 拼接成。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入: s &#x3D; &quot;applepenapple&quot;, wordDict &#x3D; [&quot;apple&quot;, &quot;pen&quot;]输出: true解释: 返回 true 因为 &quot;applepenapple&quot; 可以由 &quot;apple&quot; &quot;pen&quot; &quot;apple&quot; 拼接成。     注意，你可以重复使用字典中的单词。</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入: s &#x3D; &quot;catsandog&quot;, wordDict &#x3D; [&quot;cats&quot;, &quot;dog&quot;, &quot;sand&quot;, &quot;and&quot;, &quot;cat&quot;]输出: false</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 300</code></li><li><code>1 &lt;= wordDict.length &lt;= 1000</code></li><li><code>1 &lt;= wordDict[i].length &lt;= 20</code></li><li><code>s</code> 和 <code>wordDict[i]</code> 仅有小写英文字母组成</li><li><code>wordDict</code> 中的所有字符串 <strong>互不相同</strong></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>思路： 这个问题可以使用动态规划来解决。我们定义一个布尔数组 dp，其中 dp[i] 表示字符串 s 的前 i 个字符能否被空格拆分成字典中出现的单词。初始时，dp[0] &#x3D; true，表示空字符串可以被拆分。</p><p>然后，我们从字符串 s 的第一个字符开始，依次遍历每个字符。对于每个字符，我们将其与前面的字符组成的子串依次与字典中的单词进行匹配。如果找到了匹配的单词，且前面的子串也可以被拆分成字典中的单词，那么 dp[i] 就为 true。具体的匹配过程可以通过在字典中使用哈希表进行优化，从而避免不必要的字符串匹配。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool wordBreak(string s, vector&lt;string&gt;&amp; wordDict) &#123;        &#x2F;&#x2F; 将字典中的单词存储到哈希表中，方便进行快速查找        unordered_set&lt;string&gt; dictSet(wordDict.begin(), wordDict.end());        int n &#x3D; s.length();        &#x2F;&#x2F; 创建一个布尔数组 dp，初始时 dp[0] &#x3D; true，表示空字符串可以被拆分        vector&lt;bool&gt; dp(n + 1, false);        dp[0] &#x3D; true;        for (int i &#x3D; 1; i &lt;&#x3D; n; i++) &#123;            for (int j &#x3D; 0; j &lt; i; j++) &#123;                &#x2F;&#x2F; 如果前面的子串 dp[j] 可以被拆分，并且剩余的子串 s[j:i] 在字典中存在，更新 dp[i] 为 true                if (dp[j] &amp;&amp; dictSet.count(s.substr(j, i - j)) &gt; 0) &#123;                    dp[i] &#x3D; true;                    break; &#x2F;&#x2F; 找到一种拆分方式即可，无需继续循环                &#125;            &#125;        &#125;        &#x2F;&#x2F; 返回 dp[n]，表示整个字符串是否可以被拆分为字典中的单词        return dp[n];    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个字符串 &lt;code&gt;s&lt;/code&gt; 和一个字符串列表 &lt;code&gt;wordDict&lt;/code&gt; 作为字典。请你判断是否可以利用字典中出现的单词拼接出 &lt;code&gt;s&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;不要求字典中出现的单词全部都使用，并且字典中的单词可以重复使用。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>leetcode392.判断子序列</title>
+    <link href="2023/08/02/leetcode392-%E5%88%A4%E6%96%AD%E5%AD%90%E5%BA%8F%E5%88%97/"/>
+    <id>2023/08/02/leetcode392-%E5%88%A4%E6%96%AD%E5%AD%90%E5%BA%8F%E5%88%97/</id>
+    <published>2023-08-02T01:06:17.000Z</published>
+    <updated>2023-08-02T01:25:24.844Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定字符串 <strong>s</strong> 和 <strong>t</strong> ，判断 <strong>s</strong> 是否为 <strong>t</strong> 的子序列。</p><p>字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，<code>&quot;ace&quot;</code>是<code>&quot;abcde&quot;</code>的一个子序列，而<code>&quot;aec&quot;</code>不是）。</p><span id="more"></span><p><strong>进阶：</strong></p><p>如果有大量输入的 S，称作 S1, S2, … , Sk 其中 k &gt;&#x3D; 10亿，你需要依次检查它们是否为 T 的子序列。在这种情况下，你会怎样改变代码？</p><p><strong>致谢：</strong></p><p>特别感谢 <a href="https://leetcode.com/pbrother/">@pbrother </a>添加此问题并且创建所有测试用例。</p><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;abc&quot;, t &#x3D; &quot;ahbgdc&quot;输出：true</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;axc&quot;, t &#x3D; &quot;ahbgdc&quot;输出：false</code></pre><p><strong>提示：</strong></p><ul><li><code>0 &lt;= s.length &lt;= 100</code></li><li><code>0 &lt;= t.length &lt;= 10^4</code></li><li>两个字符串都只由小写字符组成。</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法：</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isSubsequence(string s, string t) &#123;        if (s.size() &#x3D;&#x3D; 0 &amp;&amp; t.size() &#x3D;&#x3D; 0) &#123;            return true; &#x2F;&#x2F; 如果 s 和 t 均为空，则 s 是 t 的子序列，返回 true        &#125;        int i &#x3D; 0; &#x2F;&#x2F; 定义 s 的指针 i，用于遍历 s 的字符        int temp &#x3D; -1; &#x2F;&#x2F; 定义 temp 变量，用于记录上一次匹配的 t 中的位置        int j &#x3D; 0; &#x2F;&#x2F; 定义 t 的指针 j，用于遍历 t 的字符        for (i &#x3D; 0; i &lt; s.size(); i++) &#123; &#x2F;&#x2F; 遍历 s 中的字符            for (j &#x3D; temp + 1; j &lt; t.size(); j++) &#123; &#x2F;&#x2F; 从上一次匹配的位置之后开始遍历 t 中的字符                if(s[i] &#x3D;&#x3D; t[j]) &#123; &#x2F;&#x2F; 如果当前 s 中的字符与 t 中的字符匹配                    temp &#x3D; j; &#x2F;&#x2F; 更新 temp 为当前匹配的 t 中的位置                    break; &#x2F;&#x2F; 跳出当前循环，继续下一个字符的匹配                &#125; else if (j &#x3D;&#x3D; t.size() - 1) &#123;                    return false; &#x2F;&#x2F; 如果 t 中没有字符与 s 中的字符匹配，返回 false                &#125;            &#125;        &#125;        if (i &#x3D;&#x3D; s.size() &amp;&amp; j &lt; t.size()) &#123;            return true; &#x2F;&#x2F; 如果 s 已经遍历完毕，而 t 还有剩余字符，则 s 是 t 的子序列，返回 true        &#125;        return false; &#x2F;&#x2F; 其他情况下，返回 false    &#125;&#125;;</code></pre><ul><li>更高效的方法</li></ul><p>我们可以通过一次遍历字符串 t 来判断字符串 s 是否为 t 的子序列。</p><p>思路如下：对于字符串 s 和 t，我们维护两个指针 i 和 j，分别指向 s 和 t 的开头。然后，我们逐个比较 s[i] 和 t[j]，如果相等，则将两个指针都向后移动一位，如果不相等，则只移动 t 的指针 j。最终，如果 s 的指针 i 移动到末尾，说明 s 是 t 的子序列，返回 true，否则返回 false。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isSubsequence(string s, string t) &#123;        int i &#x3D; 0;        int j &#x3D; 0;        while (i &lt; s.size() &amp;&amp; j &lt; t.size()) &#123;            if (s[i] &#x3D;&#x3D; t[j]) &#123;                i++; &#x2F;&#x2F; 如果当前字符匹配，移动 s 的指针            &#125;            j++; &#x2F;&#x2F; 不论当前字符是否匹配，移动 t 的指针        &#125;        return i &#x3D;&#x3D; s.size(); &#x2F;&#x2F; 如果 s 的指针移动到末尾，说明 s 是 t 的子序列，返回 true；否则返回 false    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定字符串 &lt;strong&gt;s&lt;/strong&gt; 和 &lt;strong&gt;t&lt;/strong&gt; ，判断 &lt;strong&gt;s&lt;/strong&gt; 是否为 &lt;strong&gt;t&lt;/strong&gt; 的子序列。&lt;/p&gt;
+&lt;p&gt;字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&lt;code&gt;&amp;quot;ace&amp;quot;&lt;/code&gt;是&lt;code&gt;&amp;quot;abcde&amp;quot;&lt;/code&gt;的一个子序列，而&lt;code&gt;&amp;quot;aec&amp;quot;&lt;/code&gt;不是）。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>leetcode338.比特位计数</title>
+    <link href="2023/08/02/leetcode338-%E6%AF%94%E7%89%B9%E4%BD%8D%E8%AE%A1%E6%95%B0/"/>
+    <id>2023/08/02/leetcode338-%E6%AF%94%E7%89%B9%E4%BD%8D%E8%AE%A1%E6%95%B0/</id>
+    <published>2023-08-02T00:43:43.000Z</published>
+    <updated>2023-08-02T00:56:41.933Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数 <code>n</code> ，对于 <code>0 &lt;= i &lt;= n</code> 中的每个 <code>i</code> ，计算其二进制表示中 <strong><code>1</code> 的个数</strong> ，返回一个长度为 <code>n + 1</code> 的数组 <code>ans</code> 作为答案。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 2输出：[0,1,1]解释：0 --&gt; 01 --&gt; 12 --&gt; 10</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 5输出：[0,1,1,2,1,2]解释：0 --&gt; 01 --&gt; 12 --&gt; 103 --&gt; 114 --&gt; 1005 --&gt; 101</code></pre><p><strong>提示：</strong></p><ul><li><code>0 &lt;= n &lt;= 105</code></li></ul><p><strong>进阶：</strong></p><ul><li>很容易就能实现时间复杂度为 <code>O(n log n)</code> 的解决方案，你可以在线性时间复杂度 <code>O(n)</code> 内用一趟扫描解决此问题吗？</li><li>你能不使用任何内置函数解决此问题吗？（如，C++ 中的 <code>__builtin_popcount</code> ）</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><p>思路：首先新建一个数组用来保存结果，接下来从0开始一直循环到输入的n，用while循环+循环内的数字temp&#x3D;temp&amp;(temp-1)的操作获得每一个数字对应的二进制1的个数，然后把对应的个数保存在数组中，最后返回结果数组。C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; results; &#x2F;&#x2F; 创建一个用于存储结果的向量        for (int i &#x3D; 0; i &lt;&#x3D; n; i++) &#123; &#x2F;&#x2F; 循环从 0 到 n            int temp &#x3D; i; &#x2F;&#x2F; 将当前迭代的数值保存到 temp 变量中            int count &#x3D; 0; &#x2F;&#x2F; 初始化计数器为 0            while (temp) &#123; &#x2F;&#x2F; 进行求解二进制中 1 的个数的操作                temp &#x3D; temp &amp; (temp - 1); &#x2F;&#x2F; 通过该操作，每次能将 temp 中最右边的 1 变为 0，并统计操作次数，即为 1 的个数                count++; &#x2F;&#x2F; 统计 1 的个数            &#125;            results.push_back(count); &#x2F;&#x2F; 将统计得到的 1 的个数添加到结果向量中        &#125;        return results; &#x2F;&#x2F; 返回结果向量    &#125;&#125;;</code></pre><ul><li>动态规划</li></ul><p>在这个问题中，我们可以利用已经计算过的结果来求解新的结果。思路如下：对于任意的非负整数 i，其二进制表示中 1 的个数可以通过以下方式求得：</p><ol><li>如果 i 是偶数，那么 i 的二进制表示中 1 的个数等于 i&#x2F;2 的二进制表示中 1 的个数，因为 i 相当于将 i&#x2F;2 左移一位并在末尾补上一个 0。</li><li>如果 i 是奇数，那么 i 的二进制表示中 1 的个数等于 i-1 的二进制表示中 1 的个数再加 1，因为 i 相当于将 i-1 的二进制表示中最右边的 1 变为 0。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; results(n + 1, 0); &#x2F;&#x2F; 创建一个长度为 n+1 的向量，并初始化所有元素为 0                for (int i &#x3D; 1; i &lt;&#x3D; n; i++) &#123;            if (i % 2 &#x3D;&#x3D; 0) &#123;                &#x2F;&#x2F; 对于偶数 i，其二进制表示中 1 的个数等于 i&#x2F;2 的二进制表示中 1 的个数                results[i] &#x3D; results[i &#x2F; 2];            &#125; else &#123;                &#x2F;&#x2F; 对于奇数 i，其二进制表示中 1 的个数等于 i-1 的二进制表示中 1 的个数再加 1                results[i] &#x3D; results[i - 1] + 1;            &#125;        &#125;                return results;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数 &lt;code&gt;n&lt;/code&gt; ，对于 &lt;code&gt;0 &amp;lt;= i &amp;lt;= n&lt;/code&gt; 中的每个 &lt;code&gt;i&lt;/code&gt; ，计算其二进制表示中 &lt;strong&gt;&lt;code&gt;1&lt;/code&gt; 的个数&lt;/strong&gt; ，返回一个长度为 &lt;code&gt;n + 1&lt;/code&gt; 的数组 &lt;code&gt;ans&lt;/code&gt; 作为答案。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode321.拼接最大数</title>
@@ -417,78 +482,6 @@
     <category term="leetcode" scheme="tags/leetcode/"/>
     
     <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode987.二叉树的垂序遍历</title>
-    <link href="2023/06/20/leetcode987-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%9E%82%E5%BA%8F%E9%81%8D%E5%8E%86/"/>
-    <id>2023/06/20/leetcode987-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%9E%82%E5%BA%8F%E9%81%8D%E5%8E%86/</id>
-    <published>2023-06-20T06:47:33.000Z</published>
-    <updated>2023-06-27T07:25:44.277Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你二叉树的根结点 <code>root</code> ，请你设计算法计算二叉树的 <strong>垂序遍历</strong> 序列。</p><p>对位于 <code>(row, col)</code> 的每个结点而言，其左右子结点分别位于 <code>(row + 1, col - 1)</code> 和 <code>(row + 1, col + 1)</code> 。树的根结点位于 <code>(0, 0)</code> 。</p><p>二叉树的 <strong>垂序遍历</strong> 从最左边的列开始直到最右边的列结束，按列索引每一列上的所有结点，形成一个按出现位置从上到下排序的有序列表。如果同行同列上有多个结点，则按结点的值从小到大进行排序。</p><p>返回二叉树的 <strong>垂序遍历</strong> 序列。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/vtree1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [3,9,20,null,null,15,7]输出：[[9],[3,15],[20],[7]]解释：列 -1 ：只有结点 9 在此列中。列  0 ：只有结点 3 和 15 在此列中，按从上到下顺序。列  1 ：只有结点 20 在此列中。列  2 ：只有结点 7 在此列中。</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/vtree2.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2,3,4,5,6,7]输出：[[4],[2],[1,5,6],[3],[7]]解释：列 -2 ：只有结点 4 在此列中。列 -1 ：只有结点 2 在此列中。列  0 ：结点 1 、5 和 6 都在此列中。          1 在上面，所以它出现在前面。          5 和 6 位置都是 (2, 0) ，所以按值从小到大排序，5 在 6 的前面。列  1 ：只有结点 3 在此列中。列  2 ：只有结点 7 在此列中。</code></pre><p><strong>示例 3：</strong></p><p><img src="http://cdn.leafii.top/img/vtree3.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2,3,4,6,5,7]输出：[[4],[2],[1,5,6],[3],[7]]解释：这个示例实际上与示例 2 完全相同，只是结点 5 和 6 在树中的位置发生了交换。因为 5 和 6 的位置仍然相同，所以答案保持不变，仍然按值从小到大排序。</code></pre><p><strong>提示：</strong></p><ul><li>树中结点数目总数在范围 <code>[1, 1000]</code> 内</li><li><code>0 &lt;= Node.val &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>解题思路如下：</p><ol><li>编写了一个辅助函数 <code>verticalTraversalHelper</code>，用于递归处理二叉树。该函数的参数包括当前结点 <code>root</code>、当前结点所在的列数 <code>x</code>、当前结点所在的行数 <code>y</code>，以及一个用于存储结点值的 <code>map</code> 结构 <code>nodes</code>。在该函数中，首先判断当前结点是否为空，若为空则直接返回；否则，将当前结点的值添加到 <code>nodes</code> 结构中对应的列和行中，并递归调用该函数处理左右子树，列数 <code>x</code> 根据左右移动。</li><li>定义了主函数 <code>verticalTraversal</code>，用于实现按照列的顺序遍历二叉树。在该函数中，首先定义了一个二维数组 <code>result</code>，用于存储最终结果。然后判断根结点是否为空，若为空则直接返回空数组。接下来使用 <code>map</code> 结构 <code>nodes</code> 来存储每一列的结点值，其中 key 为列数，value 为行数和结点值的映射。</li><li>调用辅助函数 <code>verticalTraversalHelper</code> 处理二叉树，将结点按照列的顺序分组，存储在 <code>nodes</code> 结构中。</li><li>使用队列 <code>columns</code> 对列数进行排序，然后按照列数从小到大遍历结点值，并将其添加到结果数组 <code>result</code> 中。在遍历过程中，首先从队列中取出一个列数 <code>col</code>，然后使用优先队列 <code>pq</code> 对该列的行数和结点值进行排序。将当前列的结点值按照行数加入优先队列。</li><li>将优先队列中的结点值按照行数顺序取出，存储在一个临时数组 <code>colValues</code> 中。</li><li>将 <code>colValues</code> 数组添加到结果数组 <code>result</code> 中。</li><li>最后返回结果数组 <code>result</code>。</li><li>在 <code>main</code> 函数中，创建了一个测试二叉树，并调用 <code>verticalTraversal</code> 函数进行遍历，然后打印结果。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    &#x2F;&#x2F; 辅助函数，用于将二叉树的结点按照列的顺序进行分组    void verticalTraversalHelper(TreeNode *root, int x, int y, map&lt;int, map&lt;int, vector&lt;int&gt;&gt;&gt; &amp;nodes) &#123;        if (!root)            return;        &#x2F;&#x2F; 在对应的列和行中添加当前结点的值        nodes[x][y].push_back(root-&gt;val);        &#x2F;&#x2F; 递归处理左子树和右子树，列数x根据左右移动        verticalTraversalHelper(root-&gt;left, x - 1, y + 1, nodes);        verticalTraversalHelper(root-&gt;right, x + 1, y + 1, nodes);    &#125;    &#x2F;&#x2F; 主函数，返回按照列的顺序遍历的结点值的二维数组    vector&lt;vector&lt;int&gt;&gt; verticalTraversal(TreeNode *root) &#123;        &#x2F;&#x2F; 存储结点值的二维数组        vector&lt;vector&lt;int&gt;&gt; result;        &#x2F;&#x2F; 如果根结点为空，直接返回空数组        if (!root)            return result;        &#x2F;&#x2F; 使用map来存储每一列的结点值，key为列数，value为行数和结点值的映射        map&lt;int, map&lt;int, vector&lt;int&gt;&gt;&gt; nodes;        &#x2F;&#x2F; 递归处理二叉树，将结点按照列的顺序分组        verticalTraversalHelper(root, 0, 0, nodes);        &#x2F;&#x2F; 使用队列对列数进行排序        queue&lt;int&gt; columns;        for (auto &amp;node : nodes)            columns.push(node.first);        &#x2F;&#x2F; 按照列数从小到大遍历结点值，并添加到结果数组中        while (!columns.empty()) &#123;            int col &#x3D; columns.front();            columns.pop();            &#x2F;&#x2F; 使用优先队列对行数和结点值进行排序            priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, greater&lt;pair&lt;int, int&gt;&gt;&gt; pq;            &#x2F;&#x2F; 将当前列的结点值按照行数加入优先队列            for (auto &amp;node : nodes[col]) &#123;                int row &#x3D; node.first;                for (int val : node.second) &#123;                    pq.push(&#123;row, val&#125;);                &#125;            &#125;            &#x2F;&#x2F; 将当前列的结点值按照行数顺序添加到结果数组中            vector&lt;int&gt; colValues;            while (!pq.empty()) &#123;                colValues.push_back(pq.top().second);                pq.pop();            &#125;            result.push_back(colValues);        &#125;        return result;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你二叉树的根结点 &lt;code&gt;root&lt;/code&gt; ，请你设计算法计算二叉树的 &lt;strong&gt;垂序遍历&lt;/strong&gt; 序列。&lt;/p&gt;
-&lt;p&gt;对位于 &lt;code&gt;(row, col)&lt;/code&gt; 的每个结点而言，其左右子结点分别位于 &lt;code&gt;(row + 1, col - 1)&lt;/code&gt; 和 &lt;code&gt;(row + 1, col + 1)&lt;/code&gt; 。树的根结点位于 &lt;code&gt;(0, 0)&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;二叉树的 &lt;strong&gt;垂序遍历&lt;/strong&gt; 从最左边的列开始直到最右边的列结束，按列索引每一列上的所有结点，形成一个按出现位置从上到下排序的有序列表。如果同行同列上有多个结点，则按结点的值从小到大进行排序。&lt;/p&gt;
-&lt;p&gt;返回二叉树的 &lt;strong&gt;垂序遍历&lt;/strong&gt; 序列。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="二叉树" scheme="tags/二叉树/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode102.二叉树的层序遍历</title>
-    <link href="2023/06/20/leetcode102-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/"/>
-    <id>2023/06/20/leetcode102-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/</id>
-    <published>2023-06-20T01:57:14.000Z</published>
-    <updated>2023-06-20T05:52:09.216Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你二叉树的根节点 <code>root</code> ，返回其节点值的 <strong>层序遍历</strong> 。 （即逐层地，从左到右访问所有节点）。</p> <span id="more"></span> <p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/tree1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [3,9,20,null,null,15,7]输出：[[3],[9,20],[15,7]]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1]输出：[[1]]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; []输出：[]</code></pre><p><strong>提示：</strong></p><ul><li>树中节点数目在范围 <code>[0, 2000]</code> 内</li><li><code>-1000 &lt;= Node.val &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>使用队列辅助层序遍历</li></ol><p>注意看这个题的输入与输出，输出的动态数组的元素是元素为整型的数组，比如<code>[[3],[9,20],[15,7]]</code>.因此如果只定义一个队列辅助遍历，无法清晰的区分每层的元素应该插入到哪个数组中，比如如果只使用一个队列进行层次遍历，得到的结果只能是<code>[3,9,20,15,7]</code>，无法从这个结果中得知清晰的二叉树层次结构，所以在这里定义两个队列，首先向一个队列中塞入元素，接着对队首元素进行pop并且将队首元素的左右子树节点分别塞入另一队列中，再将结果数组并入result数组中，再将另一个队列进行同样的遍历操作，具体的C++实现代码如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrder(TreeNode* root) &#123;        &#x2F;&#x2F; 定义两个队列 分别为q和another_q 用于层次遍历        queue&lt;TreeNode*&gt; q;        queue&lt;TreeNode*&gt; another_q;        &#x2F;&#x2F; 定义结果数组 其元素为元素为int类型的数组        vector&lt;vector&lt;int&gt;&gt; result;            &#x2F;&#x2F; 若根节点非空 则将根节点push进队列q中         if (root !&#x3D; nullptr) &#123;            q.push(root);        &#125;        &#x2F;&#x2F; 当q或者another_q队列非空时 进行遍历操作        while (!q.empty()|| !another_q.empty()) &#123;            &#x2F;&#x2F; 定义元素为int的临时数组 用于存储每一层的元素            vector&lt;int&gt; temp_vector;            &#x2F;&#x2F; 当队列q非空时 将队列q的元素逐个出队            while (!q.empty()) &#123;                TreeNode* temp_node &#x3D; q.front();                &#x2F;&#x2F; 向临时数组中塞入节点的值                temp_vector.push_back(temp_node-&gt;val);                &#x2F;&#x2F; 塞入之后 将对应元素出队                q.pop();                &#x2F;&#x2F; 判断出队的元素是否有左右节点并将其塞入另一个队列中                if (temp_node-&gt;left !&#x3D; nullptr) &#123;                    another_q.push(temp_node-&gt;left);                &#125;                if (temp_node-&gt;right !&#x3D; nullptr) &#123;                    another_q.push(temp_node-&gt;right);                &#125;            &#125;            &#x2F;&#x2F; 若临时数组非空 则将其插入结果数组中 并清空临时数组            if (temp_vector.size() !&#x3D; 0) &#123;                result.push_back(temp_vector);                temp_vector.clear();            &#125;            &#x2F;&#x2F; 当另一个队列another_q非空时 将队列another_q的元素逐个出队            while (!another_q.empty()) &#123;                TreeNode* temp_node &#x3D; another_q.front();                &#x2F;&#x2F; 向临时数组中塞入节点的值                temp_vector.push_back(temp_node-&gt;val);                &#x2F;&#x2F; 塞入之后 将对应元素出队                another_q.pop();                &#x2F;&#x2F; 判断出队的元素是否有左右节点并将其塞入另一个队列中                if (temp_node-&gt;left !&#x3D; nullptr) &#123;                    q.push(temp_node-&gt;left);                &#125;                if (temp_node-&gt;right !&#x3D; nullptr) &#123;                    q.push(temp_node-&gt;right);                &#125;            &#125;            &#x2F;&#x2F; 若临时数组非空 则将其插入结果数组中 并清空临时数组            if (temp_vector.size() !&#x3D; 0) &#123;                result.push_back(temp_vector);                temp_vector.clear();            &#125;        &#125;        &#x2F;&#x2F; 返回结果数组        return result;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你二叉树的根节点 &lt;code&gt;root&lt;/code&gt; ，返回其节点值的 &lt;strong&gt;层序遍历&lt;/strong&gt; 。 （即逐层地，从左到右访问所有节点）。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode297.二叉树的序列化与反序列化</title>
-    <link href="2023/06/02/leetcode297-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
-    <id>2023/06/02/leetcode297-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</id>
-    <published>2023-06-02T10:13:21.000Z</published>
-    <updated>2023-06-02T10:29:32.233Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。</p><p>请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 &#x2F; 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。</p><p><strong>提示:</strong> 输入输出格式与 LeetCode 目前使用的方式一致，详情请参阅 <a href="https://support.leetcode.cn/hc/kb/article/1567641/">LeetCode 序列化二叉树的格式</a>。你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/serdeser.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2,3,null,null,4,5]输出：[1,2,3,null,null,4,5]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; []输出：[]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1]输出：[1]</code></pre><p><strong>示例 4：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2]输出：[1,2]</code></pre><p><strong>提示：</strong></p><ul><li>树中结点数在范围 <code>[0, 104]</code> 内</li><li><code>-1000 &lt;= Node.val &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>层序遍历序列化</li></ul><p>解题思路：</p><p>对于序列化操作，我们使用层序遍历将二叉树转化为字符串。使用队列辅助遍历，从根节点开始，依次处理每个节点，若节点为空则用字符串”null”表示，否则将节点值转化为字符串，并将其左右子节点加入队列。最后去掉最后一个多余的分隔符”,”并返回结果字符串。</p><p>对于反序列化操作，我们使用stringstream来分割字符串，并依次处理每个节点。首先根据第一个值创建根节点，并加入队列。然后依次处理队列中的节点，每次从字符串中读取两个值，分别表示当前节点的左右子节点的值。若值为”null”，则表示该节点为空，否则创建相应的节点，并加入队列。重复上述过程直到队列为空。最后返回根节点即可。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Codec &#123;public:    &#x2F;&#x2F; Encodes a tree to a single string.    string serialize(TreeNode* root) &#123;        if (root &#x3D;&#x3D; nullptr) &#123;            return &quot;null&quot;;        &#125;                &#x2F;&#x2F; 使用层序遍历将二叉树转化为字符串        string result;        queue&lt;TreeNode*&gt; q;        q.push(root);                while (!q.empty()) &#123;            TreeNode* node &#x3D; q.front();            q.pop();                        if (node !&#x3D; nullptr) &#123;                &#x2F;&#x2F; 非空节点，将节点值转化为字符串                result +&#x3D; to_string(node-&gt;val);                                &#x2F;&#x2F; 将左右子节点加入队列                q.push(node-&gt;left);                q.push(node-&gt;right);            &#125; else &#123;                &#x2F;&#x2F; 空节点，用&quot;null&quot;表示                result +&#x3D; &quot;null&quot;;            &#125;                        &#x2F;&#x2F; 每个节点值后面加上分隔符&quot;,&quot;            result +&#x3D; &quot;,&quot;;        &#125;                &#x2F;&#x2F; 去掉最后一个多余的分隔符&quot;,&quot;        result.pop_back();                return result;    &#125;    &#x2F;&#x2F; Decodes your encoded data to tree.    TreeNode* deserialize(string data) &#123;        if (data &#x3D;&#x3D; &quot;null&quot;) &#123;            return nullptr;        &#125;                &#x2F;&#x2F; 使用stringstream分割字符串        stringstream ss(data);        string item;        queue&lt;TreeNode*&gt; q;                &#x2F;&#x2F; 获取根节点值        getline(ss, item, &#39;,&#39;);        int rootVal &#x3D; stoi(item);        TreeNode* root &#x3D; new TreeNode(rootVal);        q.push(root);                while (!q.empty()) &#123;            TreeNode* node &#x3D; q.front();            q.pop();                        &#x2F;&#x2F; 依次获取当前节点的左右子节点值            &#x2F;&#x2F; 并创建相应的节点            &#x2F;&#x2F; 左右子节点值为&quot;null&quot;时表示为空节点            getline(ss, item, &#39;,&#39;);            if (item !&#x3D; &quot;null&quot;) &#123;                int leftVal &#x3D; stoi(item);                TreeNode* leftNode &#x3D; new TreeNode(leftVal);                node-&gt;left &#x3D; leftNode;                q.push(leftNode);            &#125;                        getline(ss, item, &#39;,&#39;);            if (item !&#x3D; &quot;null&quot;) &#123;                int rightVal &#x3D; stoi(item);                TreeNode* rightNode &#x3D; new TreeNode(rightVal);                node-&gt;right &#x3D; rightNode;                q.push(rightNode);            &#125;        &#125;                return root;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。&lt;/p&gt;
-&lt;p&gt;请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 &amp;#x2F; 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;提示:&lt;/strong&gt; 输入输出格式与 LeetCode 目前使用的方式一致，详情请参阅 &lt;a href=&quot;https://support.leetcode.cn/hc/kb/article/1567641/&quot;&gt;LeetCode 序列化二叉树的格式&lt;/a&gt;。你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="二叉树" scheme="tags/二叉树/"/>
     
   </entry>
   
