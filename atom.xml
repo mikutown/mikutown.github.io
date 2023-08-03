@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-08-02T01:27:05.328Z</updated>
+  <updated>2023-08-03T00:44:33.655Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode96.不同的二叉搜索树</title>
+    <link href="2023/08/03/leetcode96-%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/"/>
+    <id>2023/08/03/leetcode96-%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/</id>
+    <published>2023-08-03T00:39:28.000Z</published>
+    <updated>2023-08-03T00:44:33.655Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数 <code>n</code> ，求恰由 <code>n</code> 个节点组成且节点值从 <code>1</code> 到 <code>n</code> 互不相同的 <strong>二叉搜索树</strong> 有多少种？返回满足题意的二叉搜索树的种数。</p><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/uniquebstn3.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3输出：5</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 1输出：1</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= n &lt;= 19</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>解题思路： 这个问题可以用动态规划来解决。我们创建一个数组 <code>dp</code>，其中 <code>dp[i]</code> 表示以 <code>i</code> 个节点构建的二叉搜索树的数量。我们可以观察到，对于每个 <code>i</code>，我们可以将每个节点依次作为根节点，将问题划分为子问题。例如，以节点 <code>j</code> 作为根节点，它的左子树将有 <code>j - 1</code> 个节点，右子树将有 <code>i - j</code> 个节点。所以，以节点 <code>j</code> 作为根节点的二叉搜索树数量为 <code>dp[j - 1] * dp[i - j]</code>。我们将所有以不同节点作为根节点的情况累加起来，就得到了 <code>dp[i]</code> 的值。</p><p>在循环计算 <code>dp</code> 数组时，外层循环遍历节点数量 <code>i</code>，内层循环遍历以不同节点为根节点的情况 <code>j</code>。最终，<code>dp[n]</code> 就是我们所求的以 <code>n</code> 个节点构建的不同二叉搜索树的数量。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int numTrees(int n) &#123;        &#x2F;&#x2F; 创建一个数组来存储以1到n为节点的二叉搜索树的数量        vector&lt;int&gt; dp(n + 1, 0);        &#x2F;&#x2F; 空树也算一种情况，初始化dp[0]为1        dp[0] &#x3D; 1;                &#x2F;&#x2F; 外层循环遍历节点数量        for (int i &#x3D; 1; i &lt;&#x3D; n; ++i) &#123;            &#x2F;&#x2F; 内层循环遍历以不同节点为根节点的情况            for (int j &#x3D; 1; j &lt;&#x3D; i; ++j) &#123;                &#x2F;&#x2F; 左子树的节点数量为j-1，右子树的节点数量为i-j                &#x2F;&#x2F; 以第j个节点为根节点的BST数量等于左子树数量乘以右子树数量                dp[i] +&#x3D; dp[j - 1] * dp[i - j];            &#125;        &#125;                return dp[n];    &#125;&#125;;</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数 &lt;code&gt;n&lt;/code&gt; ，求恰由 &lt;code&gt;n&lt;/code&gt; 个节点组成且节点值从 &lt;code&gt;1&lt;/code&gt; 到 </summary>
+      
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode139.单词拆分</title>
@@ -454,27 +478,6 @@
 &lt;blockquote&gt;
 &lt;p&gt;一个二叉树&lt;em&gt;每个节点&lt;/em&gt; 的左右两个子树的高度差的绝对值不超过 1 。&lt;/p&gt;
 &lt;/blockquote&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode101.对称二叉树</title>
-    <link href="2023/06/20/leetcode101-%E5%AF%B9%E7%A7%B0%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
-    <id>2023/06/20/leetcode101-%E5%AF%B9%E7%A7%B0%E4%BA%8C%E5%8F%89%E6%A0%91/</id>
-    <published>2023-06-20T07:18:47.000Z</published>
-    <updated>2023-06-20T05:51:52.898Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个二叉树的根节点 <code>root</code> ， 检查它是否轴对称。</p><span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/symtree1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2,2,3,4,4,3]输出：true</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/symtree2.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2,2,null,3,null,3]输出：false</code></pre><p><strong>提示：</strong></p><ul><li>树中节点数目在范围 <code>[1, 1000]</code> 内</li><li><code>-100 &lt;= Node.val &lt;= 100</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>初见思路（<strong>无法通过</strong>）：</li></ol><p>本来是想直接通过中序遍历获得一个数组，然后从数组的两端向中间进行判断，最后样例通过数为192&#x2F;199，原因是如果输入为<code>[1,2,2,2,null,2]</code>时，中序遍历得到的数组是对称的，但是实际上这个二叉树不是对称的。因此该思路被我放弃了。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F; &#x2F;&#x2F; 3241423 中序遍历 先左再中间最后右子树class Solution &#123;public:    void Middle_order_traversal(TreeNode* rootNode, vector&lt;int&gt;&amp; rst) &#123;        if (rootNode) &#123;            Middle_order_traversal(rootNode -&gt; left, rst);            rst.push_back(rootNode -&gt; val);            Middle_order_traversal(rootNode -&gt; right, rst);        &#125;        else &#123;            rst.push_back(-1);        &#125;    &#125;    bool isSymmetric(TreeNode* root) &#123;        vector&lt;int&gt; rst;        Middle_order_traversal(root, rst);        if (rst.size()%2&#x3D;&#x3D;0) &#123;            return false;        &#125;        int left &#x3D; 0, right &#x3D; rst.size() - 1;        while(left &lt; right) &#123;            if (rst[left] !&#x3D; rst[right]) &#123;                return false;            &#125;            left++;            right--;        &#125;        return true;    &#125;&#125;;</code></pre><ol start="2"><li>使用递归：</li></ol><p>在对root进行判断之后，就使用一个辅助函数对root的左子树和右子树进行判断，判断完成后分别对左子树的左子树和右子树的右子树；左子树的右子树以及右子树的左子树进行判断，两个判断结果进行与运算，递归得到最终结果。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        if (root &#x3D;&#x3D; NULL) return true; &#x2F;&#x2F;若根节点为空，则返回true        return isSymmetricHelper(root-&gt;left, root-&gt;right);    &#125;    bool isSymmetricHelper(TreeNode* left, TreeNode* right) &#123;        if (left &#x3D;&#x3D; NULL &amp;&amp; right &#x3D;&#x3D; NULL) return true; &#x2F;&#x2F;若左右都为空，则返回true      &#x2F;&#x2F; if ((left &#x3D;&#x3D; NULL &amp;&amp; right !&#x3D; NULL) || (left !&#x3D; NULL &amp;&amp; right &#x3D;&#x3D; NULL)) return false; &#x2F;&#x2F; 左右子树一个空一个不空，返回false (下面这行更简练)        if (left &#x3D;&#x3D; NULL || right &#x3D;&#x3D; NULL) return false; &#x2F;&#x2F;若左右节点有一个不为空，则返回false        if (left-&gt;val !&#x3D; right-&gt;val) return false; &#x2F;&#x2F;若左右节点的值不相等，则返回false        &#x2F;&#x2F;递归检查左右子树是否对称        return isSymmetricHelper(left-&gt;left, right-&gt;right) &amp;&amp; isSymmetricHelper(left-&gt;right, right-&gt;left);    &#125;&#125;;</code></pre><ol start="3"><li>使用迭代</li></ol><p>该解决方案使用队列来存储树的节点，首先将左子树和右子树的根节点加入队列中。然后在循环中，每次取出队列的头两个节点，并比较它们是否对称，如果不对称则返回false。如果对称，则将左节点的左子树节点和右节点的右子树节点加入队列，再将左节点的右子树节点和右节点的左子树节点加入队列。如果队列为空，则说明树是对称的，返回true。</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        if (root &#x3D;&#x3D; NULL) return true; &#x2F;&#x2F;节点为空，返回true        queue&lt;TreeNode*&gt; q; &#x2F;&#x2F; 定义一个队列存储节点        q.push(root-&gt;left);        q.push(root-&gt;right);        while (!q.empty()) &#123;            TreeNode* left &#x3D; q.front(); q.pop(); &#x2F;&#x2F; 取出队列的头节点作为左节点            TreeNode* right &#x3D; q.front(); q.pop(); &#x2F;&#x2F; 取出队列的头节点作为右节点            if (left &#x3D;&#x3D; NULL &amp;&amp; right &#x3D;&#x3D; NULL) continue; &#x2F;&#x2F;如果左右节点都为空，则继续迭代            if (left &#x3D;&#x3D; NULL || right &#x3D;&#x3D; NULL) return false; &#x2F;&#x2F;左右节点只有一个不为空，直接返回false            if (left-&gt;val !&#x3D; right-&gt;val) return false; &#x2F;&#x2F; 左右节点值不等，直接返回false            q.push(left-&gt;left);            q.push(right-&gt;right);            q.push(left-&gt;right);            q.push(right-&gt;left); &#x2F;&#x2F; 注意push的顺序！！！        &#125;         return true; &#x2F;&#x2F;若队列为空，则说明该二叉树是对称的。    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个二叉树的根节点 &lt;code&gt;root&lt;/code&gt; ， 检查它是否轴对称。&lt;/p&gt;</summary>
     
     
     
