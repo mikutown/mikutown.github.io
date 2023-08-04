@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-08-03T00:44:33.655Z</updated>
+  <updated>2023-08-04T08:54:47.139Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode115.不同的子序列</title>
+    <link href="2023/08/04/leetcode115-%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97/"/>
+    <id>2023/08/04/leetcode115-%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97/</id>
+    <published>2023-08-04T08:53:00.000Z</published>
+    <updated>2023-08-04T08:54:47.139Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你两个字符串 <code>s</code> 和 <code>t</code> ，统计并返回在 <code>s</code> 的 <strong>子序列</strong> 中 <code>t</code> 出现的个数。</p><p>题目数据保证答案符合 32 位带符号整数范围。</p><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;rabbbit&quot;, t &#x3D; &quot;rabbit&quot;输出：3解释：如下所示, 有 3 种可以从 s 中得到 &quot;rabbit&quot; 的方案。rabbbitrabbbitrabbbit</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;babgbag&quot;, t &#x3D; &quot;bag&quot;输出：5解释：如下所示, 有 5 种可以从 s 中得到 &quot;bag&quot; 的方案。 babgbagbabgbagbabgbagbabgbagbabgbag</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length, t.length &lt;= 1000</code></li><li><code>s</code> 和 <code>t</code> 由英文字母组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>解题思路：</p><p>题目要求计算字符串 s 变换为字符串 t 的不同子序列数量。这类问题可以使用动态规划来解决。</p><p>我们使用 dp<code>[i][j]</code> 表示字符串 s 的前 i 个字符和字符串 t 的前 j 个字符之间的不同子序列数量。初始时，任何字符串变换为空字符串的方式都只有一种，即不选取任何字符，因此我们将 dp<code>[i][0] </code>设置为 1。</p><p>然后，我们遍历字符串 s 和字符串 t 的所有字符组合，逐步计算 dp 数组。当 s[i-1] 和 t[j-1] 相等时，我们可以选择当前字符匹配或者不匹配。如果匹配，那么当前字符可以贡献 <code>dp[i-1][j-1] </code>个子序列；如果不匹配，那么当前字符不会贡献新的子序列，继续使用<code> dp[i-1][j]</code>。如果 s[i-1] 和 t[j-1] 不相等，那么当前字符不能匹配，只能选择不匹配，即使用<code> dp[i-1][j]</code>。</p><p>最终，dp<code>[m][n]</code> 就是字符串 s 变换为字符串 t 的不同子序列数量，其中 m 是字符串 s 的长度，n 是字符串 t 的长度。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int numDistinct(string s, string t) &#123;        int m &#x3D; s.length();        int n &#x3D; t.length();                &#x2F;&#x2F; dp[i][j] 表示 s 的前 i 个字符和 t 的前 j 个字符之间的不同子序列数量        vector&lt;vector&lt;unsigned int&gt;&gt; dp(m + 1, vector&lt;unsigned int&gt;(n + 1, 0));                &#x2F;&#x2F; 初始化：任何字符串变换为空字符串的方式都只有一种，即不选取任何字符        for (int i &#x3D; 0; i &lt;&#x3D; m; ++i) &#123;            dp[i][0] &#x3D; 1;        &#125;                &#x2F;&#x2F; 状态转移        for (int i &#x3D; 1; i &lt;&#x3D; m; ++i) &#123;            for (int j &#x3D; 1; j &lt;&#x3D; n; ++j) &#123;                &#x2F;&#x2F; 如果 s[i-1] 和 t[j-1] 相等，则可以选择当前字符匹配或者不匹配                if (s[i - 1] &#x3D;&#x3D; t[j - 1]) &#123;                    dp[i][j] &#x3D; dp[i - 1][j - 1] + dp[i - 1][j];                &#125; else &#123;                    &#x2F;&#x2F; 如果不相等，则只能选择不匹配                    dp[i][j] &#x3D; dp[i - 1][j];                &#125;            &#125;        &#125;                return dp[m][n];    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你两个字符串 &lt;code&gt;s&lt;/code&gt; 和 &lt;code&gt;t&lt;/code&gt; ，统计并返回在 &lt;code&gt;s&lt;/code&gt; 的 &lt;strong&gt;子序列&lt;/strong&gt; 中 &lt;code&gt;t&lt;/code&gt; 出现的个数。&lt;/p&gt;
+&lt;p&gt;题目数据保证答案符合 32 位带符号整数范围。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode96.不同的二叉搜索树</title>
@@ -460,31 +482,6 @@
     <category term="算法" scheme="tags/算法/"/>
     
     <category term="二叉树" scheme="tags/二叉树/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode110.平衡二叉树</title>
-    <link href="2023/06/20/leetcode110-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
-    <id>2023/06/20/leetcode110-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/</id>
-    <published>2023-06-20T07:36:41.000Z</published>
-    <updated>2023-06-20T05:51:13.265Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个二叉树，判断它是否是高度平衡的二叉树。</p><p>本题中，一棵高度平衡二叉树定义为：</p><blockquote><p>一个二叉树<em>每个节点</em> 的左右两个子树的高度差的绝对值不超过 1 。</p></blockquote> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/balance_1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [3,9,20,null,null,15,7]输出：true</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/balance_2.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,2,2,3,3,null,null,4,4]输出：false</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; []输出：true</code></pre><p><strong>提示：</strong></p><ul><li>树中的节点数在范围 <code>[0, 5000]</code> 内</li><li><code>-104 &lt;= Node.val &lt;= 104</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>递归但空间复杂度较高的解法</li></ul><p>本题可以使用递归的方法来解决。对于每一个节点，我们需要先递归遍历它的左右子树，计算它们的高度差。如果左右子树的高度差超过了1，那么这棵树就不是平衡二叉树。如果左右子树都是平衡二叉树，那么我们可以判断当前节点是不是平衡二叉树：如果左右子树的高度差不超过1，那么当前节点就是平衡二叉树。最后递归返回整棵树的平衡情况。</p><p>在递归函数中，我们需要同时返回当前节点的高度和平衡情况，因此可以使用pair&lt;int, bool&gt;来表示。其中，pair的第一个元素表示高度，第二个元素表示当前节点是否是平衡二叉树。同时，我们需要处理一些边界情况，例如空节点的高度为0，空节点也是平衡二叉树。C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    bool isBalanced(TreeNode* root) &#123;        return checkBalance(root).second;    &#125;        pair&lt;int, bool&gt; checkBalance(TreeNode* node) &#123;        if (!node) &#123;            &#x2F;&#x2F; 空节点为平衡二叉树            return make_pair(0, true);        &#125;        auto left &#x3D; checkBalance(node-&gt;left);        auto right &#x3D; checkBalance(node-&gt;right);        if (left.second &amp;&amp; right.second &amp;&amp; abs(left.first - right.first) &lt;&#x3D; 1) &#123;            &#x2F;&#x2F; 左右子树都是平衡二叉树，且高度差不超过1            return make_pair(max(left.first, right.first) + 1, true);        &#125;        &#x2F;&#x2F; 左右子树不平衡，或者当前节点不平衡        return make_pair(0, false);    &#125;&#125;;</code></pre><blockquote><p><code>pair</code>是C++ STL中的一个模板类，用于存储两个不同类型的变量。它将两个变量打包成一个整体，方便传递和使用。</p></blockquote><p>但是它的内存占用过高，因为对于每个节点，它都要单独存一个bool变量用于表示节点是否为二叉树的平衡结点。因此需要进行优化。</p><ul><li>递归，但优化内存占用</li></ul><p>在题目中，我们使用了<code>pair&lt;int, bool&gt;</code>来表示每个节点的高度和平衡情况，但是这种方法会浪费一定的空间，因为每个节点都需要存储一个<code>bool</code>类型的变量。实际上，我们只需要判断每个节点是否平衡，因此可以使用一个<code>int</code>类型的变量来表示平衡情况：-1表示不平衡，非0表示平衡并且代表节点的高度。这样就可以减少空间的使用。</p><p>同时，我们可以将返回值从<code>pair&lt;int, bool&gt;</code>改为<code>int</code>，表示当前节点的高度。如果当前节点不是平衡二叉树，那么直接返回-1，否则返回节点的高度。</p><p>C++代码如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    bool isBalanced(TreeNode* root) &#123;        return checkBalance(root) !&#x3D; -1;    &#125;    int checkBalance(TreeNode* node) &#123;        if (!node) &#123;            &#x2F;&#x2F; 空节点为平衡二叉树            return 0;        &#125;        int left &#x3D; checkBalance(node-&gt;left);        int right &#x3D; checkBalance(node-&gt;right);        if (left !&#x3D; -1 &amp;&amp; right !&#x3D; -1 &amp;&amp; abs(left - right) &lt;&#x3D; 1) &#123;            &#x2F;&#x2F; 左右子树都是平衡二叉树，且高度差不超过1            return max(left, right) + 1;        &#125;        &#x2F;&#x2F; 左右子树不平衡，或者当前节点不平衡        return -1;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个二叉树，判断它是否是高度平衡的二叉树。&lt;/p&gt;
-&lt;p&gt;本题中，一棵高度平衡二叉树定义为：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;一个二叉树&lt;em&gt;每个节点&lt;/em&gt; 的左右两个子树的高度差的绝对值不超过 1 。&lt;/p&gt;
-&lt;/blockquote&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
     
   </entry>
   
