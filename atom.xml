@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-08-04T08:54:47.139Z</updated>
+  <updated>2023-08-07T03:52:55.709Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode941.有效的山脉数组</title>
+    <link href="2023/08/07/leetcode941-%E6%9C%89%E6%95%88%E7%9A%84%E5%B1%B1%E8%84%89%E6%95%B0%E7%BB%84/"/>
+    <id>2023/08/07/leetcode941-%E6%9C%89%E6%95%88%E7%9A%84%E5%B1%B1%E8%84%89%E6%95%B0%E7%BB%84/</id>
+    <published>2023-08-07T03:18:14.000Z</published>
+    <updated>2023-08-07T03:52:55.709Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个整数数组 <code>arr</code>，如果它是有效的山脉数组就返回 <code>true</code>，否则返回 <code>false</code>。</p><span id="more"></span><p>让我们回顾一下，如果 <code>arr</code> 满足下述条件，那么它是一个山脉数组：</p><ul><li><p><code>arr.length &gt;= 3</code></p></li><li><p>在 </p><pre class="language-none"><code class="language-none">0 &lt; i &lt; arr.length - 1</code></pre><p> 条件下，存在 </p><pre class="language-none"><code class="language-none">i</code></pre><p> 使得：</p><ul><li><code>arr[0] &lt; arr[1] &lt; ... arr[i-1] &lt; arr[i] </code></li><li><code>arr[i] &gt; arr[i+1] &gt; ... &gt; arr[arr.length - 1]</code></li></ul></li></ul><p><img src="http://cdn.leafii.top/img/hint_valid_mountain_array.png" alt="img" loading="lazy"></p><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [2,1]输出：false</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [3,5,5]输出：false</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [0,3,2,1]输出：true</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= arr.length &lt;= 104</code></li><li><code>0 &lt;= arr[i] &lt;= 104</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><p>首先获取数组中最大的数字以及下标，然后对下标进行判断，符合条件（数组大小超过2并且最大值不是数组的第一个元素或者最后一个元素）时进行第二次循环，循环时判断相邻元素是否满足递增或者递减的关系。C++实现代码如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool validMountainArray(vector&lt;int&gt;&amp; arr) &#123;        &#x2F;&#x2F; 得到最大值        int maxNum &#x3D; -1;        int maxIndex &#x3D; -1;        int n &#x3D; arr.size();        if (n &lt; 3) return false;        for (int i &#x3D; 0; i &lt; n; i++) &#123;            if (arr[i] &gt; maxNum) &#123;                maxNum &#x3D; arr[i];                maxIndex &#x3D; i;            &#125;        &#125;        &#x2F;&#x2F; 得到最大值后进行一部分判断然后进行循环        if (maxIndex &#x3D;&#x3D; n-1 || maxIndex &#x3D;&#x3D; 0) return false;        for (int i &#x3D; 0; i &lt; maxIndex; i++) &#123;            if (arr[i] &gt;&#x3D; arr[i + 1]) return false;        &#125;        for (int i &#x3D; maxIndex; i &lt; n - 1; i++) &#123;            if (arr[i] &lt;&#x3D; arr[i + 1]) return false;        &#125;        return true;    &#125;&#125;;</code></pre><ul><li>只扫描一次的解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool validMountainArray(vector&lt;int&gt;&amp; A) &#123;        int n &#x3D; A.size();                &#x2F;&#x2F; 山脉数组必须至少有3个元素        if (n &lt; 3) &#123;            return false;        &#125;                int i &#x3D; 0;                &#x2F;&#x2F; 从左侧递增部分开始扫描        while (i &lt; n - 1 &amp;&amp; A[i] &lt; A[i + 1]) &#123;            i++;        &#125;                &#x2F;&#x2F; 如果i是数组的第一个元素或者最后一个元素，说明没有递增或递减的足够元素        if (i &#x3D;&#x3D; 0 || i &#x3D;&#x3D; n - 1) &#123;            return false;        &#125;                &#x2F;&#x2F; 扫描递减部分        while (i &lt; n - 1 &amp;&amp; A[i] &gt; A[i + 1]) &#123;            i++;        &#125;                &#x2F;&#x2F; 如果i已经到达数组的末尾，说明是有效的山脉数组        return i &#x3D;&#x3D; n - 1;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个整数数组 &lt;code&gt;arr&lt;/code&gt;，如果它是有效的山脉数组就返回 &lt;code&gt;true&lt;/code&gt;，否则返回 &lt;code&gt;false&lt;/code&gt;。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode115.不同的子序列</title>
@@ -450,29 +471,6 @@
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个二叉树的根节点 &lt;code&gt;root&lt;/code&gt; ，按 &lt;strong&gt;任意顺序&lt;/strong&gt; ，返回所有从根节点到叶子节点的路径。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;叶子节点&lt;/strong&gt; 是指没有子节点的节点。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="二叉树" scheme="tags/二叉树/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode107.二叉树的层序遍历II</title>
-    <link href="2023/06/20/leetcode107-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86II/"/>
-    <id>2023/06/20/leetcode107-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86II/</id>
-    <published>2023-06-20T08:22:14.000Z</published>
-    <updated>2023-06-20T05:52:16.453Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你二叉树的根节点 <code>root</code> ，返回其节点值 <strong>自底向上的层序遍历</strong> 。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）</p><span id="more"></span> <p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/tree1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [3,9,20,null,null,15,7]输出：[[15,7],[9,20],[3]]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1]输出：[[1]]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; []输出：[]</code></pre><p><strong>提示：</strong></p><ul><li>树中节点数目在范围 <code>[0, 2000]</code> 内</li><li><code>-1000 &lt;= Node.val &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>使用了层次遍历的思想，利用队列实现。具体解题思路如下：</p><ol><li>首先定义树的节点结构 <code>TreeNode</code>，包含节点值 <code>val</code>、左子节点指针 <code>left</code> 和右子节点指针 <code>right</code>。</li><li>定义一个函数 <code>levelOrderBottom</code>，该函数接受树的根节点 <code>root</code>，并返回层次遍历的结果。</li><li>在 <code>levelOrderBottom</code> 函数中，首先创建一个空的二维向量 <code>result</code>，用于保存最终的结果。</li><li>若根节点为空，直接返回空的结果向量 <code>result</code>。</li><li>创建一个队列 <code>q</code>，将根节点 <code>root</code> 入队。</li><li>进入循环，直到队列为空：<ul><li>获取当前层的节点数量 <code>levelSize</code>，这是为了在遍历当前层时，仅遍历当前层的节点。</li><li>创建一个空的向量 <code>level</code>，用于保存当前层的节点值。</li><li>进入内层循环，遍历当前层的节点：<ul><li>取出队首节点 <code>node</code>。</li><li>弹出队首节点。</li><li>将节点值 <code>node-&gt;val</code> 添加到当前层的结果向量 <code>level</code> 中。</li><li>若节点的左子节点不为空，将左子节点入队。</li><li>若节点的右子节点不为空，将右子节点入队。</li></ul></li><li>将当前层的结果向量 <code>level</code> 插入到结果向量 <code>result</code> 的开头，这是为了保持结果的逆序。</li></ul></li><li>循环结束后，返回结果向量 <code>result</code>。</li><li>在 <code>main</code> 函数中，创建一个测试用例 <code>[3,9,20,null,null,15,7]</code> 的树。</li><li>调用 <code>levelOrderBottom</code> 函数，获取层次遍历的结果，并输出结果。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrderBottom(TreeNode* root) &#123;        vector&lt;vector&lt;int&gt;&gt; result; &#x2F;&#x2F; 保存最终的结果        if (root &#x3D;&#x3D; NULL) &#123;            return result;        &#125;        queue&lt;TreeNode*&gt; q; &#x2F;&#x2F; 创建一个队列，用于层次遍历        q.push(root); &#x2F;&#x2F; 将根节点入队        while (!q.empty()) &#123;            int levelSize &#x3D; q.size(); &#x2F;&#x2F; 当前层的节点数量            vector&lt;int&gt; level; &#x2F;&#x2F; 保存当前层的节点值            for (int i &#x3D; 0; i &lt; levelSize; i++) &#123;                TreeNode* node &#x3D; q.front(); &#x2F;&#x2F; 取出队首节点                q.pop(); &#x2F;&#x2F; 弹出队首节点                level.push_back(node-&gt;val); &#x2F;&#x2F; 将节点值保存到当前层的结果中                if (node-&gt;left !&#x3D; NULL) &#123;                    q.push(node-&gt;left); &#x2F;&#x2F; 将左子节点入队                &#125;                if (node-&gt;right !&#x3D; NULL) &#123;                    q.push(node-&gt;right); &#x2F;&#x2F; 将右子节点入队                &#125;            &#125;            result.insert(result.begin(), level); &#x2F;&#x2F; 将当前层的结果插入到结果向量的开头        &#125;        return result;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你二叉树的根节点 &lt;code&gt;root&lt;/code&gt; ，返回其节点值 &lt;strong&gt;自底向上的层序遍历&lt;/strong&gt; 。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）&lt;/p&gt;</summary>
     
     
     
