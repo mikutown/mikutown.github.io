@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-08-08T11:50:12.866Z</updated>
+  <updated>2023-08-30T09:44:59.511Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,85 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode300.最长递增子序列</title>
+    <link href="2023/08/30/leetcode300-%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97/"/>
+    <id>2023/08/30/leetcode300-%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97/</id>
+    <published>2023-08-30T08:26:25.000Z</published>
+    <updated>2023-08-30T09:44:59.511Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数数组 <code>nums</code> ，找到其中最长严格递增子序列的长度。</p><p><strong>子序列</strong> 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，<code>[3,6,2,7]</code> 是数组 <code>[0,3,1,6,2,2,7]</code> 的子序列。</p><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [10,9,2,5,3,7,101,18]输出：4解释：最长递增子序列是 [2,3,7,101]，因此长度为 4 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [0,1,0,3,2,3]输出：4</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [7,7,7,7,7,7,7]输出：1</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 2500</code></li><li><code>-104 &lt;= nums[i] &lt;= 104</code></li></ul><p><strong>进阶：</strong></p><ul><li>你能将算法的时间复杂度降低到 <code>O(n log(n))</code> 吗?</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>n2复杂度动态规划</li></ul><p>解题思路：</p><ol><li>dp[i]:以nums[i]为结尾的最长递增子序列的长度</li><li>递推公式：max(dp[i],dp[j]+1),</li><li>dp[i]至少为1（初始化条件）</li><li>遍历顺序：i从小到大 j从大到小，从小到大都可以（0到i之间的每一个元素）</li><li>最终返回dp数组中的最大值</li></ol><p><img src="http://cdn.leafii.top/img/image-20230830164100634.png" alt="image-20230830164100634" loading="lazy"></p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int lengthOfLIS(vector&lt;int&gt;&amp; nums) &#123;        int n &#x3D; nums.size();        if (n &#x3D;&#x3D; 0) return 0;        vector&lt;int&gt; dp(n, 1); &#x2F;&#x2F; 初始化dp数组，每个元素默认长度为1        for (int i &#x3D; 0; i &lt; n; i++) &#123;            for (int j &#x3D; 0; j &lt; i; j++) &#123;                if (nums[i] &gt; nums[j]) &#123;                    dp[i] &#x3D; max(dp[i], dp[j] + 1); &#x2F;&#x2F; dp数组的更新                &#125;            &#125;        &#125;        return *max_element(dp.begin(), dp.end());    &#125;&#125;;</code></pre><ul><li>n log(n)复杂度贪心</li></ul><p>交换状态与状态值</p><p>令g[i]表示长度为i+1的IS的末尾元素的最小值 </p><p><img src="http://cdn.leafii.top/img/image-20230830172521363.png" alt="image-20230830172521363" loading="lazy"></p><p>g是严格递增的。</p><p>推论1:一次只能更新一个位置，单调递增序列不能有相同元素。</p><p>推论2:更新的位置是第一个大于等于nums[i]的数的下标。</p><p>算法：在g上用二分查找快速找到第一个大于等于nums[i]的下标j。如果j不存在，那么nums[i]直接加到g末尾;否则修改g[j]为nums[i].</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int lengthOfLIS(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;int&gt; tails; &#x2F;&#x2F; 用于存储递增子序列的末尾元素        for (int num : nums) &#123;            &#x2F;&#x2F; lower_bound 返回一个迭代器，指向容器中第一个大于等于给定值的元素。            auto it &#x3D; lower_bound(tails.begin(), tails.end(), num); &#x2F;&#x2F; 在 tails 中寻找第一个大于等于 num 的元素            if (it &#x3D;&#x3D; tails.end()) &#123;                tails.push_back(num); &#x2F;&#x2F; 如果找不到，则将 num 添加到末尾            &#125; else &#123;                *it &#x3D; num; &#x2F;&#x2F; 否则，更新找到的元素，因为它可以作为更长递增子序列的末尾元素            &#125;        &#125;        return tails.size(); &#x2F;&#x2F; 返回 tails 数组的长度，即为结果    &#125;&#125;;</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; ，找到其中最长严格递增子序列的长度。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;子序列&lt;/stro</summary>
+      
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="序列" scheme="tags/序列/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>leetcode521.最长特殊序列I</title>
+    <link href="2023/08/30/leetcode521-%E6%9C%80%E9%95%BF%E7%89%B9%E6%AE%8A%E5%BA%8F%E5%88%97I/"/>
+    <id>2023/08/30/leetcode521-%E6%9C%80%E9%95%BF%E7%89%B9%E6%AE%8A%E5%BA%8F%E5%88%97I/</id>
+    <published>2023-08-30T08:20:02.000Z</published>
+    <updated>2023-08-30T08:26:49.412Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你两个字符串 <code>a</code> 和 <code>b</code>，请返回 <em>这两个字符串中 <strong>最长的特殊序列</strong></em> 的长度。如果不存在，则返回 <code>-1</code> 。</p><p><strong>「最长特殊序列」</strong> 定义如下：该序列为 <strong>某字符串独有的最长子序列（即不能是其他字符串的子序列）</strong> 。</p><p>字符串 <code>s</code> 的子序列是在从 <code>s</code> 中删除任意数量的字符后可以获得的字符串。</p><ul><li>例如，<code>&quot;abc&quot;</code> 是 <code>&quot;aebdc&quot;</code> 的子序列，因为删除 <code>&quot;a***e***b***d\***c&quot;</code> 中斜体加粗的字符可以得到 <code>&quot;abc&quot;</code> 。 <code>&quot;aebdc&quot;</code> 的子序列还包括 <code>&quot;aebdc&quot;</code> 、 <code>&quot;aeb&quot;</code> 和 <code>&quot;&quot;</code> (空字符串)。</li></ul> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入: a &#x3D; &quot;aba&quot;, b &#x3D; &quot;cdc&quot;输出: 3解释: 最长特殊序列可为 &quot;aba&quot; (或 &quot;cdc&quot;)，两者均为自身的子序列且不是对方的子序列。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：a &#x3D; &quot;aaa&quot;, b &#x3D; &quot;bbb&quot;输出：3解释: 最长特殊序列是 &quot;aaa&quot; 和 &quot;bbb&quot; 。</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：a &#x3D; &quot;aaa&quot;, b &#x3D; &quot;aaa&quot;输出：-1解释: 字符串 a 的每个子序列也是字符串 b 的每个子序列。同样，字符串 b 的每个子序列也是字符串 a 的子序列。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= a.length, b.length &lt;= 100</code></li><li><code>a</code> 和 <code>b</code> 由小写英文字母组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>解题思路：</p><p>首先，我们判断两个字符串是否相等。如果相等，那么它们之间不存在特殊序列，直接返回-1。</p><p>如果两个字符串不相等，那么其中一个字符串肯定不是另一个字符串的子序列。因此，我们只需返回较长字符串的长度作为最长特殊序列的长度。这是因为如果较长字符串的长度都不是另一个字符串的子序列，那么较短的字符串也不可能是另一个字符串的子序列。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int findLUSlength(string a, string b) &#123;        &#x2F;&#x2F; 如果两个字符串相等，则没有特殊序列        if (a &#x3D;&#x3D; b) &#123;            return -1;        &#125;        &#x2F;&#x2F; 返回较长字符串的长度作为最长特殊序列的长度        return max(a.length(), b.length());    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你两个字符串 &lt;code&gt;a&lt;/code&gt; 和 &lt;code&gt;b&lt;/code&gt;，请返回 &lt;em&gt;这两个字符串中 &lt;strong&gt;最长的特殊序列&lt;/strong&gt;&lt;/em&gt; 的长度。如果不存在，则返回 &lt;code&gt;-1&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;「最长特殊序列」&lt;/strong&gt; 定义如下：该序列为 &lt;strong&gt;某字符串独有的最长子序列（即不能是其他字符串的子序列）&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;字符串 &lt;code&gt;s&lt;/code&gt; 的子序列是在从 &lt;code&gt;s&lt;/code&gt; 中删除任意数量的字符后可以获得的字符串。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;例如，&lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; 是 &lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt; 的子序列，因为删除 &lt;code&gt;&amp;quot;a***e***b***d\***c&amp;quot;&lt;/code&gt; 中斜体加粗的字符可以得到 &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; 。 &lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt; 的子序列还包括 &lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt; 、 &lt;code&gt;&amp;quot;aeb&amp;quot;&lt;/code&gt; 和 &lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt; (空字符串)。&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="序列" scheme="tags/序列/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>leetcode674.最长连续递增序列</title>
+    <link href="2023/08/30/leetcode674-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E9%80%92%E5%A2%9E%E5%BA%8F%E5%88%97/"/>
+    <id>2023/08/30/leetcode674-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E9%80%92%E5%A2%9E%E5%BA%8F%E5%88%97/</id>
+    <published>2023-08-30T08:13:58.000Z</published>
+    <updated>2023-08-30T08:26:57.630Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个未经排序的整数数组，找到最长且 <strong>连续递增的子序列</strong>，并返回该序列的长度。</p><p><strong>连续递增的子序列</strong> 可以由两个下标 <code>l</code> 和 <code>r</code>（<code>l &lt; r</code>）确定，如果对于每个 <code>l &lt;= i &lt; r</code>，都有 <code>nums[i] &lt; nums[i + 1]</code> ，那么子序列 <code>[nums[l], nums[l + 1], ..., nums[r - 1], nums[r]]</code> 就是连续递增子序列。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [1,3,5,4,7]输出：3解释：最长连续递增序列是 [1,3,5], 长度为3。尽管 [1,3,5,7] 也是升序的子序列, 但它不是连续的，因为 5 和 7 在原数组里被 4 隔开。 </code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [2,2,2,2,2]输出：1解释：最长连续递增序列是 [2], 长度为1。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 104</code></li><li><code>-109 &lt;= nums[i] &lt;= 109</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>直接看代码</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int findLengthOfLCIS(vector&lt;int&gt;&amp; nums) &#123;        int n &#x3D; nums.size();        if (n &#x3D;&#x3D; 0) &#123;            return 0;        &#125;                int maxLength &#x3D; 1; &#x2F;&#x2F; 初始化最大长度为1，因为至少有一个元素存在        int currentLength &#x3D; 1; &#x2F;&#x2F; 当前递增序列的长度，初始为1        for (int i &#x3D; 1; i &lt; n; ++i) &#123;            if (nums[i] &gt; nums[i - 1]) &#123;                currentLength++; &#x2F;&#x2F; 如果当前元素大于前一个元素，则当前递增序列长度加一                maxLength &#x3D; max(maxLength, currentLength); &#x2F;&#x2F; 更新最大长度            &#125; else &#123;                currentLength &#x3D; 1; &#x2F;&#x2F; 重置当前递增序列长度为1，因为递增中断            &#125;        &#125;                return maxLength;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个未经排序的整数数组，找到最长且 &lt;strong&gt;连续递增的子序列&lt;/strong&gt;，并返回该序列的长度。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;连续递增的子序列&lt;/strong&gt; 可以由两个下标 &lt;code&gt;l&lt;/code&gt; 和 &lt;code&gt;r&lt;/code&gt;（&lt;code&gt;l &amp;lt; r&lt;/code&gt;）确定，如果对于每个 &lt;code&gt;l &amp;lt;= i &amp;lt; r&lt;/code&gt;，都有 &lt;code&gt;nums[i] &amp;lt; nums[i + 1]&lt;/code&gt; ，那么子序列 &lt;code&gt;[nums[l], nums[l + 1], ..., nums[r - 1], nums[r]]&lt;/code&gt; 就是连续递增子序列。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="序列" scheme="tags/序列/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode283.移动零</title>
@@ -403,81 +482,6 @@
     <category term="leetcode" scheme="tags/leetcode/"/>
     
     <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode701.二叉搜索树中的插入操作</title>
-    <link href="2023/06/29/leetcode701-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C/"/>
-    <id>2023/06/29/leetcode701-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C/</id>
-    <published>2023-06-29T09:06:58.000Z</published>
-    <updated>2023-06-29T09:16:54.172Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定二叉搜索树（BST）的根节点 <code>root</code> 和要插入树中的值 <code>value</code> ，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 <strong>保证</strong> ，新值和原始二叉搜索树中的任意节点值都不同。</p><p><strong>注意</strong>，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 <strong>任意有效的结果</strong> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="https://assets.leetcode.com/uploads/2020/10/05/insertbst.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [4,2,7,1,3], val &#x3D; 5输出：[4,2,7,1,3,5]解释：另一个满足题目要求可以通过的树是：</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [40,20,60,10,30,50,70], val &#x3D; 25输出：[40,20,60,10,30,50,70,null,null,25]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [4,2,7,1,3,null,null,null,null,null,null], val &#x3D; 5输出：[4,2,7,1,3,5]</code></pre><p><strong>提示：</strong></p><ul><li>树中的节点数将在 <code>[0, 104]</code>的范围内。</li><li><code>-108 &lt;= Node.val &lt;= 108</code></li><li>所有值 <code>Node.val</code> 是 <strong>独一无二</strong> 的。</li><li><code>-108 &lt;= val &lt;= 108</code></li><li><strong>保证</strong> <code>val</code> 在原始BST中不存在。</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>见代码</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    TreeNode* insertIntoBST(TreeNode* root, int val) &#123;        if (root &#x3D;&#x3D; nullptr) &#123;            &#x2F;&#x2F; 当前节点为空，创建一个新节点并赋值            return new TreeNode(val);        &#125;        if (val &lt; root-&gt;val) &#123;            &#x2F;&#x2F; 要插入的值小于当前节点的值，向左子树递归插入            root-&gt;left &#x3D; insertIntoBST(root-&gt;left, val);        &#125; else &#123;            &#x2F;&#x2F; 要插入的值大于等于当前节点的值，向右子树递归插入            root-&gt;right &#x3D; insertIntoBST(root-&gt;right, val);        &#125;        return root;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定二叉搜索树（BST）的根节点 &lt;code&gt;root&lt;/code&gt; 和要插入树中的值 &lt;code&gt;value&lt;/code&gt; ，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 &lt;strong&gt;保证&lt;/strong&gt; ，新值和原始二叉搜索树中的任意节点值都不同。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 &lt;strong&gt;任意有效的结果&lt;/strong&gt; 。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="二叉树" scheme="tags/二叉树/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode450.删除二叉树中的节点</title>
-    <link href="2023/06/29/leetcode450-%E5%88%A0%E9%99%A4%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9/"/>
-    <id>2023/06/29/leetcode450-%E5%88%A0%E9%99%A4%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9/</id>
-    <published>2023-06-29T09:06:41.000Z</published>
-    <updated>2023-06-29T09:11:20.477Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个二叉搜索树的根节点 <strong>root</strong> 和一个值 <strong>key</strong>，删除二叉搜索树中的 <strong>key</strong> 对应的节点，并保证二叉搜索树的性质不变。返回二叉搜索树（有可能被更新）的根节点的引用。</p><p>一般来说，删除节点可分为两个步骤：</p><ol><li>首先找到需要删除的节点；</li><li>如果找到了，删除它。</li></ol> <span id="more"></span><p><strong>示例 1:</strong></p><p><img src="https://assets.leetcode.com/uploads/2020/09/04/del_node_1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [5,3,6,2,4,null,7], key &#x3D; 3输出：[5,4,6,2,null,null,7]解释：给定需要删除的节点值是 3，所以我们首先找到 3 这个节点，然后删除它。一个正确的答案是 [5,4,6,2,null,null,7], 如下图所示。另一个正确答案是 [5,2,6,null,4,null,7]。</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: root &#x3D; [5,3,6,2,4,null,7], key &#x3D; 0输出: [5,3,6,2,4,null,7]解释: 二叉树不包含值为 0 的节点</code></pre><p><strong>示例 3:</strong></p><pre class="language-none"><code class="language-none">输入: root &#x3D; [], key &#x3D; 0输出: []</code></pre><p><strong>提示:</strong></p><ul><li>节点数的范围 <code>[0, 104]</code>.</li><li><code>-105 &lt;= Node.val &lt;= 105</code></li><li>节点值唯一</li><li><code>root</code> 是合法的二叉搜索树</li><li><code>-105 &lt;= key &lt;= 105</code></li></ul><p><strong>进阶：</strong> 要求算法时间复杂度为 O(h)，h 为树的高度。</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>直接上代码：</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    TreeNode* deleteNode(TreeNode* root, int key) &#123;        if (root &#x3D;&#x3D; nullptr) &#123;            return nullptr;        &#125;        if (root-&gt;val &#x3D;&#x3D; key) &#123;            &#x2F;&#x2F; 当前节点需要删除            if (root-&gt;left &#x3D;&#x3D; nullptr) &#123;                &#x2F;&#x2F; 没有左子树，返回右子树                return root-&gt;right;            &#125; else if (root-&gt;right &#x3D;&#x3D; nullptr) &#123;                &#x2F;&#x2F; 没有右子树，返回左子树                return root-&gt;left;            &#125; else &#123;                &#x2F;&#x2F; 左右子树都存在，找到右子树中的最小节点                TreeNode* minNode &#x3D; findMin(root-&gt;right);                &#x2F;&#x2F; 将最小节点的值赋给当前节点                root-&gt;val &#x3D; minNode-&gt;val;                &#x2F;&#x2F; 在右子树中递归删除最小节点                root-&gt;right &#x3D; deleteNode(root-&gt;right, minNode-&gt;val);            &#125;        &#125; else if (root-&gt;val &gt; key) &#123;            &#x2F;&#x2F; 要删除的值小于当前节点的值，递归在左子树中删除            root-&gt;left &#x3D; deleteNode(root-&gt;left, key);        &#125; else &#123;            &#x2F;&#x2F; 要删除的值大于当前节点的值，递归在右子树中删除            root-&gt;right &#x3D; deleteNode(root-&gt;right, key);        &#125;        return root;    &#125;private:    &#x2F;&#x2F; 在二叉搜索树中找到最小节点    TreeNode* findMin(TreeNode* node) &#123;        while (node-&gt;left !&#x3D; nullptr) &#123;            node &#x3D; node-&gt;left;        &#125;        return node;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个二叉搜索树的根节点 &lt;strong&gt;root&lt;/strong&gt; 和一个值 &lt;strong&gt;key&lt;/strong&gt;，删除二叉搜索树中的 &lt;strong&gt;key&lt;/strong&gt; 对应的节点，并保证二叉搜索树的性质不变。返回二叉搜索树（有可能被更新）的根节点的引用。&lt;/p&gt;
-&lt;p&gt;一般来说，删除节点可分为两个步骤：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;首先找到需要删除的节点；&lt;/li&gt;
-&lt;li&gt;如果找到了，删除它。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="二叉树" scheme="tags/二叉树/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode226.翻转二叉树</title>
-    <link href="2023/06/28/leetcode226-%E7%BF%BB%E8%BD%AC%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
-    <id>2023/06/28/leetcode226-%E7%BF%BB%E8%BD%AC%E4%BA%8C%E5%8F%89%E6%A0%91/</id>
-    <published>2023-06-28T02:09:48.000Z</published>
-    <updated>2023-06-28T02:15:06.489Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一棵二叉树的根节点 <code>root</code> ，翻转这棵二叉树，并返回其根节点。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/invert1-tree.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [4,2,7,1,3,6,9]输出：[4,7,2,9,6,3,1]</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/invert2-tree.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [2,1,3]输出：[2,3,1]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：root &#x3D; []输出：[]</code></pre><p><strong>提示：</strong></p><ul><li>树中节点数目范围在 <code>[0, 100]</code> 内</li><li><code>-100 &lt;= Node.val &lt;= 100</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>深度优先遍历</li></ul><p>使用dfs函数辅助遍历过程。代码如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for a binary tree node. * struct TreeNode &#123; *     int val; *     TreeNode *left; *     TreeNode *right; *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125; *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    TreeNode* invertTree(TreeNode* root) &#123;        if (root &#x3D;&#x3D; NULL || (root-&gt;left &#x3D;&#x3D; NULL &amp;&amp; root-&gt;right &#x3D;&#x3D; NULL)) &#123;             &#x2F;&#x2F; 如果root为空或者root左右子树都为空，则直接返回root            return root;        &#125;        dfs(root); &#x2F;&#x2F; 否则，则对root进行深度优先遍历        return root;    &#125;    void dfs(TreeNode* node) &#123;        if (node-&gt;left &#x3D;&#x3D; NULL &amp;&amp; node-&gt;right &#x3D;&#x3D; NULL) &#123;            return; &#x2F;&#x2F; 如果被遍历的结点左右子树都为空，则直接跳出        &#125;        TreeNode* rightCopy &#x3D; node-&gt;right; &#x2F;&#x2F; 新建一个节点rightCopy用于复制当前被遍历结点的右子树        node-&gt;right &#x3D; node-&gt;left; &#x2F;&#x2F; 将节点的左子树直接赋值给右子树        node-&gt;left &#x3D; rightCopy; &#x2F;&#x2F; 将rightCopy赋值给左子树，完成当前结点的交换        if (node-&gt;left !&#x3D; NULL) &#123; &#x2F;&#x2F; 如果当前结点的左子树不为空，则对该子树进行遍历            dfs(node-&gt;left);        &#125;        if (node-&gt;right !&#x3D; NULL) &#123; &#x2F;&#x2F; 如果当前结点的右子树不为空，则对该子树进行遍历            dfs(node-&gt;right);        &#125;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一棵二叉树的根节点 &lt;code&gt;root&lt;/code&gt; ，翻转这棵二叉树，并返回其根节点。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="二叉树" scheme="tags/二叉树/"/>
     
   </entry>
   
