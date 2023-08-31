@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-08-30T09:49:50.158Z</updated>
+  <updated>2023-08-31T01:28:34.393Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode522.最长特殊序列II</title>
+    <link href="2023/08/31/leetcode522-%E6%9C%80%E9%95%BF%E7%89%B9%E6%AE%8A%E5%BA%8F%E5%88%97II/"/>
+    <id>2023/08/31/leetcode522-%E6%9C%80%E9%95%BF%E7%89%B9%E6%AE%8A%E5%BA%8F%E5%88%97II/</id>
+    <published>2023-08-31T01:22:21.000Z</published>
+    <updated>2023-08-31T01:28:34.393Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定字符串列表 <code>strs</code> ，返回其中 <strong>最长的特殊序列</strong> 的长度。如果最长特殊序列不存在，返回 <code>-1</code> 。</p><p><strong>特殊序列</strong> 定义如下：该序列为某字符串 <strong>独有的子序列（即不能是其他字符串的子序列）</strong>。</p><p> <code>s</code> 的 <strong>子序列</strong>可以通过删去字符串 <code>s</code> 中的某些字符实现。</p><ul><li>例如，<code>&quot;abc&quot;</code> 是 <code>&quot;aebdc&quot;</code> 的子序列，因为您可以删除<code>&quot;aebdc&quot;</code>中的下划线字符来得到 <code>&quot;abc&quot;</code> 。<code>&quot;aebdc&quot;</code>的子序列还包括<code>&quot;aebdc&quot;</code>、 <code>&quot;aeb&quot;</code> 和 “” (空字符串)。</li></ul> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入: strs &#x3D; [&quot;aba&quot;,&quot;cdc&quot;,&quot;eae&quot;]输出: 3</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: strs &#x3D; [&quot;aaa&quot;,&quot;aaa&quot;,&quot;aa&quot;]输出: -1</code></pre><p><strong>提示:</strong></p><ul><li><code>2 &lt;= strs.length &lt;= 50</code></li><li><code>1 &lt;= strs[i].length &lt;= 10</code></li><li><code>strs[i]</code> 只包含小写英文字母</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>解题思路：</p><ol><li>首先，我们需要对字符串数组进行排序，将较长的字符串排在前面。这是因为如果一个字符串是另一个字符串的子序列，那么较长的字符串必定不能成为特殊序列。</li><li>排序之后，我们遍历每个字符串，判断它是否是特殊序列。我们需要检查当前字符串是否在剩余的字符串中存在子序列。</li><li>对于每个字符串，我们逐个比较它与剩余字符串的关系。如果当前字符串不是任何其他字符串的子序列，那么它就是一个特殊序列。</li><li>我们只需要返回最长的特殊序列的长度即可。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    &#x2F;&#x2F; 判断字符串a是否是字符串b的子序列    bool isSubsequence(const string&amp; a, const string&amp; b) &#123;        int i &#x3D; 0, j &#x3D; 0;        while (i &lt; a.size() &amp;&amp; j &lt; b.size()) &#123;            if (a[i] &#x3D;&#x3D; b[j]) &#123;                i++;            &#125;            j++;        &#125;        return i &#x3D;&#x3D; a.size();    &#125;    &#x2F;&#x2F; 找到最长特殊序列的长度    int findLUSlength(vector&lt;string&gt;&amp; strs) &#123;        &#x2F;&#x2F; 根据字符串长度排序，较长的字符串排在前面        sort(strs.begin(), strs.end(), [](const string&amp; a, const string&amp; b) &#123;            return a.size() &gt; b.size();        &#125;);        for (int i &#x3D; 0; i &lt; strs.size(); ++i) &#123;            bool is_special &#x3D; true;            for (int j &#x3D; 0; j &lt; strs.size(); ++j) &#123;                if (i !&#x3D; j &amp;&amp; isSubsequence(strs[i], strs[j])) &#123;                    is_special &#x3D; false;                    break;                &#125;            &#125;            if (is_special) &#123;                return strs[i].size();            &#125;        &#125;                return -1;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定字符串列表 &lt;code&gt;strs&lt;/code&gt; ，返回其中 &lt;strong&gt;最长的特殊序列&lt;/strong&gt; 的长度。如果最长特殊序列不存在，返回 &lt;code&gt;-1&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;特殊序列&lt;/strong&gt; 定义如下：该序列为某字符串 &lt;strong&gt;独有的子序列（即不能是其他字符串的子序列）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt; &lt;code&gt;s&lt;/code&gt; 的 &lt;strong&gt;子序列&lt;/strong&gt;可以通过删去字符串 &lt;code&gt;s&lt;/code&gt; 中的某些字符实现。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;例如，&lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; 是 &lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt; 的子序列，因为您可以删除&lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt;中的下划线字符来得到 &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; 。&lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt;的子序列还包括&lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt;、 &lt;code&gt;&amp;quot;aeb&amp;quot;&lt;/code&gt; 和 “” (空字符串)。&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="序列" scheme="tags/序列/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode300.最长递增子序列</title>
@@ -451,27 +479,6 @@
       
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;二进制手表顶部有 4 个 LED 代表 &lt;strong&gt;小时（0-11）&lt;/strong&gt;，底部的 6 个 LED 代表 &lt;strong&gt;分</summary>
       
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode191.位1的个数</title>
-    <link href="2023/07/17/leetcode191-%E4%BD%8D1%E7%9A%84%E4%B8%AA%E6%95%B0/"/>
-    <id>2023/07/17/leetcode191-%E4%BD%8D1%E7%9A%84%E4%B8%AA%E6%95%B0/</id>
-    <published>2023-07-17T11:57:38.000Z</published>
-    <updated>2023-07-17T12:01:54.536Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>编写一个函数，输入是一个无符号整数（以二进制串的形式），返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为<a href="https://baike.baidu.com/item/%E6%B1%89%E6%98%8E%E9%87%8D%E9%87%8F">汉明重量</a>）。</p> <span id="more"></span><p><strong>提示：</strong></p><ul><li>请注意，在某些语言（如 Java）中，没有无符号整数类型。在这种情况下，输入和输出都将被指定为有符号整数类型，并且不应影响您的实现，因为无论整数是有符号的还是无符号的，其内部的二进制表示形式都是相同的。</li><li>在 Java 中，编译器使用<a href="https://baike.baidu.com/item/%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%A1%A5%E7%A0%81/5295284">二进制补码</a>记法来表示有符号整数。因此，在 <strong>示例 3</strong> 中，输入表示有符号整数 <code>-3</code>。</li></ul><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 00000000000000000000000000001011输出：3解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 &#39;1&#39;。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 00000000000000000000000010000000输出：1解释：输入的二进制串 00000000000000000000000010000000 中，共有一位为 &#39;1&#39;。</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 11111111111111111111111111111101输出：31解释：输入的二进制串 11111111111111111111111111111101 中，共有 31 位为 &#39;1&#39;。</code></pre><p><strong>提示：</strong></p><ul><li>输入必须是长度为 <code>32</code> 的 <strong>二进制串</strong> 。</li></ul><p><strong>进阶</strong>：</p><ul><li>如果多次调用这个函数，你将如何优化你的算法？</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>循环求解</li></ul><p>思路：当输入的数字为n时，我们想判断它的二进制数字的最后一位是否为1，可以使用<code>n &amp; 1</code>得到，如果结果为1，则说明他的最后一位是1，否则则为0，当判断完最后一位时，我们直接使用<code>&gt;&gt;</code>对n进行除以2的操作。C++代码如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int hammingWeight(uint32_t n) &#123;        int count &#x3D; 0; &#x2F;&#x2F; 初始化答案        while (n !&#x3D; 0) &#123;            count +&#x3D; n &amp; 1; &#x2F;&#x2F; 检查最低位是否为 1            n &gt;&gt;&#x3D; 1; &#x2F;&#x2F; 将数字右移一位，相当于除以 2        &#125;        return count; &#x2F;&#x2F; 返回count值    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;编写一个函数，输入是一个无符号整数（以二进制串的形式），返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为&lt;a href=&quot;https://baike.baidu.com/item/%E6%B1%89%E6%98%8E%E9%87%8D%E9%87%8F&quot;&gt;汉明重量&lt;/a&gt;）。&lt;/p&gt;</summary>
     
     
     
