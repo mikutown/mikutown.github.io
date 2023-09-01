@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-08-31T01:28:34.393Z</updated>
+  <updated>2023-09-01T08:44:12.267Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode940.不同的子序列II</title>
+    <link href="2023/09/01/leetcode940-%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97II/"/>
+    <id>2023/09/01/leetcode940-%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97II/</id>
+    <published>2023-09-01T08:36:44.000Z</published>
+    <updated>2023-09-01T08:44:12.267Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串 <code>s</code>，计算 <code>s</code> 的 <strong>不同非空子序列</strong> 的个数。因为结果可能很大，所以返回答案需要对 <strong><code>10^9 + 7</code> 取余</strong> 。</p><p>字符串的 <strong>子序列</strong> 是经由原字符串删除一些（也可能不删除）字符但不改变剩余字符相对位置的一个新字符串。</p><ul><li>例如，<code>&quot;ace&quot;</code> 是 <code>&quot;***a***b***c***d***e***&quot;</code> 的一个子序列，但 <code>&quot;aec&quot;</code> 不是。</li></ul> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;abc&quot;输出：7解释：7 个不同的子序列分别是 &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;ab&quot;, &quot;ac&quot;, &quot;bc&quot;, 以及 &quot;abc&quot;。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;aba&quot;输出：6解释：6 个不同的子序列分别是 &quot;a&quot;, &quot;b&quot;, &quot;ab&quot;, &quot;ba&quot;, &quot;aa&quot; 以及 &quot;aba&quot;。</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;aaa&quot;输出：3解释：3 个不同的子序列分别是 &quot;a&quot;, &quot;aa&quot; 以及 &quot;aaa&quot;。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 2000</code></li><li><code>s</code> 仅由小写英文字母组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>思路：</p><p><img src="http://cdn.leafii.top/img/image-20230901164319947.png" alt="**image-20230901164319947**" loading="lazy"></p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int distinctSubseqII(string s) &#123;        vector&lt;int&gt; last(26, -1);                int n &#x3D; s.size();        vector&lt;int&gt; f(n, 1);        for (int i &#x3D; 0; i &lt; n; ++i) &#123;            for (int j &#x3D; 0; j &lt; 26; ++j) &#123;                if (last[j] !&#x3D; -1) &#123;                    f[i] &#x3D; (f[i] + f[last[j]]) % mod;                &#125;            &#125;            last[s[i] - &#39;a&#39;] &#x3D; i;        &#125;                int ans &#x3D; 0;        for (int i &#x3D; 0; i &lt; 26; ++i) &#123;            if (last[i] !&#x3D; -1) &#123;                ans &#x3D; (ans + f[last[i]]) % mod;            &#125;        &#125;        return ans;    &#125;private:    static constexpr int mod &#x3D; 1000000007;&#125;;</code></pre><hr><p>作者：力扣官方题解<br>链接：<a href="https://leetcode.cn/problems/distinct-subsequences-ii/solutions/1888523/bu-tong-de-zi-xu-lie-ii-by-leetcode-solu-k2h5/">https://leetcode.cn/problems/distinct-subsequences-ii/solutions/1888523/bu-tong-de-zi-xu-lie-ii-by-leetcode-solu-k2h5/</a><br>来源：力扣（LeetCode）<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个字符串 &lt;code&gt;s&lt;/code&gt;，计算 &lt;code&gt;s&lt;/code&gt; 的 &lt;strong&gt;不同非空子序列&lt;/strong&gt; 的个数。因为结果可能很大，所以返回答案需要对 &lt;strong&gt;&lt;code&gt;10^9 + 7&lt;/code&gt; 取余&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;字符串的 &lt;strong&gt;子序列&lt;/strong&gt; 是经由原字符串删除一些（也可能不删除）字符但不改变剩余字符相对位置的一个新字符串。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;例如，&lt;code&gt;&amp;quot;ace&amp;quot;&lt;/code&gt; 是 &lt;code&gt;&amp;quot;***a***b***c***d***e***&amp;quot;&lt;/code&gt; 的一个子序列，但 &lt;code&gt;&amp;quot;aec&amp;quot;&lt;/code&gt; 不是。&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="序列" scheme="tags/序列/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode522.最长特殊序列II</title>
@@ -455,30 +482,6 @@
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个仅包含数字 &lt;code&gt;2-9&lt;/code&gt; 的字符串，返回所有它能表示的字母组合。答案可以按 &lt;strong&gt;任意顺序&lt;/strong&gt; 返回。&lt;/p&gt;
 &lt;p&gt;给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode401.二进制手表</title>
-    <link href="2023/07/17/leetcode401-%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%89%8B%E8%A1%A8/"/>
-    <id>2023/07/17/leetcode401-%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%89%8B%E8%A1%A8/</id>
-    <published>2023-07-17T12:39:41.000Z</published>
-    <updated>2023-07-17T12:54:24.942Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>二进制手表顶部有 4 个 LED 代表 <strong>小时（0-11）</strong>，底部的 6 个 LED 代表 <strong>分钟（0-59）</strong>。每个 LED 代表一个 0 或 1，最低位在右侧。</p><ul><li>例如，下面的二进制手表读取 <code>&quot;3:25&quot;</code> 。</li></ul><p><img src="http://cdn.leafii.top/img/binary_clock_samui_moon.jpg" alt="img" loading="lazy"></p><p><em>（图源：<a href="https://commons.m.wikimedia.org/wiki/File:Binary_clock_samui_moon.jpg">WikiMedia - Binary clock samui moon.jpg</a> ，许可协议：<a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en">Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)</a> ）</em></p><p>给你一个整数 <code>turnedOn</code> ，表示当前亮着的 LED 的数量，返回二进制手表可以表示的所有可能时间。你可以 <strong>按任意顺序</strong> 返回答案。</p><p>小时不会以零开头：</p><ul><li>例如，<code>&quot;01:00&quot;</code> 是无效的时间，正确的写法应该是 <code>&quot;1:00&quot;</code> 。</li></ul><p>分钟必须由两位数组成，可能会以零开头：</p><ul><li>例如，<code>&quot;10:2&quot;</code> 是无效的时间，正确的写法应该是 <code>&quot;10:02&quot;</code> 。</li></ul><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：turnedOn &#x3D; 1输出：[&quot;0:01&quot;,&quot;0:02&quot;,&quot;0:04&quot;,&quot;0:08&quot;,&quot;0:16&quot;,&quot;0:32&quot;,&quot;1:00&quot;,&quot;2:00&quot;,&quot;4:00&quot;,&quot;8:00&quot;]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：turnedOn &#x3D; 9输出：[]</code></pre><p><strong>提示：</strong></p><ul><li><code>0 &lt;= turnedOn &lt;= 10</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>基础的解法：</li></ul><p>思路：</p><ol><li>创建一个函数 <code>countBits</code>，用于计算一个整数中二进制表示中 1 的个数。该函数可以使用位运算的技巧来进行计算，例如通过不断将数字右移并与 1 进行按位与操作来判断最低位是否为 1。</li><li>在 <code>readBinaryWatch</code> 函数内部，创建一个空的结果数组 <code>result</code>。</li><li>使用两个嵌套的循环，外层循环遍历小时的取值范围从 0 到 11，内层循环遍历分钟的取值范围从 0 到 59。</li><li>对于每个小时和分钟的组合，计算二进制表示中 1 的个数。如果小时的二进制表示中 1 的个数加上分钟的二进制表示中 1 的个数等于给定的 <code>turnedOn</code>，则该组合满足要求。</li><li>如果满足要求，将小时和分钟格式化为时间字符串，并将其添加到结果数组 <code>result</code> 中。</li><li>循环结束后，返回结果数组 <code>result</code>。</li></ol><p>C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;string&gt; readBinaryWatch(int turnedOn) &#123;        vector&lt;string&gt; result;        for (int hour &#x3D; 0; hour &lt; 12; hour++) &#123;            int hourCount &#x3D; countBits(hour);            for (int min &#x3D; 0; min &lt;&#x3D; 59; min++) &#123;                int minCount &#x3D; countBits(min);                if (hourCount + minCount &#x3D;&#x3D; turnedOn) &#123;                     &#x2F;&#x2F; 如果时间符合要求                    result.push_back(makeTime(hour, min));                &#125;            &#125;        &#125;        return result;    &#125;    int countBits(int num) &#123;         &#x2F;&#x2F; 计算一个整数中二进制表示中 1 的个数        int count &#x3D; 0;        while (num !&#x3D; 0) &#123;            count +&#x3D; num &amp; 1;            num &gt;&gt;&#x3D; 1;        &#125;        return count;    &#125;    string makeTime(int hour, int min) &#123;        &#x2F;&#x2F; 用于将符合条件的时间组装成符合要求的字符串并返回        string answer  &#x3D; to_string(hour) + &quot;:&quot; + (min &lt; 10 ? &quot;0&quot; : &quot;&quot;) + to_string(min);        return answer;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;二进制手表顶部有 4 个 LED 代表 &lt;strong&gt;小时（0-11）&lt;/strong&gt;，底部的 6 个 LED 代表 &lt;strong&gt;分</summary>
-      
     
     
     
