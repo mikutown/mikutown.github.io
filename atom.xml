@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-09-01T08:44:12.267Z</updated>
+  <updated>2023-09-04T12:34:17.722Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,41 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode2511.最多可以摧毁的敌人城堡数目</title>
+    <link href="2023/09/04/leetcode2511-%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E6%91%A7%E6%AF%81%E7%9A%84%E6%95%8C%E4%BA%BA%E5%9F%8E%E5%A0%A1%E6%95%B0%E7%9B%AE/"/>
+    <id>2023/09/04/leetcode2511-%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E6%91%A7%E6%AF%81%E7%9A%84%E6%95%8C%E4%BA%BA%E5%9F%8E%E5%A0%A1%E6%95%B0%E7%9B%AE/</id>
+    <published>2023-09-04T12:31:04.000Z</published>
+    <updated>2023-09-04T12:34:17.722Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个长度为 <code>n</code> ，下标从 <strong>0</strong> 开始的整数数组 <code>forts</code> ，表示一些城堡。<code>forts[i]</code> 可以是 <code>-1</code> ，<code>0</code> 或者 <code>1</code> ，其中：</p><ul><li><code>-1</code> 表示第 <code>i</code> 个位置 <strong>没有</strong> 城堡。</li><li><code>0</code> 表示第 <code>i</code> 个位置有一个 <strong>敌人</strong> 的城堡。</li><li><code>1</code> 表示第 <code>i</code> 个位置有一个你控制的城堡。</li></ul><p>现在，你需要决定，将你的军队从某个你控制的城堡位置 <code>i</code> 移动到一个空的位置 <code>j</code> ，满足：</p><ul><li><code>0 &lt;= i, j &lt;= n - 1</code></li><li>军队经过的位置 <strong>只有</strong> 敌人的城堡。正式的，对于所有 <code>min(i,j) &lt; k &lt; max(i,j)</code> 的 <code>k</code> ，都满足 <code>forts[k] == 0</code> 。</li></ul><p>当军队移动时，所有途中经过的敌人城堡都会被 <strong>摧毁</strong> 。</p><p>请你返回 <strong>最多</strong> 可以摧毁的敌人城堡数目。如果 <strong>无法</strong> 移动你的军队，或者没有你控制的城堡，请返回 <code>0</code> 。</p><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：forts &#x3D; [1,0,0,-1,0,0,0,0,1]输出：4解释：- 将军队从位置 0 移动到位置 3 ，摧毁 2 个敌人城堡，位置分别在 1 和 2 。- 将军队从位置 8 移动到位置 3 ，摧毁 4 个敌人城堡。4 是最多可以摧毁的敌人城堡数目，所以我们返回 4 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：forts &#x3D; [0,0,1,-1]输出：0解释：由于无法摧毁敌人的城堡，所以返回 0 。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= forts.length &lt;= 1000</code></li><li><code>-1 &lt;= forts[i] &lt;= 1</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>双指针法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int captureForts(vector&lt;int&gt;&amp; forts) &#123;        int ans &#x3D; 0, pre &#x3D; -1; &#x2F;&#x2F; 双指针        for (int i &#x3D; 0; i &lt; forts.size(); i++) &#123;            if (forts[i] &#x3D;&#x3D; 1 || forts[i] &#x3D;&#x3D; -1) &#123;                if (pre &gt;&#x3D; 0 &amp;&amp; forts[i] !&#x3D; forts[pre]) &#123; &#x2F;&#x2F; 保证i与pre指着的元素不是同一个数字                    ans &#x3D; max(ans, i - pre - 1); &#x2F;&#x2F; 更新ans                &#125;                pre &#x3D; i; &#x2F;&#x2F; 更新pre，保证i和pre之间无其他1或者-1；            &#125;        &#125;        return ans; &#x2F;&#x2F; 返回最终结果    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个长度为 &lt;code&gt;n&lt;/code&gt; ，下标从 &lt;strong&gt;0&lt;/strong&gt; 开始的整数数组 &lt;code&gt;forts&lt;/code&gt; ，表示一些城堡。&lt;code&gt;forts[i]&lt;/code&gt; 可以是 &lt;code&gt;-1&lt;/code&gt; ，&lt;code&gt;0&lt;/code&gt; 或者 &lt;code&gt;1&lt;/code&gt; ，其中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-1&lt;/code&gt; 表示第 &lt;code&gt;i&lt;/code&gt; 个位置 &lt;strong&gt;没有&lt;/strong&gt; 城堡。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;0&lt;/code&gt; 表示第 &lt;code&gt;i&lt;/code&gt; 个位置有一个 &lt;strong&gt;敌人&lt;/strong&gt; 的城堡。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1&lt;/code&gt; 表示第 &lt;code&gt;i&lt;/code&gt; 个位置有一个你控制的城堡。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;现在，你需要决定，将你的军队从某个你控制的城堡位置 &lt;code&gt;i&lt;/code&gt; 移动到一个空的位置 &lt;code&gt;j&lt;/code&gt; ，满足：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;0 &amp;lt;= i, j &amp;lt;= n - 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;军队经过的位置 &lt;strong&gt;只有&lt;/strong&gt; 敌人的城堡。正式的，对于所有 &lt;code&gt;min(i,j) &amp;lt; k &amp;lt; max(i,j)&lt;/code&gt; 的 &lt;code&gt;k&lt;/code&gt; ，都满足 &lt;code&gt;forts[k] == 0&lt;/code&gt; 。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当军队移动时，所有途中经过的敌人城堡都会被 &lt;strong&gt;摧毁&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;请你返回 &lt;strong&gt;最多&lt;/strong&gt; 可以摧毁的敌人城堡数目。如果 &lt;strong&gt;无法&lt;/strong&gt; 移动你的军队，或者没有你控制的城堡，请返回 &lt;code&gt;0&lt;/code&gt; 。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+    <category term="双指针" scheme="tags/双指针/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode940.不同的子序列II</title>
@@ -460,28 +495,6 @@
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定两个整数 &lt;code&gt;n&lt;/code&gt; 和 &lt;code&gt;k&lt;/code&gt;，返回范围 &lt;code&gt;[1, n]&lt;/code&gt; 中所有可能的 &lt;code&gt;k&lt;/code&gt; 个数的组合。&lt;/p&gt;
 &lt;p&gt;你可以按 &lt;strong&gt;任何顺序&lt;/strong&gt; 返回答案。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode17.电话号码的字母组合</title>
-    <link href="2023/07/18/leetcode17-%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/"/>
-    <id>2023/07/18/leetcode17-%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/</id>
-    <published>2023-07-18T00:56:06.000Z</published>
-    <updated>2023-07-18T01:01:57.214Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个仅包含数字 <code>2-9</code> 的字符串，返回所有它能表示的字母组合。答案可以按 <strong>任意顺序</strong> 返回。</p><p>给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。</p><span id="more"></span><p><img src="http://cdn.leafii.top/img/200px-telephone-keypad2svg.png" alt="img" loading="lazy"></p><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：digits &#x3D; &quot;23&quot;输出：[&quot;ad&quot;,&quot;ae&quot;,&quot;af&quot;,&quot;bd&quot;,&quot;be&quot;,&quot;bf&quot;,&quot;cd&quot;,&quot;ce&quot;,&quot;cf&quot;]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：digits &#x3D; &quot;&quot;输出：[]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：digits &#x3D; &quot;2&quot;输出：[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]</code></pre><p><strong>提示：</strong></p><ul><li><code>0 &lt;= digits.length &lt;= 4</code></li><li><code>digits[i]</code> 是范围 <code>[&#39;2&#39;, &#39;9&#39;]</code> 的一个数字。</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>回溯法</li></ul><p>理解本题后，要解决如下三个问题：</p><ol><li>数字和字母如何映射？使用二维数组即可。</li><li>两个字母就两个for循环，三个字符我就三个for循环，以此类推，然后发现代码根本写不出来，此时的思路就是使用增加了遍历深度的参数的辅助函数进行辅助，得到一种符合要求的结果后进行回溯继续遍历。</li><li>输入1 * #按键等等异常情况（异常情况在leetcode样例中不存在，所以不考虑也没关系）</li></ol><p>C++代码如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;private:    &#x2F;&#x2F; 字母和数字的映射    const string letterMap[10] &#x3D; &#123;        &quot;&quot;, &#x2F;&#x2F; 0        &quot;&quot;, &#x2F;&#x2F; 1        &quot;abc&quot;, &#x2F;&#x2F; 2        &quot;def&quot;, &#x2F;&#x2F; 3        &quot;ghi&quot;, &#x2F;&#x2F; 4        &quot;jkl&quot;, &#x2F;&#x2F; 5        &quot;mno&quot;, &#x2F;&#x2F; 6        &quot;pqrs&quot;, &#x2F;&#x2F; 7        &quot;tuv&quot;, &#x2F;&#x2F; 8        &quot;wxyz&quot;, &#x2F;&#x2F; 9    &#125;;public:    vector&lt;string&gt; result; &#x2F;&#x2F; 用于存储最终结果的全局变量动态数组result    string s; &#x2F;&#x2F; 用于临时存储一个组合的字符串s    void backtracking(const string&amp; digits, int index) &#123;        &#x2F;&#x2F; 辅助函数，增加了一个index用于辅助遍历的过程，index表示遍历到digits的第几位        if (index &#x3D;&#x3D; digits.size()) &#123;            &#x2F;&#x2F; 判断index是否和digits的大小相等，如果相等则说明当前已经遍历完了最后一位            result.push_back(s); &#x2F;&#x2F; 此时直接把保存的字符串s放进结果数组result中即可            return; &#x2F;&#x2F; 遍历结束直接return        &#125;        int digit &#x3D; digits[index] - &#39;0&#39;; &#x2F;&#x2F; 把字符串中的单个数字转为int类型        string letters &#x3D; letterMap[digit]; &#x2F;&#x2F; 通过获得的int类型数字得到对应的字符串映射        for (int i &#x3D; 0; i &lt; letters.size(); i++) &#123;            s.push_back(letters[i]); &#x2F;&#x2F; 将第i个字母进行push            backtracking(digits, index + 1); &#x2F;&#x2F; 递归进一步遍历            s.pop_back(); &#x2F;&#x2F; 回溯        &#125;    &#125;    vector&lt;string&gt; letterCombinations(string digits) &#123;        s.clear(); &#x2F;&#x2F; 初始化参数        result.clear(); &#x2F;&#x2F; 初始化参数        if (digits.size() &#x3D;&#x3D; 0) return result; &#x2F;&#x2F; 如果digits数组的长度为0 直接返回空结果数组        backtracking(digits, 0); &#x2F;&#x2F; 递归调用，从0开始遍历        return result; &#x2F;&#x2F; 返回最终的结果数组    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个仅包含数字 &lt;code&gt;2-9&lt;/code&gt; 的字符串，返回所有它能表示的字母组合。答案可以按 &lt;strong&gt;任意顺序&lt;/strong&gt; 返回。&lt;/p&gt;
-&lt;p&gt;给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。&lt;/p&gt;</summary>
     
     
     
