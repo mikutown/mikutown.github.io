@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-09-04T12:34:17.722Z</updated>
+  <updated>2023-09-05T09:43:45.352Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode463.岛屿的周长</title>
+    <link href="2023/09/05/leetcode463-%E5%B2%9B%E5%B1%BF%E7%9A%84%E5%91%A8%E9%95%BF/"/>
+    <id>2023/09/05/leetcode463-%E5%B2%9B%E5%B1%BF%E7%9A%84%E5%91%A8%E9%95%BF/</id>
+    <published>2023-09-05T08:26:04.000Z</published>
+    <updated>2023-09-05T09:43:45.352Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个 <code>row x col</code> 的二维网格地图 <code>grid</code> ，其中：<code>grid[i][j] = 1</code> 表示陆地， <code>grid[i][j] = 0</code> 表示水域。</p><p>网格中的格子 <strong>水平和垂直</strong> 方向相连（对角线方向不相连）。整个网格被水完全包围，但其中恰好有一个岛屿（或者说，一个或多个表示陆地的格子相连组成的岛屿）。</p><p>岛屿中没有“湖”（“湖” 指水域在岛屿内部且不和岛屿周围的水相连）。格子是边长为 1 的正方形。网格为长方形，且宽度和高度均不超过 100 。计算这个岛屿的周长。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/island.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：grid &#x3D; [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]输出：16解释：它的周长是上面图片中的 16 个黄色的边</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：grid &#x3D; [[1]]输出：4</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：grid &#x3D; [[1,0]]输出：4</code></pre><p><strong>提示：</strong></p><ul><li><code>row == grid.length</code></li><li><code>col == grid[i].length</code></li><li><code>1 &lt;= row, col &lt;= 100</code></li><li><code>grid[i][j]</code> 为 <code>0</code> 或 <code>1</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力遍历</li></ul><p>思路：对每一个方格进行遍历，在当前方格为1时，将result的值增加4，接下来判断当前的方格周围的方格是否为1，如果它的下方或右方有同样是1的方格时，将res减少2（分别在当前方格和相邻方格方面的边长减去）。C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int islandPerimeter(vector&lt;vector&lt;int&gt;&gt;&amp; grid) &#123;        int res &#x3D; 0; &#x2F;&#x2F; 初始化结果        int rows &#x3D; grid.size(); &#x2F;&#x2F; 获取行数        int cols &#x3D; grid[0].size(); &#x2F;&#x2F; 获取列数        &#x2F;&#x2F; 开始遍历        for (int i &#x3D; 0; i &lt; rows; ++i) &#123;             for (int j &#x3D; 0; j &lt; cols; ++j) &#123;                if (grid[i][j] &#x3D;&#x3D; 1) &#123; &#x2F;&#x2F; 如果当前被遍历的方格值为1                    res +&#x3D; 4; &#x2F;&#x2F; 结果增加4                    if (i &lt; rows - 1 &amp;&amp; grid[i + 1][j] &#x3D;&#x3D; 1) res -&#x3D; 2; &#x2F;&#x2F; 判断当前遍历的方格的下方的方格是否也是1                    if (j &lt; cols - 1 &amp;&amp; grid[i][j + 1] &#x3D;&#x3D; 1) res -&#x3D; 2;&#x2F;&#x2F; 判断当前遍历的方格的右方的方格是否也是1                &#125;            &#125;        &#125;        return res; &#x2F;&#x2F; 返回结果    &#125;&#125;;</code></pre><ul><li>数学方法</li></ul><p>思路：一块土地原则上会带来 4 个周长，但岛上的土地存在接壤，每一条接壤，会减掉 2 个边长。</p><p>所以，总周长 &#x3D; 4 * 土地个数 - 2 * 接壤边的条数。</p><p>遍历矩阵，遍历到土地，就 land++，如果它的右&#x2F;下边也是土地，则 border++，遍历结束后代入公式。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int islandPerimeter(vector&lt;vector&lt;int&gt;&gt;&amp; grid) &#123;        int land &#x3D; 0;&#x2F;&#x2F;土地数量        int border &#x3D; 0;&#x2F;&#x2F;接壤边的条数        for (int i &#x3D; 0; i &lt; grid.size(); ++i) &#123;            for (int j &#x3D; 0; j &lt; grid[0].size(); ++j) &#123;                if (grid[i][j] &#x3D;&#x3D; 1) &#123;                    ++land;                    if (i &lt; grid.size() - 1 &amp;&amp; grid[i + 1][j] &#x3D;&#x3D; 1) &#123;&#x2F;&#x2F;该土地的下方有土地就说明下面这条边就是接壤边                        ++border;                    &#125;                    if (j &lt; grid[0].size() - 1 &amp;&amp; grid[i][j + 1] &#x3D;&#x3D; 1) &#123;&#x2F;&#x2F;该土地的右方有土地就说明右面这条边就是接壤边                        ++border;                    &#125;                &#125;            &#125;        &#125;        return 4 * land - 2 * border;    &#125;&#125;;</code></pre><ul><li>DFS</li></ul><p>思路：岛就一个，我们从第一个遇到的土地开始深搜。</p><p>对于每个土地节点，做一些事情，基于它，递归上下左右四个点，做同样的事情。做什么事情呢？</p><p>从土地到土地，之间不会产生周长，但从土地迈入海洋，之间会产生 1 个周长，从土地迈出矩阵边界，也会产生 1 个周长。</p><p>dfs 的过程中，对当前点的上下左右递归，下一个递归的点又对上下左右递归，就会造成重复访问，造成周长的重复计算。</p><p>遍历过的土地节点，将值改为 2，区分于 1 和 0，代表访问过了。</p><p>总结：DFS 从一个点，向四周扩散，目标是遇到矩阵边界或海水，它们是答案已知的 base case，是位于递归树底部的 case，是递归的终止条件。</p><p>从上而下递归调用，随着递归的出栈，子问题的解自下而上地返回，最后得出大问题的解。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int islandPerimeter(vector&lt;vector&lt;int&gt;&gt;&amp; grid) &#123;        for (int i &#x3D; 0; i &lt; grid.size(); ++i) &#123;            for (int j &#x3D; 0; j &lt; grid[0].size(); ++j) &#123;                if (grid[i][j] &#x3D;&#x3D; 1) &#123;                    return dfsHelper(grid, i, j);                &#125;            &#125;        &#125;        return 0;    &#125;    int dfsHelper(vector&lt;vector&lt;int&gt;&gt;&amp; grid, int i, int j) &#123;        int rows &#x3D; grid.size();        int cols &#x3D; grid[0].size();        if (i &lt; 0 || i &gt;&#x3D; rows || j &lt; 0 || j &gt;&#x3D; cols) &#123;            &#x2F;&#x2F;越界的情况，直接返回1            return 1;        &#125;        if (grid[i][j] &#x3D;&#x3D; 0) &#123;            &#x2F;&#x2F; 从土地到达海水            return 1;        &#125;        if (grid[i][j] &#x3D;&#x3D; 2) &#123;            &#x2F;&#x2F; 之前已经访问过这块方格了，直接返回0            return 0;        &#125;        &#x2F;&#x2F; 修改方格的值为2，说明已经来过了        grid[i][j] &#x3D; 2;        return dfsHelper(grid, i - 1, j) + dfsHelper(grid, i + 1, j) + dfsHelper(grid, i, j - 1) + dfsHelper(grid, i, j + 1);    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个 &lt;code&gt;row x col&lt;/code&gt; 的二维网格地图 &lt;code&gt;grid&lt;/code&gt; ，其中：&lt;code&gt;grid[i][j] = 1&lt;/code&gt; 表示陆地， &lt;code&gt;grid[i][j] = 0&lt;/code&gt; 表示水域。&lt;/p&gt;
+&lt;p&gt;网格中的格子 &lt;strong&gt;水平和垂直&lt;/strong&gt; 方向相连（对角线方向不相连）。整个网格被水完全包围，但其中恰好有一个岛屿（或者说，一个或多个表示陆地的格子相连组成的岛屿）。&lt;/p&gt;
+&lt;p&gt;岛屿中没有“湖”（“湖” 指水域在岛屿内部且不和岛屿周围的水相连）。格子是边长为 1 的正方形。网格为长方形，且宽度和高度均不超过 100 。计算这个岛屿的周长。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode2511.最多可以摧毁的敌人城堡数目</title>
@@ -473,28 +496,6 @@
 &lt;/ul&gt;
 &lt;p&gt;返回在四个方向（上、下、左、右）上行走时，从起始方格到结束方格的不同路径的数目&lt;strong&gt;。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;每一个无障碍方格都要通过一次，但是一条路径中不能重复通过同一个方格&lt;/strong&gt;。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode77.组合</title>
-    <link href="2023/07/21/leetcode77-%E7%BB%84%E5%90%88/"/>
-    <id>2023/07/21/leetcode77-%E7%BB%84%E5%90%88/</id>
-    <published>2023-07-21T00:58:17.000Z</published>
-    <updated>2023-07-21T01:01:23.544Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定两个整数 <code>n</code> 和 <code>k</code>，返回范围 <code>[1, n]</code> 中所有可能的 <code>k</code> 个数的组合。</p><p>你可以按 <strong>任何顺序</strong> 返回答案。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 4, k &#x3D; 2输出：[  [2,4],  [3,4],  [2,3],  [1,2],  [1,3],  [1,4],]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 1, k &#x3D; 1输出：[[1]]</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= n &lt;= 20</code></li><li><code>1 &lt;= k &lt;= n</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>直接采用回溯法</li></ul><p>回溯法的统一伪代码：</p><pre class="language-none"><code class="language-none">void backtracking(参数) &#123;    if (终止条件) &#123;        存放结果;        return;    &#125;    for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) &#123;        处理节点;        backtracking(路径，选择列表); &#x2F;&#x2F; 递归        回溯，撤销处理结果    &#125;&#125;</code></pre><p>因此本题的C++代码如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; result; &#x2F;&#x2F; 存放符合条件结果的集合    vector&lt;int&gt; path; &#x2F;&#x2F; 用来存放符合条件结果    void backtracking(int n, int k, int startIndex) &#123;        if (path.size() &#x3D;&#x3D; k) &#123;            result.push_back(path);            return;        &#125;        for (int i &#x3D; startIndex; i &lt;&#x3D; n - (k - path.size()) + 1; i++) &#123;            path.push_back(i); &#x2F;&#x2F; 处理节点            backtracking(n, k, i + 1); &#x2F;&#x2F; 递归            path.pop_back(); &#x2F;&#x2F; 回溯，撤销处理的节点        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;        result.clear(); &#x2F;&#x2F; 可以不写        path.clear();   &#x2F;&#x2F; 可以不写        backtracking(n, k, 1); &#x2F;&#x2F; 递归        return result;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定两个整数 &lt;code&gt;n&lt;/code&gt; 和 &lt;code&gt;k&lt;/code&gt;，返回范围 &lt;code&gt;[1, n]&lt;/code&gt; 中所有可能的 &lt;code&gt;k&lt;/code&gt; 个数的组合。&lt;/p&gt;
-&lt;p&gt;你可以按 &lt;strong&gt;任何顺序&lt;/strong&gt; 返回答案。&lt;/p&gt;</summary>
     
     
     
