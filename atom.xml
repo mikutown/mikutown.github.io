@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-09-07T08:22:23.617Z</updated>
+  <updated>2023-09-08T10:06:31.925Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode60.排列序列</title>
+    <link href="2023/09/08/leetcode60-%E6%8E%92%E5%88%97%E5%BA%8F%E5%88%97/"/>
+    <id>2023/09/08/leetcode60-%E6%8E%92%E5%88%97%E5%BA%8F%E5%88%97/</id>
+    <published>2023-09-08T09:55:28.000Z</published>
+    <updated>2023-09-08T10:06:31.925Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给出集合 <code>[1,2,3,...,n]</code>，其所有元素共有 <code>n!</code> 种排列。</p><p>按大小顺序列出所有排列情况，并一一标记，当 <code>n = 3</code> 时, 所有排列如下：</p><ol><li><code>&quot;123&quot;</code></li><li><code>&quot;132&quot;</code></li><li><code>&quot;213&quot;</code></li><li><code>&quot;231&quot;</code></li><li><code>&quot;312&quot;</code></li><li><code>&quot;321&quot;</code></li></ol><p>给定 <code>n</code> 和 <code>k</code>，返回第 <code>k</code> 个排列。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3, k &#x3D; 3输出：&quot;213&quot;</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 4, k &#x3D; 9输出：&quot;2314&quot;</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3, k &#x3D; 1输出：&quot;123&quot;</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= n &lt;= 9</code></li><li><code>1 &lt;= k &lt;= n!</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>思路<br>首先可以根据全排列树发现，第 iii 层的每个结点有(n - i)!个分支，对于每一层我们只需要找到第 jjj 个结点使得$j\times(n - i)! \ge k$，然后再$k&#x3D;k−(j−1)×(n−i)!$ 再然后迭代下一层以此类推。 对于找第 j 个结点可以使用状态压缩，记录之前哪些点用过了。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:        vector&lt;int&gt; fact;  &#x2F;&#x2F; 存储阶乘的数组    Solution(): fact(10) &#123;  &#x2F;&#x2F; 构造函数，初始化fact数组为长度10的数组        fact[0] &#x3D; 1;  &#x2F;&#x2F; 阶乘0的值为1        iota(fact.begin() + 1, fact.end(), 1);  &#x2F;&#x2F; 填充fact数组，从1到9        partial_sum(fact.begin(), fact.end(), fact.begin(), multiplies&lt;int&gt;());  &#x2F;&#x2F; 计算部分和，得到1!到9!的值    &#125;    string getPermutation(int n, int k) &#123;  &#x2F;&#x2F; 返回第k个排列的字符串        string res;  &#x2F;&#x2F; 存储结果的字符串        int state &#x3D; 0;  &#x2F;&#x2F; 表示已经使用的数字的状态        for (int i &#x3D; n - 1; ~i; -- i) &#123;  &#x2F;&#x2F; 从最高位到最低位遍历            int pre &#x3D; 0;  &#x2F;&#x2F; 记录前一个状态下的排列数量            for (int j &#x3D; 1; j &lt;&#x3D; n; ++ j) &#123;  &#x2F;&#x2F; 遍历1到n                if (state &gt;&gt; j &amp; 1) continue;  &#x2F;&#x2F; 如果数字已被使用，跳过                if (pre + fact[i] &gt;&#x3D; k) &#123;  &#x2F;&#x2F; 如果前一个状态下的排列数量加上当前位的阶乘大于等于k                    res.push_back(j + &#39;0&#39;);  &#x2F;&#x2F; 将当前数字加入结果字符串                    k -&#x3D; pre;  &#x2F;&#x2F; 更新k值                    state |&#x3D; 1 &lt;&lt; j;  &#x2F;&#x2F; 更新已使用数字的状态                    break;  &#x2F;&#x2F; 跳出内层循环                &#125;                pre +&#x3D; fact[i];  &#x2F;&#x2F; 更新前一个状态下的排列数量            &#125;        &#125;        return res;  &#x2F;&#x2F; 返回结果字符串    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给出集合 &lt;code&gt;[1,2,3,...,n]&lt;/code&gt;，其所有元素共有 &lt;code&gt;n!&lt;/code&gt; 种排列。&lt;/p&gt;
+&lt;p&gt;按大小顺序列出所有排列情况，并一一标记，当 &lt;code&gt;n = 3&lt;/code&gt; 时, 所有排列如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;&amp;quot;123&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;quot;132&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;quot;213&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;quot;231&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;quot;312&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;quot;321&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;给定 &lt;code&gt;n&lt;/code&gt; 和 &lt;code&gt;k&lt;/code&gt;，返回第 &lt;code&gt;k&lt;/code&gt; 个排列。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode22.括号生成</title>
@@ -464,30 +495,6 @@
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; ，数组中共有 &lt;code&gt;n&lt;/code&gt; 个整数。&lt;strong&gt;132 模式的子序列&lt;/strong&gt; 由三个整数 &lt;code&gt;nums[i]&lt;/code&gt;、&lt;code&gt;nums[j]&lt;/code&gt; 和 &lt;code&gt;nums[k]&lt;/code&gt; 组成，并同时满足：&lt;code&gt;i &amp;lt; j &amp;lt; k&lt;/code&gt; 和 &lt;code&gt;nums[i] &amp;lt; nums[k] &amp;lt; nums[j]&lt;/code&gt; 。&lt;/p&gt;
 &lt;p&gt;如果 &lt;code&gt;nums&lt;/code&gt; 中存在 &lt;strong&gt;132 模式的子序列&lt;/strong&gt; ，返回 &lt;code&gt;true&lt;/code&gt; ；否则，返回 &lt;code&gt;false&lt;/code&gt; 。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode589.N叉树的前序遍历</title>
-    <link href="2023/07/25/leetcode589-N%E5%8F%89%E6%A0%91%E7%9A%84%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86/"/>
-    <id>2023/07/25/leetcode589-N%E5%8F%89%E6%A0%91%E7%9A%84%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86/</id>
-    <published>2023-07-25T02:50:29.000Z</published>
-    <updated>2023-07-25T03:29:56.206Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个 n 叉树的根节点 <code>root</code> ，返回 <em>其节点值的 <strong>前序遍历</strong></em> 。</p><p>n 叉树 在输入中按层序遍历进行序列化表示，每组子节点由空值 <code>null</code> 分隔（请参见示例）。</p><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/narytreeexample-20230725105312155.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,null,3,2,4,null,5,6]输出：[1,3,5,6,2,4]</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/sample_4_964-20230725105314652.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：root &#x3D; [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]输出：[1,2,3,6,7,11,14,4,8,12,5,9,13,10]</code></pre><p><strong>提示：</strong></p><ul><li>节点总数在范围 <code>[0, 104]</code>内</li><li><code>0 &lt;= Node.val &lt;= 104</code></li><li>n 叉树的高度小于或等于 <code>1000</code></li></ul><p><strong>进阶：</strong>递归法很简单，你可以使用迭代法完成此题吗?</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>递归法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;*&#x2F;&#x2F; Definition for a Node.class Node &#123;public:    int val;    vector&lt;Node*&gt; children;    Node() &#123;&#125;    Node(int _val) &#123;        val &#x3D; _val;    &#125;    Node(int _val, vector&lt;Node*&gt; _children) &#123;        val &#x3D; _val;        children &#x3D; _children;    &#125;&#125;;*&#x2F;class Solution &#123;public:    vector&lt;int&gt; preorder(Node* root) &#123;        &#x2F;&#x2F; 结果数组result的定义        vector&lt;int&gt; result;        &#x2F;&#x2F; 如果root为空，则直接返回空数组        if (!root) return result;        &#x2F;&#x2F; 如果root不为空，则开始前序遍历        preorderHelper(root, result);        &#x2F;&#x2F; 遍历结束返回结果数组        return result;    &#125;    void preorderHelper(Node* node, vector&lt;int&gt;&amp; finalResult) &#123;        if (!node) return; &#x2F;&#x2F; 递归的终止条件：结点为空        finalResult.push_back(node-&gt;val); &#x2F;&#x2F; 前序遍历        for (Node* child: node-&gt;children) &#123; &#x2F;&#x2F; 获取当前结点的子结点            &#x2F;&#x2F; 然后分别每一个子结点进行前序遍历            preorderHelper(child, finalResult);         &#125;    &#125;&#125;;</code></pre><ul><li>迭代法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;*&#x2F;&#x2F; Definition for a Node.class Node &#123;public:    int val;    vector&lt;Node*&gt; children;    Node() &#123;&#125;    Node(int _val) &#123;        val &#x3D; _val;    &#125;    Node(int _val, vector&lt;Node*&gt; _children) &#123;        val &#x3D; _val;        children &#x3D; _children;    &#125;&#125;;*&#x2F;class Solution &#123;public:    vector&lt;int&gt; preorder(Node* root) &#123;        stack&lt;Node*&gt; st; &#x2F;&#x2F; 使用栈，先进后出        vector&lt;int&gt; result; &#x2F;&#x2F; 结果数组的定义        if (!root) return result;        st.push(root); &#x2F;&#x2F; 将根节点入栈        while (!st.empty()) &#123; &#x2F;&#x2F; 当栈非空时            Node* node &#x3D; st.top(); &#x2F;&#x2F; 将栈顶的元素赋值给node            st.pop(); &#x2F;&#x2F; 出栈            result.push_back(node-&gt;val); &#x2F;&#x2F; 前序遍历            for (int i &#x3D; node-&gt;children.size() - 1; i &gt;&#x3D; 0; i--) &#123;                if (node-&gt;children[i] !&#x3D; NULL) &#123;                    st.push(node-&gt;children[i]); &#x2F;&#x2F; 从右往左进行入栈操作                &#125;            &#125;        &#125;        return result; &#x2F;&#x2F; 返回结果数组    &#125;&#125;;</code></pre>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个 n 叉树的根节点 &lt;code&gt;root&lt;/code&gt; ，返回 &lt;em&gt;其节点值的 &lt;strong&gt;前序遍历&lt;/strong&gt;&lt;/e</summary>
-      
     
     
     
