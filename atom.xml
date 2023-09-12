@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-09-12T12:30:16.478Z</updated>
+  <updated>2023-09-12T13:10:08.684Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode451.根据字符出现频率排序</title>
+    <link href="2023/09/12/leetcode451-%E6%A0%B9%E6%8D%AE%E5%AD%97%E7%AC%A6%E5%87%BA%E7%8E%B0%E9%A2%91%E7%8E%87%E6%8E%92%E5%BA%8F/"/>
+    <id>2023/09/12/leetcode451-%E6%A0%B9%E6%8D%AE%E5%AD%97%E7%AC%A6%E5%87%BA%E7%8E%B0%E9%A2%91%E7%8E%87%E6%8E%92%E5%BA%8F/</id>
+    <published>2023-09-12T13:03:45.000Z</published>
+    <updated>2023-09-12T13:10:08.684Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串 <code>s</code> ，根据字符出现的 <strong>频率</strong> 对其进行 <strong>降序排序</strong> 。一个字符出现的 <strong>频率</strong> 是它出现在字符串中的次数。</p><p>返回 <em>已排序的字符串</em> 。如果有多个答案，返回其中任何一个。</p> <span id="more"></span><p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入: s &#x3D; &quot;tree&quot;输出: &quot;eert&quot;解释: &#39;e&#39;出现两次，&#39;r&#39;和&#39;t&#39;都只出现一次。因此&#39;e&#39;必须出现在&#39;r&#39;和&#39;t&#39;之前。此外，&quot;eetr&quot;也是一个有效的答案。</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: s &#x3D; &quot;cccaaa&quot;输出: &quot;cccaaa&quot;解释: &#39;c&#39;和&#39;a&#39;都出现三次。此外，&quot;aaaccc&quot;也是有效的答案。注意&quot;cacaca&quot;是不正确的，因为相同的字母必须放在一起。</code></pre><p><strong>示例 3:</strong></p><pre class="language-none"><code class="language-none">输入: s &#x3D; &quot;Aabb&quot;输出: &quot;bbAa&quot;解释: 此外，&quot;bbaA&quot;也是一个有效的答案，但&quot;Aabb&quot;是不正确的。注意&#39;A&#39;和&#39;a&#39;被认为是两种不同的字符。</code></pre><p><strong>提示:</strong></p><ul><li><code>1 &lt;= s.length &lt;= 5 * 105</code></li><li><code>s</code> 由大小写英文字母和数字组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>思路：首先使用hashmap对字符串中的字符进行计数，然后使用vector数组将hashmap的元素进行拷贝，将vector以计数的从大到小进行排序。最后对排序后的vector进行遍历，得到最终的字符串，C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string frequencySort(string s) &#123;        unordered_map&lt;char, int&gt; s_count_map;        for (char c:s) &#123;            s_count_map[c]++;        &#125;        &#x2F;&#x2F; 复制        vector&lt;pair&lt;char, int&gt;&gt; s_count_vector(s_count_map.begin(), s_count_map.end());        &#x2F;&#x2F;从大到小排序        sort(s_count_vector.begin(), s_count_vector.end(), [](pair&lt;char, int&gt; a, pair&lt;char, int&gt; b)&#123;return a.second &gt; b.second;&#125;);        string result;        for(auto cnt:s_count_vector) &#123;            int cnt_second &#x3D; cnt.second;            while (cnt_second--) &#123;                result+&#x3D;cnt.first;            &#125;        &#125;        return result;    &#125;&#125;;</code></pre><ul><li>一些细节优化后的代码（成绩没变）</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string frequencySort(string s) &#123;        unordered_map&lt;char, int&gt; s_count_map;        &#x2F;&#x2F; 统计字符频率        for (char c : s) &#123;            s_count_map[c]++;        &#125;        &#x2F;&#x2F; 构建结果字符串        string result;        result.reserve(s.size()); &#x2F;&#x2F; 预分配足够的内存        &#x2F;&#x2F; 构建频率字符对，并按频率降序排序        vector&lt;pair&lt;char, int&gt;&gt; s_count_vector;        for (const auto&amp; kv : s_count_map) &#123;            s_count_vector.emplace_back(kv);        &#125;        sort(s_count_vector.begin(), s_count_vector.end(), [](pair&lt;char, int&gt; a, pair&lt;char, int&gt; b)&#123; return a.second &gt; b.second; &#125;);        &#x2F;&#x2F; 构建结果字符串        for (const auto&amp; cnt : s_count_vector) &#123;            result.append(cnt.second, cnt.first); &#x2F;&#x2F; 使用append方法        &#125;        return result;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个字符串 &lt;code&gt;s&lt;/code&gt; ，根据字符出现的 &lt;strong&gt;频率&lt;/strong&gt; 对其进行 &lt;strong&gt;降序排序&lt;/strong&gt; 。一个字符出现的 &lt;strong&gt;频率&lt;/strong&gt; 是它出现在字符串中的次数。&lt;/p&gt;
+&lt;p&gt;返回 &lt;em&gt;已排序的字符串&lt;/em&gt; 。如果有多个答案，返回其中任何一个。&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>leetcode976.三角形的最大周长</title>
@@ -469,29 +487,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数 &lt;code&gt;n&lt;/code&gt; ，对于 &lt;code&gt;0 &amp;lt;= i &amp;lt;= n&lt;/code&gt; 中的每个 &lt;code&gt;i&lt;/code&gt; ，计算其二进制表示中 &lt;strong&gt;&lt;code&gt;1&lt;/code&gt; 的个数&lt;/strong&gt; ，返回一个长度为 &lt;code&gt;n + 1&lt;/code&gt; 的数组 &lt;code&gt;ans&lt;/code&gt; 作为答案。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode321.拼接最大数</title>
-    <link href="2023/07/28/leetcode321-%E6%8B%BC%E6%8E%A5%E6%9C%80%E5%A4%A7%E6%95%B0/"/>
-    <id>2023/07/28/leetcode321-%E6%8B%BC%E6%8E%A5%E6%9C%80%E5%A4%A7%E6%95%B0/</id>
-    <published>2023-07-28T10:32:30.000Z</published>
-    <updated>2023-07-28T10:41:04.347Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定长度分别为 <code>m</code> 和 <code>n</code> 的两个数组，其元素由 <code>0-9</code> 构成，表示两个自然数各位上的数字。现在从这两个数组中选出 <code>k (k &lt;= m + n)</code> 个数字拼接成一个新的数，要求从同一个数组中取出的数字保持其在原数组中的相对顺序。</p><p>求满足该条件的最大数。结果返回一个表示该最大数的长度为 <code>k</code> 的数组。</p><p><strong>说明:</strong> 请尽可能地优化你算法的时间和空间复杂度。</p><span id="more"></span><p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入:nums1 &#x3D; [3, 4, 6, 5]nums2 &#x3D; [9, 1, 2, 5, 8, 3]k &#x3D; 5输出:[9, 8, 6, 5, 3]</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入:nums1 &#x3D; [6, 7]nums2 &#x3D; [6, 0, 4]k &#x3D; 5输出:[6, 7, 6, 0, 4]</code></pre><p><strong>示例 3:</strong></p><pre class="language-none"><code class="language-none">输入:nums1 &#x3D; [3, 9]nums2 &#x3D; [8, 9]k &#x3D; 3输出:[9, 8, 9]</code></pre><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>单调栈</li></ul><p>为了找到长度为 kkk 的最大数，需要从两个数组中分别选出最大的子序列，这两个子序列的长度之和为 kkk，然后将这两个子序列合并得到最大数。两个子序列的长度最小为 000，最大不能超过 kkk 且不能超过对应的数组长度。</p><p>令数组 $\textit{nums}_1$ 的长度为 m，数组 $\textit{nums}_2$的长度为 n，则需要从数组 $\textit{nums}_1$中选出长度为 x 的子序列，以及从数组$\textit{nums}_2$ 中选出长度为 yyy 的子序列，其中$x+y&#x3D;k$，且满足$0 \le x \le m$和$0 \le y \le n$。需要遍历所有可能的 $x$ 和 $y$ 的值，对于每一组$x$ 和 $y$ 的值，得到最大数。在整个过程中维护可以通过拼接得到的最大数。</p><p>对于每一组 $x$ 和 $y$ 的值，得到最大数的过程分成两步，第一步是分别从两个数组中得到指定长度的最大子序列，第二步是将两个最大子序列合并。</p><p>第一步可以通过单调栈实现。单调栈满足从栈底到栈顶的元素单调递减，从左到右遍历数组，遍历过程中维护单调栈内的元素，需要保证遍历结束之后单调栈内的元素个数等于指定的最大子序列的长度。遍历结束之后，将从栈底到栈顶的元素依次拼接，即得到最大子序列。</p><p>第二步需要自定义比较方法。首先比较两个子序列的当前元素，如果两个当前元素不同，则选其中较大的元素作为下一个合并的元素，否则需要比较后面的所有元素才能决定选哪个元素作为下一个合并的元素。</p><p>在下面的代码中，单调栈使用数组实现，数组最左侧为栈底。使用数组实现，可以直接从左到右遍历数组得到最大子序列。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; maxNumber(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2, int k) &#123;        int m &#x3D; nums1.size(), n &#x3D; nums2.size();        vector&lt;int&gt; maxSubsequence(k, 0); &#x2F;&#x2F; 存储最大的子序列结果        int start &#x3D; max(0, k - n), end &#x3D; min(k, m); &#x2F;&#x2F; 确定子序列长度的起始和结束范围        for (int i &#x3D; start; i &lt;&#x3D; end; i++) &#123;            vector&lt;int&gt; subsequence1(MaxSubsequence(nums1, i)); &#x2F;&#x2F; 从nums1中取i个数字组成的最大子序列            vector&lt;int&gt; subsequence2(MaxSubsequence(nums2, k - i)); &#x2F;&#x2F; 从nums2中取k-i个数字组成的最大子序列            vector&lt;int&gt; curMaxSubsequence(merge(subsequence1, subsequence2)); &#x2F;&#x2F; 合并两个子序列得到当前最大结果            if (compare(curMaxSubsequence, 0, maxSubsequence, 0) &gt; 0) &#123;                maxSubsequence.swap(curMaxSubsequence); &#x2F;&#x2F; 如果当前最大结果更大，则更新maxSubsequence            &#125;        &#125;        return maxSubsequence; &#x2F;&#x2F; 返回最终的最大子序列结果    &#125;    vector&lt;int&gt; MaxSubsequence(vector&lt;int&gt;&amp; nums, int k) &#123;        int length &#x3D; nums.size();        vector&lt;int&gt; stack(k, 0); &#x2F;&#x2F; 使用stack来构建最大子序列        int top &#x3D; -1;        int remain &#x3D; length - k; &#x2F;&#x2F; 记录还需要丢弃的数字个数        for (int i &#x3D; 0; i &lt; length; i++) &#123;            int num &#x3D; nums[i];            while (top &gt;&#x3D; 0 &amp;&amp; stack[top] &lt; num &amp;&amp; remain &gt; 0) &#123;                top--; &#x2F;&#x2F; 当前数字比栈顶元素大，可以丢弃栈顶元素，继续判断下一个栈顶元素                remain--; &#x2F;&#x2F; 更新需要丢弃的数字个数            &#125;            if (top &lt; k - 1) &#123;                stack[++top] &#x3D; num; &#x2F;&#x2F; 将当前数字加入栈中            &#125; else &#123;                remain--; &#x2F;&#x2F; 否则，当前数字比栈顶元素小，丢弃当前数字，继续判断下一个数字            &#125;        &#125;        return stack; &#x2F;&#x2F; 返回最终构建的最大子序列    &#125;    vector&lt;int&gt; merge(vector&lt;int&gt;&amp; subsequence1, vector&lt;int&gt;&amp; subsequence2) &#123;        int x &#x3D; subsequence1.size(), y &#x3D; subsequence2.size();        if (x &#x3D;&#x3D; 0) &#123;            return subsequence2; &#x2F;&#x2F; 如果subsequence1为空，则直接返回subsequence2        &#125;        if (y &#x3D;&#x3D; 0) &#123;            return subsequence1; &#x2F;&#x2F; 如果subsequence2为空，则直接返回subsequence1        &#125;        int mergeLength &#x3D; x + y;        vector&lt;int&gt; merged(mergeLength); &#x2F;&#x2F; 合并结果的数组        int index1 &#x3D; 0, index2 &#x3D; 0;        for (int i &#x3D; 0; i &lt; mergeLength; i++) &#123;            if (compare(subsequence1, index1, subsequence2, index2) &gt; 0) &#123;                merged[i] &#x3D; subsequence1[index1++]; &#x2F;&#x2F; 如果subsequence1的当前元素较大，则加入到合并结果中            &#125; else &#123;                merged[i] &#x3D; subsequence2[index2++]; &#x2F;&#x2F; 否则，加入subsequence2的当前元素到合并结果中            &#125;        &#125;        return merged; &#x2F;&#x2F; 返回合并的结果    &#125;    int compare(vector&lt;int&gt;&amp; subsequence1, int index1, vector&lt;int&gt;&amp; subsequence2, int index2) &#123;        int x &#x3D; subsequence1.size(), y &#x3D; subsequence2.size();        while (index1 &lt; x &amp;&amp; index2 &lt; y) &#123;            int difference &#x3D; subsequence1[index1] - subsequence2[index2];            if (difference !&#x3D; 0) &#123;                return difference; &#x2F;&#x2F; 比较两个子序列当前位置的元素，不相等则直接返回差值            &#125;            index1++; &#x2F;&#x2F; 继续比较下一个位置            index2++;        &#125;        return (x - index1) - (y - index2); &#x2F;&#x2F; 返回长度较长的子序列对应位置多出的元素个数    &#125;&#125;;</code></pre><hr><p>作者：力扣官方题解<br>链接：<a href="https://leetcode.cn/problems/create-maximum-number/solutions/505931/pin-jie-zui-da-shu-by-leetcode-solution/">https://leetcode.cn/problems/create-maximum-number/solutions/505931/pin-jie-zui-da-shu-by-leetcode-solution/</a><br>来源：力扣（LeetCode）<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定长度分别为 &lt;code&gt;m&lt;/code&gt; 和 &lt;code&gt;n&lt;/code&gt; 的两个数组，其元素由 &lt;code&gt;0-9&lt;/code&gt; 构成，表示两个自然数各位上的数字。现在从这两个数组中选出 &lt;code&gt;k (k &amp;lt;= m + n)&lt;/code&gt; 个数字拼接成一个新的数，要求从同一个数组中取出的数字保持其在原数组中的相对顺序。&lt;/p&gt;
-&lt;p&gt;求满足该条件的最大数。结果返回一个表示该最大数的长度为 &lt;code&gt;k&lt;/code&gt; 的数组。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;说明:&lt;/strong&gt; 请尽可能地优化你算法的时间和空间复杂度。&lt;/p&gt;</summary>
     
     
     
