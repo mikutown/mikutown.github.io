@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-10-12T11:10:39.787Z</updated>
+  <updated>2023-10-17T01:10:07.495Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,50 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode383.赎金信</title>
+    <link href="2023/10/17/leetcode383-%E8%B5%8E%E9%87%91%E4%BF%A1/"/>
+    <id>2023/10/17/leetcode383-%E8%B5%8E%E9%87%91%E4%BF%A1/</id>
+    <published>2023-10-17T00:53:04.000Z</published>
+    <updated>2023-10-17T01:10:07.495Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你两个字符串：<code>ransomNote</code> 和 <code>magazine</code> ，判断 <code>ransomNote</code> 能不能由 <code>magazine</code> 里面的字符构成。</p><p>如果可以，返回 <code>true</code> ；否则返回 <code>false</code> 。</p><p><code>magazine</code> 中的每个字符只能在 <code>ransomNote</code> 中使用一次。</p><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：ransomNote &#x3D; &quot;a&quot;, magazine &#x3D; &quot;b&quot;输出：false</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：ransomNote &#x3D; &quot;aa&quot;, magazine &#x3D; &quot;ab&quot;输出：false</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：ransomNote &#x3D; &quot;aa&quot;, magazine &#x3D; &quot;aab&quot;输出：true</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= ransomNote.length, magazine.length &lt;= 105</code></li><li><code>ransomNote</code> 和 <code>magazine</code> 由小写英文字母组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力枚举</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool canConstruct(string ransomNote, string magazine) &#123;        for (int i &#x3D; 0; i &lt; magazine.length(); i++) &#123;            for (int j &#x3D; 0; j &lt; ransomNote.length(); j++) &#123;                &#x2F;&#x2F; 在ransomNote中找到和magazine相同的字符                if (magazine[i] &#x3D;&#x3D; ransomNote[j]) &#123;                    ransomNote.erase(ransomNote.begin() + j); &#x2F;&#x2F; ransomNote删除这个字符                    break;                &#125;            &#125;        &#125;        &#x2F;&#x2F; 如果ransomNote为空，则说明magazine的字符可以组成ransomNote        if (ransomNote.length() &#x3D;&#x3D; 0) &#123;            return true;        &#125;        return false;    &#125;&#125;;</code></pre><ul><li>哈希表</li></ul><p>使用哈希表分别统计两个字符串中字母的个数，然后对比两个哈希表的结果，如果前者的字母统计个数大于后者，直接返回false，否则最终返回true</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool canConstruct(string ransomNote, string magazine) &#123;        &#x2F;&#x2F; 初始化哈希表用于统计字符数        unordered_map&lt;char, int&gt; ransomNoteCnt;        unordered_map&lt;char, int&gt; magezineCnt;        for (char c:ransomNote) &#123;            ransomNoteCnt[c] &#x3D; ransomNoteCnt[c]&#x3D;&#x3D;0?1:ransomNoteCnt[c]+1;        &#125;        for (char c:magazine) &#123;            magezineCnt[c] &#x3D; magezineCnt[c]&#x3D;&#x3D;0?1:magezineCnt[c]+1;        &#125;        for (char c &#x3D; &#39;a&#39;; c &lt;&#x3D; &#39;z&#39;; c++) &#123;            if (ransomNoteCnt[c] &lt;&#x3D; magezineCnt[c]) continue;            else return false;        &#125;        return true;    &#125;&#125;;</code></pre><ul><li>更省空间的哈希表解法</li></ul><p>因为题目说只有小写字母，那可以采用空间换取时间的哈希策略，用一个长度为26的数组来记录magazine里字母出现的次数。</p><p>然后再用ransomNote去验证这个数组是否包含了ransomNote所需要的所有字母。</p><p>依然是数组在哈希法中的应用。</p><p>一些同学可能想，用数组干啥，都用map完事了，<strong>其实在本题的情况下，使用map的空间消耗要比数组大一些的，因为map要维护红黑树或者哈希表，而且还要做哈希函数，是费时的！数据量大的话就能体现出来差别了。 所以数组更加简单直接有效！</strong></p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool canConstruct(string ransomNote, string magazine) &#123;        int record[26] &#x3D; &#123;0&#125;;        &#x2F;&#x2F;add        if (ransomNote.size() &gt; magazine.size()) &#123;            return false;        &#125;        for (int i &#x3D; 0; i &lt; magazine.length(); i++) &#123;            &#x2F;&#x2F; 通过record数据记录 magazine里各个字符出现次数            record[magazine[i]-&#39;a&#39;] ++;        &#125;        for (int j &#x3D; 0; j &lt; ransomNote.length(); j++) &#123;            &#x2F;&#x2F; 遍历ransomNote，在record里对应的字符个数做--操作            record[ransomNote[j]-&#39;a&#39;]--;            &#x2F;&#x2F; 如果小于零说明ransomNote里出现的字符，magazine没有            if(record[ransomNote[j]-&#39;a&#39;] &lt; 0) &#123;                return false;            &#125;        &#125;        return true;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你两个字符串：&lt;code&gt;ransomNote&lt;/code&gt; 和 &lt;code&gt;magazine&lt;/code&gt; ，判断 &lt;code&gt;ransomNote&lt;/code&gt; 能不能由 &lt;code&gt;magazine&lt;/code&gt; 里面的字符构成。&lt;/p&gt;
+&lt;p&gt;如果可以，返回 &lt;code&gt;true&lt;/code&gt; ；否则返回 &lt;code&gt;false&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;magazine&lt;/code&gt; 中的每个字符只能在 &lt;code&gt;ransomNote&lt;/code&gt; 中使用一次。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>leetcode349.两个数组的交集</title>
+    <link href="2023/10/17/leetcode349-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86/"/>
+    <id>2023/10/17/leetcode349-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86/</id>
+    <published>2023-10-17T00:38:12.000Z</published>
+    <updated>2023-10-17T00:52:36.371Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定两个数组 <code>nums1</code> 和 <code>nums2</code> ，返回 <em>它们的交集</em> 。输出结果中的每个元素一定是 <strong>唯一</strong> 的。我们可以 <strong>不考虑输出结果的顺序</strong> 。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums1 &#x3D; [1,2,2,1], nums2 &#x3D; [2,2]输出：[2]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums1 &#x3D; [4,9,5], nums2 &#x3D; [9,4,9,8,4]输出：[9,4]解释：[4,9] 也是可通过的</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums1.length, nums2.length &lt;= 1000</code></li><li><code>0 &lt;= nums1[i], nums2[i] &lt;= 1000</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; deduplicate(vector&lt;int&gt;&amp; nums) &#123;        &#x2F;&#x2F; 手动去重        int n &#x3D; nums.size();        if (n &lt;&#x3D; 1) return nums;        int p &#x3D; 0,q &#x3D; 1;        while (q &lt; n) &#123;            &#x2F;&#x2F; 0 0 1 2 2 3 4            if (nums[p] &#x3D;&#x3D; nums[q])&#123;                ++q;            &#125;            else &#123;                nums[p+1] &#x3D; nums[q];                ++p;                ++q;            &#125;        &#125;        vector&lt;int&gt; newNums(nums.begin(), nums.begin() + p + 1);        return newNums;    &#125;    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        &#x2F;&#x2F; 排序        sort(nums1.begin(), nums1.end());        sort(nums2.begin(), nums2.end());        &#x2F;&#x2F; 对两个数组进行去重        vector&lt;int&gt; newNums1 &#x3D; deduplicate(nums1);        vector&lt;int&gt; newNums2 &#x3D; deduplicate(nums2);        &#x2F;&#x2F; 初始化结果数组        vector&lt;int&gt; results;        int n1 &#x3D; newNums1.size();        int n2 &#x3D; newNums2.size();        &#x2F;&#x2F; 暴力便利        for (int i &#x3D; 0; i &lt; n1; i++) &#123;            for (int j &#x3D; 0; j &lt; n2; j++) &#123;                if (newNums1[i] &#x3D;&#x3D; newNums2[j]) &#123;                    results.push_back(newNums1[i]);                &#125;            &#125;        &#125;        &#x2F;&#x2F; 返回结果数组        return results;    &#125;&#125;;</code></pre><ul><li>使用哈希表</li></ul><p>C++中，std::unordered_set的底层实现是哈希表， 使用unordered_set 读写效率是最高的，并不需要对数据进行排序，而且还不要让数据重复，所以选择unordered_set。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;        unordered_set&lt;int&gt; nums1set(nums1.begin(), nums1.end());        for (int num:nums2) &#123;            &#x2F;&#x2F; 发现nums2的元素 在nums_set里又出现过            if (nums1set.find(num) !&#x3D; nums1set.end()) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定两个数组 &lt;code&gt;nums1&lt;/code&gt; 和 &lt;code&gt;nums2&lt;/code&gt; ，返回 &lt;em&gt;它们的交集&lt;/em&gt; 。输出结果中的每个元素一定是 &lt;strong&gt;唯一&lt;/strong&gt; 的。我们可以 &lt;strong&gt;不考虑输出结果的顺序&lt;/strong&gt; 。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode40.组合总和II</title>
@@ -454,49 +498,6 @@
     <category term="算法" scheme="tags/算法/"/>
     
     <category term="序列" scheme="tags/序列/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode283.移动零</title>
-    <link href="2023/08/08/leetcode283-%E7%A7%BB%E5%8A%A8%E9%9B%B6/"/>
-    <id>2023/08/08/leetcode283-%E7%A7%BB%E5%8A%A8%E9%9B%B6/</id>
-    <published>2023-08-08T11:48:39.000Z</published>
-    <updated>2023-08-08T11:50:12.866Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个数组 <code>nums</code>，编写一个函数将所有 <code>0</code> 移动到数组的末尾，同时保持非零元素的相对顺序。</p><p><strong>请注意</strong> ，必须在不复制数组的情况下原地对数组进行操作。</p><span id="more"></span> <p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入: nums &#x3D; [0,1,0,3,12]输出: [1,3,12,0,0]</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: nums &#x3D; [0]输出: [0]</code></pre><p><strong>提示</strong>:</p><ul><li><code>1 &lt;= nums.length &lt;= 104</code></li><li><code>-231 &lt;= nums[i] &lt;= 231 - 1</code></li></ul><p><strong>进阶：</strong>你能尽量减少完成的操作次数吗？</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>双指针</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    void moveZeroes(vector&lt;int&gt;&amp; nums) &#123;        int n &#x3D; nums.size(); &#x2F;&#x2F; 获取数组长度        int right &#x3D; 0; &#x2F;&#x2F; 定义指向数组右边的指针        int left &#x3D; 0; &#x2F;&#x2F; 定义指向数组左边的指针        while (right &lt; nums.size()) &#123; &#x2F;&#x2F; 循环遍历数组            if (nums[right] &#x3D;&#x3D; 0); &#x2F;&#x2F; 如果当前元素为零，跳过该步骤（注：这里存在逻辑错误，应该去掉分号，即 if (nums[right] &#x3D;&#x3D; 0)）            else &#123;                nums[left] &#x3D; nums[right]; &#x2F;&#x2F; 如果当前元素不为零，将其移动到左边（注：这里将非零元素移到了左边，而不是把零元素移到右边）                left++; &#x2F;&#x2F; 左指针右移一位            &#125;            right++; &#x2F;&#x2F; 右指针右移一位        &#125;        while (left &lt; nums.size()) &#123; &#x2F;&#x2F; 将剩余的位置填充为零            nums[left++] &#x3D; 0; &#x2F;&#x2F; 将左指针位置及其右边的元素都置为零        &#125;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个数组 &lt;code&gt;nums&lt;/code&gt;，编写一个函数将所有 &lt;code&gt;0&lt;/code&gt; 移动到数组的末尾，同时保持非零元素的相对顺序。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;请注意&lt;/strong&gt; ，必须在不复制数组的情况下原地对数组进行操作。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode941.有效的山脉数组</title>
-    <link href="2023/08/07/leetcode941-%E6%9C%89%E6%95%88%E7%9A%84%E5%B1%B1%E8%84%89%E6%95%B0%E7%BB%84/"/>
-    <id>2023/08/07/leetcode941-%E6%9C%89%E6%95%88%E7%9A%84%E5%B1%B1%E8%84%89%E6%95%B0%E7%BB%84/</id>
-    <published>2023-08-07T03:18:14.000Z</published>
-    <updated>2023-08-07T03:52:55.709Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个整数数组 <code>arr</code>，如果它是有效的山脉数组就返回 <code>true</code>，否则返回 <code>false</code>。</p><span id="more"></span><p>让我们回顾一下，如果 <code>arr</code> 满足下述条件，那么它是一个山脉数组：</p><ul><li><p><code>arr.length &gt;= 3</code></p></li><li><p>在 </p><pre class="language-none"><code class="language-none">0 &lt; i &lt; arr.length - 1</code></pre><p> 条件下，存在 </p><pre class="language-none"><code class="language-none">i</code></pre><p> 使得：</p><ul><li><code>arr[0] &lt; arr[1] &lt; ... arr[i-1] &lt; arr[i] </code></li><li><code>arr[i] &gt; arr[i+1] &gt; ... &gt; arr[arr.length - 1]</code></li></ul></li></ul><p><img src="http://cdn.leafii.top/img/hint_valid_mountain_array.png" alt="img" loading="lazy"></p><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [2,1]输出：false</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [3,5,5]输出：false</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：arr &#x3D; [0,3,2,1]输出：true</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= arr.length &lt;= 104</code></li><li><code>0 &lt;= arr[i] &lt;= 104</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力解法</li></ul><p>首先获取数组中最大的数字以及下标，然后对下标进行判断，符合条件（数组大小超过2并且最大值不是数组的第一个元素或者最后一个元素）时进行第二次循环，循环时判断相邻元素是否满足递增或者递减的关系。C++实现代码如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool validMountainArray(vector&lt;int&gt;&amp; arr) &#123;        &#x2F;&#x2F; 得到最大值        int maxNum &#x3D; -1;        int maxIndex &#x3D; -1;        int n &#x3D; arr.size();        if (n &lt; 3) return false;        for (int i &#x3D; 0; i &lt; n; i++) &#123;            if (arr[i] &gt; maxNum) &#123;                maxNum &#x3D; arr[i];                maxIndex &#x3D; i;            &#125;        &#125;        &#x2F;&#x2F; 得到最大值后进行一部分判断然后进行循环        if (maxIndex &#x3D;&#x3D; n-1 || maxIndex &#x3D;&#x3D; 0) return false;        for (int i &#x3D; 0; i &lt; maxIndex; i++) &#123;            if (arr[i] &gt;&#x3D; arr[i + 1]) return false;        &#125;        for (int i &#x3D; maxIndex; i &lt; n - 1; i++) &#123;            if (arr[i] &lt;&#x3D; arr[i + 1]) return false;        &#125;        return true;    &#125;&#125;;</code></pre><ul><li>只扫描一次的解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool validMountainArray(vector&lt;int&gt;&amp; A) &#123;        int n &#x3D; A.size();                &#x2F;&#x2F; 山脉数组必须至少有3个元素        if (n &lt; 3) &#123;            return false;        &#125;                int i &#x3D; 0;                &#x2F;&#x2F; 从左侧递增部分开始扫描        while (i &lt; n - 1 &amp;&amp; A[i] &lt; A[i + 1]) &#123;            i++;        &#125;                &#x2F;&#x2F; 如果i是数组的第一个元素或者最后一个元素，说明没有递增或递减的足够元素        if (i &#x3D;&#x3D; 0 || i &#x3D;&#x3D; n - 1) &#123;            return false;        &#125;                &#x2F;&#x2F; 扫描递减部分        while (i &lt; n - 1 &amp;&amp; A[i] &gt; A[i + 1]) &#123;            i++;        &#125;                &#x2F;&#x2F; 如果i已经到达数组的末尾，说明是有效的山脉数组        return i &#x3D;&#x3D; n - 1;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个整数数组 &lt;code&gt;arr&lt;/code&gt;，如果它是有效的山脉数组就返回 &lt;code&gt;true&lt;/code&gt;，否则返回 &lt;code&gt;false&lt;/code&gt;。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
     
   </entry>
   
