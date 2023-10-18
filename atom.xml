@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-10-17T01:10:07.495Z</updated>
+  <updated>2023-10-18T01:36:18.279Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode454.四数相加II</title>
+    <link href="2023/10/18/leetcode454-%E5%9B%9B%E6%95%B0%E7%9B%B8%E5%8A%A0II/"/>
+    <id>2023/10/18/leetcode454-%E5%9B%9B%E6%95%B0%E7%9B%B8%E5%8A%A0II/</id>
+    <published>2023-10-18T01:18:10.000Z</published>
+    <updated>2023-10-18T01:36:18.279Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你四个整数数组 <code>nums1</code>、<code>nums2</code>、<code>nums3</code> 和 <code>nums4</code> ，数组长度都是 <code>n</code> ，请你计算有多少个元组 <code>(i, j, k, l)</code> 能满足：</p><ul><li><code>0 &lt;= i, j, k, l &lt; n</code></li><li><code>nums1[i] + nums2[j] + nums3[k] + nums4[l] == 0</code></li></ul> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums1 &#x3D; [1,2], nums2 &#x3D; [-2,-1], nums3 &#x3D; [-1,2], nums4 &#x3D; [0,2]输出：2解释：两个元组如下：1. (0, 0, 0, 1) -&gt; nums1[0] + nums2[0] + nums3[0] + nums4[1] &#x3D; 1 + (-2) + (-1) + 2 &#x3D; 02. (1, 1, 0, 0) -&gt; nums1[1] + nums2[1] + nums3[0] + nums4[0] &#x3D; 2 + (-1) + (-1) + 0 &#x3D; 0</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums1 &#x3D; [0], nums2 &#x3D; [0], nums3 &#x3D; [0], nums4 &#x3D; [0]输出：1</code></pre><p> <strong>提示：</strong></p><ul><li><code>n == nums1.length</code></li><li><code>n == nums2.length</code></li><li><code>n == nums3.length</code></li><li><code>n == nums4.length</code></li><li><code>1 &lt;= n &lt;= 200</code></li><li><code>-228 &lt;= nums1[i], nums2[i], nums3[i], nums4[i] &lt;= 228</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>哈希表</li></ul><p>直接上4个for循环铁定要超时，因为时间复杂度高达<code>O(n^4)</code>，在这里利用哈希表查找操作接近O(1)的特性将整体的查找操作的时间复杂度降低到<code>O(n^2)</code>。整体的代码思路如下：</p><ol><li>首先定义 一个unordered_map，key放a和b两数之和，value 放a和b两数之和出现的次数。</li><li>遍历大A和大B数组，统计两个数组元素之和，和出现的次数，放到map中。</li><li>定义int变量count，用来统计 a+b+c+d &#x3D; 0 出现的次数。</li><li>在遍历大C和大D数组，找到如果 0-(c+d) 在map中出现过的话，就用count把map中key对应的value也就是出现次数统计出来。</li><li>最后返回统计值 count 就可以了</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int fourSumCount(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2, vector&lt;int&gt;&amp; nums3, vector&lt;int&gt;&amp; nums4) &#123;        int result &#x3D; 0; &#x2F;&#x2F; 定义结果，类型为int        unordered_map&lt;int, int&gt; cnt; &#x2F;&#x2F; 哈希表cnt 用于统计nums1和nums2数组元素和的次数        for (int i &#x3D; 0; i &lt; nums1.size(); i++) &#123;            for (int j &#x3D; 0; j &lt; nums2.size(); j++) &#123;                int temp &#x3D; nums1[i] + nums2[j];                cnt[temp] &#x3D; cnt[temp]&#x3D;&#x3D;0?1:cnt[temp]+1; &#x2F;&#x2F; 统计过程            &#125;        &#125;        for (int i &#x3D; 0; i &lt; nums3.size(); i++) &#123;            for (int j &#x3D; 0; j &lt; nums4.size(); j++) &#123;                int temp &#x3D; -1 * (nums3[i] + nums4[j]);                &#x2F;&#x2F; 判断如果nums3和nums4中单个元素的和乘以-1在名为cnt的哈希表中非0，就更新result的值                if (cnt[temp] !&#x3D; 0) result +&#x3D; cnt[temp];             &#125;        &#125;        return result; &#x2F;&#x2F; 返回结果    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你四个整数数组 &lt;code&gt;nums1&lt;/code&gt;、&lt;code&gt;nums2&lt;/code&gt;、&lt;code&gt;nums3&lt;/code&gt; 和 &lt;code&gt;nums4&lt;/code&gt; ，数组长度都是 &lt;code&gt;n&lt;/code&gt; ，请你计算有多少个元组 &lt;code&gt;(i, j, k, l)&lt;/code&gt; 能满足：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;0 &amp;lt;= i, j, k, l &amp;lt; n&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nums1[i] + nums2[j] + nums3[k] + nums4[l] == 0&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode383.赎金信</title>
@@ -465,30 +490,6 @@
 &lt;ul&gt;
 &lt;li&gt;例如，&lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; 是 &lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt; 的子序列，因为删除 &lt;code&gt;&amp;quot;a***e***b***d\***c&amp;quot;&lt;/code&gt; 中斜体加粗的字符可以得到 &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; 。 &lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt; 的子序列还包括 &lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt; 、 &lt;code&gt;&amp;quot;aeb&amp;quot;&lt;/code&gt; 和 &lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt; (空字符串)。&lt;/li&gt;
 &lt;/ul&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="序列" scheme="tags/序列/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode674.最长连续递增序列</title>
-    <link href="2023/08/30/leetcode674-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E9%80%92%E5%A2%9E%E5%BA%8F%E5%88%97/"/>
-    <id>2023/08/30/leetcode674-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E9%80%92%E5%A2%9E%E5%BA%8F%E5%88%97/</id>
-    <published>2023-08-30T08:13:58.000Z</published>
-    <updated>2023-08-30T08:26:57.630Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个未经排序的整数数组，找到最长且 <strong>连续递增的子序列</strong>，并返回该序列的长度。</p><p><strong>连续递增的子序列</strong> 可以由两个下标 <code>l</code> 和 <code>r</code>（<code>l &lt; r</code>）确定，如果对于每个 <code>l &lt;= i &lt; r</code>，都有 <code>nums[i] &lt; nums[i + 1]</code> ，那么子序列 <code>[nums[l], nums[l + 1], ..., nums[r - 1], nums[r]]</code> 就是连续递增子序列。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [1,3,5,4,7]输出：3解释：最长连续递增序列是 [1,3,5], 长度为3。尽管 [1,3,5,7] 也是升序的子序列, 但它不是连续的，因为 5 和 7 在原数组里被 4 隔开。 </code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [2,2,2,2,2]输出：1解释：最长连续递增序列是 [2], 长度为1。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 104</code></li><li><code>-109 &lt;= nums[i] &lt;= 109</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>直接看代码</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int findLengthOfLCIS(vector&lt;int&gt;&amp; nums) &#123;        int n &#x3D; nums.size();        if (n &#x3D;&#x3D; 0) &#123;            return 0;        &#125;                int maxLength &#x3D; 1; &#x2F;&#x2F; 初始化最大长度为1，因为至少有一个元素存在        int currentLength &#x3D; 1; &#x2F;&#x2F; 当前递增序列的长度，初始为1        for (int i &#x3D; 1; i &lt; n; ++i) &#123;            if (nums[i] &gt; nums[i - 1]) &#123;                currentLength++; &#x2F;&#x2F; 如果当前元素大于前一个元素，则当前递增序列长度加一                maxLength &#x3D; max(maxLength, currentLength); &#x2F;&#x2F; 更新最大长度            &#125; else &#123;                currentLength &#x3D; 1; &#x2F;&#x2F; 重置当前递增序列长度为1，因为递增中断            &#125;        &#125;                return maxLength;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个未经排序的整数数组，找到最长且 &lt;strong&gt;连续递增的子序列&lt;/strong&gt;，并返回该序列的长度。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;连续递增的子序列&lt;/strong&gt; 可以由两个下标 &lt;code&gt;l&lt;/code&gt; 和 &lt;code&gt;r&lt;/code&gt;（&lt;code&gt;l &amp;lt; r&lt;/code&gt;）确定，如果对于每个 &lt;code&gt;l &amp;lt;= i &amp;lt; r&lt;/code&gt;，都有 &lt;code&gt;nums[i] &amp;lt; nums[i + 1]&lt;/code&gt; ，那么子序列 &lt;code&gt;[nums[l], nums[l + 1], ..., nums[r - 1], nums[r]]&lt;/code&gt; 就是连续递增子序列。&lt;/p&gt;</summary>
     
     
     
