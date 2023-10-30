@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-10-20T02:28:14.763Z</updated>
+  <updated>2023-10-30T08:58:48.058Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode914.卡牌分组</title>
+    <link href="2023/10/30/leetcode914-%E5%8D%A1%E7%89%8C%E5%88%86%E7%BB%84/"/>
+    <id>2023/10/30/leetcode914-%E5%8D%A1%E7%89%8C%E5%88%86%E7%BB%84/</id>
+    <published>2023-10-30T08:57:10.000Z</published>
+    <updated>2023-10-30T08:58:48.058Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一副牌，每张牌上都写着一个整数。</p><p>此时，你需要选定一个数字 <code>X</code>，使我们可以将整副牌按下述规则分成 1 组或更多组：</p><ul><li>每组都有 <code>X</code> 张牌。</li><li>组内所有的牌上都写着相同的整数。</li></ul><p>仅当你可选的 <code>X &gt;= 2</code> 时返回 <code>true</code>。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：deck &#x3D; [1,2,3,4,4,3,2,1]输出：true解释：可行的分组是 [1,1]，[2,2]，[3,3]，[4,4]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：deck &#x3D; [1,1,1,2,2,2,3,3]输出：false解释：没有满足要求的分组。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= deck.length &lt;= 104</code></li><li><code>0 &lt;= deck[i] &lt; 104</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>使用哈希表+最小公约数解决</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool hasGroupsSizeX(vector&lt;int&gt;&amp; deck) &#123;        unordered_map&lt;int, int&gt; deck_map; &#x2F;&#x2F; 用于统计牌的数量        int n &#x3D; deck.size();        for(int num:deck) &#123;            deck_map[num]++; &#x2F;&#x2F; 统计牌的数量        &#125;        int gcd &#x3D; 0; &#x2F;&#x2F; 初始化最大公约数        for (const auto&amp; entry : deck_map) &#123;            gcd &#x3D; __gcd(gcd, entry.second); &#x2F;&#x2F; 最大公约数更新        &#125;        return gcd &gt;&#x3D; 2; &#x2F;&#x2F; 符合题目条件时才返回true    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一副牌，每张牌上都写着一个整数。&lt;/p&gt;
+&lt;p&gt;此时，你需要选定一个数字 &lt;code&gt;X&lt;/code&gt;，使我们可以将整副牌按下述规则分成 1 组或更多组：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每组都有 &lt;code&gt;X&lt;/code&gt; 张牌。&lt;/li&gt;
+&lt;li&gt;组内所有的牌上都写着相同的整数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;仅当你可选的 &lt;code&gt;X &amp;gt;= 2&lt;/code&gt; 时返回 &lt;code&gt;true&lt;/code&gt;。&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>leetcode30.串联所有单词的子串</title>
@@ -458,34 +481,6 @@
 &lt;p&gt;字符串的 &lt;strong&gt;子序列&lt;/strong&gt; 是经由原字符串删除一些（也可能不删除）字符但不改变剩余字符相对位置的一个新字符串。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;例如，&lt;code&gt;&amp;quot;ace&amp;quot;&lt;/code&gt; 是 &lt;code&gt;&amp;quot;***a***b***c***d***e***&amp;quot;&lt;/code&gt; 的一个子序列，但 &lt;code&gt;&amp;quot;aec&amp;quot;&lt;/code&gt; 不是。&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="序列" scheme="tags/序列/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode522.最长特殊序列II</title>
-    <link href="2023/08/31/leetcode522-%E6%9C%80%E9%95%BF%E7%89%B9%E6%AE%8A%E5%BA%8F%E5%88%97II/"/>
-    <id>2023/08/31/leetcode522-%E6%9C%80%E9%95%BF%E7%89%B9%E6%AE%8A%E5%BA%8F%E5%88%97II/</id>
-    <published>2023-08-31T01:22:21.000Z</published>
-    <updated>2023-08-31T01:28:34.393Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定字符串列表 <code>strs</code> ，返回其中 <strong>最长的特殊序列</strong> 的长度。如果最长特殊序列不存在，返回 <code>-1</code> 。</p><p><strong>特殊序列</strong> 定义如下：该序列为某字符串 <strong>独有的子序列（即不能是其他字符串的子序列）</strong>。</p><p> <code>s</code> 的 <strong>子序列</strong>可以通过删去字符串 <code>s</code> 中的某些字符实现。</p><ul><li>例如，<code>&quot;abc&quot;</code> 是 <code>&quot;aebdc&quot;</code> 的子序列，因为您可以删除<code>&quot;aebdc&quot;</code>中的下划线字符来得到 <code>&quot;abc&quot;</code> 。<code>&quot;aebdc&quot;</code>的子序列还包括<code>&quot;aebdc&quot;</code>、 <code>&quot;aeb&quot;</code> 和 “” (空字符串)。</li></ul> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入: strs &#x3D; [&quot;aba&quot;,&quot;cdc&quot;,&quot;eae&quot;]输出: 3</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: strs &#x3D; [&quot;aaa&quot;,&quot;aaa&quot;,&quot;aa&quot;]输出: -1</code></pre><p><strong>提示:</strong></p><ul><li><code>2 &lt;= strs.length &lt;= 50</code></li><li><code>1 &lt;= strs[i].length &lt;= 10</code></li><li><code>strs[i]</code> 只包含小写英文字母</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>解题思路：</p><ol><li>首先，我们需要对字符串数组进行排序，将较长的字符串排在前面。这是因为如果一个字符串是另一个字符串的子序列，那么较长的字符串必定不能成为特殊序列。</li><li>排序之后，我们遍历每个字符串，判断它是否是特殊序列。我们需要检查当前字符串是否在剩余的字符串中存在子序列。</li><li>对于每个字符串，我们逐个比较它与剩余字符串的关系。如果当前字符串不是任何其他字符串的子序列，那么它就是一个特殊序列。</li><li>我们只需要返回最长的特殊序列的长度即可。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    &#x2F;&#x2F; 判断字符串a是否是字符串b的子序列    bool isSubsequence(const string&amp; a, const string&amp; b) &#123;        int i &#x3D; 0, j &#x3D; 0;        while (i &lt; a.size() &amp;&amp; j &lt; b.size()) &#123;            if (a[i] &#x3D;&#x3D; b[j]) &#123;                i++;            &#125;            j++;        &#125;        return i &#x3D;&#x3D; a.size();    &#125;    &#x2F;&#x2F; 找到最长特殊序列的长度    int findLUSlength(vector&lt;string&gt;&amp; strs) &#123;        &#x2F;&#x2F; 根据字符串长度排序，较长的字符串排在前面        sort(strs.begin(), strs.end(), [](const string&amp; a, const string&amp; b) &#123;            return a.size() &gt; b.size();        &#125;);        for (int i &#x3D; 0; i &lt; strs.size(); ++i) &#123;            bool is_special &#x3D; true;            for (int j &#x3D; 0; j &lt; strs.size(); ++j) &#123;                if (i !&#x3D; j &amp;&amp; isSubsequence(strs[i], strs[j])) &#123;                    is_special &#x3D; false;                    break;                &#125;            &#125;            if (is_special) &#123;                return strs[i].size();            &#125;        &#125;                return -1;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定字符串列表 &lt;code&gt;strs&lt;/code&gt; ，返回其中 &lt;strong&gt;最长的特殊序列&lt;/strong&gt; 的长度。如果最长特殊序列不存在，返回 &lt;code&gt;-1&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;特殊序列&lt;/strong&gt; 定义如下：该序列为某字符串 &lt;strong&gt;独有的子序列（即不能是其他字符串的子序列）&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt; &lt;code&gt;s&lt;/code&gt; 的 &lt;strong&gt;子序列&lt;/strong&gt;可以通过删去字符串 &lt;code&gt;s&lt;/code&gt; 中的某些字符实现。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;例如，&lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; 是 &lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt; 的子序列，因为您可以删除&lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt;中的下划线字符来得到 &lt;code&gt;&amp;quot;abc&amp;quot;&lt;/code&gt; 。&lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt;的子序列还包括&lt;code&gt;&amp;quot;aebdc&amp;quot;&lt;/code&gt;、 &lt;code&gt;&amp;quot;aeb&amp;quot;&lt;/code&gt; 和 “” (空字符串)。&lt;/li&gt;
 &lt;/ul&gt;</summary>
     
     
