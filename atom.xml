@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-10-30T08:58:48.058Z</updated>
+  <updated>2023-11-03T12:22:35.426Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -17,11 +17,53 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>leetcode1447.最简分数</title>
+    <link href="2023/11/03/leetcode1447-%E6%9C%80%E7%AE%80%E5%88%86%E6%95%B0/"/>
+    <id>2023/11/03/leetcode1447-%E6%9C%80%E7%AE%80%E5%88%86%E6%95%B0/</id>
+    <published>2023-11-03T12:21:39.000Z</published>
+    <updated>2023-11-03T12:22:35.426Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数 <code>n</code> ，请你返回所有 0 到 1 之间（不包括 0 和 1）满足分母小于等于 <code>n</code> 的 <strong>最简</strong> 分数 。分数可以以 <strong>任意</strong> 顺序返回。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 2输出：[&quot;1&#x2F;2&quot;]解释：&quot;1&#x2F;2&quot; 是唯一一个分母小于等于 2 的最简分数。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3输出：[&quot;1&#x2F;2&quot;,&quot;1&#x2F;3&quot;,&quot;2&#x2F;3&quot;]</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 4输出：[&quot;1&#x2F;2&quot;,&quot;1&#x2F;3&quot;,&quot;1&#x2F;4&quot;,&quot;2&#x2F;3&quot;,&quot;3&#x2F;4&quot;]解释：&quot;2&#x2F;4&quot; 不是最简分数，因为它可以化简为 &quot;1&#x2F;2&quot; 。</code></pre><p><strong>示例 4：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 1输出：[]</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= n &lt;= 100</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>利用自己写的最大公约数函数直接求解即可</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int getGCD(int x, int y) &#123;        int z &#x3D; y;        while (x % y !&#x3D; 0) &#123;            z &#x3D; x % y;            x &#x3D; y;            y &#x3D; z;        &#125;        return z;    &#125;    vector&lt;string&gt; simplifiedFractions(int n) &#123;        vector&lt;string&gt; results;        if (n &gt; 1) &#123;            int numerator &#x3D; 1;            int denominator &#x3D; 2;            for (int numerator &#x3D; 1; numerator &lt;&#x3D; n - 1; numerator++) &#123;                for (int denominator &#x3D; numerator + 1; denominator &lt;&#x3D; n; denominator++) &#123;                    if(getGCD(numerator, denominator)&#x3D;&#x3D;1) &#123;                        &#x2F;&#x2F; 如果是最简分数                        string temp &#x3D; to_string(numerator) + &quot;&#x2F;&quot; + to_string(denominator);                        results.push_back(temp);                    &#125;                &#125;            &#125;        &#125;        return results;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数 &lt;code&gt;n&lt;/code&gt; ，请你返回所有 0 到 1 之间（不包括 0 和 1）满足分母小于等于 &lt;code&gt;n&lt;/code&gt; 的 &lt;strong&gt;最简&lt;/strong&gt; 分数 。分数可以以 &lt;strong&gt;任意&lt;/strong&gt; 顺序返回。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>leetcode258.各位相加</title>
+    <link href="2023/11/03/leetcode258-%E5%90%84%E4%BD%8D%E7%9B%B8%E5%8A%A0/"/>
+    <id>2023/11/03/leetcode258-%E5%90%84%E4%BD%8D%E7%9B%B8%E5%8A%A0/</id>
+    <published>2023-11-03T12:19:02.000Z</published>
+    <updated>2023-11-03T12:21:18.895Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个非负整数 <code>num</code>，反复将各个位上的数字相加，直到结果为一位数。返回这个结果。</p> <span id="more"></span><p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入: num &#x3D; 38输出: 2 解释: 各位相加的过程为：38 --&gt; 3 + 8 --&gt; 1111 --&gt; 1 + 1 --&gt; 2由于 2 是一位数，所以返回 2。</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: num &#x3D; 0输出: 0</code></pre><p><strong>提示：</strong></p><ul><li><code>0 &lt;= num &lt;= 231 - 1</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>直接做</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int addDigits(int num) &#123;        int sum &#x3D; 0; &#x2F;&#x2F; 初始化sum        while (num &gt; 0) &#123;            int temp &#x3D; num % 10; &#x2F;&#x2F; 获取个位数的值            num &#x2F;&#x3D; 10; &#x2F;&#x2F; num移去个位数的数字            sum +&#x3D; temp; &#x2F;&#x2F; 更新sum值        &#125;        if (sum &gt;&#x3D; 10) &#123;            return addDigits(sum); &#x2F;&#x2F; 递归调用函数，        &#125;        else &#123;            return sum; &#x2F;&#x2F; 符合条件时直接return sum        &#125;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个非负整数 &lt;code&gt;num&lt;/code&gt;，反复将各个位上的数字相加，直到结果为一位数。返回这个结果。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
     <title>leetcode914.卡牌分组</title>
     <link href="2023/10/30/leetcode914-%E5%8D%A1%E7%89%8C%E5%88%86%E7%BB%84/"/>
     <id>2023/10/30/leetcode914-%E5%8D%A1%E7%89%8C%E5%88%86%E7%BB%84/</id>
     <published>2023-10-30T08:57:10.000Z</published>
-    <updated>2023-10-30T08:58:48.058Z</updated>
+    <updated>2023-11-03T12:19:21.516Z</updated>
     
     <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一副牌，每张牌上都写着一个整数。</p><p>此时，你需要选定一个数字 <code>X</code>，使我们可以将整副牌按下述规则分成 1 组或更多组：</p><ul><li>每组都有 <code>X</code> 张牌。</li><li>组内所有的牌上都写着相同的整数。</li></ul><p>仅当你可选的 <code>X &gt;= 2</code> 时返回 <code>true</code>。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：deck &#x3D; [1,2,3,4,4,3,2,1]输出：true解释：可行的分组是 [1,1]，[2,2]，[3,3]，[4,4]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：deck &#x3D; [1,1,1,2,2,2,3,3]输出：false解释：没有满足要求的分组。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= deck.length &lt;= 104</code></li><li><code>0 &lt;= deck[i] &lt; 104</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>使用哈希表+最小公约数解决</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool hasGroupsSizeX(vector&lt;int&gt;&amp; deck) &#123;        unordered_map&lt;int, int&gt; deck_map; &#x2F;&#x2F; 用于统计牌的数量        int n &#x3D; deck.size();        for(int num:deck) &#123;            deck_map[num]++; &#x2F;&#x2F; 统计牌的数量        &#125;        int gcd &#x3D; 0; &#x2F;&#x2F; 初始化最大公约数        for (const auto&amp; entry : deck_map) &#123;            gcd &#x3D; __gcd(gcd, entry.second); &#x2F;&#x2F; 最大公约数更新        &#125;        return gcd &gt;&#x3D; 2; &#x2F;&#x2F; 符合题目条件时才返回true    &#125;&#125;;</code></pre>]]></content>
     
@@ -37,6 +79,10 @@
     
     
     
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
   </entry>
   
   <entry>
@@ -44,7 +90,7 @@
     <link href="2023/10/20/leetcode30-%E4%B8%B2%E8%81%94%E6%89%80%E6%9C%89%E5%8D%95%E8%AF%8D%E7%9A%84%E5%AD%90%E4%B8%B2/"/>
     <id>2023/10/20/leetcode30-%E4%B8%B2%E8%81%94%E6%89%80%E6%9C%89%E5%8D%95%E8%AF%8D%E7%9A%84%E5%AD%90%E4%B8%B2/</id>
     <published>2023-10-20T01:56:52.000Z</published>
-    <updated>2023-10-20T02:28:14.763Z</updated>
+    <updated>2023-11-03T12:19:16.406Z</updated>
     
     <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串 <code>s</code> 和一个字符串数组 <code>words</code><strong>。</strong> <code>words</code> 中所有字符串 <strong>长度相同</strong>。</p><p> <code>s</code> 中的 <strong>串联子串</strong> 是指一个包含 <code>words</code> 中所有字符串以任意顺序排列连接起来的子串。</p><ul><li>例如，如果 <code>words = [&quot;ab&quot;,&quot;cd&quot;,&quot;ef&quot;]</code>， 那么 <code>&quot;abcdef&quot;</code>， <code>&quot;abefcd&quot;</code>，<code>&quot;cdabef&quot;</code>， <code>&quot;cdefab&quot;</code>，<code>&quot;efabcd&quot;</code>， 和 <code>&quot;efcdab&quot;</code> 都是串联子串。 <code>&quot;acdbef&quot;</code> 不是串联子串，因为他不是任何 <code>words</code> 排列的连接。</li></ul><p>返回所有串联子串在 <code>s</code> 中的开始索引。你可以以 <strong>任意顺序</strong> 返回答案。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;barfoothefoobarman&quot;, words &#x3D; [&quot;foo&quot;,&quot;bar&quot;]输出：[0,9]解释：因为 words.length &#x3D;&#x3D; 2 同时 words[i].length &#x3D;&#x3D; 3，连接的子字符串的长度必须为 6。子串 &quot;barfoo&quot; 开始位置是 0。它是 words 中以 [&quot;bar&quot;,&quot;foo&quot;] 顺序排列的连接。子串 &quot;foobar&quot; 开始位置是 9。它是 words 中以 [&quot;foo&quot;,&quot;bar&quot;] 顺序排列的连接。输出顺序无关紧要。返回 [9,0] 也是可以的。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;wordgoodgoodgoodbestword&quot;, words &#x3D; [&quot;word&quot;,&quot;good&quot;,&quot;best&quot;,&quot;word&quot;]输出：[]解释：因为 words.length &#x3D;&#x3D; 4 并且 words[i].length &#x3D;&#x3D; 4，所以串联子串的长度必须为 16。s 中没有子串长度为 16 并且等于 words 的任何顺序排列的连接。所以我们返回一个空数组。</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;barfoofoobarthefoobarman&quot;, words &#x3D; [&quot;bar&quot;,&quot;foo&quot;,&quot;the&quot;]输出：[6,9,12]解释：因为 words.length &#x3D;&#x3D; 3 并且 words[i].length &#x3D;&#x3D; 3，所以串联子串的长度必须为 9。子串 &quot;foobarthe&quot; 开始位置是 6。它是 words 中以 [&quot;foo&quot;,&quot;bar&quot;,&quot;the&quot;] 顺序排列的连接。子串 &quot;barthefoo&quot; 开始位置是 9。它是 words 中以 [&quot;bar&quot;,&quot;the&quot;,&quot;foo&quot;] 顺序排列的连接。子串 &quot;thefoobar&quot; 开始位置是 12。它是 words 中以 [&quot;the&quot;,&quot;foo&quot;,&quot;bar&quot;] 顺序排列的连接。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 104</code></li><li><code>1 &lt;= words.length &lt;= 5000</code></li><li><code>1 &lt;= words[i].length &lt;= 30</code></li><li><code>words[i]</code> 和 <code>s</code> 由小写英文字母组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>滑动窗口</li></ul><p>此题是438.找到字符串中所有字母异位词的进阶版。不同的是第 438 题的元素是字母，而此题的元素是单词。可以用类似438.找到字符串中所有字母异位词的官方题解的方法二的滑动窗口来解这题。<br>记 words 的长度为 m，words 中每个单词的长度为n，s 的长度为 ls。首先需要将  s划分为单词组，每个单词的大小均为 n(首尾除外) 。这样的划分方法有 n 种，即先删去前  i(i&#x3D;0~n-1)个字后，将剩下字母进行划分，如果未尾有不到 n 个字母也删去。对这 n 种划分得到的单词数组分别使用滑动窗口对 words行类似于字母异位词的搜寻。<br>划分成单词组后，一个窗口包含 s 中前 m 个单词，用一个哈希表 dier 表示窗口中单词频次和 ords 中单词频次之差。初始化 differ 时，出现在窗口中的单词，每出现一次，相应的值增加 1，出现在 ords 中的单词,每出现一次，相应的值减少 1。然后将窗口右移，右侧会加入一个单词，左侧会移出一个单词，并对 differ 做应的更新。窗口移动时，若出现 differ 中值不为 0 的键的数量为 0，则表示这个窗口中的单词频次和 words 中单词频次相同，窗口的左端点是一个待求的起始位置。划分的方法有n种，做n次滑动窗口后，即可找到所有的起始位置。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; findSubstring(string &amp;s, vector&lt;string&gt; &amp;words) &#123;        vector&lt;int&gt; res;  &#x2F;&#x2F; 存储最终结果的向量        int m &#x3D; words.size();  &#x2F;&#x2F; words中单词的数量        int n &#x3D; words[0].size();  &#x2F;&#x2F; 单个单词的长度        int ls &#x3D; s.size();  &#x2F;&#x2F; 字符串s的总长度        &#x2F;&#x2F; 遍历s中的所有可能的起始位置，确保不越界        for (int i &#x3D; 0; i &lt; n &amp;&amp; i + m * n &lt;&#x3D; ls; ++i) &#123;            unordered_map&lt;string, int&gt; differ;  &#x2F;&#x2F; 存储与words中单词的不同之处            &#x2F;&#x2F; 遍历words中的单词，统计它们在当前窗口中的出现次数            for (int j &#x3D; 0; j &lt; m; ++j) &#123;                ++differ[s.substr(i + j * n, n)];             &#125;            &#x2F;&#x2F; 对于每个单词，减少其在differ中的计数，如果计数减为0则从differ中移除            for (string &amp;word: words) &#123;                if (--differ[word] &#x3D;&#x3D; 0) &#123;                    differ.erase(word);                &#125;            &#125;            &#x2F;&#x2F; 移动窗口，开始查找可能的匹配            for (int start &#x3D; i; start &lt; ls - m * n + 1; start +&#x3D; n) &#123;                if (start !&#x3D; i) &#123;                    &#x2F;&#x2F; 更新differ，添加新单词并移除旧单词                    string word &#x3D; s.substr(start + (m - 1) * n, n);                    if (++differ[word] &#x3D;&#x3D; 0) &#123;                        differ.erase(word);                    &#125;                    word &#x3D; s.substr(start - n, n);                    if (--differ[word] &#x3D;&#x3D; 0) &#123;                        differ.erase(word);                    &#125;                &#125;                &#x2F;&#x2F; 如果differ为空，说明当前窗口中的单词与words中的单词匹配                if (differ.empty()) &#123;                    res.emplace_back(start);  &#x2F;&#x2F; 将匹配的起始位置添加到结果中                &#125;            &#125;        &#125;        return res;  &#x2F;&#x2F; 返回最终结果    &#125;&#125;;</code></pre>]]></content>
     
@@ -58,6 +104,10 @@
     
     
     
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
     
   </entry>
   
@@ -429,68 +479,6 @@
     <category term="leetcode" scheme="tags/leetcode/"/>
     
     <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode2511.最多可以摧毁的敌人城堡数目</title>
-    <link href="2023/09/04/leetcode2511-%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E6%91%A7%E6%AF%81%E7%9A%84%E6%95%8C%E4%BA%BA%E5%9F%8E%E5%A0%A1%E6%95%B0%E7%9B%AE/"/>
-    <id>2023/09/04/leetcode2511-%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E6%91%A7%E6%AF%81%E7%9A%84%E6%95%8C%E4%BA%BA%E5%9F%8E%E5%A0%A1%E6%95%B0%E7%9B%AE/</id>
-    <published>2023-09-04T12:31:04.000Z</published>
-    <updated>2023-09-04T12:34:17.722Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个长度为 <code>n</code> ，下标从 <strong>0</strong> 开始的整数数组 <code>forts</code> ，表示一些城堡。<code>forts[i]</code> 可以是 <code>-1</code> ，<code>0</code> 或者 <code>1</code> ，其中：</p><ul><li><code>-1</code> 表示第 <code>i</code> 个位置 <strong>没有</strong> 城堡。</li><li><code>0</code> 表示第 <code>i</code> 个位置有一个 <strong>敌人</strong> 的城堡。</li><li><code>1</code> 表示第 <code>i</code> 个位置有一个你控制的城堡。</li></ul><p>现在，你需要决定，将你的军队从某个你控制的城堡位置 <code>i</code> 移动到一个空的位置 <code>j</code> ，满足：</p><ul><li><code>0 &lt;= i, j &lt;= n - 1</code></li><li>军队经过的位置 <strong>只有</strong> 敌人的城堡。正式的，对于所有 <code>min(i,j) &lt; k &lt; max(i,j)</code> 的 <code>k</code> ，都满足 <code>forts[k] == 0</code> 。</li></ul><p>当军队移动时，所有途中经过的敌人城堡都会被 <strong>摧毁</strong> 。</p><p>请你返回 <strong>最多</strong> 可以摧毁的敌人城堡数目。如果 <strong>无法</strong> 移动你的军队，或者没有你控制的城堡，请返回 <code>0</code> 。</p><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：forts &#x3D; [1,0,0,-1,0,0,0,0,1]输出：4解释：- 将军队从位置 0 移动到位置 3 ，摧毁 2 个敌人城堡，位置分别在 1 和 2 。- 将军队从位置 8 移动到位置 3 ，摧毁 4 个敌人城堡。4 是最多可以摧毁的敌人城堡数目，所以我们返回 4 。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：forts &#x3D; [0,0,1,-1]输出：0解释：由于无法摧毁敌人的城堡，所以返回 0 。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= forts.length &lt;= 1000</code></li><li><code>-1 &lt;= forts[i] &lt;= 1</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>双指针法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int captureForts(vector&lt;int&gt;&amp; forts) &#123;        int ans &#x3D; 0, pre &#x3D; -1; &#x2F;&#x2F; 双指针        for (int i &#x3D; 0; i &lt; forts.size(); i++) &#123;            if (forts[i] &#x3D;&#x3D; 1 || forts[i] &#x3D;&#x3D; -1) &#123;                if (pre &gt;&#x3D; 0 &amp;&amp; forts[i] !&#x3D; forts[pre]) &#123; &#x2F;&#x2F; 保证i与pre指着的元素不是同一个数字                    ans &#x3D; max(ans, i - pre - 1); &#x2F;&#x2F; 更新ans                &#125;                pre &#x3D; i; &#x2F;&#x2F; 更新pre，保证i和pre之间无其他1或者-1；            &#125;        &#125;        return ans; &#x2F;&#x2F; 返回最终结果    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个长度为 &lt;code&gt;n&lt;/code&gt; ，下标从 &lt;strong&gt;0&lt;/strong&gt; 开始的整数数组 &lt;code&gt;forts&lt;/code&gt; ，表示一些城堡。&lt;code&gt;forts[i]&lt;/code&gt; 可以是 &lt;code&gt;-1&lt;/code&gt; ，&lt;code&gt;0&lt;/code&gt; 或者 &lt;code&gt;1&lt;/code&gt; ，其中：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;-1&lt;/code&gt; 表示第 &lt;code&gt;i&lt;/code&gt; 个位置 &lt;strong&gt;没有&lt;/strong&gt; 城堡。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;0&lt;/code&gt; 表示第 &lt;code&gt;i&lt;/code&gt; 个位置有一个 &lt;strong&gt;敌人&lt;/strong&gt; 的城堡。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;1&lt;/code&gt; 表示第 &lt;code&gt;i&lt;/code&gt; 个位置有一个你控制的城堡。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;现在，你需要决定，将你的军队从某个你控制的城堡位置 &lt;code&gt;i&lt;/code&gt; 移动到一个空的位置 &lt;code&gt;j&lt;/code&gt; ，满足：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;0 &amp;lt;= i, j &amp;lt;= n - 1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;军队经过的位置 &lt;strong&gt;只有&lt;/strong&gt; 敌人的城堡。正式的，对于所有 &lt;code&gt;min(i,j) &amp;lt; k &amp;lt; max(i,j)&lt;/code&gt; 的 &lt;code&gt;k&lt;/code&gt; ，都满足 &lt;code&gt;forts[k] == 0&lt;/code&gt; 。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;当军队移动时，所有途中经过的敌人城堡都会被 &lt;strong&gt;摧毁&lt;/strong&gt; 。&lt;/p&gt;
-&lt;p&gt;请你返回 &lt;strong&gt;最多&lt;/strong&gt; 可以摧毁的敌人城堡数目。如果 &lt;strong&gt;无法&lt;/strong&gt; 移动你的军队，或者没有你控制的城堡，请返回 &lt;code&gt;0&lt;/code&gt; 。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="双指针" scheme="tags/双指针/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode940.不同的子序列II</title>
-    <link href="2023/09/01/leetcode940-%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97II/"/>
-    <id>2023/09/01/leetcode940-%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97II/</id>
-    <published>2023-09-01T08:36:44.000Z</published>
-    <updated>2023-09-01T08:44:12.267Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串 <code>s</code>，计算 <code>s</code> 的 <strong>不同非空子序列</strong> 的个数。因为结果可能很大，所以返回答案需要对 <strong><code>10^9 + 7</code> 取余</strong> 。</p><p>字符串的 <strong>子序列</strong> 是经由原字符串删除一些（也可能不删除）字符但不改变剩余字符相对位置的一个新字符串。</p><ul><li>例如，<code>&quot;ace&quot;</code> 是 <code>&quot;***a***b***c***d***e***&quot;</code> 的一个子序列，但 <code>&quot;aec&quot;</code> 不是。</li></ul> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;abc&quot;输出：7解释：7 个不同的子序列分别是 &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;ab&quot;, &quot;ac&quot;, &quot;bc&quot;, 以及 &quot;abc&quot;。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;aba&quot;输出：6解释：6 个不同的子序列分别是 &quot;a&quot;, &quot;b&quot;, &quot;ab&quot;, &quot;ba&quot;, &quot;aa&quot; 以及 &quot;aba&quot;。</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;aaa&quot;输出：3解释：3 个不同的子序列分别是 &quot;a&quot;, &quot;aa&quot; 以及 &quot;aaa&quot;。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 2000</code></li><li><code>s</code> 仅由小写英文字母组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>动态规划</li></ul><p>思路：</p><p><img src="http://cdn.leafii.top/img/image-20230901164319947.png" alt="**image-20230901164319947**" loading="lazy"></p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int distinctSubseqII(string s) &#123;        vector&lt;int&gt; last(26, -1);                int n &#x3D; s.size();        vector&lt;int&gt; f(n, 1);        for (int i &#x3D; 0; i &lt; n; ++i) &#123;            for (int j &#x3D; 0; j &lt; 26; ++j) &#123;                if (last[j] !&#x3D; -1) &#123;                    f[i] &#x3D; (f[i] + f[last[j]]) % mod;                &#125;            &#125;            last[s[i] - &#39;a&#39;] &#x3D; i;        &#125;                int ans &#x3D; 0;        for (int i &#x3D; 0; i &lt; 26; ++i) &#123;            if (last[i] !&#x3D; -1) &#123;                ans &#x3D; (ans + f[last[i]]) % mod;            &#125;        &#125;        return ans;    &#125;private:    static constexpr int mod &#x3D; 1000000007;&#125;;</code></pre><hr><p>作者：力扣官方题解<br>链接：<a href="https://leetcode.cn/problems/distinct-subsequences-ii/solutions/1888523/bu-tong-de-zi-xu-lie-ii-by-leetcode-solu-k2h5/">https://leetcode.cn/problems/distinct-subsequences-ii/solutions/1888523/bu-tong-de-zi-xu-lie-ii-by-leetcode-solu-k2h5/</a><br>来源：力扣（LeetCode）<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个字符串 &lt;code&gt;s&lt;/code&gt;，计算 &lt;code&gt;s&lt;/code&gt; 的 &lt;strong&gt;不同非空子序列&lt;/strong&gt; 的个数。因为结果可能很大，所以返回答案需要对 &lt;strong&gt;&lt;code&gt;10^9 + 7&lt;/code&gt; 取余&lt;/strong&gt; 。&lt;/p&gt;
-&lt;p&gt;字符串的 &lt;strong&gt;子序列&lt;/strong&gt; 是经由原字符串删除一些（也可能不删除）字符但不改变剩余字符相对位置的一个新字符串。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;例如，&lt;code&gt;&amp;quot;ace&amp;quot;&lt;/code&gt; 是 &lt;code&gt;&amp;quot;***a***b***c***d***e***&amp;quot;&lt;/code&gt; 的一个子序列，但 &lt;code&gt;&amp;quot;aec&amp;quot;&lt;/code&gt; 不是。&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-    <category term="序列" scheme="tags/序列/"/>
     
   </entry>
   
