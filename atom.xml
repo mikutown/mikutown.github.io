@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-11-03T12:22:35.426Z</updated>
+  <updated>2023-12-11T13:28:00.465Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,100 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode1047.删除字符串中的所有相邻重复项</title>
+    <link href="2023/12/11/leetcode1047-%E5%88%A0%E9%99%A4%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E7%9B%B8%E9%82%BB%E9%87%8D%E5%A4%8D%E9%A1%B9/"/>
+    <id>2023/12/11/leetcode1047-%E5%88%A0%E9%99%A4%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E7%9B%B8%E9%82%BB%E9%87%8D%E5%A4%8D%E9%A1%B9/</id>
+    <published>2023-12-11T13:16:29.000Z</published>
+    <updated>2023-12-11T13:28:00.465Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给出由小写字母组成的字符串 <code>S</code>，<strong>重复项删除操作</strong>会选择两个相邻且相同的字母，并删除它们。</p><p>在 S 上反复执行重复项删除操作，直到无法继续删除。</p><p>在完成所有重复项删除操作后返回最终的字符串。答案保证唯一。</p> <span id="more"></span><p><strong>示例：</strong></p><pre class="language-none"><code class="language-none">输入：&quot;abbaca&quot;输出：&quot;ca&quot;解释：例如，在 &quot;abbaca&quot; 中，我们可以删除 &quot;bb&quot; 由于两字母相邻且相同，这是此时唯一可以执行删除操作的重复项。之后我们得到字符串 &quot;aaca&quot;，其中又只有 &quot;aa&quot; 可以执行重复项删除操作，所以最后的字符串为 &quot;ca&quot;。</code></pre><p><strong>提示：</strong></p><ol><li><code>1 &lt;= S.length &lt;= 20000</code></li><li><code>S</code> 仅由小写英文字母组成。</li></ol><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>使用栈</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string removeDuplicates(string S) &#123;        stack&lt;char&gt; charStack;  &#x2F;&#x2F; 使用栈来存储字符        for (char c : S) &#123;            &#x2F;&#x2F; 如果栈不为空且栈顶字符与当前字符相同，则移除栈顶字符            if (!charStack.empty() &amp;&amp; charStack.top() &#x3D;&#x3D; c) &#123;                charStack.pop();            &#125; else &#123;                &#x2F;&#x2F; 否则，将当前字符压入栈                charStack.push(c);            &#125;        &#125;        &#x2F;&#x2F; 将栈中字符组合成最终的结果字符串        string result &#x3D; &quot;&quot;;        while (!charStack.empty()) &#123;            result &#x3D; charStack.top() + result;            charStack.pop();        &#125;        return result;    &#125;&#125;;</code></pre><ol start="2"><li>快慢指针</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string removeDuplicates(string S) &#123;        int slow &#x3D; 0; &#x2F;&#x2F; 慢指针，指向当前处理的位置        for (int fast &#x3D; 0; fast &lt; S.size(); ++fast) &#123;            &#x2F;&#x2F; 如果慢指针不为零，且当前字符与慢指针前一个字符相同，表示发现相邻重复            if (slow !&#x3D; 0 &amp;&amp; S[fast] &#x3D;&#x3D; S[slow - 1]) &#123;                slow--;            &#125; else &#123;                &#x2F;&#x2F; 否则，将当前字符加入到慢指针指向的位置                S[slow++] &#x3D; S[fast];            &#125;        &#125;        &#x2F;&#x2F; 截断字符串，保留有效部分        return S.substr(0, slow);    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给出由小写字母组成的字符串 &lt;code&gt;S&lt;/code&gt;，&lt;strong&gt;重复项删除操作&lt;/strong&gt;会选择两个相邻且相同的字母，并删除它们。&lt;/p&gt;
+&lt;p&gt;在 S 上反复执行重复项删除操作，直到无法继续删除。&lt;/p&gt;
+&lt;p&gt;在完成所有重复项删除操作后返回最终的字符串。答案保证唯一。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在机器人网络云系统中使用复制的静态算法调度</title>
+    <link href="2023/11/14/%E5%9C%A8%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%BD%91%E7%BB%9C%E4%BA%91%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%A4%8D%E5%88%B6%E7%9A%84%E9%9D%99%E6%80%81%E7%AE%97%E6%B3%95%E8%B0%83%E5%BA%A6/"/>
+    <id>2023/11/14/%E5%9C%A8%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%BD%91%E7%BB%9C%E4%BA%91%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%A4%8D%E5%88%B6%E7%9A%84%E9%9D%99%E6%80%81%E7%AE%97%E6%B3%95%E8%B0%83%E5%BA%A6/</id>
+    <published>2023-11-14T09:57:51.000Z</published>
+    <updated>2023-11-20T08:04:58.268Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目：Static Algorithm Allocation With Duplication in Robotic Network Cloud Systems</p><span id="more"></span><h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>机器人网络可用于完成超出单个机器人能力的任务。在机器人网络中，机器人可以协同工作来完成共同的任务。云机器人技术使机器人能够受益于云的海量存储和计算能力。以往的研究主要集中在通过提前了解资源分配来最小化机器人检索资源的成本。在多个节点上复制算法可以减少执行任务所需的总时间。<strong>我们解决了应该复制哪些算法以及应该将副本放置在哪里以提高整体性能的问题。</strong>我们开发了一个程序来回答机器人网络云系统应该执行哪些算法以及是否应该重复这些算法以在所有机器人的总体任务执行时间方面实现最佳性能。我们提出的复制程序是最佳的，因为复制算法的数量最少，而结果为所有机器人提供了最短的总体完成时间。</p><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>为了克服单一机器人能力的限制，通常使用多个机器人共同工作去完成任务。但如果只靠增加机器人数量的方式去增加机器人网络的能力会导致模型的复杂度提升以及系统的花费增加。云机器人是一种克服计算力以及机器人的性能限制的方式。</p><p>为了达到基于云的机器人系统的最优表现，我们需要去解决调度问题。这个问题涉及决定是否应将新到达的任务上传到云、在其中一个机器人上执行（边缘计算[14]）或在服务器上处理（雾计算[15]）。云机器人系统执行任务是通过执行、收集和组合几个称为算法的基本任务的结果来实现的。在机器人执行一项任务之前，该任务所需的所有算法都应该可用，并分配给系统的至少一个处理单元。当机器人被分配任务时，机器人请求与该任务相对应的算法的输出。我们的<strong>目标</strong>是确定应该将算法分配到哪里，以便无论哪个机器人正在执行任务，它都能在尽可能短的时间内检索算法所需的所有输出。</p><p>分配给多个处理器的算法称为重复算法。由于算法是相互依赖的，因此复制算法的输出更容易被分配到其后继算法的其他处理器使用。下面用一个例子来更好的说明算法重复的重要性。</p><p>云机器人的架构如图2所示。假设我们有一个只需要单个算法输出的任务。给定算法的输出，任务可以由任何边缘节点执行。假设该算法可以在每个边缘节点、雾节点和云节点上执行，平均执行时间分别为3秒、0.5秒和0.1秒。如果不考虑算法的重复，由于我们不知道哪个边缘节点发起执行任务的请求，因此可以通过静态算法分配来实现系统的最优性能[30]。结果是将算法分配给雾节点，其中边缘节点E1、E2和E3完成任务的平均时间分别为4.5、2.5和2.5秒。如果允许我们复制算法，则在边缘节点 E1 上复制算法会将边缘节点 E1 的平均任务完成时间减少到 3 秒。因此，以最小总时间完成任务的最优方案是将算法分配给雾节点F并在边缘节点E1上复制一次。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;题目：Static Algorithm Allocation With Duplication in Robotic Network Cloud Systems&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="资源调度" scheme="tags/资源调度/"/>
+    
+    <category term="云机器人" scheme="tags/云机器人/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>多智能体云机器人的资源调度和服务提供的综述</title>
+    <link href="2023/11/12/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E4%BA%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E8%B5%84%E6%BA%90%E8%B0%83%E5%BA%A6%E5%92%8C%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E7%9A%84%E7%BB%BC%E8%BF%B0/"/>
+    <id>2023/11/12/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E4%BA%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E8%B5%84%E6%BA%90%E8%B0%83%E5%BA%A6%E5%92%8C%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E7%9A%84%E7%BB%BC%E8%BF%B0/</id>
+    <published>2023-11-12T12:46:10.000Z</published>
+    <updated>2023-11-14T09:54:00.504Z</updated>
+    
+    <content type="html"><![CDATA[<p>原题目：Resource Allocation and Service Provisioning in Multi-Agent Cloud Robotics: A Comprehensive Survey</p><span id="more"></span><h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>Abstract—Robotic applications nowadays are widely adopted to enhance operational automation and performance of real-world CyberPhysical Systems (CPSs) including Industry 4.0, agriculture, healthcare, and disaster management. These applications are composed of latency-sensitive, data-heavy, and compute-intensive tasks. The robots, however, are constrained in the computational power and storage capacity. The concept of multi-agent cloud robotics enables robotto-robot cooperation and creates a complementary environment for the robots in executing large-scale applications with the capability to utilize the edge and cloud resources. However, in such a collaborative environment, the optimal resource allocation for robotic tasks is challenging to achieve. Heterogeneous energy consumption rates and application of execution costs associated with the robots and computing instances make it even more complex. In addition, the data transmission delay between local robots, edge nodes, and cloud data centres adversely affects the real-time interactions and impedes service performance guarantee. Taking all these issues into account, this paper comprehensively surveys the state-of-the-art on resource allocation and service provisioning in multi-agent cloud robotics. The paper presents the application domains of multi-agent cloud robotics through explicit comparison with the contemporary computing paradigms and identifies the specific research challenges. A complete taxonomy on resource allocation is presented for the first time, together with the discussion of resource pooling, computation offloading, and task scheduling for efficient service provisioning. Furthermore, we highlight the research gaps from the learned lessons, and present future directions deemed beneficial to further advance this emerging field.</p><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>在多信息物理系统的条件下，多智能体云机器人可以带来以下优点：</p><ul><li>通过利用不同基础设施级别的计算资源，它为 CPS 提供执行各种机器人应用程序的选项。</li><li>它提供了一种抽象，可以根据计算基础设施的特征对机器人应用程序的任务进行分类。</li><li>它提供分布式资源来处理CPS中生成的大数据，并减少通信延迟。</li><li>它增强了机器人使用本地和边缘网络共享知识的能力，而不是依赖于远程云。</li><li>通过使资源更接近机器人，它显着降低了处理多个设备的 CPS 中的带宽要求（用于将数据发送到云）。</li><li>通过多智能体云机器人技术，CPS 对云数据中心的依赖性以及云数据中心（处理多个 CPS）的负载急剧降低。</li></ul><p><img src="http://cdn.leafii.top/img/image-20231112205735164.png" alt="image-20231112205735164" loading="lazy"></p><h3 id="多智能体云机器人系统和相关的计算范例"><a href="#多智能体云机器人系统和相关的计算范例" class="headerlink" title="多智能体云机器人系统和相关的计算范例"></a>多智能体云机器人系统和相关的计算范例</h3><p>接下来，将多智能体云机器人技术同移动云计算（MCC）和多接入边缘计算（MEC）进行了对比。相较于MCC和MEC，多智能体云机器人技术的网络连接方式更多样，而且支持AI智能决策，这使其更复杂。因此，有效的资源调度很重要，尤其是在这种需求多样的条件下。</p><h3 id="多智能体云机器人系统的资源调度和服务提供的挑战"><a href="#多智能体云机器人系统的资源调度和服务提供的挑战" class="headerlink" title="多智能体云机器人系统的资源调度和服务提供的挑战"></a>多智能体云机器人系统的资源调度和服务提供的挑战</h3><ul><li>实时学习和自动的动作</li><li>复杂的数据流处理</li><li>动态的机器人合作</li><li>跨基础设施的互操作性</li><li>异步的决策</li><li>按需计算和通信权衡</li><li>系统的特定策略</li><li>能源延迟优化</li><li>综合商业模式</li><li>异构导致的安全问题</li></ul><h3 id="文章的贡献"><a href="#文章的贡献" class="headerlink" title="文章的贡献"></a>文章的贡献</h3><ul><li>在考虑资源类型，表现评价计量，应用结构，服务模型和分发机制的情况下对资源调度进行了分类。</li><li>将用于有效提供服务的资源池化，计算迁移和任务调度的现有方法进行了很好的探索。</li><li>从研究综述中学到的知识进行聚合，并且填补了在多智能体云机器人系统中机器人系统的资源调度和服务提供的gap。</li><li>探索了未来的研究方向。</li></ul><h2 id="多智能体云机器人系统技术进展概述"><a href="#多智能体云机器人系统技术进展概述" class="headerlink" title="多智能体云机器人系统技术进展概述"></a>多智能体云机器人系统技术进展概述</h2>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;原题目：Resource Allocation and Service Provisioning in Multi-Agent Cloud Robotics: A Comprehensive Survey&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="多智能体" scheme="tags/多智能体/"/>
+    
+    <category term="资源调度" scheme="tags/资源调度/"/>
+    
+    <category term="云机器人" scheme="tags/云机器人/"/>
+    
+    <category term="综述" scheme="tags/综述/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一种解决复杂物流网络资源平衡问题的合作多智能体强化学习框架</title>
+    <link href="2023/11/12/%E4%B8%80%E7%A7%8D%E8%A7%A3%E5%86%B3%E5%A4%8D%E6%9D%82%E7%89%A9%E6%B5%81%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90%E5%B9%B3%E8%A1%A1%E9%97%AE%E9%A2%98%E7%9A%84%E5%90%88%E4%BD%9C%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/"/>
+    <id>2023/11/12/%E4%B8%80%E7%A7%8D%E8%A7%A3%E5%86%B3%E5%A4%8D%E6%9D%82%E7%89%A9%E6%B5%81%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90%E5%B9%B3%E8%A1%A1%E9%97%AE%E9%A2%98%E7%9A%84%E5%90%88%E4%BD%9C%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/</id>
+    <published>2023-11-12T12:45:24.000Z</published>
+    <updated>2023-11-12T12:48:43.823Z</updated>
+    
+    <content type="html"><![CDATA[<p>原题目：A Cooperative Multi-Agent Reinforcement Learning Framework for Resource Balancing in Complex Logistics Network</p><span id="more"></span>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;原题目：A Cooperative Multi-Agent Reinforcement Learning Framework for Resource Balancing in Complex Logistics Network&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="强化学习" scheme="tags/强化学习/"/>
+    
+    <category term="多智能体" scheme="tags/多智能体/"/>
+    
+    <category term="资源调度" scheme="tags/资源调度/"/>
+    
+    <category term="物流网络" scheme="tags/物流网络/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode1447.最简分数</title>
@@ -373,105 +467,6 @@
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定两个字符串 &lt;code&gt;s&lt;/code&gt; 和 &lt;code&gt;t&lt;/code&gt; ，它们只包含小写字母。&lt;/p&gt;
 &lt;p&gt;字符串 &lt;code&gt;t&lt;/code&gt; 由字符串 &lt;code&gt;s&lt;/code&gt; 随机重排，然后在随机位置添加一个字母。&lt;/p&gt;
 &lt;p&gt;请找出在 &lt;code&gt;t&lt;/code&gt; 中被添加的字母。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode60.排列序列</title>
-    <link href="2023/09/08/leetcode60-%E6%8E%92%E5%88%97%E5%BA%8F%E5%88%97/"/>
-    <id>2023/09/08/leetcode60-%E6%8E%92%E5%88%97%E5%BA%8F%E5%88%97/</id>
-    <published>2023-09-08T09:55:28.000Z</published>
-    <updated>2023-09-08T13:50:45.025Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给出集合 <code>[1,2,3,...,n]</code>，其所有元素共有 <code>n!</code> 种排列。</p><p>按大小顺序列出所有排列情况，并一一标记，当 <code>n = 3</code> 时, 所有排列如下：</p><ol><li><code>&quot;123&quot;</code></li><li><code>&quot;132&quot;</code></li><li><code>&quot;213&quot;</code></li><li><code>&quot;231&quot;</code></li><li><code>&quot;312&quot;</code></li><li><code>&quot;321&quot;</code></li></ol><p>给定 <code>n</code> 和 <code>k</code>，返回第 <code>k</code> 个排列。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3, k &#x3D; 3输出：&quot;213&quot;</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 4, k &#x3D; 9输出：&quot;2314&quot;</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3, k &#x3D; 1输出：&quot;123&quot;</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= n &lt;= 9</code></li><li><code>1 &lt;= k &lt;= n!</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>思路<br>首先可以根据全排列树发现，第 iii 层的每个结点有(n - i)!个分支，对于每一层我们只需要找到第 j 个结点使得$j\times(n - i)! \ge k$，然后再$k&#x3D;k−(j−1)×(n−i)!$ 再然后迭代下一层以此类推。 对于找第 j 个结点可以使用状态压缩，记录之前哪些点用过了。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:        vector&lt;int&gt; fact;  &#x2F;&#x2F; 存储阶乘的数组    Solution(): fact(10) &#123;  &#x2F;&#x2F; 构造函数，初始化fact数组为长度10的数组        fact[0] &#x3D; 1;  &#x2F;&#x2F; 阶乘0的值为1        iota(fact.begin() + 1, fact.end(), 1);  &#x2F;&#x2F; 填充fact数组，从1到9        partial_sum(fact.begin(), fact.end(), fact.begin(), multiplies&lt;int&gt;());  &#x2F;&#x2F; 计算部分和，得到1!到9!的值    &#125;    string getPermutation(int n, int k) &#123;  &#x2F;&#x2F; 返回第k个排列的字符串        string res;  &#x2F;&#x2F; 存储结果的字符串        int state &#x3D; 0;  &#x2F;&#x2F; 表示已经使用的数字的状态        for (int i &#x3D; n - 1; ~i; -- i) &#123;  &#x2F;&#x2F; 从最高位到最低位遍历            int pre &#x3D; 0;  &#x2F;&#x2F; 记录前一个状态下的排列数量            for (int j &#x3D; 1; j &lt;&#x3D; n; ++ j) &#123;  &#x2F;&#x2F; 遍历1到n                if (state &gt;&gt; j &amp; 1) continue;  &#x2F;&#x2F; 如果数字已被使用，跳过                if (pre + fact[i] &gt;&#x3D; k) &#123;  &#x2F;&#x2F; 如果前一个状态下的排列数量加上当前位的阶乘大于等于k                    res.push_back(j + &#39;0&#39;);  &#x2F;&#x2F; 将当前数字加入结果字符串                    k -&#x3D; pre;  &#x2F;&#x2F; 更新k值                    state |&#x3D; 1 &lt;&lt; j;  &#x2F;&#x2F; 更新已使用数字的状态                    break;  &#x2F;&#x2F; 跳出内层循环                &#125;                pre +&#x3D; fact[i];  &#x2F;&#x2F; 更新前一个状态下的排列数量            &#125;        &#125;        return res;  &#x2F;&#x2F; 返回结果字符串    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给出集合 &lt;code&gt;[1,2,3,...,n]&lt;/code&gt;，其所有元素共有 &lt;code&gt;n!&lt;/code&gt; 种排列。&lt;/p&gt;
-&lt;p&gt;按大小顺序列出所有排列情况，并一一标记，当 &lt;code&gt;n = 3&lt;/code&gt; 时, 所有排列如下：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;&amp;quot;123&amp;quot;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;quot;132&amp;quot;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;quot;213&amp;quot;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;quot;231&amp;quot;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;quot;312&amp;quot;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;quot;321&amp;quot;&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;给定 &lt;code&gt;n&lt;/code&gt; 和 &lt;code&gt;k&lt;/code&gt;，返回第 &lt;code&gt;k&lt;/code&gt; 个排列。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode22.括号生成</title>
-    <link href="2023/09/07/leetcode22-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/"/>
-    <id>2023/09/07/leetcode22-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/</id>
-    <published>2023-09-07T07:55:19.000Z</published>
-    <updated>2023-09-07T08:22:23.617Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>数字 <code>n</code> 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 <strong>有效的</strong> 括号组合。</p><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 3输出：[&quot;((()))&quot;,&quot;(()())&quot;,&quot;(())()&quot;,&quot;()(())&quot;,&quot;()()()&quot;]</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：n &#x3D; 1输出：[&quot;()&quot;]</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= n &lt;= 8</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>递归解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;string&gt; generateParenthesis(int n) &#123;        vector&lt;string&gt; result; &#x2F;&#x2F; 用于存储最终结果的向量        &#x2F;&#x2F; 调用递归函数开始生成括号        generate(result, &quot;&quot;, 0, 0, n);        return result;    &#125;private:    &#x2F;&#x2F; 递归生成括号的辅助函数    void generate(vector&lt;string&gt;&amp; result, string current, int open, int close, int max) &#123;        &#x2F;&#x2F; 当前生成的括号串长度等于2 * n时，将其加入结果向量        if (current.length() &#x3D;&#x3D; 2 * max) &#123;            result.push_back(current);            return;        &#125;        &#x2F;&#x2F; 如果左括号的数量小于n，可以添加左括号        if (open &lt; max) &#123;            generate(result, current + &quot;(&quot;, open + 1, close, max);        &#125;        &#x2F;&#x2F; 如果右括号的数量小于左括号，可以添加右括号        if (close &lt; open) &#123;            generate(result, current + &quot;)&quot;, open, close + 1, max);        &#125;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;数字 &lt;code&gt;n&lt;/code&gt; 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 &lt;strong&gt;有效的&lt;/strong&gt; 括号组合。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode1828.统计一个圆中点的数目</title>
-    <link href="2023/09/07/leetcode1828-%E7%BB%9F%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%9C%86%E4%B8%AD%E7%82%B9%E7%9A%84%E6%95%B0%E7%9B%AE/"/>
-    <id>2023/09/07/leetcode1828-%E7%BB%9F%E8%AE%A1%E4%B8%80%E4%B8%AA%E5%9C%86%E4%B8%AD%E7%82%B9%E7%9A%84%E6%95%B0%E7%9B%AE/</id>
-    <published>2023-09-07T07:54:16.000Z</published>
-    <updated>2023-09-07T08:04:02.618Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个数组 <code>points</code> ，其中 <code>points[i] = [xi, yi]</code> ，表示第 <code>i</code> 个点在二维平面上的坐标。多个点可能会有 <strong>相同</strong> 的坐标。</p><p>同时给你一个数组 <code>queries</code> ，其中 <code>queries[j] = [xj, yj, rj]</code> ，表示一个圆心在 <code>(xj, yj)</code> 且半径为 <code>rj</code> 的圆。</p><p>对于每一个查询 <code>queries[j]</code> ，计算在第 <code>j</code> 个圆 <strong>内</strong> 点的数目。如果一个点在圆的 <strong>边界上</strong> ，我们同样认为它在圆 <strong>内</strong> 。</p><p>请你返回一个数组 <code>answer</code> ，其中 <code>answer[j]</code>是第 <code>j</code> 个查询的答案。</p><span id="more"></span> <p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/chrome_2021-03-25_22-34-16.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：points &#x3D; [[1,3],[3,3],[5,3],[2,2]], queries &#x3D; [[2,3,1],[4,3,1],[1,1,2]]输出：[3,2,2]解释：所有的点和圆如上图所示。queries[0] 是绿色的圆，queries[1] 是红色的圆，queries[2] 是蓝色的圆。</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/chrome_2021-03-25_22-42-07.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：points &#x3D; [[1,1],[2,2],[3,3],[4,4],[5,5]], queries &#x3D; [[1,2,2],[2,2,2],[4,3,2],[4,3,3]]输出：[2,3,2,4]解释：所有的点和圆如上图所示。queries[0] 是绿色的圆，queries[1] 是红色的圆，queries[2] 是蓝色的圆，queries[3] 是紫色的圆。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= points.length &lt;= 500</code></li><li><code>points[i].length == 2</code></li><li><code>0 &lt;= xi, yi &lt;= 500</code></li><li><code>1 &lt;= queries.length &lt;= 500</code></li><li><code>queries[j].length == 3</code></li><li><code>0 &lt;= xj, yj &lt;= 500</code></li><li><code>1 &lt;= rj &lt;= 500</code></li><li>所有的坐标都是整数。</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>直接模拟</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; countPoints(vector&lt;vector&lt;int&gt;&gt;&amp; points, vector&lt;vector&lt;int&gt;&gt;&amp; queries) &#123;        int pointNum &#x3D; points.size(); &#x2F;&#x2F; 点的数目        int queriesNum &#x3D; queries.size(); &#x2F;&#x2F; 圆的数目        vector&lt;int&gt; ans(queriesNum, 0);        for (int i &#x3D; 0; i &lt; queriesNum; i++) &#123;            &#x2F;&#x2F; 获取当前遍历的圆的圆心和半径            int round_x &#x3D; queries[i][0];            int round_y &#x3D; queries[i][1];            int round_r &#x3D; queries[i][2];            for (int j &#x3D; 0; j &lt; pointNum; j++) &#123;                int point_x &#x3D; points[j][0]; &#x2F;&#x2F; 获取点的坐标                int point_y &#x3D; points[j][1];                &#x2F;&#x2F; 开始判断点是否在圆内                double dx &#x3D; round_x - point_x;                double dy &#x3D; round_y - point_y;                double dis &#x3D; sqrt(dx * dx + dy * dy);                if (dis &lt;&#x3D; round_r) ++ans[i]; &#x2F;&#x2F; 如果确实在圆内，ans数组对应元素增加！            &#125;        &#125;        return ans; &#x2F;&#x2F; 返回结果数组    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个数组 &lt;code&gt;points&lt;/code&gt; ，其中 &lt;code&gt;points[i] = [xi, yi]&lt;/code&gt; ，表示第 &lt;code&gt;i&lt;/code&gt; 个点在二维平面上的坐标。多个点可能会有 &lt;strong&gt;相同&lt;/strong&gt; 的坐标。&lt;/p&gt;
-&lt;p&gt;同时给你一个数组 &lt;code&gt;queries&lt;/code&gt; ，其中 &lt;code&gt;queries[j] = [xj, yj, rj]&lt;/code&gt; ，表示一个圆心在 &lt;code&gt;(xj, yj)&lt;/code&gt; 且半径为 &lt;code&gt;rj&lt;/code&gt; 的圆。&lt;/p&gt;
-&lt;p&gt;对于每一个查询 &lt;code&gt;queries[j]&lt;/code&gt; ，计算在第 &lt;code&gt;j&lt;/code&gt; 个圆 &lt;strong&gt;内&lt;/strong&gt; 点的数目。如果一个点在圆的 &lt;strong&gt;边界上&lt;/strong&gt; ，我们同样认为它在圆 &lt;strong&gt;内&lt;/strong&gt; 。&lt;/p&gt;
-&lt;p&gt;请你返回一个数组 &lt;code&gt;answer&lt;/code&gt; ，其中 &lt;code&gt;answer[j]&lt;/code&gt;是第 &lt;code&gt;j&lt;/code&gt; 个查询的答案。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode463.岛屿的周长</title>
-    <link href="2023/09/05/leetcode463-%E5%B2%9B%E5%B1%BF%E7%9A%84%E5%91%A8%E9%95%BF/"/>
-    <id>2023/09/05/leetcode463-%E5%B2%9B%E5%B1%BF%E7%9A%84%E5%91%A8%E9%95%BF/</id>
-    <published>2023-09-05T08:26:04.000Z</published>
-    <updated>2023-09-05T09:43:45.352Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个 <code>row x col</code> 的二维网格地图 <code>grid</code> ，其中：<code>grid[i][j] = 1</code> 表示陆地， <code>grid[i][j] = 0</code> 表示水域。</p><p>网格中的格子 <strong>水平和垂直</strong> 方向相连（对角线方向不相连）。整个网格被水完全包围，但其中恰好有一个岛屿（或者说，一个或多个表示陆地的格子相连组成的岛屿）。</p><p>岛屿中没有“湖”（“湖” 指水域在岛屿内部且不和岛屿周围的水相连）。格子是边长为 1 的正方形。网格为长方形，且宽度和高度均不超过 100 。计算这个岛屿的周长。</p> <span id="more"></span><p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/island.png" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：grid &#x3D; [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]输出：16解释：它的周长是上面图片中的 16 个黄色的边</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：grid &#x3D; [[1]]输出：4</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：grid &#x3D; [[1,0]]输出：4</code></pre><p><strong>提示：</strong></p><ul><li><code>row == grid.length</code></li><li><code>col == grid[i].length</code></li><li><code>1 &lt;= row, col &lt;= 100</code></li><li><code>grid[i][j]</code> 为 <code>0</code> 或 <code>1</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>暴力遍历</li></ul><p>思路：对每一个方格进行遍历，在当前方格为1时，将result的值增加4，接下来判断当前的方格周围的方格是否为1，如果它的下方或右方有同样是1的方格时，将res减少2（分别在当前方格和相邻方格方面的边长减去）。C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int islandPerimeter(vector&lt;vector&lt;int&gt;&gt;&amp; grid) &#123;        int res &#x3D; 0; &#x2F;&#x2F; 初始化结果        int rows &#x3D; grid.size(); &#x2F;&#x2F; 获取行数        int cols &#x3D; grid[0].size(); &#x2F;&#x2F; 获取列数        &#x2F;&#x2F; 开始遍历        for (int i &#x3D; 0; i &lt; rows; ++i) &#123;             for (int j &#x3D; 0; j &lt; cols; ++j) &#123;                if (grid[i][j] &#x3D;&#x3D; 1) &#123; &#x2F;&#x2F; 如果当前被遍历的方格值为1                    res +&#x3D; 4; &#x2F;&#x2F; 结果增加4                    if (i &lt; rows - 1 &amp;&amp; grid[i + 1][j] &#x3D;&#x3D; 1) res -&#x3D; 2; &#x2F;&#x2F; 判断当前遍历的方格的下方的方格是否也是1                    if (j &lt; cols - 1 &amp;&amp; grid[i][j + 1] &#x3D;&#x3D; 1) res -&#x3D; 2;&#x2F;&#x2F; 判断当前遍历的方格的右方的方格是否也是1                &#125;            &#125;        &#125;        return res; &#x2F;&#x2F; 返回结果    &#125;&#125;;</code></pre><ul><li>数学方法</li></ul><p>思路：一块土地原则上会带来 4 个周长，但岛上的土地存在接壤，每一条接壤，会减掉 2 个边长。</p><p>所以，总周长 &#x3D; 4 * 土地个数 - 2 * 接壤边的条数。</p><p>遍历矩阵，遍历到土地，就 land++，如果它的右&#x2F;下边也是土地，则 border++，遍历结束后代入公式。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int islandPerimeter(vector&lt;vector&lt;int&gt;&gt;&amp; grid) &#123;        int land &#x3D; 0;&#x2F;&#x2F;土地数量        int border &#x3D; 0;&#x2F;&#x2F;接壤边的条数        for (int i &#x3D; 0; i &lt; grid.size(); ++i) &#123;            for (int j &#x3D; 0; j &lt; grid[0].size(); ++j) &#123;                if (grid[i][j] &#x3D;&#x3D; 1) &#123;                    ++land;                    if (i &lt; grid.size() - 1 &amp;&amp; grid[i + 1][j] &#x3D;&#x3D; 1) &#123;&#x2F;&#x2F;该土地的下方有土地就说明下面这条边就是接壤边                        ++border;                    &#125;                    if (j &lt; grid[0].size() - 1 &amp;&amp; grid[i][j + 1] &#x3D;&#x3D; 1) &#123;&#x2F;&#x2F;该土地的右方有土地就说明右面这条边就是接壤边                        ++border;                    &#125;                &#125;            &#125;        &#125;        return 4 * land - 2 * border;    &#125;&#125;;</code></pre><ul><li>DFS</li></ul><p>思路：岛就一个，我们从第一个遇到的土地开始深搜。</p><p>对于每个土地节点，做一些事情，基于它，递归上下左右四个点，做同样的事情。做什么事情呢？</p><p>从土地到土地，之间不会产生周长，但从土地迈入海洋，之间会产生 1 个周长，从土地迈出矩阵边界，也会产生 1 个周长。</p><p>dfs 的过程中，对当前点的上下左右递归，下一个递归的点又对上下左右递归，就会造成重复访问，造成周长的重复计算。</p><p>遍历过的土地节点，将值改为 2，区分于 1 和 0，代表访问过了。</p><p>总结：DFS 从一个点，向四周扩散，目标是遇到矩阵边界或海水，它们是答案已知的 base case，是位于递归树底部的 case，是递归的终止条件。</p><p>从上而下递归调用，随着递归的出栈，子问题的解自下而上地返回，最后得出大问题的解。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    int islandPerimeter(vector&lt;vector&lt;int&gt;&gt;&amp; grid) &#123;        for (int i &#x3D; 0; i &lt; grid.size(); ++i) &#123;            for (int j &#x3D; 0; j &lt; grid[0].size(); ++j) &#123;                if (grid[i][j] &#x3D;&#x3D; 1) &#123;                    return dfsHelper(grid, i, j);                &#125;            &#125;        &#125;        return 0;    &#125;    int dfsHelper(vector&lt;vector&lt;int&gt;&gt;&amp; grid, int i, int j) &#123;        int rows &#x3D; grid.size();        int cols &#x3D; grid[0].size();        if (i &lt; 0 || i &gt;&#x3D; rows || j &lt; 0 || j &gt;&#x3D; cols) &#123;            &#x2F;&#x2F;越界的情况，直接返回1            return 1;        &#125;        if (grid[i][j] &#x3D;&#x3D; 0) &#123;            &#x2F;&#x2F; 从土地到达海水            return 1;        &#125;        if (grid[i][j] &#x3D;&#x3D; 2) &#123;            &#x2F;&#x2F; 之前已经访问过这块方格了，直接返回0            return 0;        &#125;        &#x2F;&#x2F; 修改方格的值为2，说明已经来过了        grid[i][j] &#x3D; 2;        return dfsHelper(grid, i - 1, j) + dfsHelper(grid, i + 1, j) + dfsHelper(grid, i, j - 1) + dfsHelper(grid, i, j + 1);    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个 &lt;code&gt;row x col&lt;/code&gt; 的二维网格地图 &lt;code&gt;grid&lt;/code&gt; ，其中：&lt;code&gt;grid[i][j] = 1&lt;/code&gt; 表示陆地， &lt;code&gt;grid[i][j] = 0&lt;/code&gt; 表示水域。&lt;/p&gt;
-&lt;p&gt;网格中的格子 &lt;strong&gt;水平和垂直&lt;/strong&gt; 方向相连（对角线方向不相连）。整个网格被水完全包围，但其中恰好有一个岛屿（或者说，一个或多个表示陆地的格子相连组成的岛屿）。&lt;/p&gt;
-&lt;p&gt;岛屿中没有“湖”（“湖” 指水域在岛屿内部且不和岛屿周围的水相连）。格子是边长为 1 的正方形。网格为长方形，且宽度和高度均不超过 100 。计算这个岛屿的周长。&lt;/p&gt;</summary>
     
     
     
