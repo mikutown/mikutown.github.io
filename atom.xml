@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-12-11T13:28:00.465Z</updated>
+  <updated>2023-12-13T13:15:22.474Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode20.有效的括号</title>
+    <link href="2023/12/13/leetcode20-%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/"/>
+    <id>2023/12/13/leetcode20-%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/</id>
+    <published>2023-12-13T13:13:46.000Z</published>
+    <updated>2023-12-13T13:15:22.474Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个只包括 <code>&#39;(&#39;</code>，<code>&#39;)&#39;</code>，<code>&#39;&#123;&#39;</code>，<code>&#39;&#125;&#39;</code>，<code>&#39;[&#39;</code>，<code>&#39;]&#39;</code> 的字符串 <code>s</code> ，判断字符串是否有效。</p><p>有效字符串需满足：</p><ol><li>左括号必须用相同类型的右括号闭合。</li><li>左括号必须以正确的顺序闭合。</li><li>每个右括号都有一个对应的相同类型的左括号。</li></ol><span id="more"></span> <p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;()&quot;输出：true</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;()[]&#123;&#125;&quot;输出：true</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;(]&quot;输出：false</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= s.length &lt;= 104</code></li><li><code>s</code> 仅由括号 <code>&#39;()[]&#123;&#125;&#39;</code> 组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    bool isValid(string s) &#123;        if (s.size() % 2 !&#x3D; 0) return false;        stack&lt;char&gt; charStack;        for (char c : s) &#123;            bool willPush &#x3D; true;            if (!charStack.empty()) &#123;                char temp &#x3D; charStack.top();                switch (temp) &#123;                    case &#39;(&#39;:                        if (c &#x3D;&#x3D; &#39;)&#39;) &#123;                            charStack.pop();                            willPush &#x3D; false;                        &#125;                        break;                    case &#39;&#123;&#39;:                        if (c &#x3D;&#x3D; &#39;&#125;&#39;) &#123;                            charStack.pop();                            willPush &#x3D; false;                        &#125;                        break;                    case &#39;[&#39;:                        if (c &#x3D;&#x3D; &#39;]&#39;) &#123;                            charStack.pop();                            willPush &#x3D; false;                        &#125;                        break;                &#125;            &#125;            if (willPush) &#123;                charStack.push(c);            &#125;        &#125;        return charStack.empty(); &#x2F;&#x2F; 可以直接返回栈是否为空，无需使用 if 判断    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个只包括 &lt;code&gt;&amp;#39;(&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;)&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;&amp;#123;&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;&amp;#125;&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;[&amp;#39;&lt;/code&gt;，&lt;code&gt;&amp;#39;]&amp;#39;&lt;/code&gt; 的字符串 &lt;code&gt;s&lt;/code&gt; ，判断字符串是否有效。&lt;/p&gt;
+&lt;p&gt;有效字符串需满足：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;左括号必须用相同类型的右括号闭合。&lt;/li&gt;
+&lt;li&gt;左括号必须以正确的顺序闭合。&lt;/li&gt;
+&lt;li&gt;每个右括号都有一个对应的相同类型的左括号。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode1047.删除字符串中的所有相邻重复项</title>
@@ -444,29 +471,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定由一些正数（代表长度）组成的数组 &lt;code&gt;nums&lt;/code&gt; ，返回 &lt;em&gt;由其中三个长度组成的、&lt;strong&gt;面积不为零&lt;/strong&gt;的三角形的最大周长&lt;/em&gt; 。如果不能形成任何面积不为零的三角形，返回 &lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode389.找不同</title>
-    <link href="2023/09/12/leetcode389-%E6%89%BE%E4%B8%8D%E5%90%8C/"/>
-    <id>2023/09/12/leetcode389-%E6%89%BE%E4%B8%8D%E5%90%8C/</id>
-    <published>2023-09-12T12:29:07.000Z</published>
-    <updated>2023-09-12T12:30:20.077Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定两个字符串 <code>s</code> 和 <code>t</code> ，它们只包含小写字母。</p><p>字符串 <code>t</code> 由字符串 <code>s</code> 随机重排，然后在随机位置添加一个字母。</p><p>请找出在 <code>t</code> 中被添加的字母。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;abcd&quot;, t &#x3D; &quot;abcde&quot;输出：&quot;e&quot;解释：&#39;e&#39; 是那个被添加的字母。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：s &#x3D; &quot;&quot;, t &#x3D; &quot;y&quot;输出：&quot;y&quot;</code></pre><p><strong>提示：</strong></p><ul><li><code>0 &lt;= s.length &lt;= 1000</code></li><li><code>t.length == s.length + 1</code></li><li><code>s</code> 和 <code>t</code> 只包含小写字母</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>用数组辅助计数的暴力解法</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    char findTheDifference(string s, string t) &#123;        vector&lt;int&gt; s_cnt(26,0);        vector&lt;int&gt; t_cnt(26,0); &#x2F;&#x2F; 使用数组存储字符串中不同字母的个数        char result; &#x2F;&#x2F; 初始化答案字符        &#x2F;&#x2F; 分别统计不同字符串的字符个数        for (int i &#x3D; 0; i &lt; s.size(); i++) &#123;            int index &#x3D; int(s[i] - &#39;a&#39;);            ++s_cnt[index];        &#125;        for (int j &#x3D; 0; j &lt; t.size(); j++) &#123;            int index &#x3D; int(t[j] - &#39;a&#39;);            ++t_cnt[index];        &#125;        &#x2F;&#x2F; 对比个数，不同的索引与&#39;a&#39;相加就是需要的答案。        for (int i &#x3D; 0; i &lt; 26; i++) &#123;            if (s_cnt[i] !&#x3D; t_cnt[i]) &#123;                result &#x3D; &#39;a&#39; + i;            &#125;        &#125;        return result; &#x2F;&#x2F; 返回答案    &#125;&#125;;</code></pre><ul><li>位运算</li></ul><p>如果将两个字符串拼接成一个字符串，则问题转换成求字符串中出现奇数次的字符。我们使用异或操作来找到两个字符串中不同的字符，因为相同的字符异或后会抵消，最终剩下的是不同的字符。</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    char findTheDifference(string s, string t) &#123;        char result &#x3D; 0;                &#x2F;&#x2F; 异或操作会消除相同的字符，最终结果将是不同字符的ASCII码值        for (char c : s) &#123;            result ^&#x3D; c;        &#125;                for (char c : t) &#123;            result ^&#x3D; c;        &#125;                return result;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定两个字符串 &lt;code&gt;s&lt;/code&gt; 和 &lt;code&gt;t&lt;/code&gt; ，它们只包含小写字母。&lt;/p&gt;
-&lt;p&gt;字符串 &lt;code&gt;t&lt;/code&gt; 由字符串 &lt;code&gt;s&lt;/code&gt; 随机重排，然后在随机位置添加一个字母。&lt;/p&gt;
-&lt;p&gt;请找出在 &lt;code&gt;t&lt;/code&gt; 中被添加的字母。&lt;/p&gt;</summary>
     
     
     
