@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-12-13T13:15:22.474Z</updated>
+  <updated>2023-12-14T12:52:17.169Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,49 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode347.前K个高频元素</title>
+    <link href="2023/12/14/leetcode347-%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/"/>
+    <id>2023/12/14/leetcode347-%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/</id>
+    <published>2023-12-14T12:01:34.000Z</published>
+    <updated>2023-12-14T12:52:17.169Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> ，请你返回其中出现频率前 <code>k</code> 高的元素。你可以按 <strong>任意顺序</strong> 返回答案。</p><span id="more"></span> <p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入: nums &#x3D; [1,1,1,2,2,3], k &#x3D; 2输出: [1,2]</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: nums &#x3D; [1], k &#x3D; 1输出: [1]</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 105</code></li><li><code>k</code> 的取值范围是 <code>[1, 数组中不相同的元素的个数]</code></li><li>题目数据保证答案唯一，换句话说，数组中前 <code>k</code> 个高频元素的集合是唯一的</li></ul><p><strong>进阶：</strong>你所设计算法的时间复杂度 <strong>必须</strong> 优于 <code>O(n log n)</code> ，其中 <code>n</code> 是数组大小。</p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>使用hashmap辅助</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; topKFrequent(vector&lt;int&gt;&amp; nums, int k) &#123;        map&lt;int, int&gt; m; &#x2F;&#x2F; 创建一个用于存储数字频率的映射（键为数字，值为出现的次数）        for (int num : nums) &#123;            m[num] &#x3D; m[num] &#x3D;&#x3D; 0 ? 1 : m[num] + 1; &#x2F;&#x2F; 统计每个数字的出现次数        &#125;        vector&lt;std::pair&lt;int, int&gt;&gt; vec(m.begin(), m.end()); &#x2F;&#x2F; 将映射转换为包含键值对的向量        sort(vec.begin(), vec.end(), [](const std::pair&lt;int, int&gt;&amp; a, const std::pair&lt;int, int&gt;&amp; b) &#123;            return a.second &gt; b.second; &#x2F;&#x2F; 按值（出现次数）降序排序        &#125;);        vector&lt;int&gt; results;        for (int i &#x3D; 0; i &lt; k; i++) &#123;            results.push_back(vec[i].first); &#x2F;&#x2F; 获取前k个频率最高的数字        &#125;        return results;    &#125;&#125;;</code></pre><ol start="2"><li>代码优化</li></ol><blockquote><ol><li>**使用 <code>unordered_map</code> 而不是 <code>map</code>**：<code>unordered_map</code> 通常比 <code>map</code> 更快，因为 <code>unordered_map</code> 使用哈希表实现，而 <code>map</code> 使用平衡树。这在频繁插入和查找时尤其有用。</li><li><strong>简化元素计数</strong>：你可以直接使用 <code>++m[num]</code> 来增加计数，无需检查元素是否存在。</li><li><strong>使用优先队列（最小堆）</strong>：使用优先队列而不是对整个向量排序可以减少时间复杂度。只保留前 k 个最频繁的元素，这样不需要对所有元素进行排序。</li></ol></blockquote><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    vector&lt;int&gt; topKFrequent(vector&lt;int&gt;&amp; nums, int k) &#123;        &#x2F;&#x2F; 使用 unordered_map 来计数        unordered_map&lt;int, int&gt; count_map;        for (int num : nums) &#123;            ++count_map[num];        &#125;        &#x2F;&#x2F; 定义一个最小堆        auto comp &#x3D; [&amp;count_map](int n1, int n2) &#123;            return count_map[n1] &gt; count_map[n2];        &#125;;        priority_queue&lt;int, vector&lt;int&gt;, decltype(comp)&gt; heap(comp);        &#x2F;&#x2F; 保持堆的大小为 k        for (auto &amp;p : count_map) &#123;            heap.push(p.first);            if (heap.size() &gt; k) &#123;                heap.pop();            &#125;        &#125;        &#x2F;&#x2F; 从堆中提取元素        vector&lt;int&gt; results;        while (!heap.empty()) &#123;            results.push_back(heap.top());            heap.pop();        &#125;        reverse(results.begin(), results.end()); &#x2F;&#x2F; 将结果反转为正确的顺序        return results;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个整数数组 &lt;code&gt;nums&lt;/code&gt; 和一个整数 &lt;code&gt;k&lt;/code&gt; ，请你返回其中出现频率前 &lt;code&gt;k&lt;/code&gt; 高的元素。你可以按 &lt;strong&gt;任意顺序&lt;/strong&gt; 返回答案。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>leetcode150.逆波兰表达式求值</title>
+    <link href="2023/12/14/leetcode150-%E9%80%86%E6%B3%A2%E5%85%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC/"/>
+    <id>2023/12/14/leetcode150-%E9%80%86%E6%B3%A2%E5%85%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC/</id>
+    <published>2023-12-14T12:01:17.000Z</published>
+    <updated>2023-12-14T12:25:27.046Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个字符串数组 <code>tokens</code> ，表示一个根据 <a href="https://baike.baidu.com/item/%E9%80%86%E6%B3%A2%E5%85%B0%E5%BC%8F/128437">逆波兰表示法</a> 表示的算术表达式。</p><p>请你计算该表达式。返回一个表示表达式值的整数。</p><span id="more"></span><p><strong>注意：</strong></p><ul><li>有效的算符为 <code>&#39;+&#39;</code>、<code>&#39;-&#39;</code>、<code>&#39;*&#39;</code> 和 <code>&#39;/&#39;</code> 。</li><li>每个操作数（运算对象）都可以是一个整数或者另一个表达式。</li><li>两个整数之间的除法总是 <strong>向零截断</strong> 。</li><li>表达式中不含除零运算。</li><li>输入是一个根据逆波兰表示法表示的算术表达式。</li><li>答案及所有中间计算结果可以用 <strong>32 位</strong> 整数表示。</li></ul><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：tokens &#x3D; [&quot;2&quot;,&quot;1&quot;,&quot;+&quot;,&quot;3&quot;,&quot;*&quot;]输出：9解释：该算式转化为常见的中缀算术表达式为：((2 + 1) * 3) &#x3D; 9</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：tokens &#x3D; [&quot;4&quot;,&quot;13&quot;,&quot;5&quot;,&quot;&#x2F;&quot;,&quot;+&quot;]输出：6解释：该算式转化为常见的中缀算术表达式为：(4 + (13 &#x2F; 5)) &#x3D; 6</code></pre><p><strong>示例 3：</strong></p><pre class="language-none"><code class="language-none">输入：tokens &#x3D; [&quot;10&quot;,&quot;6&quot;,&quot;9&quot;,&quot;3&quot;,&quot;+&quot;,&quot;-11&quot;,&quot;*&quot;,&quot;&#x2F;&quot;,&quot;*&quot;,&quot;17&quot;,&quot;+&quot;,&quot;5&quot;,&quot;+&quot;]输出：22解释：该算式转化为常见的中缀算术表达式为：  ((10 * (6 &#x2F; ((9 + 3) * -11))) + 17) + 5&#x3D; ((10 * (6 &#x2F; (12 * -11))) + 17) + 5&#x3D; ((10 * (6 &#x2F; -132)) + 17) + 5&#x3D; ((10 * 0) + 17) + 5&#x3D; (0 + 17) + 5&#x3D; 17 + 5&#x3D; 22</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= tokens.length &lt;= 104</code></li><li><code>tokens[i]</code> 是一个算符（<code>&quot;+&quot;</code>、<code>&quot;-&quot;</code>、<code>&quot;*&quot;</code> 或 <code>&quot;/&quot;</code>），或是在范围 <code>[-200, 200]</code> 内的一个整数</li></ul><p><strong>逆波兰表达式：</strong></p><p>逆波兰表达式是一种后缀表达式，所谓后缀就是指算符写在后面。</p><ul><li>平常使用的算式则是一种中缀表达式，如 <code>( 1 + 2 ) * ( 3 + 4 )</code> 。</li><li>该算式的逆波兰表达式写法为 <code>( ( 1 2 + ) ( 3 4 + ) * )</code> 。</li></ul><p>逆波兰表达式主要有以下两个优点：</p><ul><li>去掉括号后表达式无歧义，上式即便写成 <code>1 2 + 3 4 + * </code>也可以依据次序计算出正确结果。</li><li>适合用栈操作运算：遇到数字则入栈；遇到算符则取出栈顶两个数字进行计算，并将结果压入栈中</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>使用栈辅助遍历</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    &#x2F;&#x2F; 计算逆波兰表达式的值    int evalRPN(vector&lt;string&gt;&amp; tokens) &#123;        &#x2F;&#x2F; 使用栈来辅助计算        stack&lt;int&gt; numStack;                &#x2F;&#x2F; 遍历表达式中的每个元素        for (string temp : tokens) &#123;            &#x2F;&#x2F; 如果是操作数，将其转换为整数并压入栈中            if (temp !&#x3D; &quot;+&quot; &amp;&amp; temp !&#x3D; &quot;-&quot; &amp;&amp; temp !&#x3D; &quot;*&quot; &amp;&amp; temp !&#x3D; &quot;&#x2F;&quot;) &#123;                numStack.push(stoi(temp));            &#125; else &#123;                &#x2F;&#x2F; 如果是操作符，从栈中弹出两个操作数进行计算                int num2 &#x3D; numStack.top();                numStack.pop();                int num1 &#x3D; numStack.top();                numStack.pop();                int num &#x3D; 0;                                &#x2F;&#x2F; 根据操作符进行相应的计算，并将结果压入栈中                if (temp &#x3D;&#x3D; &quot;+&quot;) &#123;                    num &#x3D; num1 + num2;                &#125; else if (temp &#x3D;&#x3D; &quot;-&quot;) &#123;                    num &#x3D; num1 - num2;                &#125; else if (temp &#x3D;&#x3D; &quot;*&quot;) &#123;                    num &#x3D; num1 * num2;                &#125; else if (temp &#x3D;&#x3D; &quot;&#x2F;&quot;) &#123;                    num &#x3D; num1 &#x2F; num2;                &#125;                numStack.push(num);            &#125;        &#125;                &#x2F;&#x2F; 最终栈中的唯一元素即为表达式的值        return numStack.top();    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个字符串数组 &lt;code&gt;tokens&lt;/code&gt; ，表示一个根据 &lt;a href=&quot;https://baike.baidu.com/item/%E9%80%86%E6%B3%A2%E5%85%B0%E5%BC%8F/128437&quot;&gt;逆波兰表示法&lt;/a&gt; 表示的算术表达式。&lt;/p&gt;
+&lt;p&gt;请你计算该表达式。返回一个表示表达式值的整数。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode20.有效的括号</title>
@@ -432,45 +475,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个包含非负整数的数组 &lt;code&gt;nums&lt;/code&gt; ，返回其中可以组成三角形三条边的三元组个数。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode451.根据字符出现频率排序</title>
-    <link href="2023/09/12/leetcode451-%E6%A0%B9%E6%8D%AE%E5%AD%97%E7%AC%A6%E5%87%BA%E7%8E%B0%E9%A2%91%E7%8E%87%E6%8E%92%E5%BA%8F/"/>
-    <id>2023/09/12/leetcode451-%E6%A0%B9%E6%8D%AE%E5%AD%97%E7%AC%A6%E5%87%BA%E7%8E%B0%E9%A2%91%E7%8E%87%E6%8E%92%E5%BA%8F/</id>
-    <published>2023-09-12T13:03:45.000Z</published>
-    <updated>2023-09-12T13:10:08.684Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串 <code>s</code> ，根据字符出现的 <strong>频率</strong> 对其进行 <strong>降序排序</strong> 。一个字符出现的 <strong>频率</strong> 是它出现在字符串中的次数。</p><p>返回 <em>已排序的字符串</em> 。如果有多个答案，返回其中任何一个。</p> <span id="more"></span><p><strong>示例 1:</strong></p><pre class="language-none"><code class="language-none">输入: s &#x3D; &quot;tree&quot;输出: &quot;eert&quot;解释: &#39;e&#39;出现两次，&#39;r&#39;和&#39;t&#39;都只出现一次。因此&#39;e&#39;必须出现在&#39;r&#39;和&#39;t&#39;之前。此外，&quot;eetr&quot;也是一个有效的答案。</code></pre><p><strong>示例 2:</strong></p><pre class="language-none"><code class="language-none">输入: s &#x3D; &quot;cccaaa&quot;输出: &quot;cccaaa&quot;解释: &#39;c&#39;和&#39;a&#39;都出现三次。此外，&quot;aaaccc&quot;也是有效的答案。注意&quot;cacaca&quot;是不正确的，因为相同的字母必须放在一起。</code></pre><p><strong>示例 3:</strong></p><pre class="language-none"><code class="language-none">输入: s &#x3D; &quot;Aabb&quot;输出: &quot;bbAa&quot;解释: 此外，&quot;bbaA&quot;也是一个有效的答案，但&quot;Aabb&quot;是不正确的。注意&#39;A&#39;和&#39;a&#39;被认为是两种不同的字符。</code></pre><p><strong>提示:</strong></p><ul><li><code>1 &lt;= s.length &lt;= 5 * 105</code></li><li><code>s</code> 由大小写英文字母和数字组成</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>思路：首先使用hashmap对字符串中的字符进行计数，然后使用vector数组将hashmap的元素进行拷贝，将vector以计数的从大到小进行排序。最后对排序后的vector进行遍历，得到最终的字符串，C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string frequencySort(string s) &#123;        unordered_map&lt;char, int&gt; s_count_map;        for (char c:s) &#123;            s_count_map[c]++;        &#125;        &#x2F;&#x2F; 复制        vector&lt;pair&lt;char, int&gt;&gt; s_count_vector(s_count_map.begin(), s_count_map.end());        &#x2F;&#x2F;从大到小排序        sort(s_count_vector.begin(), s_count_vector.end(), [](pair&lt;char, int&gt; a, pair&lt;char, int&gt; b)&#123;return a.second &gt; b.second;&#125;);        string result;        for(auto cnt:s_count_vector) &#123;            int cnt_second &#x3D; cnt.second;            while (cnt_second--) &#123;                result+&#x3D;cnt.first;            &#125;        &#125;        return result;    &#125;&#125;;</code></pre><ul><li>一些细节优化后的代码（成绩没变）</li></ul><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:    string frequencySort(string s) &#123;        unordered_map&lt;char, int&gt; s_count_map;        &#x2F;&#x2F; 统计字符频率        for (char c : s) &#123;            s_count_map[c]++;        &#125;        &#x2F;&#x2F; 构建结果字符串        string result;        result.reserve(s.size()); &#x2F;&#x2F; 预分配足够的内存        &#x2F;&#x2F; 构建频率字符对，并按频率降序排序        vector&lt;pair&lt;char, int&gt;&gt; s_count_vector;        for (const auto&amp; kv : s_count_map) &#123;            s_count_vector.emplace_back(kv);        &#125;        sort(s_count_vector.begin(), s_count_vector.end(), [](pair&lt;char, int&gt; a, pair&lt;char, int&gt; b)&#123; return a.second &gt; b.second; &#125;);        &#x2F;&#x2F; 构建结果字符串        for (const auto&amp; cnt : s_count_vector) &#123;            result.append(cnt.second, cnt.first); &#x2F;&#x2F; 使用append方法        &#125;        return result;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个字符串 &lt;code&gt;s&lt;/code&gt; ，根据字符出现的 &lt;strong&gt;频率&lt;/strong&gt; 对其进行 &lt;strong&gt;降序排序&lt;/strong&gt; 。一个字符出现的 &lt;strong&gt;频率&lt;/strong&gt; 是它出现在字符串中的次数。&lt;/p&gt;
-&lt;p&gt;返回 &lt;em&gt;已排序的字符串&lt;/em&gt; 。如果有多个答案，返回其中任何一个。&lt;/p&gt;</summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode976.三角形的最大周长</title>
-    <link href="2023/09/12/leetcode976-%E4%B8%89%E8%A7%92%E5%BD%A2%E7%9A%84%E6%9C%80%E5%A4%A7%E5%91%A8%E9%95%BF/"/>
-    <id>2023/09/12/leetcode976-%E4%B8%89%E8%A7%92%E5%BD%A2%E7%9A%84%E6%9C%80%E5%A4%A7%E5%91%A8%E9%95%BF/</id>
-    <published>2023-09-12T12:29:18.000Z</published>
-    <updated>2023-09-12T12:30:16.478Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定由一些正数（代表长度）组成的数组 <code>nums</code> ，返回 <em>由其中三个长度组成的、<strong>面积不为零</strong>的三角形的最大周长</em> 。如果不能形成任何面积不为零的三角形，返回 <code>0</code>。</p> <span id="more"></span><p><strong>示例 1：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [2,1,2]输出：5解释：你可以用三个边长组成一个三角形:1 2 2。</code></pre><p><strong>示例 2：</strong></p><pre class="language-none"><code class="language-none">输入：nums &#x3D; [1,2,1,10]输出：0解释：你不能用边长 1,1,2 来组成三角形。不能用边长 1,1,10 来构成三角形。不能用边长 1、2 和 10 来构成三角形。因为我们不能用任何三条边长来构成一个非零面积的三角形，所以我们返回 0。</code></pre><p><strong>提示：</strong></p><ul><li><code>3 &lt;= nums.length &lt;= 104</code></li><li><code>1 &lt;= nums[i] &lt;= 106</code></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>排序解答</li></ul><ol><li>首先对输入数组 <code>nums</code> 进行排序，按照从大到小的顺序排列。</li><li>然后，遍历排序后的数组，从大到小依次选取三个数 <code>a</code>, <code>b</code>, <code>c</code>，判断是否满足组成三角形的条件，即 <code>a + b &gt; c</code> 和 <code>a - b &lt; c</code>。如果满足条件，就找到了最大周长的三角形，直接返回 <code>a + b + c</code>。</li><li>如果遍历完整个数组都没有找到满足条件的三角形，说明不存在符合条件的三角形，返回0。</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;public:        int largestPerimeter(vector&lt;int&gt;&amp; nums) &#123;        &#x2F;&#x2F; 将数组从大到小排序        sort(nums.begin(), nums.end(), [](int a, int b) &#123;            return a &gt; b;        &#125;);        int n &#x3D; nums.size();        &#x2F;&#x2F; 开始遍历寻找最大的能组成三角形的三个数        for (int i &#x3D; 0; i &lt; n - 2; i++) &#123;            if (nums[i] &lt; nums[i + 1] + nums[i + 2]) return nums[i] + nums[i + 1] + nums[i + 2];        &#125;        return 0;    &#125;    &#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定由一些正数（代表长度）组成的数组 &lt;code&gt;nums&lt;/code&gt; ，返回 &lt;em&gt;由其中三个长度组成的、&lt;strong&gt;面积不为零&lt;/strong&gt;的三角形的最大周长&lt;/em&gt; 。如果不能形成任何面积不为零的三角形，返回 &lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;</summary>
     
     
     
