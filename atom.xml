@@ -6,7 +6,7 @@
   <link href="atom.xml" rel="self"/>
   
   <link href="https://leafii.top/"/>
-  <updated>2023-12-19T11:06:40.144Z</updated>
+  <updated>2023-12-20T02:15:53.883Z</updated>
   <id>https://leafii.top/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode398.随机数索引</title>
+    <link href="2023/12/20/leetcode398-%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%B4%A2%E5%BC%95/"/>
+    <id>2023/12/20/leetcode398-%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%B4%A2%E5%BC%95/</id>
+    <published>2023-12-20T02:05:57.000Z</published>
+    <updated>2023-12-20T02:15:53.883Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个可能含有 <strong>重复元素</strong> 的整数数组 <code>nums</code> ，请你随机输出给定的目标数字 <code>target</code> 的索引。你可以假设给定的数字一定存在于数组中。</p><p>实现 <code>Solution</code> 类：</p><ul><li><code>Solution(int[] nums)</code> 用数组 <code>nums</code> 初始化对象。</li><li><code>int pick(int target)</code> 从 <code>nums</code> 中选出一个满足 <code>nums[i] == target</code> 的随机索引 <code>i</code> 。如果存在多个有效的索引，则每个索引的返回概率应当相等。</li></ul> <span id="more"></span><p><strong>示例：</strong></p><pre class="language-none"><code class="language-none">输入[&quot;Solution&quot;, &quot;pick&quot;, &quot;pick&quot;, &quot;pick&quot;][[[1, 2, 3, 3, 3]], [3], [1], [3]]输出[null, 4, 0, 2]解释Solution solution &#x3D; new Solution([1, 2, 3, 3, 3]);solution.pick(3); &#x2F;&#x2F; 随机返回索引 2, 3 或者 4 之一。每个索引的返回概率应该相等。solution.pick(1); &#x2F;&#x2F; 返回 0 。因为只有 nums[0] 等于 1 。solution.pick(3); &#x2F;&#x2F; 随机返回索引 2, 3 或者 4 之一。每个索引的返回概率应该相等。</code></pre><p><strong>提示：</strong></p><ul><li><code>1 &lt;= nums.length &lt;= 2 * 104</code></li><li><code>-231 &lt;= nums[i] &lt;= 231 - 1</code></li><li><code>target</code> 是 <code>nums</code> 中的一个整数</li><li>最多调用 <code>pick</code> 函数 <code>104</code> 次</li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol><li>直接实现</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;private:    vector&lt;int&gt; sortNum;public:    Solution(vector&lt;int&gt;&amp; nums) &#123;        sortNum &#x3D; nums;    &#125;    int simpleRandom(int min, int max) &#123;        static bool first &#x3D; true;        if (first) &#123;            srand(time(nullptr)); &#x2F;&#x2F; 使用当前时间作为种子            first &#x3D; false;        &#125;        return min + rand() % (max - min + 1);    &#125;        int pick(int target) &#123;        vector&lt;int&gt; result;        for (int i &#x3D; 0; i &lt; sortNum.size(); i++) &#123;            if (sortNum[i] &#x3D;&#x3D; target) result.push_back(i);        &#125;        int randomIndex &#x3D; simpleRandom(0, result.size()-1);        return result[randomIndex];    &#125;&#125;;&#x2F;** * Your Solution object will be instantiated and called as such: * Solution* obj &#x3D; new Solution(nums); * int param_1 &#x3D; obj-&gt;pick(target); *&#x2F;</code></pre><ol start="2"><li>使用哈希表实现</li></ol><pre class="language-C++" data-language="C++"><code class="language-C++">class Solution &#123;    &#x2F;&#x2F; 使用哈希表存储每个数字及其在数组中的所有索引    unordered_map&lt;int, vector&lt;int&gt;&gt; pos;public:    &#x2F;&#x2F; 构造函数，接受一个整数数组作为参数    Solution(vector&lt;int&gt; &amp;nums) &#123;        &#x2F;&#x2F; 遍历数组        for (int i &#x3D; 0; i &lt; nums.size(); ++i) &#123;            &#x2F;&#x2F; 将每个数字及其索引存入哈希表中            &#x2F;&#x2F; 如果数字已存在，它的索引将被添加到对应的向量中            pos[nums[i]].push_back(i);        &#125;    &#125;    &#x2F;&#x2F; pick 函数，接受一个目标数字作为参数    int pick(int target) &#123;        &#x2F;&#x2F; 获取目标数字所有索引的向量的引用        auto &amp;indices &#x3D; pos[target];        &#x2F;&#x2F; 随机选择并返回一个索引        &#x2F;&#x2F; rand() % indices.size() 生成一个在 0 到 indices.size() - 1 范围内的随机数        return indices[rand() % indices.size()];    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个可能含有 &lt;strong&gt;重复元素&lt;/strong&gt; 的整数数组 &lt;code&gt;nums&lt;/code&gt; ，请你随机输出给定的目标数字 &lt;code&gt;target&lt;/code&gt; 的索引。你可以假设给定的数字一定存在于数组中。&lt;/p&gt;
+&lt;p&gt;实现 &lt;code&gt;Solution&lt;/code&gt; 类：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Solution(int[] nums)&lt;/code&gt; 用数组 &lt;code&gt;nums&lt;/code&gt; 初始化对象。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int pick(int target)&lt;/code&gt; 从 &lt;code&gt;nums&lt;/code&gt; 中选出一个满足 &lt;code&gt;nums[i] == target&lt;/code&gt; 的随机索引 &lt;code&gt;i&lt;/code&gt; 。如果存在多个有效的索引，则每个索引的返回概率应当相等。&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="leetcode" scheme="tags/leetcode/"/>
+    
+    <category term="算法" scheme="tags/算法/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode1025.除数博弈</title>
@@ -456,27 +482,6 @@
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给你一个 &lt;strong&gt;无重复元素&lt;/strong&gt; 的整数数组 &lt;code&gt;candidates&lt;/code&gt; 和一个目标整数 &lt;code&gt;target&lt;/code&gt; ，找出 &lt;code&gt;candidates&lt;/code&gt; 中可以使数字和为目标数 &lt;code&gt;target&lt;/code&gt; 的 所有 &lt;strong&gt;不同组合&lt;/strong&gt; ，并以列表形式返回。你可以按 &lt;strong&gt;任意顺序&lt;/strong&gt; 返回这些组合。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;candidates&lt;/code&gt; 中的 &lt;strong&gt;同一个&lt;/strong&gt; 数字可以 &lt;strong&gt;无限制重复被选取&lt;/strong&gt; 。如果至少一个数字的被选数量不同，则两种组合是不同的。 &lt;/p&gt;
 &lt;p&gt;对于给定的输入，保证和为 &lt;code&gt;target&lt;/code&gt; 的不同组合数少于 &lt;code&gt;150&lt;/code&gt; 个。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode" scheme="tags/leetcode/"/>
-    
-    <category term="算法" scheme="tags/算法/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>leetcode83.删除排序链表中的重复元素</title>
-    <link href="2023/10/10/leetcode83-%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/"/>
-    <id>2023/10/10/leetcode83-%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/</id>
-    <published>2023-10-10T06:42:51.000Z</published>
-    <updated>2023-10-10T06:46:43.120Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个已排序的链表的头 <code>head</code> ， <em>删除所有重复的元素，使每个元素只出现一次</em> 。返回 <em>已排序的链表</em> 。</p><span id="more"></span> <p><strong>示例 1：</strong></p><p><img src="http://cdn.leafii.top/img/list1.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1,1,2]输出：[1,2]</code></pre><p><strong>示例 2：</strong></p><p><img src="http://cdn.leafii.top/img/list2.jpg" alt="img" loading="lazy"></p><pre class="language-none"><code class="language-none">输入：head &#x3D; [1,1,2,3,3]输出：[1,2,3]</code></pre><p><strong>提示：</strong></p><ul><li>链表中节点数目在范围 <code>[0, 300]</code> 内</li><li><code>-100 &lt;= Node.val &lt;= 100</code></li><li>题目数据保证链表已经按升序 <strong>排列</strong></li></ul><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ul><li>双指针</li></ul><p>思路与第一个题目类似，只是链表与数组的去重方式不同，C++代码实现如下：</p><pre class="language-C++" data-language="C++"><code class="language-C++">&#x2F;** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode() : val(0), next(nullptr) &#123;&#125; *     ListNode(int x) : val(x), next(nullptr) &#123;&#125; *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125; * &#125;; *&#x2F;class Solution &#123;public:    ListNode* deleteDuplicates(ListNode* head) &#123;        if (!head || !head-&gt;next) &#123;            &#x2F;&#x2F;如果仅有一个元素或者一个元素都没有，直接返回head本身            return head;        &#125;        &#x2F;&#x2F; 初始化指针p，q        ListNode* p &#x3D; head;         ListNode* q &#x3D; head-&gt;next;        while (q) &#123;            &#x2F;&#x2F; 当q未指到链表结尾时进行判断            if (p-&gt;val &#x3D;&#x3D; q-&gt;val) &#123;                &#x2F;&#x2F;相等元素执行断链操作                ListNode* temp &#x3D; q;                p-&gt;next &#x3D; q-&gt;next;                q &#x3D; q-&gt;next;                delete temp;            &#125;            else &#123;                &#x2F;&#x2F; 不相等两个指针全都后移                p &#x3D; p-&gt;next;                q &#x3D; q-&gt;next;            &#125;        &#125;        return head;    &#125;&#125;;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;给定一个已排序的链表的头 &lt;code&gt;head&lt;/code&gt; ， &lt;em&gt;删除所有重复的元素，使每个元素只出现一次&lt;/em&gt; 。返回 &lt;em&gt;已排序的链表&lt;/em&gt; 。&lt;/p&gt;</summary>
     
     
     
